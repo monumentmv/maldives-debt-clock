@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Maldives Debt Clock</title>
+<meta name="description" content="A live estimate of Maldives public and publicly guaranteed debt, built from Maldives Monetary Authority statistics.">
+<meta property="og:title" content="Maldives Debt Clock">
+<meta property="og:description" content="How much the Maldives government owes, right now.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #d7ecef;
+    --sky-low: #eef6f4;
+    --lagoon: #3fb8b0;
+    --deep: #0b4f6c;
+    --abyss: #072f40;
+    --sun: #f4c95d;
+    --foam: #ffffff;
+    --ink: #072f40;
+    --muted-on-dark: #a9cdd6;
+    --display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+    --body: "Atkinson Hyperlegible", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { font-family: var(--body); color: var(--ink); background: var(--abyss); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+
+  /* ---------- hero: the lagoon ---------- */
+  .hero {
+    position: relative; min-height: 100svh; overflow: hidden;
+    background: linear-gradient(to bottom, var(--sky) 0%, var(--sky-low) 100%);
+  }
+  .water {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    height: 0;
+    background: linear-gradient(to bottom, var(--lagoon) 0, var(--deep) 9rem, var(--abyss) 100%);
+    transition: height 2.4s cubic-bezier(.2,.7,.2,1);
+  }
+  .wave { position: absolute; left: 0; top: -23px; width: 200%; height: 24px; animation: drift 14s linear infinite; }
+  .wave path { fill: var(--lagoon); }
+  @keyframes drift { to { transform: translateX(-50%); } }
+
+  .gdp-line {
+    position: absolute; left: 0; right: 0; height: 0;
+    border-top: 2px dashed var(--sun); opacity: 0; transition: opacity .6s 1.8s;
+  }
+  .gdp-line span {
+    position: absolute; right: max(1rem, env(safe-area-inset-right)); top: -1.9rem;
+    font-size: .875rem; font-weight: 700; color: var(--ink);
+    background: var(--sun); padding: .1rem .5rem; border-radius: 3px;
+  }
+  .gdp-line.under span { color: var(--abyss); }
+
+  .readout {
+    position: absolute; left: 0; right: 0;
+    padding: 0 max(1.25rem, env(safe-area-inset-left)) 0 max(1.25rem, env(safe-area-inset-left));
+    max-width: 72rem; margin: 0 auto;
+    color: var(--foam);
+  }
+  .readout.dry { color: var(--ink); }
+  .readout p { color: inherit; max-width: none; }
+  .readout .sub { max-width: 40rem; }
+  .readout h1 {
+    font-family: var(--body); font-weight: 700; font-size: clamp(1rem, 2.4vw, 1.25rem);
+    margin: 0 0 .25rem; letter-spacing: .01em;
+  }
+  .clock {
+    text-shadow: 0 2px 24px rgba(7,47,64,.35);
+    font-family: var(--display); font-weight: 800; font-stretch: 68%;
+    font-variation-settings: "wdth" 68;
+    font-size: clamp(2.6rem, 10.5vw, 8.5rem); line-height: .95;
+    font-variant-numeric: tabular-nums; letter-spacing: -.01em;
+    margin: 0; white-space: nowrap;
+  }
+  .clock .cur { font-weight: 400; font-size: .42em; vertical-align: .9em; margin-right: .2em; }
+  .sub { font-size: clamp(1rem, 2.2vw, 1.25rem); margin: .75rem 0 0; max-width: 40rem; }
+  .sub strong { font-variant-numeric: tabular-nums; }
+  .ratio-tag {
+    position: absolute; left: max(1.25rem, env(safe-area-inset-left)); top: max(1.25rem, env(safe-area-inset-top));
+    font-size: .95rem; color: var(--ink);
+  }
+  .ratio-tag b { font-family: var(--display); font-size: 1.6rem; font-weight: 800; font-variation-settings: "wdth" 75; margin-right: .25rem; }
+
+  /* ---------- below the surface ---------- */
+  main { color: var(--foam); background: var(--abyss); padding: 4rem max(1.25rem, env(safe-area-inset-left)) 3rem; }
+  .wrap { max-width: 72rem; margin: 0 auto; }
+  section { margin: 0 0 4.5rem; }
+  h2 { font-family: var(--display); font-weight: 700; font-variation-settings: "wdth" 85; font-size: clamp(1.5rem, 3.2vw, 2.25rem); margin: 0 0 1rem; line-height: 1.15; }
+  p { max-width: 38rem; margin: 0 0 1rem; color: var(--muted-on-dark); }
+  p b, p strong { color: var(--foam); }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 2.5rem 3rem; }
+  .stat .n { font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 72; font-size: clamp(2rem, 5vw, 3.25rem); line-height: 1; font-variant-numeric: tabular-nums; color: var(--foam); }
+  .stat .l { color: var(--muted-on-dark); margin-top: .5rem; max-width: 22rem; }
+
+  .bar { display: flex; height: 3.25rem; border-radius: 4px; overflow: hidden; margin: 1.5rem 0 1.25rem; }
+  .bar div { height: 100%; transition: flex-grow 1s; }
+  .legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: .75rem 2rem; list-style: none; padding: 0; margin: 0; }
+  .legend li { display: grid; grid-template-columns: .9rem 1fr; gap: .25rem .7rem; align-items: baseline; }
+  .legend i { width: .9rem; height: .9rem; border-radius: 2px; display: inline-block; transform: translateY(.1rem); }
+  .legend .v { grid-column: 2; font-variant-numeric: tabular-nums; color: var(--muted-on-dark); font-size: .95rem; }
+
+  .chart-box { overflow-x: auto; margin-top: 1rem; }
+  .chart-box svg { display: block; width: 100%; min-width: 34rem; height: auto; }
+  .chart-box text { fill: var(--muted-on-dark); font-family: var(--body); font-size: 12px; }
+
+  .method { border-top: 1px solid rgba(169,205,214,.25); padding-top: 2rem; }
+  .method p { font-size: .95rem; }
+  footer { color: var(--muted-on-dark); font-size: .875rem; padding-bottom: env(safe-area-inset-bottom); }
+  a { color: var(--sun); }
+  a:focus-visible { outline: 2px solid var(--sun); outline-offset: 3px; }
+
+  .notice { position: absolute; inset: auto 1.25rem 2rem 1.25rem; max-width: 36rem; margin: 0 auto; background: var(--foam); color: var(--ink); padding: 1rem 1.25rem; border-radius: 6px; display: none; }
+  .notice.on { display: block; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wave { animation: none; }
+    .water, .gdp-line, .bar div { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero" id="hero">
+  <div class="ratio-tag" id="ratioTag" hidden><b id="ratioVal">–</b>of GDP</div>
+
+  <div class="water" id="water">
+    <svg class="wave" viewBox="0 0 1200 24" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 12 Q 75 0 150 12 T 300 12 T 450 12 T 600 12 T 750 12 T 900 12 T 1050 12 T 1200 12 V24 H0Z"/>
+    </svg>
+  </div>
+
+  <div class="gdp-line" id="gdpLine"><span>Debt equal to a full year of GDP</span></div>
+
+  <div class="readout" id="readout">
+    <h1>Maldives public debt, right now</h1>
+    <p class="clock" aria-live="off"><span class="cur">MVR</span><span id="clock">—</span></p>
+    <p class="sub" id="sub">Loading the latest figures from the Maldives Monetary Authority.</p>
+  </div>
+
+  <div class="notice" id="notice" role="status"></div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <section>
+      <div class="stats">
+        <div class="stat"><div class="n" id="perPerson">—</div><div class="l">owed for every person living in the Maldives</div></div>
+        <div class="stat"><div class="n" id="perSecond">—</div><div class="l">added to the debt each second, on the trend of the last year</div></div>
+        <div class="stat"><div class="n" id="interest">—</div><div class="l">paid in interest to foreign lenders each day, on the last four quarters</div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Who it's owed to</h2>
+      <p>Domestic debt is owed to lenders inside the Maldives, mostly banks and pension funds. External debt is owed abroad, to other governments, development banks and bondholders. Guaranteed debt is borrowed by state companies with the government promising to pay if they can't.</p>
+      <div class="bar" id="bar" role="img" aria-label="Debt breakdown"></div>
+      <ul class="legend" id="legend"></ul>
+    </section>
+
+    <section>
+      <h2>How it got here</h2>
+      <p id="histNote">Total public and publicly guaranteed debt at the end of each quarter, in billions of rufiyaa.</p>
+      <div class="chart-box" id="chart"></div>
+    </section>
+
+    <section class="method">
+      <h2>How the clock works</h2>
+      <p>Official debt figures come out once a quarter. The clock starts from the latest published total and adds debt at the average pace of the most recent four quarters, so the number between releases is an <b>estimate</b>. When a new quarter is published, the clock resets to the official figure.</p>
+      <p id="methodDetail"></p>
+      <p>Figures cover public and publicly guaranteed debt of the central government. Source: <a href="https://database.mma.gov.mv" rel="noopener">MMA Statistics Database</a> (Ministry of Finance and Planning; Maldives Bureau of Statistics). This site is independent and not affiliated with the MMA.</p>
+    </section>
+
+    <footer id="footer"></footer>
+  </div>
+</main>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const SCALE_MAX = 160; // % of GDP at the top of the screen
+  const colors = { domestic_cg: "#3fb8b0", domestic_guaranteed: "#9fe0d6", external_cg: "#f4c95d", external_guaranteed: "#f7e2a6" };
+  const labels = { domestic_cg: "Domestic, central government", domestic_guaranteed: "Domestic, guaranteed", external_cg: "External, central government", external_guaranteed: "External, guaranteed" };
+
+  const last = s => s && s.points.length ? s.points[s.points.length - 1] : null;
+  const ts = d => new Date(d + "T23:59:59Z").getTime();
+  const fmt = (n, d = 0) => n.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
+  const short = n => {
+    const a = Math.abs(n);
+    if (a >= 1e9) return fmt(n / 1e9, 1) + " bn";
+    if (a >= 1e6) return fmt(n / 1e6, 1) + " m";
+    return fmt(n);
+  };
+  const qLabel = d => { const dt = new Date(d); return "Q" + (Math.floor(dt.getUTCMonth() / 3) + 1) + " " + dt.getUTCFullYear(); };
+
+  function fail(msg) { const n = $("notice"); n.textContent = msg; n.classList.add("on"); $("sub").textContent = ""; }
+
+  fetch("data.json", { cache: "no-store" })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(render)
+    .catch(() => fail("No debt data yet. The repository owner needs to run the “Update debt data” workflow under the Actions tab."));
+
+  function render(data) {
+    const S = data.series;
+    const tot = S.total.points;
+    const latest = tot[tot.length - 1];
+    const back = tot[Math.max(0, tot.length - 5)];
+    const span = (ts(latest.date) - ts(back.date)) / 1000;
+    const rate = span > 0 ? (latest.value - back.value) / span : 0; // MVR per second
+    const t0 = ts(latest.date);
+
+    const usd = last(S.usd_rate)?.value;
+    let pop = last(S.population)?.value;
+    if (pop && pop < 10000) pop *= 1000; // guard in case the series is published in thousands
+
+    // ---- ticking clock
+    const now = () => latest.value + rate * (Date.now() - t0) / 1000;
+    const tick = () => {
+      const v = now();
+      $("clock").textContent = fmt(v);
+      if (pop) $("perPerson").textContent = "MVR " + fmt(v / pop);
+    };
+    tick(); setInterval(tick, 80);
+
+    // ---- subline
+    const usdNow = usd ? " About <strong>US$ " + short(now() / usd) + "</strong>." : "";
+    $("sub").innerHTML = "Estimated from the official figure of MVR " + short(latest.value) + " at the end of " + qLabel(latest.date) + "." + usdNow;
+    $("perSecond").textContent = (rate >= 0 ? "MVR " : "−MVR ") + fmt(Math.abs(rate));
+
+    // ---- interest (external, central government, USD per quarter)
+    const iq = S.ext_interest_q?.points || [];
+    if (iq.length >= 4 && usd) {
+      const yr = iq.slice(-4).reduce((a, p) => a + p.value, 0);
+      $("interest").textContent = "MVR " + short(yr * usd / 365.25);
+    } else { $("interest").closest(".stat").remove(); }
+
+    // ---- water level
+    const ratio = last(S.debt_to_gdp)?.value;
+    const scale = Math.max(SCALE_MAX, (ratio || 0) + 25);
+    const hero = $("hero"), water = $("water"), line = $("gdpLine"), readout = $("readout");
+    function layout() {
+      const H = hero.clientHeight;
+      const level = ratio ? Math.min(ratio / scale, 0.92) : 0.6;
+      const waterPx = H * level;
+      water.style.height = waterPx + "px";
+      line.style.bottom = (H * 100 / scale) + "px";
+      line.style.opacity = ratio ? 1 : 0;
+      line.classList.toggle("under", ratio >= 100);
+      // put the readout just under the surface if there's room, otherwise above it
+      const rh = readout.offsetHeight;
+      const lineTop = H - H * 100 / scale;
+      let top = H - waterPx + 144;                       // clear of the light surface water
+      if (ratio >= 100 && top < lineTop + 36 && top + rh > lineTop - 36) top = lineTop + 48; // don't sit on the GDP line
+      if (waterPx > rh + 80 && top + rh < H - 16) { readout.classList.remove("dry"); readout.style.top = top + "px"; }
+      else if (waterPx > rh + 80) { readout.classList.remove("dry"); readout.style.top = (H - rh - 32) + "px"; }
+      else { readout.classList.add("dry"); readout.style.top = Math.max(80, H - waterPx - rh - 40) + "px"; }
+    }
+    if (ratio) { $("ratioVal").textContent = fmt(ratio, 1) + "%"; $("ratioTag").hidden = false; }
+    requestAnimationFrame(layout);
+    addEventListener("resize", layout);
+
+    // ---- breakdown
+    const parts = ["domestic_cg", "domestic_guaranteed", "external_cg", "external_guaranteed"]
+      .map(k => ({ k, v: last(S[k])?.value })).filter(p => p.v > 0);
+    const sum = parts.reduce((a, p) => a + p.v, 0);
+    $("bar").innerHTML = parts.map(p => `<div style="flex-grow:${p.v};background:${colors[p.k]}" title="${labels[p.k]}"></div>`).join("");
+    $("legend").innerHTML = parts.map(p =>
+      `<li><i style="background:${colors[p.k]}"></i><span>${labels[p.k]}</span><span class="v">MVR ${short(p.v)} · ${fmt(100 * p.v / sum, 1)}%</span></li>`).join("");
+
+    // ---- history chart (inline SVG)
+    const pts = tot.filter(p => p.value > 0);
+    const W = 900, Hc = 300, pad = { l: 44, r: 12, t: 12, b: 28 };
+    const x0 = ts(pts[0].date), x1 = ts(pts[pts.length - 1].date);
+    const ymax = Math.max(...pts.map(p => p.value)) / 1e9 * 1.08;
+    const X = t => pad.l + (t - x0) / (x1 - x0 || 1) * (W - pad.l - pad.r);
+    const Y = v => Hc - pad.b - v / ymax * (Hc - pad.t - pad.b);
+    const path = pts.map((p, i) => (i ? "L" : "M") + X(ts(p.date)).toFixed(1) + " " + Y(p.value / 1e9).toFixed(1)).join(" ");
+    const area = path + ` L${X(x1)} ${Hc - pad.b} L${X(x0)} ${Hc - pad.b} Z`;
+    const mag = Math.pow(10, Math.floor(Math.log10(ymax / 5)));
+    const step = [1, 2, 5, 10].map(m => m * mag).find(st => ymax / st <= 6);
+    let grid = "";
+    for (let v = 0; v <= ymax; v += step) grid += `<line x1="${pad.l}" x2="${W - pad.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="rgba(169,205,214,.15)"/><text x="${pad.l - 8}" y="${Y(v) + 4}" text-anchor="end">${fmt(v)}</text>`;
+    const y0 = new Date(x0).getUTCFullYear(), y1 = new Date(x1).getUTCFullYear();
+    const ystep = Math.max(1, Math.ceil((y1 - y0) / 8));
+    for (let y = y0 + 1; y <= y1; y += ystep) { const t = Date.UTC(y, 0, 1); grid += `<text x="${X(t)}" y="${Hc - 8}" text-anchor="middle">${y}</text>`; }
+    $("chart").innerHTML = `<svg viewBox="0 0 ${W} ${Hc}" role="img" aria-label="Total debt by quarter, ${qLabel(pts[0].date)} to ${qLabel(latest.date)}">
+      <defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#3fb8b0" stop-opacity=".55"/><stop offset="1" stop-color="#3fb8b0" stop-opacity="0"/></linearGradient></defs>
+      ${grid}<path d="${area}" fill="url(#g)"/><path d="${path}" fill="none" stroke="#3fb8b0" stroke-width="2.5"/>
+      <circle cx="${X(x1)}" cy="${Y(latest.value / 1e9)}" r="5" fill="#f4c95d"/></svg>`;
+
+    // ---- method + footer
+    $("methodDetail").innerHTML = `Right now that pace is <b>MVR ${short(rate * 86400 * 365.25)} a year</b>, from the change between ${qLabel(back.date)} and ${qLabel(latest.date)}.` +
+      (usd ? ` Dollar figures use the MMA reference rate of MVR ${fmt(usd, 2)} per US dollar.` : "");
+    $("footer").textContent = "Data last fetched " + new Date(data.fetched_at).toUTCString() + ".";
+  }
+})();
+</script>
+</body>
+</html>
