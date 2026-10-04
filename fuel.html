@@ -23,6 +23,9 @@
   .crisis .impact b.up { color: var(--red); } .crisis .impact b.down { color: var(--lagoon); }
   .stat .d { font-size: .9rem; margin-top: .35rem; font-weight: 700; }
   .stat .d.up { color: var(--red); } .stat .d.down { color: var(--lagoon); }
+  .ctl-label { font-size: .875rem; font-weight: 700; color: var(--mist); margin-right: -.5rem; }
+  .l12 { margin-top: 1.25rem; padding: .9rem 1.1rem; background: rgba(255,255,255,.05); border-radius: 6px; font-size: .95rem; color: var(--mist); }
+  .l12 b { color: var(--foam); }
   .caveat { border-top: 1px solid rgba(169,205,214,.25); padding-top: 2rem; }
 </style>
 </head>
@@ -61,7 +64,7 @@
       <div class="controls">
         <div class="subtoggle" role="group" aria-label="Period"><button type="button" data-range="all" aria-pressed="true">All</button><button type="button" data-range="2015" aria-pressed="false">Since 2015</button><button type="button" data-range="5" aria-pressed="false">5 years</button></div>
         <div class="subtoggle" role="group" aria-label="Detail"><button type="button" data-split="0" aria-pressed="true">Total</button><button type="button" data-split="1" aria-pressed="false">By product</button></div>
-        <div class="subtoggle" role="group" aria-label="Oil price"><button type="button" data-crude="1" aria-pressed="true">Oil price on</button><button type="button" data-crude="0" aria-pressed="false">Off</button></div>
+        <span class="ctl-label">World oil price</span><div class="subtoggle" role="group" aria-label="World oil price"><button type="button" data-crude="1" aria-pressed="true">On</button><button type="button" data-crude="0" aria-pressed="false">Off</button></div>
       </div>
     </div>
     <div class="chart-box" id="chart"></div>
@@ -79,11 +82,12 @@
     <h2>Year by year</h2>
     <p id="annualNote"></p>
     <div class="chart-box" id="annual"></div>
+    <div class="l12 num" id="l12"></div>
   </section>
 
   <section class="caveat">
     <h2>Reading these figures</h2>
-    <p>Fuel import values come from the Maldives Customs Service (MMA series 3503, with petrol 3504, diesel 3505 and other products 3507). The oil price is the World Bank's monthly average of Brent, Dubai and WTI crude (series 3787). Values are recorded in US dollars; rufiyaa figures convert each month at that month's MMA reference rate.</p>
+    <p>Fuel import values come from the Maldives Customs Service (MMA series 3503, with petrol 3504, diesel 3505 and other products 3507). The oil price is the World Bank's monthly average of Brent, Dubai and WTI crude (series 3787). Fuel is bought and recorded in US dollars, so the charts and crisis comparisons stay in dollars. That keeps the history undistorted: the rufiyaa was fixed at 12.80 per dollar until March 2011, then moved to about 15.40, so converting the history to rufiyaa would add a jump that has nothing to do with fuel. Only the headline figures at the top follow the MVR/US$ switch, converted at each month's MMA reference rate.</p>
     <p><b>Break in April 2015.</b> After duty on petroleum products was reinstated from 1 April 2015, the series only includes fuel sold within the Maldives. Earlier months also include fuel that was not sold locally, so values before and after the dotted line are not fully comparable.</p>
     <p>The import bill reflects both prices and quantities. A higher bill can mean fuel cost more, or that the country bought more of it, for example when tourism grows. The inflation adjustment ("Real") isn't applied on this page because fuel is priced in US dollars, and Maldivian consumer prices aren't the right measure for that. <a href="methodology.html#fuel">More in the methodology</a>.</p>
   </section>
@@ -108,21 +112,22 @@
     { from: "2011-02-01", to: "2011-10-31", label: "Libya", kind: "war", title: "Libyan civil war and the Arab Spring", when: "February to October 2011", text: "War in Libya and unrest across the Middle East cut supply and pushed oil above $100 a barrel." },
     { from: "2014-07-01", to: "2016-02-29", label: "Oil glut", kind: "shock", title: "Oil price collapse", when: "Mid-2014 to early 2016", text: "A global supply glut, driven by US shale oil and OPEC's decision to keep pumping, more than halved oil prices." },
     { from: "2020-03-01", to: "2020-07-31", label: "COVID-19", kind: "shock", title: "COVID-19 border closure", when: "27 March to 15 July 2020", text: "The Maldives closed its borders to tourists, resorts emptied, and world oil demand collapsed." },
-    { from: "2022-02-01", to: "2022-08-31", label: "Ukraine", kind: "war", title: "Russia's invasion of Ukraine", when: "From 24 February 2022", text: "Russia's full-scale invasion sent oil, shipping and insurance costs soaring." },
+    { from: "2022-02-01", to: "2022-08-31", label: "Russia–Ukraine", kind: "war", title: "Russia–Ukraine war", when: "From 24 February 2022", text: "The outbreak of full-scale war in February 2022 sent oil, shipping and insurance costs soaring." },
     { from: "2025-06-01", to: "2025-06-30", label: "12-day war", kind: "war", title: "Israel–Iran 12-day war", when: "13 to 24 June 2025", text: "Israel and Iran exchanged strikes and the US bombed Iranian nuclear sites, briefly lifting oil prices." },
-    { from: "2026-03-01", to: "2026-06-30", label: "Iran war", kind: "war", title: "War on Iran and the Hormuz closure", when: "From 28 February 2026", text: "US and Israeli strikes on Iran and the closure of the Strait of Hormuz caused what the International Energy Agency called the largest oil supply disruption in history." },
+    { from: "2026-03-01", to: "2026-06-30", label: "US–Iran war", kind: "war", title: "US–Iran war and Strait of Hormuz closure", when: "From 28 February 2026", text: "Fighting that began with US and Israeli strikes on Iran, and the closure of the Strait of Hormuz, caused what the International Energy Agency called the largest oil supply disruption in history." },
   ];
   const colorOf = c => c.kind === "war" ? RED : AMBER;
 
   MV.getJSON("data.json").then(data => {
-    const S = data.series; MV.setData(S); MV.paintPrefs();
+    const S = data.series; MV.setData(S); MV.paintPrefs(); MV.checkStale(data);
     document.querySelectorAll('[data-pref="real"]').forEach(t => t.hidden = true);
     if (!S.fuel_imports?.points?.length) { $("chartNote").textContent = "Fuel data hasn't been fetched yet. Run the “Update debt data” workflow."; return; }
     const map = k => Object.fromEntries((S[k]?.points || []).map(p => [p.date, p.value]));
     const pet = map("fuel_petrol"), die = map("fuel_diesel"), oth = map("fuel_other"), imp = map("imports_goods"), crude = map("crude_price");
     const all = S.fuel_imports.points.filter(p => p.value > 0).map(p => ({ date: p.date, v: p.value, pet: pet[p.date], die: die[p.date], oth: oth[p.date], imp: imp[p.date], crude: crude[p.date] }));
     const crisisAt = d => CRISES.find(c => d >= c.from && d <= c.to);
-    const disp = (usd, date) => sym() + " " + short(fromUSD(usd, date));
+    const disp = (usd, date) => sym() + " " + short(fromUSD(usd, date));   // headline figures follow the currency switch
+    const usd = v => "US$ " + short(v);                                      // charts and history always in US dollars
     let range = "all", split = false, showCrude = true;
 
     function render() {
@@ -148,15 +153,15 @@
       if (range === "2015") rows = all.filter(r => r.date >= "2015-01-01");
       if (range === "5") { const cut = (Number(all[all.length - 1].date.slice(0, 4)) - 5) + all[all.length - 1].date.slice(4); rows = all.filter(r => r.date > cut); }
       const hi = rows.reduce((a, r) => r.v > a.v ? r : a), lo = rows.reduce((a, r) => r.v < a.v ? r : a);
-      const val = r => fromUSD(r.v, r.date) / 1e6;
+      const val = r => r.v / 1e6;
       const series = split ? [
-        { val: r => r.die != null ? fromUSD(r.die, r.date) / 1e6 : null, color: "#3fb8b0", width: 2 },
-        { val: r => r.pet != null ? fromUSD(r.pet, r.date) / 1e6 : null, color: "#9fe0d6", width: 2 },
-        { val: r => r.oth != null ? fromUSD(r.oth, r.date) / 1e6 : null, color: "#a98bd6", width: 2 }]
+        { val: r => r.die != null ? r.die / 1e6 : null, color: "#3fb8b0", width: 2 },
+        { val: r => r.pet != null ? r.pet / 1e6 : null, color: "#9fe0d6", width: 2 },
+        { val: r => r.oth != null ? r.oth / 1e6 : null, color: "#a98bd6", width: 2 }]
         : [{ val, color: "#3fb8b0", area: true }];
       if (showCrude && rows.some(r => r.crude)) series.push({ val: r => r.crude ?? null, color: "#f4c95d", axis: "right", width: 1.5, dash: "4 3" });
-      $("chartNote").textContent = `Value of petroleum imports each month, in millions of ${MV.state.cur === "USD" ? "US dollars" : "rufiyaa"}` + (showCrude ? ". The dashed line is the world crude oil price in US$ a barrel (right axis)." : ".");
-      const unit = MV.state.cur === "USD" ? "US$" : "MVR";
+      $("chartNote").textContent = "Value of the Maldives' petroleum imports each month, in millions of US dollars, the currency fuel is bought in." + (showCrude ? " The dashed line is the world crude oil price, in US dollars a barrel (right axis)." : "");
+      const unit = "US$";
       MV.lineChart($("chart"), {
         rows, label: "Monthly fuel imports", series, noEndDot: split, maxH: 400,
         bands: CRISES.map(c => ({ from: c.from, to: c.to, color: colorOf(c), label: c.label })),
@@ -165,13 +170,13 @@
                              { date: lo.date, value: val(lo), color: "#9fe0d6", label: `Lowest: ${unit} ${fmt(val(lo), 0)}m, ${mShort(lo.date)}`, below: true }],
         yFmt: v => fmt(v), yFmtR: v => "$" + fmt(v),
         tip: r => { const c = crisisAt(r.date);
-          return `<b>${mLabel(r.date)}</b>` + row("Fuel imports", disp(r.v, r.date)) + (split ? row("Diesel", r.die != null ? disp(r.die, r.date) : null) + row("Petrol", r.pet != null ? disp(r.pet, r.date) : null) + row("Other", r.oth != null ? disp(r.oth, r.date) : null) : "")
-            + row("Share of imports", r.imp ? fmt(100 * r.v / r.imp, 1) + "%" : null) + row("Crude oil", r.crude ? "US$ " + fmt(r.crude, 1) + "/bbl" : null)
+          return `<b>${mLabel(r.date)}</b>` + row("Maldives fuel imports", usd(r.v)) + (split ? row("Diesel", r.die != null ? usd(r.die) : null) + row("Petrol", r.pet != null ? usd(r.pet) : null) + row("Other", r.oth != null ? usd(r.oth) : null) : "")
+            + row("Share of all imports", r.imp ? fmt(100 * r.v / r.imp, 1) + "%" : null) + row("World crude oil", r.crude ? "US$ " + fmt(r.crude, 1) + " a barrel" : null)
             + (r === hi ? `<span class="tag" style="background:${RED}">Highest month in view</span>` : "") + (r === lo ? `<span class="tag" style="background:#0b6b5f">Lowest month in view</span>` : "")
             + (c ? `<br><span class="tag" style="background:${colorOf(c)}">${c.title}</span>` : ""); }
       });
-      $("key").innerHTML = (split ? `<span><i class="line" style="background:#3fb8b0"></i>Diesel</span><span><i class="line" style="background:#9fe0d6"></i>Petrol</span><span><i class="line" style="background:#a98bd6"></i>Other products</span>` : `<span><i class="line" style="background:#3fb8b0"></i>Fuel imports</span>`)
-        + (showCrude ? `<span><i class="line" style="background:#f4c95d"></i>Crude oil price</span>` : "")
+      $("key").innerHTML = (split ? `<span><i class="line" style="background:#3fb8b0"></i>Maldives diesel imports</span><span><i class="line" style="background:#9fe0d6"></i>Maldives petrol imports</span><span><i class="line" style="background:#a98bd6"></i>Other products</span>` : `<span><i class="line" style="background:#3fb8b0"></i>Maldives fuel imports</span>`)
+        + (showCrude ? `<span><i class="line" style="background:#f4c95d"></i>World crude oil price</span>` : "")
         + `<span><i style="background:${RED};opacity:.6"></i>War or conflict</span><span><i style="background:${AMBER};opacity:.6"></i>Other crisis</span>`;
     }
 
@@ -185,10 +190,11 @@
         let impact = "";
         if (during.length && before.length >= 6) {
           const a = avg(during), b = avg(before), ch = (a / b - 1) * 100, pk = during.reduce((m, r) => r.v > m.v ? r : m);
-          impact = `Fuel imports averaged <b>${disp(a, during[during.length - 1].date)}</b> a month, <b class="${ch >= 0 ? "up" : "down"}">${ch >= 0 ? "+" : "−"}${fmt(Math.abs(ch), 0)}%</b> on the year before. Peak: ${disp(pk.v, pk.date)} in ${mShort(pk.date)}.`;
+          impact = `Maldives fuel imports averaged <b>${usd(a)}</b> a month, <b class="${ch >= 0 ? "up" : "down"}">${ch >= 0 ? "+" : "−"}${fmt(Math.abs(ch), 0)}%</b> on the year before. Peak: ${usd(pk.v)} in ${mShort(pk.date)}.`;
           const ca = avgC(during), cb = avgC(before);
-          if (ca && cb) { const cc = (ca / cb - 1) * 100; impact += ` Crude oil averaged US$ ${fmt(ca, 0)} a barrel, <b class="${cc >= 0 ? "up" : "down"}">${cc >= 0 ? "+" : "−"}${fmt(Math.abs(cc), 0)}%</b>.`; }
+          if (ca && cb) { const cc = (ca / cb - 1) * 100; impact += ` World crude oil averaged US$ ${fmt(ca, 0)} a barrel, <b class="${cc >= 0 ? "up" : "down"}">${cc >= 0 ? "+" : "−"}${fmt(Math.abs(cc), 0)}%</b>.`; }
           if (during[during.length - 1].date < c.to) impact += ` <i>(Data so far, to ${mShort(during[during.length - 1].date)}.)</i>`;
+          if (before[0].date < "2015-04-01" && during[during.length - 1].date >= "2015-04-01") impact += ` <i>Part of this change reflects the April 2015 change in what the fuel series covers, not just prices.</i>`;
         } else if (!during.length) impact = "Not yet in the published data.";
         else impact = "Not enough earlier data to compare.";
         return `<article class="crisis" style="border-color:${colorOf(c)}"><h3>${c.title}</h3><div class="when">${c.when}</div><p>${c.text}</p><div class="impact">${impact}</div></article>`;
@@ -197,17 +203,17 @@
 
     function drawAnnual() {
       const years = [...new Set(all.map(r => r.date.slice(0, 4)))].filter(y => all.filter(r => r.date.startsWith(y)).length === 12);
-      const cats = years.map(y => ({ label: y })), vals = years.map(y => all.filter(r => r.date.startsWith(y)).reduce((a, r) => a + fromUSD(r.v, r.date), 0));
+      const cats = years.map(y => ({ label: y })), vals = years.map(y => all.filter(r => r.date.startsWith(y)).reduce((a, r) => a + r.v, 0));
       const shares = years.map(y => { const rs = all.filter(r => r.date.startsWith(y)); return rs.every(r => r.imp) ? 100 * rs.reduce((a, r) => a + r.v, 0) / rs.reduce((a, r) => a + r.imp, 0) : null; });
-      const L = all[all.length - 1];
-      if (L.date.slice(5, 7) !== "12") { const l12 = all.slice(-12); cats.push({ label: "Last 12m" }); vals.push(l12.reduce((a, r) => a + fromUSD(r.v, r.date), 0)); shares.push(l12.every(r => r.imp) ? 100 * l12.reduce((a, r) => a + r.v, 0) / l12.reduce((a, r) => a + r.imp, 0) : null); }
+      const L = all[all.length - 1], l12 = all.slice(-12), v12 = l12.reduce((a, r) => a + r.v, 0);
       const maxI = vals.indexOf(Math.max(...vals));
-      $("annualNote").textContent = `Total fuel imports each calendar year, in millions of ${MV.state.cur === "USD" ? "US dollars" : "rufiyaa"}. The highest year is in red. "Last 12m" is the 12 months to ${mLabel(L.date)}.`;
+      $("annualNote").textContent = "The Maldives' total fuel imports each full calendar year, in millions of US dollars. The highest year is in red.";
+      $("l12").innerHTML = `Last 12 months (${mLabel(l12[0].date)} to ${mLabel(L.date)}): <b>${usd(v12)}</b>` + (l12.every(r => r.imp) ? `, ${fmt(100 * v12 / l12.reduce((a, r) => a + r.imp, 0), 1)}% of all goods imported` : "") + (MV.state.cur === "MVR" ? `, about MVR ${short(l12.reduce((a, r) => a + fromUSD(r.v, r.date), 0))}` : "") + ".";
       MV.barChart($("annual"), {
         cats, label: "Fuel imports by year",
         groups: [{ color: "#3fb8b0", vals: vals.map(v => v / 1e6) }],
         yFmt: v => fmt(v),
-        tip: i => `<b>${cats[i].label === "Last 12m" ? "12 months to " + mLabel(L.date) : cats[i].label}</b>` + row("Fuel imports", sym() + " " + short(vals[i])) + row("Share of all imports", shares[i] != null ? fmt(shares[i], 1) + "%" : null)
+        tip: i => `<b>${cats[i].label}</b>` + row("Maldives fuel imports", usd(vals[i])) + row("Share of all imports", shares[i] != null ? fmt(shares[i], 1) + "%" : null)
       });
       // colour the highest year red
       const rects = $("annual").querySelectorAll("svg rect[rx]"); if (rects[maxI]) rects[maxI].setAttribute("fill", RED);

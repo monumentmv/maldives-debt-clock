@@ -97,15 +97,35 @@ def main():
             "points": points,
         }
 
+    # If the API leaves a series out (or returns it empty), keep the values from the
+    # previous run rather than losing that part of the site.
+    previous = {}
+    if os.path.exists("data.json"):
+        try:
+            with open("data.json") as f:
+                previous = json.load(f).get("series", {})
+        except (OSError, ValueError):
+            previous = {}
+    carried = []
+    for key in SERIES.values():
+        if (key not in series or not series[key]["points"]) and previous.get(key, {}).get("points"):
+            series[key] = previous[key]
+            carried.append(key)
     missing = [k for k in SERIES.values() if k not in series or not series[k]["points"]]
     if "total" in missing:
-        sys.exit(f"Core series missing from API response: {missing}")
+        sys.exit(f"Core series missing and no previous copy: {missing}")
+    if carried:
+        print(f"Warning: kept previous values for {carried}")
     if missing:
-        print(f"Warning: no data for {missing}")
+        print(f"Warning: no data at all for {missing}")
 
     with open("data.json", "w") as f:
         json.dump(
-            {"fetched_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "series": series},
+            {
+                "fetched_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                "carried_over": carried,
+                "series": series,
+            },
             f,
             indent=1,
         )

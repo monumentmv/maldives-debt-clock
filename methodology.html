@@ -262,21 +262,26 @@
 
 
 <h2 id="real">10. Adjusting for inflation</h2>
-<p>Prices rise over time, so a rufiyaa in 2015 bought more than a rufiyaa today. The <b>Real</b> button at the top of the page shows past amounts in today's prices, so you can compare years fairly. <b>Nominal</b> shows the amounts as they were actually recorded.</p>
-<p>We use the national consumer price index (CPI, MMA series 280), published monthly by the Maldives Bureau of Statistics. To express an amount from a past month in today's prices:</p>
+<p>Prices rise over time, so a rufiyaa in 2015 bought more than a rufiyaa today. The <b>Real</b> button at the top of the page restates past amounts in recent prices, so years can be compared fairly. <b>Nominal</b> shows amounts as they were actually recorded.</p>
+<p>We use the national consumer price index (CPI, MMA series 280), published monthly by the Maldives Bureau of Statistics. Rather than one month, the base is the <b>average CPI of the latest 12 months</b>. The CPI can move a lot from one month to the next (it rose 3.8% in April 2026 alone), so a single-month base would make every adjusted figure jump around.</p>
 <div class="formula">
-  <div>real amount = amount × (latest CPI ÷ CPI in the month the amount was recorded)</div>
+  <div>base = average CPI over the latest 12 months</div>
+  <div>real amount = amount × (base ÷ CPI in the month the amount was recorded)</div>
 </div>
 <div class="live">
   <b>Example</b>
-  <p>The first debt figure, <span class="v" data-k="rFirst">…</span> in <span data-k="rFirstDate">…</span>, is worth <span class="v" data-k="rFirstReal">…</span> in <span data-k="rBase">…</span> prices (CPI <span data-k="rCpiThen">…</span> then, <span data-k="rCpiNow">…</span> now).</p>
+  <p>The first debt figure, <span class="v" data-k="rFirst">…</span> in <span data-k="rFirstDate">…</span>, is worth <span class="v" data-k="rFirstReal">…</span> in average prices of the 12 months to <span data-k="rBase">…</span> (CPI <span data-k="rCpiThen">…</span> then, average <span data-k="rCpiNow">…</span> now).</p>
   <p>So debt has grown <span class="v" data-k="rMultNom">…</span> times in rufiyaa, but <span class="v" data-k="rMultReal">…</span> times after inflation.</p>
 </div>
-<p>What it affects: the debt chart, the "grown X times" comparison, the latest-quarter changes, and every revenue and spending total, where each month is adjusted before adding up. The clock itself already shows today's money, so it doesn't change. The debt-to-GDP ratio isn't affected, because debt and GDP are both measured in the same year's prices.</p>
-<p>In real mode, dollar figures are converted at today's exchange rate, since the amounts are already in today's rufiyaa.</p>
+<h3>What Real changes, and what it doesn't</h3>
+<p>Real applies only to <b>comparisons over time</b>: the debt chart, the "grown X times" comparison and the year-by-year revenue and spending chart. For yearly totals, each month is adjusted before adding up.</p>
+<p><b>Current figures are always in today's money</b>, whichever button is selected: the clock, debt per citizen, the latest breakdown, the latest quarter's changes, and the last 12 months of revenue, spending and interest. Adjusting very recent amounts would only nudge them up or down by the month-to-month movement in prices, which would be confusing rather than useful.</p>
+<p>Changing the base period changes the adjusted amounts, but not the comparisons. "Debt grew 3 times after inflation" is the same whichever base is used. The debt-to-GDP ratio isn't affected, because debt and GDP are measured in the same year's prices. In US dollar mode, real amounts are converted at today's exchange rate.</p>
 
 <h2 id="fuel">11. Fuel imports and crises</h2>
-<p>The <a href="fuel.html">fuel imports page</a> shows the monthly value of petroleum imports recorded by the Maldives Customs Service (MMA series 3503), split into petrol (3504), diesel (3505) and other products (3507). The share of all imports uses total goods imports (3486). The oil price line is the World Bank's monthly average of Brent, Dubai and WTI crude prices (3787), in US dollars a barrel.</p>
+<p>The <a href="fuel.html">fuel imports page</a> shows the monthly value of the Maldives' petroleum imports recorded by the Maldives Customs Service (MMA series 3503), split into petrol (3504), diesel (3505) and other products (3507). The share of all imports uses total goods imports (3486). The world oil price line is the World Bank's monthly average of Brent, Dubai and WTI crude prices (3787), in US dollars a barrel.</p>
+<h3>Why the fuel page uses US dollars</h3>
+<p>Fuel is bought and recorded in US dollars, so the charts, yearly totals and crisis comparisons stay in dollars. Converting the history to rufiyaa would distort it: the rufiyaa was fixed at 12.80 per US dollar from July 2001 to March 2011, then moved to about 15.40 from April 2011. In rufiyaa, every bill after 2011 would look about 20% bigger relative to earlier years, for reasons that have nothing to do with fuel. Only the headline figures at the top of the page follow the MVR/US$ switch, converted at each month's MMA reference rate. The Real button isn't offered on this page, because Maldivian consumer prices aren't the right way to adjust prices set in US dollars.</p>
 <h3>Series break in April 2015</h3>
 <p>According to the MMA's note, after amendments to the Export Import Act reinstated duty on petroleum products from 1 April 2015, the series only includes the value of fuel sold within the Maldives. Values before and after are not fully comparable, which is why the chart marks this date.</p>
 <h3>Highest and lowest months</h3>
@@ -290,15 +295,22 @@
   <tr><td>Libyan civil war and the Arab Spring</td><td>Feb to Oct 2011</td></tr>
   <tr><td>Oil price collapse (supply glut)</td><td>Jul 2014 to Feb 2016</td></tr>
   <tr><td>COVID-19 border closure</td><td>Mar to Jul 2020</td></tr>
-  <tr><td>Russia's invasion of Ukraine</td><td>Feb to Aug 2022</td></tr>
+  <tr><td>Russia–Ukraine war</td><td>Feb to Aug 2022</td></tr>
   <tr><td>Israel–Iran 12-day war</td><td>Jun 2025</td></tr>
-  <tr><td>War on Iran and the Strait of Hormuz closure</td><td>Mar to Jun 2026</td></tr>
+  <tr><td>US–Iran war and Strait of Hormuz closure</td><td>Mar to Jun 2026</td></tr>
 </table></div>
 <p>For each crisis, the impact figures compare the average monthly fuel bill during the shaded period with the average of the 12 months before it began, and do the same for the crude oil price. This is a simple before-and-after comparison: it shows what happened during each crisis, not how much the crisis itself caused, since tourism, the season and other factors also move the fuel bill.</p>
 
 <h2 id="time">12. Time and updates</h2>
 <p>The time shown on the clock is Malé time (UTC+5), whatever time zone the visitor is in.</p>
-<p>The site checks the MMA for new data every morning at 08:00 Malé time. The MMA publishes debt figures quarterly and government finance figures monthly, so most days nothing changes. The front page shows when data was last fetched.</p>
+<p>The site checks the MMA for new data every morning at 08:00 Malé time. The MMA publishes debt figures quarterly and government finance figures monthly, so most days nothing changes. The footer shows when data was last fetched.</p>
+<h3>If the data stops updating</h3>
+<p>The latest data is saved alongside the website, so the site keeps working even if the MMA's data service is unavailable. The clock keeps estimating from the last official figure. To make sure that isn't misleading, the site shows a warning at the top of every page if:</p>
+<ul>
+  <li>the latest official debt figure is more than seven months old (normally a new quarter is published within about three months);</li>
+  <li>the data hasn't been refreshed for more than eight days; or</li>
+  <li>some figures couldn't be updated at the last refresh. In that case the previous values are kept rather than dropped, and the warning says so.</li>
+</ul>
 
 <h2 id="limits">13. Limitations</h2>
 <ul>
@@ -406,7 +418,7 @@
     const cp = (S.cpi?.points || []).filter(p => p.value > 0);
     if (cp.length) {
       const F = tot[0], cAt = d => { let r = null; for (const p of cp) { if (p.date <= d) r = p; else break; } return r?.value; };
-      const cThen = cAt(F.date), cNow = cp[cp.length - 1].value, cNowL = cAt(L.date);
+      const cThen = cAt(F.date), cNow = cp.slice(-12).reduce((a, p) => a + p.value, 0) / Math.min(12, cp.length), cNowL = cAt(L.date);
       if (cThen) {
         set("rFirst", bn(F.value)); set("rFirstDate", mon(F.date)); set("rBase", mon(cp[cp.length - 1].date));
         set("rFirstReal", bn(F.value * cNow / cThen)); set("rCpiThen", fmt(cThen, 1)); set("rCpiNow", fmt(cNow, 1));

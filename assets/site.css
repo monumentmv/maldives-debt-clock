@@ -113,3 +113,5 @@ main.dark p b, main.dark p strong { color: var(--foam); }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 .foot-links { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; }
+.stale-note { background: #ffe1d6; color: #5c1d0c; font-size: .9rem; padding: .5rem var(--gutter); text-align: center; }
+.stale-note p { margin: .15rem auto; max-width: 60rem; color: inherit !important; }

@@ -14,7 +14,7 @@
 <meta property="og:title" content="Maldives National Debt Clock">
 <meta property="og:description" content="How much the Maldives government owes, right now.">
 <style>
-  .hero { position: relative; min-height: calc(100svh - var(--head-h)); overflow: hidden; background: linear-gradient(to bottom, var(--sky), var(--sky-low)); }
+  .hero { position: relative; min-height: 70svh; overflow: hidden; background: linear-gradient(to bottom, var(--sky), var(--sky-low)); }
   .water { position: absolute; left: 0; right: 0; bottom: 0; height: 0; background: linear-gradient(to bottom, var(--lagoon) 0, var(--deep) 9rem, var(--abyss) 100%); transition: height 2.4s cubic-bezier(.2,.7,.2,1); }
   .wave { position: absolute; left: 0; top: -23px; width: 200%; height: 24px; animation: drift 14s linear infinite; }
   .wave path { fill: var(--lagoon); }
@@ -32,6 +32,12 @@
   .asof { margin: .8rem 0 0; font-size: clamp(.95rem, 2.2vw, 1.15rem); }
   .asof time { font-weight: 700; }
   .sub { font-size: clamp(.95rem, 2vw, 1.1rem); margin: .35rem 0 0; max-width: 40rem; opacity: .85; }
+  .hero-stats { margin-top: 2.25rem; }
+  .hero-stats .l { color: #cfe6ea; }
+  .pop { font-size: .82rem; color: #a9cdd6; margin-top: .6rem; max-width: 22rem; line-height: 1.4; }
+  .pop a { color: var(--sun); }
+  .l12 { display: flex; flex-wrap: wrap; gap: .5rem 2rem; margin-top: 1.25rem; padding: .9rem 1.1rem; background: rgba(255,255,255,.05); border-radius: 6px; font-size: .95rem; color: var(--mist); }
+  .l12 b { color: var(--foam); } .l12 b.red { color: var(--red); }
   .notice { position: absolute; inset: auto 1.25rem 2rem 1.25rem; max-width: 36rem; margin: 0 auto; background: var(--foam); color: var(--ink); padding: 1rem 1.25rem; border-radius: 6px; display: none; }
   .notice.on { display: block; }
 
@@ -84,20 +90,17 @@
     <p class="clock num"><span class="cur" id="clockCur">MVR</span><span id="clock">—</span></p>
     <p class="asof">As of <time id="mvTime">—</time> in Malé</p>
     <p class="sub" id="sub">Loading the latest figures from the Maldives Monetary Authority.</p>
+    <div class="stats hero-stats">
+      <div class="stat hot"><div class="n num" id="perPerson">—</div><div class="l">owed for every Maldivian citizen, rising every second</div><div class="pop" id="popLine"></div></div>
+      <div class="stat"><div class="n num" id="perSecond">—</div><div class="l" id="perSecondLbl">added to the debt each second, on the pace of the last year</div></div>
+      <div class="stat warn" id="interestStat"><div class="n num" id="interest">—</div><div class="l" id="interestLbl">spent on interest and financing costs every day</div></div>
+    </div>
   </div>
   <div class="notice" id="notice" role="status"></div>
 </section>
 
 <main class="dark">
 <div class="wrap">
-
-  <section aria-label="Key figures">
-    <div class="stats">
-      <div class="stat hot"><div class="n num" id="perPerson">—</div><div class="l">owed for every Maldivian citizen, rising every second</div></div>
-      <div class="stat"><div class="n num" id="perSecond">—</div><div class="l" id="perSecondLbl">added to the debt each second, on the pace of the last year</div></div>
-      <div class="stat warn" id="interestStat"><div class="n num" id="interest">—</div><div class="l" id="interestLbl">spent on interest and financing costs every day</div></div>
-    </div>
-  </section>
 
   <section id="growthSec" hidden>
     <p class="callout" id="growthLine"></p>
@@ -142,6 +145,7 @@
     <p id="annualNote" style="margin-bottom:0"></p>
     <div class="chart-box" id="annual"></div>
     <div class="key"><span><i style="background:#3fb8b0"></i>Revenue</span><span><i style="background:#ff5f56"></i>Spending</span><span style="color:#ff5f56;font-weight:700">Red figure under each year: deficit</span></div>
+    <div class="l12 num" id="l12"></div>
 
     <p class="callout" id="interestShare" style="margin-top:2.5rem"></p>
     <h3 id="spendHead">Where a year's spending goes</h3>
@@ -167,8 +171,7 @@
 <script>
 (() => {
   const $ = id => document.getElementById(id);
-  const { fmt, sym, short, money, moneyFull, conv, ts, mLabel, qLabel, last, row, SEC_YEAR } = MV;
-  const SCALE_MAX = 160;
+  const { fmt, sym, short, money, moneyNow, moneyFull, conv, convNow, ts, mLabel, qLabel, last, row, SEC_YEAR } = MV;
   const COLORS = { domestic_cg: "#3fb8b0", domestic_guaranteed: "#9fe0d6", external_cg: "#f4c95d", external_guaranteed: "#f7e2a6" };
   const LABELS = { domestic_cg: "Domestic, central government", domestic_guaranteed: "Domestic, guaranteed", external_cg: "External, central government", external_guaranteed: "External, guaranteed" };
   const pct = v => v == null ? null : (v < 5 ? v * 100 : v);   // MMA stores some ratios as 1.23 rather than 123
@@ -179,7 +182,7 @@
   mvTick(); setInterval(mvTick, 1000);
 
   Promise.all([MV.getJSON("data.json"), MV.getJSON("population.json").catch(() => null)])
-    .then(([d, p]) => init(d, p))
+    .then(([d, p]) => { MV.checkStale(d); init(d, p); })
     .catch(err => { console.error(err); const n = $("notice"); n.textContent = "No debt data yet. The repository owner needs to run the “Update debt data” workflow under the Actions tab."; n.classList.add("on"); $("sub").textContent = ""; });
 
   function init(data, POP) {
@@ -197,38 +200,39 @@
     const fiscalOK = S.revenue?.points?.length >= 12 && S.expenditure?.points?.length >= 12;
     const fEnd = fiscalOK ? ["revenue", "expenditure"].map(k => last(S[k]).date).sort()[0] : null;
     const months = k => (S[k]?.points || []).filter(p => p.date <= fEnd);
-    const sumDisp = pts => pts.reduce((a, p) => a + conv(p.value, p.date), 0);   // in the visitor's currency and price basis
-    const last12 = k => { const m = months(k).slice(-12); return m.length === 12 ? sumDisp(m) : null; };
+    const sumNow = pts => pts.reduce((a, p) => a + convNow(p.value, p.date), 0);   // current figures: never inflation-adjusted
+    const sumReal = pts => pts.reduce((a, p) => a + conv(p.value, p.date), 0);     // comparisons over time: "Real" applies
+    const last12 = (k, f = sumNow) => { const m = months(k).slice(-12); return m.length === 12 ? f(m) : null; };
     const disp = v => sym() + " " + short(v), dispFull = (v, d = 0) => sym() + " " + fmt(v, d);
 
     // tickers
     const tick = () => {
-      const v = debtNow(); $("clock").textContent = fmt(conv(v));
+      const v = debtNow(); $("clock").textContent = fmt(convNow(v));
       const pop = popNow();
-      if (pop) { const pp = conv(v / pop), dd = MV.state.cur === "USD" ? 5 : 4, s = pp.toFixed(dd).split("."); $("perPerson").innerHTML = `${sym()} ${fmt(Number(s[0]))}<small>.${s[1]}</small>`; }
+      if (pop) { const pp = convNow(v / pop), dd = MV.state.cur === "USD" ? 5 : 4, s = pp.toFixed(dd).split("."); $("perPerson").innerHTML = `${sym()} ${fmt(Number(s[0]))}<small>.${s[1]}</small>`; }
     };
     setInterval(tick, 60);
 
     // hero layout
     const hero = $("hero"), water = $("water"), line = $("gdpLine"), readout = $("readout");
-    const scale = Math.max(SCALE_MAX, (ratio || 0) + 25);
+    const scale = Math.max(130, (ratio || 0) + 20);   // % of GDP at the top of the hero
     if (ratio) { $("ratioVal").textContent = fmt(ratio, 1) + "%"; $("ratioTag").hidden = false; }
+    // The hero is only as tall as it needs to be: the readout and key figures sit in the water,
+    // just under the "100% of GDP" line, with no empty space below.
     function layout() {
-      const H = hero.clientHeight, waterPx = H * (ratio ? Math.min(ratio / scale, 0.9) : 0.6);
-      water.style.height = waterPx + "px";
+      const rh = readout.offsetHeight, level = ratio ? Math.min(ratio / scale, 0.92) : 0.6;
+      const anchorFrac = ratio >= 100 ? 100 / scale : level, offset = ratio >= 100 ? 44 : 110;
+      const H = Math.max(520, Math.ceil((rh + offset + 56) / anchorFrac));
+      hero.style.height = H + "px";
+      const waterPx = H * level; water.style.height = waterPx + "px";
       const lineY = H - H * 100 / scale; line.style.top = lineY + "px"; line.style.opacity = ratio ? 1 : 0;
-      const rh = readout.offsetHeight, surface = H - waterPx;
-      let top = Math.max(surface + 110, ratio >= 100 ? lineY + 44 : 0);
-      if (top + rh > H - 20) top = Math.max(surface + 40, H - rh - 28);
-      if (waterPx > rh + 60) { readout.classList.remove("dry"); readout.style.top = top + "px"; }
-      else { readout.classList.add("dry"); readout.style.top = Math.max(64, surface - rh - 40) + "px"; }
+      readout.style.top = (H - H * anchorFrac + offset) + "px";
     }
 
     function render() {
-      const real = MV.state.real && MV.cpiLast;
       $("clockCur").textContent = sym();
       const other = MV.state.cur === "USD" ? "MVR " + short(debtNow()) : "US$ " + short(debtNow() / MV.USD);
-      $("sub").innerHTML = `Estimated from the official figure of ${money(latest.value, latest.date)} at the end of ${mLabel(latest.date)}. About <strong>${other}</strong> today.`;
+      $("sub").innerHTML = `Estimated from the official figure of ${moneyNow(latest.value, latest.date)} at the end of ${mLabel(latest.date)}. About <strong>${other}</strong> today.`;
       $("perSecond").textContent = (rate < 0 ? "−" : "") + moneyFull(Math.abs(rate), MV.state.cur === "USD" ? 2 : 0);
       $("perSecondLbl").textContent = rate >= 0 ? "added to the debt each second, on the pace of the last year" : "paid down each second, on the pace of the last year";
 
@@ -239,12 +243,12 @@
       // growth story
       const first = tot[0], prev = tot[tot.length - 2];
       const rev12 = fiscalOK ? last12("revenue") : null, exp12 = fiscalOK ? last12("expenditure") : null;
-      const mult = conv(latest.value, latest.date) / conv(first.value, first.date);
-      $("growthLine").innerHTML = `Since ${mLabel(first.date)}, public debt has grown <b>${fmt(mult, 1)} times</b>${real ? " after inflation" : ""}, from ${money(first.value, first.date)} to ${money(latest.value, latest.date)}${real ? ` in ${mLabel(MV.cpiLast.date)} prices` : ""}.`
-        + (rev12 ? ` It now equals <b>${fmt(conv(latest.value, latest.date) / rev12, 1)} years</b> of everything the government collects.` : "");
-      const ch = k => { const s = S[k]?.points; if (!s || s.length < 2) return null; const a = s[s.length - 2], b = s[s.length - 1]; return conv(b.value, b.date) - conv(a.value, a.date); };
+      const realOn = MV.isReal(), mult = conv(latest.value, latest.date) / conv(first.value, first.date);
+      $("growthLine").innerHTML = `Since ${mLabel(first.date)}, public debt has grown <b>${fmt(mult, 1)} times</b>${realOn ? " after inflation" : ""}, from ${money(first.value, first.date)} to ${money(latest.value, latest.date)}${realOn ? ` (in ${MV.baseLabel()})` : ""}.`
+        + (rev12 ? ` It now equals <b>${fmt(convNow(latest.value, latest.date) / rev12, 1)} years</b> of everything the government collects.` : "");
+      const ch = k => { const s = S[k]?.points; if (!s || s.length < 2) return null; const a = s[s.length - 2], b = s[s.length - 1]; return convNow(b.value, b.date) - convNow(a.value, a.date); };
       const word = (v, up, down) => v >= 0 ? `${up} by ${disp(v)}` : `${down} by ${disp(-v)}`;
-      const dt = conv(latest.value, latest.date) - conv(prev.value, prev.date), dd = ch("domestic"), de = ch("external");
+      const dt = convNow(latest.value, latest.date) - convNow(prev.value, prev.date), dd = ch("domestic"), de = ch("external");
       $("quarterLine").textContent = `In the three months to ${mLabel(latest.date)}, total debt ${word(dt, "rose", "fell")}` + (dd != null && de != null ? `: domestic debt ${word(dd, "rose", "fell")} and external debt ${word(de, "rose", "fell")}.` : ".");
       $("growthSec").hidden = false;
 
@@ -252,11 +256,11 @@
       const parts = ["domestic_cg", "domestic_guaranteed", "external_cg", "external_guaranteed"].map(k => ({ k, p: last(S[k]) })).filter(x => x.p?.value > 0);
       const sum = parts.reduce((a, x) => a + x.p.value, 0);
       $("bar").innerHTML = parts.map(x => `<div style="flex-grow:${x.p.value};background:${COLORS[x.k]}" title="${LABELS[x.k]}"></div>`).join("");
-      $("legend").innerHTML = parts.map(x => `<li><i style="background:${COLORS[x.k]}"></i><span>${LABELS[x.k]}</span><span class="v num">${money(x.p.value, x.p.date)}, ${fmt(100 * x.p.value / sum, 1)}% of debt</span></li>`).join("");
+      $("legend").innerHTML = parts.map(x => `<li><i style="background:${COLORS[x.k]}"></i><span>${LABELS[x.k]}</span><span class="v num">${moneyNow(x.p.value, x.p.date)}, ${fmt(100 * x.p.value / sum, 1)}% of debt</span></li>`).join("");
       const dg = pct(last(S.domestic_to_gdp)?.value), eg = pct(last(S.external_to_gdp)?.value), dv = last(S.domestic), ev = last(S.external);
       $("gdpSplit").innerHTML = [
-        dv && dg ? `<div><div class="big num" style="color:${COLORS.domestic_cg}">${fmt(dg, 1)}%</div><div class="lbl">of GDP is owed at home (${money(dv.value, dv.date)})</div></div>` : "",
-        ev && eg ? `<div><div class="big num" style="color:${COLORS.external_cg}">${fmt(eg, 1)}%</div><div class="lbl">of GDP is owed abroad (${money(ev.value, ev.date)})</div></div>` : "",
+        dv && dg ? `<div><div class="big num" style="color:${COLORS.domestic_cg}">${fmt(dg, 1)}%</div><div class="lbl">of GDP is owed at home (${moneyNow(dv.value, dv.date)})</div></div>` : "",
+        ev && eg ? `<div><div class="big num" style="color:${COLORS.external_cg}">${fmt(eg, 1)}%</div><div class="lbl">of GDP is owed abroad (${moneyNow(ev.value, ev.date)})</div></div>` : "",
         ratio ? `<div><div class="big num" style="color:var(--foam)">${fmt(ratio, 1)}%</div><div class="lbl">of GDP in total, at the end of ${mLabel(latest.date)}</div></div>` : ""].join("");
 
       // fiscal
@@ -277,7 +281,8 @@
         drawAnnual();
       }
 
-      $("methodDetail").innerHTML = `Right now that pace is <b>${money(rate * SEC_YEAR)} a year</b>, from the change between ${mLabel(back.date)} and ${mLabel(latest.date)}. Dollar figures use the MMA reference rate (MVR ${fmt(MV.USD, 2)} per US dollar today).`;
+      $("methodDetail").innerHTML = `Right now that pace is <b>${moneyNow(rate * SEC_YEAR)} a year</b>, from the change between ${mLabel(back.date)} and ${mLabel(latest.date)}. Dollar figures use the MMA reference rate (MVR ${fmt(MV.USD, 2)} per US dollar today).`;
+      if (pop && POP) $("popLine").innerHTML = `Based on an estimated ${fmt(Math.round(pop))} citizens (national register, end of ${POP.base_date.slice(0, 4)}, grown at ${fmt(POP.annual_growth * 100, 2)}% a year). This will be updated when the government publishes new figures. <a href="methodology.html#population">How this is estimated</a>`;
       if (pop && POP) $("popNote").innerHTML = `Per-citizen figures divide by an estimated <b>${fmt(Math.round(pop))}</b> Maldivian citizens today: the ${fmt(POP.base)} on the national register at the end of 2025, grown at ${fmt(POP.annual_growth * 100, 2)}% a year, the rate the Maldivian population grew between the last two censuses.`;
       $("fetched").textContent = "Data last fetched " + MV.fetched(data.fetched_at) + ", Malé time. Source: MMA Statistics Database.";
       tick(); drawChart();
@@ -288,16 +293,16 @@
       const rv = months("revenue"), ex = months("expenditure");
       const years = [...new Set(rv.map(p => p.date.slice(0, 4)))].filter(y => rv.filter(p => p.date.startsWith(y)).length === 12 && ex.filter(p => p.date.startsWith(y)).length === 12);
       const cats = years.map(y => ({ label: y }));
-      const R = years.map(y => sumDisp(rv.filter(p => p.date.startsWith(y)))), E = years.map(y => sumDisp(ex.filter(p => p.date.startsWith(y))));
-      const lastFull = years[years.length - 1];
-      if (fEnd.slice(0, 4) !== lastFull || fEnd.slice(5, 7) !== "12") { cats.push({ label: "Last 12m", partial: false }); R.push(last12("revenue")); E.push(last12("expenditure")); }
+      const R = years.map(y => sumReal(rv.filter(p => p.date.startsWith(y)))), E = years.map(y => sumReal(ex.filter(p => p.date.startsWith(y))));
       const bn = v => fmt(v / 1e9, 1) + " bn";
-      $("annualNote").textContent = `Revenue and spending each calendar year, in billions of ${MV.state.cur === "USD" ? "US dollars" : "rufiyaa"}${MV.state.real && MV.cpiLast ? `, in ${mLabel(MV.cpiLast.date)} prices` : ""}. The red figure under each year is the deficit. "Last 12m" is the 12 months to ${mLabel(fEnd)}.`;
+      $("annualNote").textContent = `Revenue and spending each full calendar year, in billions of ${MV.state.cur === "USD" ? "US dollars" : "rufiyaa"}${MV.isReal() ? `, in ${MV.baseLabel()}` : ""}. The red figure under each year is the deficit.`;
+      const r12 = last12("revenue", sumReal), e12 = last12("expenditure", sumReal), firstM = months("revenue").slice(-12)[0].date;
+      $("l12").innerHTML = `<span>Last 12 months (${mLabel(firstM)} to ${mLabel(fEnd)}${MV.isReal() ? ", same prices as the chart" : ""}):</span><span>Revenue <b>${sym()} ${bn(r12)}</b></span><span>Spending <b class="red">${sym()} ${bn(e12)}</b></span><span>${e12 >= r12 ? "Deficit" : "Surplus"} <b class="${e12 >= r12 ? "red" : ""}">${sym()} ${bn(Math.abs(e12 - r12))}</b></span>`;
       MV.barChart($("annual"), {
         cats, label: "Government revenue and spending by year",
         groups: [{ color: "#3fb8b0", vals: R.map(v => v / 1e9) }, { color: "#ff5f56", vals: E.map(v => v / 1e9) }],
         yFmt: v => fmt(v), below: i => { const g = E[i] - R[i]; return { text: (g >= 0 ? "−" : "+") + fmt(Math.abs(g) / 1e9, 1), color: g >= 0 ? "#ff5f56" : "#3fb8b0" }; },
-        tip: i => `<b>${cats[i].label === "Last 12m" ? "12 months to " + mLabel(fEnd) : cats[i].label}</b>` + row("Revenue", sym() + " " + bn(R[i])) + row("Spending", sym() + " " + bn(E[i])) +
+        tip: i => `<b>${cats[i].label}</b>` + row("Revenue", sym() + " " + bn(R[i])) + row("Spending", sym() + " " + bn(E[i])) +
           row(E[i] >= R[i] ? "Deficit" : "Surplus", `<span style="color:${E[i] >= R[i] ? "#d63b33" : "#0b6b5f"}">${sym()} ${bn(Math.abs(E[i] - R[i]))}</span>`) + row("Spending per 100 collected", fmt(100 * E[i] / R[i], 0))
       });
     }
@@ -310,7 +315,7 @@
     function drawChart() {
       const useRatio = view === "ratio";
       $("chartNote").textContent = useRatio ? "Total public debt as a share of the economy (GDP), each quarter. Inflation doesn't affect this view." :
-        `Total public and publicly guaranteed debt at the end of each quarter, in billions of ${MV.state.cur === "USD" ? "US dollars" : "rufiyaa"}${MV.state.real && MV.cpiLast ? `, in ${mLabel(MV.cpiLast.date)} prices` : ""}.`;
+        `Total public and publicly guaranteed debt at the end of each quarter, in billions of ${MV.state.cur === "USD" ? "US dollars" : "rufiyaa"}${MV.isReal() ? `, in ${MV.baseLabel()}` : ""}.`;
       MV.lineChart($("chart"), {
         rows: useRatio ? rows.filter(r => r.ratio != null) : rows, label: "Debt by quarter",
         series: [{ val: r => useRatio ? r.ratio : conv(r.total, r.date) / 1e9, color: "#3fb8b0", area: true }],

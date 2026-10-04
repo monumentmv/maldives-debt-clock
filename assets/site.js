@@ -13,28 +13,35 @@ const MV = (() => {
   } catch (e) {}
 
   // ---------- data-dependent helpers ----------
-  let fx = [], cpi = [], USD = 15.42, cpiLast = null;
+  let fx = [], cpi = [], USD = 15.42, cpiLast = null, cpiBase = null, baseFrom = null;
   function setData(S) {
     fx = (S.usd_rate?.points || []).filter(p => p.value > 0);
     if (fx.length) USD = fx[fx.length - 1].value;
     cpi = (S.cpi?.points || []).filter(p => p.value > 0);
     cpiLast = cpi.length ? cpi[cpi.length - 1] : null;
+    // price base for "Real": the average CPI of the latest 12 months, which smooths out month-to-month swings
+    if (cpi.length >= 12) { const l12 = cpi.slice(-12); cpiBase = l12.reduce((a, p) => a + p.value, 0) / 12; baseFrom = l12[0].date; }
+    else if (cpiLast) { cpiBase = cpiLast.value; baseFrom = cpiLast.date; }
     if (!cpi.length) document.querySelectorAll('[data-pref="real"]').forEach(t => t.hidden = true);
   }
   const lastBefore = (arr, date) => { let r = null; for (const p of arr) { if (p.date <= date) r = p; else break; } return r; };
   const rateAt = date => (lastBefore(fx, date) || fx[0] || { value: USD }).value;
   const cpiAt = date => (lastBefore(cpi, date) || null)?.value;
-  /** multiply a past rufiyaa amount by this to express it in today's prices */
+  /** multiply a past rufiyaa amount by this to express it in base-period prices */
   const realFactor = date => {
-    if (!state.real || !cpiLast || !date) return 1;
-    const c = cpiAt(date); return c ? cpiLast.value / c : 1;
+    if (!state.real || !cpiBase || !date) return 1;
+    const c = cpiAt(date); return c ? cpiBase / c : 1;
   };
-  /** convert a rufiyaa amount recorded at `date` into what the visitor asked to see */
+  /** for comparisons over time: convert a rufiyaa amount recorded at `date`, applying "Real" if it is on */
   const conv = (mvr, date) => {
     const v = mvr * realFactor(date);
     if (state.cur !== "USD") return v;
     return v / (state.real || !date ? USD : rateAt(date));
   };
+  /** for current figures: never inflation-adjusted, only converted to the chosen currency */
+  const convNow = (mvr, date) => state.cur !== "USD" ? mvr : mvr / (date ? rateAt(date) : USD);
+  const isReal = () => state.real && !!cpiBase;
+  const baseLabel = () => cpiLast ? `average prices of the 12 months to ${MONTHS[new Date(cpiLast.date).getUTCMonth()]} ${new Date(cpiLast.date).getUTCFullYear()}` : "";
   /** for series recorded in US dollars (fuel): convert to rufiyaa at that month's rate if needed */
   const fromUSD = (usd, date) => state.cur === "USD" ? usd : usd * (date ? rateAt(date) : USD);
 
@@ -46,8 +53,9 @@ const MV = (() => {
     if (a >= 1e6) return fmt(n / 1e6, 1) + " m";
     if (a >= 1e4) return fmt(n);
     return fmt(n, a < 10 ? 2 : 0); };
-  const money = (mvr, date) => sym() + " " + short(conv(mvr, date));
-  const moneyFull = (mvr, d = 0, date) => sym() + " " + fmt(conv(mvr, date), d);
+  const money = (mvr, date) => sym() + " " + short(conv(mvr, date));          // applies "Real"
+  const moneyNow = (mvr, date) => sym() + " " + short(convNow(mvr, date));    // never adjusted
+  const moneyFull = (mvr, d = 0, date) => sym() + " " + fmt(convNow(mvr, date), d);
   const ts = d => new Date(d + "T23:59:59Z").getTime();
   const dt = d => new Date(d);
   const mLabel = d => MONTHS[dt(d).getUTCMonth()] + " " + dt(d).getUTCFullYear();
@@ -64,9 +72,9 @@ const MV = (() => {
   function paintPrefs() {
     document.querySelectorAll('[data-pref="cur"] button').forEach(b => b.setAttribute("aria-pressed", b.dataset.v === state.cur));
     document.querySelectorAll('[data-pref="real"] button').forEach(b => b.setAttribute("aria-pressed", (b.dataset.v === "1") === state.real));
-    document.body.classList.toggle("is-real", state.real && !!cpiLast);
+    document.body.classList.toggle("is-real", state.real && !!cpiBase && !document.querySelector('[data-pref="real"][hidden]'));
     const note = document.querySelector(".real-note");
-    if (note && cpiLast) note.textContent = `Adjusted for inflation: past amounts are shown in ${mLabel(cpiLast.date)} prices, using the national consumer price index.`;
+    if (note && cpiBase) note.textContent = `Real: charts and comparisons over time are adjusted for inflation, in ${baseLabel()}. Current figures are always in today's money.`;
   }
   document.addEventListener("click", e => {
     const b = e.target.closest("[data-pref] button"); if (!b) return;
@@ -193,10 +201,22 @@ const MV = (() => {
     hit.addEventListener("pointermove", show); hit.addEventListener("pointerdown", show); hit.addEventListener("pointerleave", hide);
   }
 
+  // ---------- warnings when data stops updating ----------
+  function checkStale(data) {
+    const msgs = [], now = Date.now(), day = 86400000;
+    const tot = data.series?.total?.points; const L = tot?.length ? tot[tot.length - 1] : null;
+    if (L && now - ts(L.date) > 215 * day) msgs.push(`The latest official debt figure is for ${mLabel(L.date)}, more than seven months ago. The clock is still estimating from it, so treat it with extra caution.`);
+    if (data.fetched_at && now - new Date(data.fetched_at).getTime() > 8 * day) msgs.push(`The data hasn't been refreshed since ${fetched(data.fetched_at)}. Figures shown are the last ones received.`);
+    (data.carried_over || []).length && msgs.push("Some figures couldn't be updated at the last refresh, so their previous values are shown.");
+    if (!msgs.length) return;
+    const el = document.createElement("div"); el.className = "stale-note"; el.setAttribute("role", "status"); el.innerHTML = msgs.map(m => `<p>${m}</p>`).join("");
+    document.querySelector(".real-note")?.after(el);
+  }
+
   const row = (l, v) => v == null ? "" : `<div class="row"><span>${l}</span><span>${v}</span></div>`;
   const onResize = fn => { let t; addEventListener("resize", () => { clearTimeout(t); t = setTimeout(fn, 120); }); };
 
-  return { SEC_YEAR, MONTHS, state, setData, rateAt, cpiAt, realFactor, conv, fromUSD, fmt, sym, short, money, moneyFull,
+  return { SEC_YEAR, MONTHS, state, setData, rateAt, cpiAt, realFactor, conv, convNow, isReal, baseLabel, checkStale, fromUSD, fmt, sym, short, money, moneyNow, moneyFull,
     ts, mLabel, mShort, qLabel, dayLabel, last, getJSON, fetched, onPrefs, paintPrefs, lineChart, barChart, row, onResize,
     get USD() { return USD; }, get cpiLast() { return cpiLast; } };
 })();
