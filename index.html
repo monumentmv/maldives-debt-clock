@@ -36,6 +36,15 @@
   .hero-stats .l { color: #cfe6ea; }
   .pop { font-size: .82rem; color: #a9cdd6; margin-top: .6rem; max-width: 22rem; line-height: 1.4; }
   .pop a { color: var(--sun); }
+  .why { margin: 2.25rem 0 .5rem; padding: 1.4rem 1.5rem; border-radius: 8px; background: rgba(244,201,93,.07); border: 1px solid rgba(244,201,93,.35); max-width: 52rem; }
+  .why h3 { margin: 0 0 .6rem !important; font-size: 1.15rem; color: var(--sun); }
+  .why p { margin: 0 0 .9rem; }
+  .why .sbar { display: flex; height: 1.6rem; border-radius: 4px; overflow: hidden; gap: 2px; margin: 1rem 0 .9rem; }
+  .why ul { list-style: none; padding: 0; margin: 0 0 .9rem; display: grid; gap: .55rem; }
+  .why li { display: grid; grid-template-columns: .9rem 1fr; gap: .7rem; align-items: baseline; color: var(--mist); }
+  .why li i { width: .9rem; height: .9rem; border-radius: 2px; transform: translateY(.12rem); }
+  .why li b { color: var(--foam); }
+  .why .small { font-size: .85rem; color: var(--mist); margin: 0; }
   .l12 { display: flex; flex-wrap: wrap; gap: .5rem 2rem; margin-top: 1.25rem; padding: .9rem 1.1rem; background: rgba(255,255,255,.05); border-radius: 6px; font-size: .95rem; color: var(--mist); }
   .l12 b { color: var(--foam); } .l12 b.red { color: var(--red); }
   .notice { position: absolute; inset: auto 1.25rem 2rem 1.25rem; max-width: 36rem; margin: 0 auto; background: var(--foam); color: var(--ink); padding: 1rem 1.25rem; border-radius: 6px; display: none; }
@@ -76,8 +85,8 @@
     <div class="toggle" data-pref="cur" role="group" aria-label="Currency"><button type="button" data-v="MVR" aria-pressed="true">MVR</button><button type="button" data-v="USD" aria-pressed="false">US$</button></div>
     <div class="toggle" data-pref="real" role="group" aria-label="Inflation adjustment" title="Real shows past amounts in today's prices, adjusted for inflation"><button type="button" data-v="0" aria-pressed="true">Nominal</button><button type="button" data-v="1" aria-pressed="false">Real</button></div>
   </div>
+  <div class="real-note" role="status"></div>
 </header>
-<div class="real-note" role="status"></div>
 
 <section class="hero" id="hero" aria-label="Debt clock">
   <div class="ratio-tag" id="ratioTag" hidden><b id="ratioVal">–</b>of GDP</div>
@@ -135,6 +144,7 @@
       <div class="stat red"><div class="n num" id="expPP">—</div><div class="l">spent per citizen in a year</div></div>
       <div class="stat red"><div class="n num" id="gapPP">—</div><div class="l" id="gapLbl">gap per citizen, covered by borrowing</div></div>
     </div>
+    <div class="why" id="why" hidden></div>
     <h3>Every second, the government</h3>
     <div class="stats">
       <div class="stat"><div class="n num" id="revSec">—</div><div class="l">collects</div></div>
@@ -277,6 +287,7 @@
           ["Interest and financing costs", int12, "#ff8a6b"], ["Capital spending (building and equipment)", last12("capital_exp"), "#f4c95d"]].filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
         $("hbars").innerHTML = items.map(([l, v, c]) => `<div class="hbar"><div class="top"><span>${l}</span><span class="num">${disp(v)}, ${fmt(100 * v / exp12, 0)}%</span></div><div class="track"><div class="fill" style="width:${100 * v / exp12}%;background:${c}"></div></div></div>`).join("");
         $("spendHead").hidden = !items.length;
+        drawWhy(gap / pop);
         $("fiscalSec").hidden = false;
         drawAnnual();
       }
@@ -286,6 +297,29 @@
       if (pop && POP) $("popNote").innerHTML = `Per-citizen figures divide by an estimated <b>${fmt(Math.round(pop))}</b> Maldivian citizens today: the ${fmt(POP.base)} on the national register at the end of 2025, grown at ${fmt(POP.annual_growth * 100, 2)}% a year, the rate the Maldivian population grew between the last two censuses.`;
       $("fetched").textContent = "Data last fetched " + MV.fetched(data.fetched_at) + ", Malé time. Source: MMA Statistics Database.";
       tick(); drawChart();
+    }
+
+    // why debt per citizen is so much bigger than one year's gap: reconcile debt growth with the yearly gaps
+    function drawWhy(gapPP) {
+      const rv = S.revenue.points, ex = Object.fromEntries(S.expenditure.points.map(p => [p.date, p.value]));
+      const q0 = [...tot].reverse().find(p => p.date < rv[0].date);                 // last quarter before monthly data starts
+      const q1 = [...tot].reverse().find(p => p.date <= fEnd);                       // latest quarter the monthly data covers
+      if (!q0 || !q1 || q1.date <= q0.date) { $("why").hidden = true; return; }
+      const gaps = rv.filter(p => p.date > q0.date && p.date <= q1.date && ex[p.date] != null).reduce((a, p) => a + ex[p.date] - p.value, 0);
+      const gAt = d => ["domestic_guaranteed", "external_guaranteed"].reduce((a, k) => a + ((S[k]?.points || []).find(p => p.date === d)?.value || 0), 0);
+      const rise = q1.value - q0.value, guar = gAt(q1.date) - gAt(q0.date), other = rise - gaps - guar;
+      const n = v => moneyNow(v);
+      const segs = [["#ff5f56", gaps, `<b>${n(gaps)}</b> from the yearly gaps between spending and revenue, added up`],
+                    ["#f4c95d", guar, `<b>${n(guar)}</b> from extra borrowing by state-owned companies with a government guarantee, which doesn't appear as government spending`],
+                    ["#9fe0d6", other, `<b>${n(other)}</b> from other borrowing that isn't counted as spending, such as lending to and investing in state-owned companies, and changes in the government's cash balances`]].filter(x => x[1] > 0);
+      const pp = convNow(debtNow() / popNow());
+      $("why").innerHTML = `<h3>Why is the debt so much bigger than this gap?</h3>
+        <p>The ${sym()} ${fmt(convNow(Math.abs(gapPP)))} gap is just <b>one year's</b> shortfall. The ${sym()} ${fmt(pp)} debt per citizen is what has <b>built up over many years</b>, like a credit card balance compared with one month's overspending. And some borrowing never shows up as government spending at all.</p>
+        <p>Since ${mLabel(q0.date)}, debt has risen by <b>${n(rise)}</b>:</p>
+        <div class="sbar" role="img" aria-label="Where the rise in debt came from">${segs.map(x => `<div style="flex-grow:${x[1]};background:${x[0]}"></div>`).join("")}</div>
+        <ul>${segs.map(x => `<li><i style="background:${x[0]}"></i><span>${x[2]}</span></li>`).join("")}</ul>
+        <p class="small">The ${n(q0.value)} owed in ${mLabel(q0.date)} came from earlier years. Yearly gaps are summed from monthly figures, ${mLabel(S.revenue.points.find(p => p.date > q0.date).date)} to ${mLabel(q1.date)}. <a href="methodology.html#fiscal">More on how this is worked out</a>.</p>`;
+      $("why").hidden = false;
     }
 
     // annual revenue vs spending

@@ -79,8 +79,8 @@
     <div class="toggle" data-pref="cur" role="group" aria-label="Currency"><button type="button" data-v="MVR" aria-pressed="true">MVR</button><button type="button" data-v="USD" aria-pressed="false">US$</button></div>
     <div class="toggle" data-pref="real" role="group" aria-label="Inflation adjustment" title="Real shows past amounts in today's prices, adjusted for inflation"><button type="button" data-v="0" aria-pressed="true">Nominal</button><button type="button" data-v="1" aria-pressed="false">Real</button></div>
   </div>
+  <div class="real-note" role="status"></div>
 </header>
-<div class="real-note" role="status"></div>
 <header class="masthead">
   <div class="inner">
     <h1>How the clock works</h1>
@@ -239,6 +239,12 @@
   <li>Monthly government finance figures are preliminary and can be revised later.</li>
   <li>Spending here does not include repaying the principal on existing loans (that appears separately, in series 2076). So the gap between spending and revenue is smaller than the total amount the government needs to borrow each year.</li>
 </ul>
+<h3>Why the yearly gap is much smaller than the debt</h3>
+<p>The gap between spending and revenue is one year's shortfall, while the debt has built up over many years. The front page shows how the rise in debt since the start of the monthly data (January 2017) breaks down. It adds up the monthly gaps between spending and revenue, then adds the change in government-guaranteed debt of state-owned companies, which isn't government spending. Whatever remains is other borrowing that isn't counted as spending in series 2034. That includes lending to and investing in state-owned companies (which the MMA lists separately, as memorandum items) and changes in the government's cash balances. The remainder is worked out by subtraction, so it also absorbs any differences in timing or coverage between the monthly and quarterly data.</p>
+<div class="live">
+  <b>Today's breakdown</b>
+  <p>Debt rose by <span class="v" data-k="wRise">…</span> between <span data-k="wFrom">…</span> and <span data-k="wTo">…</span>: <span class="v" data-k="wGaps">…</span> from yearly gaps, <span class="v" data-k="wGuar">…</span> from guaranteed debt, and <span class="v" data-k="wOther">…</span> from other borrowing.</p>
+</div>
 <h3>Where a year's spending goes</h3>
 <p>The spending breakdown uses four MMA sub-series: salaries, wages and pensions (2036); grants, contributions and subsidies (2050); financing and interest costs (2049); and capital spending (2057). Each is shown as a share of total spending over the same 12 months. They don't add up to 100%, because the rest is other running costs, such as supplies, services, travel and maintenance.</p>
 
@@ -402,6 +408,18 @@
       set("iTot", bn(int)); set("iDay", "MVR " + fmt(int / 365.25 / 1e6, 1) + " m"); set("iShare", "MVR " + fmt(100 * int / rev, 1));
     }
     const usd = last(S.usd_rate)?.value; if (usd) set("usd", "MVR " + fmt(usd, 2));
+    // why the yearly gap is smaller than the rise in debt
+    if (S.revenue?.points?.length && S.expenditure?.points?.length) {
+      const rv = S.revenue.points, ex = Object.fromEntries(S.expenditure.points.map(p => [p.date, p.value]));
+      const fEnd2 = [last(S.revenue).date, last(S.expenditure).date].sort()[0];
+      const q0 = [...tot].reverse().find(p => p.date < rv[0].date), q1 = [...tot].reverse().find(p => p.date <= fEnd2);
+      if (q0 && q1) {
+        const gaps = rv.filter(p => p.date > q0.date && p.date <= q1.date && ex[p.date] != null).reduce((a, p) => a + ex[p.date] - p.value, 0);
+        const gAt = d => ["domestic_guaranteed", "external_guaranteed"].reduce((a, k) => a + ((S[k]?.points || []).find(p => p.date === d)?.value || 0), 0);
+        const rise = q1.value - q0.value, guar = gAt(q1.date) - gAt(q0.date);
+        set("wRise", bn(rise)); set("wFrom", day(q0.date)); set("wTo", day(q1.date)); set("wGaps", bn(gaps)); set("wGuar", bn(guar)); set("wOther", bn(rise - gaps - guar));
+      }
+    }
 
     const tick = () => {
       const secs = (Date.now() - ts(L.date)) / 1000, now = L.value + rate * secs;

@@ -55,9 +55,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 @media (max-width: 350px) { .brand span { display: none; } }
 
-/* banner shown when "Real" is on */
-.real-note { display: none; background: var(--sun); color: var(--abyss); font-size: .9rem; font-weight: 700; padding: .45rem var(--gutter); text-align: center; }
+/* banner shown when "Real" is on: lives inside the sticky header so it stays on screen */
+.site-head { flex-wrap: wrap; }
+.real-note { display: none; flex-basis: 100%; order: 10; margin: .45rem calc(-1 * var(--gutter)) -.5rem; background: var(--sun); color: var(--abyss); font-size: .875rem; font-weight: 700; padding: .4rem var(--gutter); text-align: center; line-height: 1.35; }
+.real-note .short { display: none; }
 body.is-real .real-note { display: block; }
+@media (max-width: 860px) {
+  .real-note { margin-top: .25rem; margin-bottom: -.35rem; font-size: .8rem; padding: .3rem var(--gutter); }
+  .real-note .long { display: none; } .real-note .short { display: inline; }
+}
 
 /* ---------- dark content pages ---------- */
 main.dark { color: var(--foam); background: var(--abyss); padding: 4rem var(--gutter) 3rem; }

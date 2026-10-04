@@ -74,7 +74,7 @@ const MV = (() => {
     document.querySelectorAll('[data-pref="real"] button').forEach(b => b.setAttribute("aria-pressed", (b.dataset.v === "1") === state.real));
     document.body.classList.toggle("is-real", state.real && !!cpiBase && !document.querySelector('[data-pref="real"][hidden]'));
     const note = document.querySelector(".real-note");
-    if (note && cpiBase) note.textContent = `Real: charts and comparisons over time are adjusted for inflation, in ${baseLabel()}. Current figures are always in today's money.`;
+    if (note && cpiBase) note.innerHTML = `<span class="long">Real: charts and comparisons over time are adjusted for inflation, in ${baseLabel()}. Current figures are always in today's money.</span><span class="short">Real: past amounts adjusted for inflation</span>`;
   }
   document.addEventListener("click", e => {
     const b = e.target.closest("[data-pref] button"); if (!b) return;
@@ -210,7 +210,7 @@ const MV = (() => {
     (data.carried_over || []).length && msgs.push("Some figures couldn't be updated at the last refresh, so their previous values are shown.");
     if (!msgs.length) return;
     const el = document.createElement("div"); el.className = "stale-note"; el.setAttribute("role", "status"); el.innerHTML = msgs.map(m => `<p>${m}</p>`).join("");
-    document.querySelector(".real-note")?.after(el);
+    document.querySelector(".site-head")?.after(el);
   }
 
   const row = (l, v) => v == null ? "" : `<div class="row"><span>${l}</span><span>${v}</span></div>`;
