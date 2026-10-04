@@ -1,5 +1,5 @@
 /*
-  Private preview gate for the Maldives National Debt Clock.
+  Private preview gate for Maldives National Debt Clock.
   Runs on Cloudflare Pages in front of every request.
 
   Visitors enter a 4-digit code once. Each code works one time only, then that

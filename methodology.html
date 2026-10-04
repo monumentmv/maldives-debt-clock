@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
 <title>Methodology · Maldives National Debt Clock</title>
-<meta name="description" content="Where every number on the Maldives National Debt Clock comes from, how it is calculated, and what it leaves out.">
+<meta name="description" content="Where every number on Maldives National Debt Clock comes from, how it is calculated, and what it leaves out.">
 <style>
   :root {
     --paper: #f3f8f8; --ink: #072f40; --muted: #4a6b78; --rule: #cfe0e3;
@@ -91,7 +91,7 @@
 <header class="masthead">
   <div class="inner">
     <h1>How the clock works</h1>
-    <p>Every number on the Maldives National Debt Clock comes from published official statistics. This page explains where each one comes from, how it is calculated, and what it leaves out. Figures in the shaded boxes are live, worked out from the same data the clock uses.</p>
+    <p>Every number on Maldives National Debt Clock comes from published official statistics. This page explains where each one comes from, how it is calculated, and what it leaves out. Figures in the shaded boxes are live, worked out from the same data the clock uses.</p>
   </div>
 </header>
 
@@ -119,14 +119,14 @@
 </nav>
 
 <h2 id="sources">1. Where the data comes from</h2>
-<p>All economic figures come from the <a href="https://database.mma.gov.mv" rel="noopener">Maldives Monetary Authority (MMA) Statistics Database</a>, which publishes data compiled by the MMA, the Ministry of Finance and Planning, the Maldives Bureau of Statistics (MBS), the Maldives Customs Service and the World Bank.</p>
-<p>Every morning at 08:00 Malé time, an automated script downloads the latest figures through the MMA's official API and saves them to a file the website reads. Nothing is typed in by hand, with one exception, the population estimate, explained in <a href="#population">section 6</a>.</p>
-<p>This site is independent. It is not produced or endorsed by the MMA, the Ministry of Finance or any government body.</p>
+<p>All economic figures come from the <a href="https://database.mma.gov.mv" rel="noopener">Maldives Monetary Authority (MMA) Statistics Database</a>, which publishes data compiled by MMA, the Ministry of Finance and Planning, Maldives Bureau of Statistics (MBS), Maldives Customs Service and the World Bank.</p>
+<p>Every morning at 08:00 Malé time, an automated script downloads the latest figures through MMA's official API and saves them to a file the website reads. Nothing is typed in by hand, with one exception, the population estimate, explained in <a href="#population">section 6</a>.</p>
+<p>This site is independent. It is not produced or endorsed by MMA, the Ministry of Finance or any government body.</p>
 
 <h2 id="debt">2. What counts as debt</h2>
 <p>The clock shows <b>public and publicly guaranteed debt of the central government</b> (MMA series 4514), measured in rufiyaa at the end of each quarter. It is made up of three parts.</p>
 <ul>
-  <li><b>Domestic debt</b> is money the government has borrowed inside the Maldives, such as treasury bills, treasury bonds and loans from local banks and the MMA.</li>
+  <li><b>Domestic debt</b> is money the government has borrowed inside Maldives, such as treasury bills, treasury bonds and loans from local banks and MMA.</li>
   <li><b>External debt</b> is money borrowed from abroad, including loans from other governments, development banks and commercial lenders, and international bonds and sukuk.</li>
   <li><b>Guaranteed debt</b> is loans taken by state-owned companies where the government has promised to repay if the company can't. These are counted in full, even though the companies are expected to repay them themselves.</li>
 </ul>
@@ -148,31 +148,31 @@
 <p>When a new quarter is published, the clock resets to the new official figure and recalculates the pace. That reset can make the number jump up or down.</p>
 
 <h2 id="gdp">4. Debt as a share of GDP</h2>
-<p>Gross domestic product (GDP) is the total value of everything produced in the Maldives in a year. Comparing debt with GDP shows how heavy the debt is relative to the size of the economy. It is the measure economists and lenders watch most closely. On the front page, the sea surface marks the point where debt equals a full year of GDP (100%). When debt is higher than that, the yellow line sits below the surface, and the deeper it is, the further the country is "underwater" on its debt. The gauge on the right reads 100% at the surface and counts down into the water.</p>
-<p>The ratio is published by the MMA (series 4522) as total debt divided by nominal GDP for that year. The site uses this figure directly, multiplied by 100 because the MMA publishes it as a decimal (for example, 1.227 rather than 122.7%).</p>
+<p>Gross domestic product (GDP) is the total value of everything produced in Maldives in a year. Comparing debt with GDP shows how heavy the debt is relative to the size of the economy. It is the measure economists and lenders watch most closely. On the front page, the sea surface marks the point where debt equals a full year of GDP (100%). When debt is higher than that, the yellow line sits below the surface, and the deeper it is, the further the country is "underwater" on its debt. The gauge on the right reads 100% at the surface and counts down into the water.</p>
+<p>The ratio is published by MMA (series 4522) as total debt divided by nominal GDP for that year. The site uses this figure directly, multiplied by 100 because MMA publishes it as a decimal (for example, 1.227 rather than 122.7%).</p>
 <div class="formula"><math display="block"><mtext>debt to GDP</mtext><mo>=</mo><mn>100</mn><mo>×</mo><mfrac><mrow><msub><mi>D</mi><mi>q</mi></msub></mrow><mrow><msub><mi>Y</mi><mtext>year</mtext></msub></mrow></mfrac></math><dl class="where"><div><dt><math><mrow><msub><mi>Y</mi><mtext>year</mtext></msub></mrow></math></dt><dd>nominal GDP for the year of quarter q, a forecast for the current year</dd></div></dl></div>
 <div class="live">
   <b>Check</b>
-  <p><span data-k="dLatest">…</span> ÷ <span data-k="gdpYear">…</span> GDP of <span class="v" data-k="gdpVal">…</span> = <span class="v" data-k="gdpCheck">…</span>. The MMA's published figure is <span class="v" data-k="ratio">…</span>.</p>
+  <p><span data-k="dLatest">…</span> ÷ <span data-k="gdpYear">…</span> GDP of <span class="v" data-k="gdpVal">…</span> = <span class="v" data-k="gdpCheck">…</span>. MMA's published figure is <span class="v" data-k="ratio">…</span>.</p>
 </div>
-<p><b>Note that</b> GDP for the current year has not happened yet, so the current ratio uses a GDP <i>forecast</i>. According to the MMA's notes, figures for 2026 use nominal GDP projections made in October 2025 by the MMA and the Ministry of Finance. Earlier years use actual GDP as revised by the MBS on 1 September 2026. If the forecast turns out too high or too low, the ratio will be revised.</p>
+<p><b>Note that</b> GDP for the current year has not happened yet, so the current ratio uses a GDP <i>forecast</i>. According to MMA's notes, figures for 2026 use nominal GDP projections made in October 2025 by MMA and the Ministry of Finance. Earlier years use actual GDP as revised by the MBS on 1 September 2026. If the forecast turns out too high or too low, the ratio will be revised.</p>
 <p>Domestic and external debt as shares of GDP use MMA series 4523 and 4526 in the same way.</p>
 
 <h2 id="owed">5. Who the debt is owed to</h2>
-<p>The breakdown uses the MMA's split of total debt into four parts. These are domestic debt of the central government (4516), domestic guaranteed debt (4517), external debt of the central government (4519) and external guaranteed debt (4520). Each share is that part divided by the total, for the latest quarter.</p>
+<p>The breakdown uses MMA's split of total debt into four parts. These are domestic debt of the central government (4516), domestic guaranteed debt (4517), external debt of the central government (4519) and external guaranteed debt (4520). Each share is that part divided by the total, for the latest quarter.</p>
 <p>The front page also reports how each part changed over the latest quarter, simply the latest figure minus the one before.</p>
-<p>"Grown X times since 2015" is the latest total divided by the first quarter in the MMA series (March 2015). This compares rufiyaa amounts directly and does not adjust for inflation or for the economy growing. The debt-to-GDP ratio is the better measure for that.</p>
+<p>"Grown X times since 2015" is the latest total divided by the first quarter in MMA series (March 2015). This compares rufiyaa amounts directly and does not adjust for inflation or for the economy growing. The debt-to-GDP ratio is the better measure for that.</p>
 
 <h2 id="population">6. Population and per-citizen figures</h2>
 <p>Per-citizen figures divide a total, such as the debt, by the number of Maldivian citizens. This turns a number too large to picture into something easier to grasp. It is a way of showing scale, not a bill. No individual owes this amount.</p>
 
 <h3>Why citizens, not everyone living here</h3>
-<p>About one in four people living in the Maldives is a foreign worker (132,493 at the 2022 census). Foreign residents do pay some taxes, but the debt is owed by the Maldivian state, and repaying it will fall on Maldivian taxpayers and public services over many years. So the per-person figures divide by Maldivian citizens. Dividing by everyone living here would make each per-person figure roughly a quarter smaller.</p>
+<p>About one in four people living in Maldives is a foreign worker (132,493 at the 2022 census). Foreign residents do pay some taxes, but the debt is owed by the Maldivian state, and repaying it will fall on Maldivian taxpayers and public services over many years. So the per-person figures divide by Maldivian citizens. Dividing by everyone living here would make each per-person figure roughly a quarter smaller.</p>
 
 <h3>The two official counts, and why they differ</h3>
 <div class="tbl"><table>
   <tr><th>Source</th><th>Date</th><th class="r">Maldivians</th><th>What it counts</th></tr>
-  <tr><td>Population and Housing Census (MBS)</td><td>13 Sep 2022</td><td class="r">382,751</td><td>Maldivians living in the Maldives on census night</td></tr>
+  <tr><td>Population and Housing Census (MBS)</td><td>13 Sep 2022</td><td class="r">382,751</td><td>Maldivians living in Maldives on census night</td></tr>
   <tr><td>National register (Department of National Registration)</td><td>End of 2025</td><td class="r">415,294</td><td>Every Maldivian citizen on the register, wherever they live</td></tr>
 </table></div>
 <p>At first sight the jump looks too big. Going from 382,751 to 415,294 is 32,543 more people in a little over three years, about 2.5% a year. That is nearly twice the 1.3% a year the Maldivian population grew between the 2014 and 2022 censuses. But the two sources measure different things. The census counts people who are in the country, so it misses Maldivians studying or working abroad. The register counts every citizen. A register can also run high if deaths aren't removed from it, so this was checked.</p>
@@ -213,7 +213,7 @@
 </div>
 <p>The population estimate updates continuously, like the debt, so the per-citizen figure reflects both. When the Department of National Registration publishes the next year-end figure, the register base will be replaced.</p>
 
-<h3>Why the MMA population series isn't used</h3>
+<h3>Why MMA population series isn't used</h3>
 <p>An earlier version of this site used MMA series 79, the MBS population projection. It was dropped because it doesn't fit this purpose, for three reasons.</p>
 <ul>
   <li>It includes foreign residents, not just citizens.</li>
@@ -238,7 +238,7 @@
   <li>Spending here does not include repaying the principal on existing loans (that appears separately, in series 2076). So the gap between spending and revenue is smaller than the total amount the government needs to borrow each year.</li>
 </ul>
 <h3>Why the yearly gap is much smaller than the debt</h3>
-<p>The gap between spending and revenue is one year's shortfall, while the debt has built up over many years. The front page shows how the rise in debt since the start of the monthly data (January 2017) breaks down. It adds up the monthly gaps between spending and revenue, then adds the change in government-guaranteed debt of state-owned companies, which isn't government spending. Whatever remains is other borrowing that isn't counted as spending in series 2034. That includes lending to and investing in state-owned companies (which the MMA lists separately, as memorandum items) and changes in the government's cash balances. The remainder is worked out by subtraction, so it also absorbs any differences in timing or coverage between the monthly and quarterly data.</p>
+<p>The gap between spending and revenue is one year's shortfall, while the debt has built up over many years. The front page shows how the rise in debt since the start of the monthly data (January 2017) breaks down. It adds up the monthly gaps between spending and revenue, then adds the change in government-guaranteed debt of state-owned companies, which isn't government spending. Whatever remains is other borrowing that isn't counted as spending in series 2034. That includes lending to and investing in state-owned companies (which MMA lists separately, as memorandum items) and changes in the government's cash balances. The remainder is worked out by subtraction, so it also absorbs any differences in timing or coverage between the monthly and quarterly data.</p>
 <div class="formula"><math display="block"><mi>Δ</mi><mi>D</mi><mo>=</mo><munder><mo>∑</mo><mi>m</mi></munder><mo>(</mo><msub><mi>E</mi><mi>m</mi></msub><mo>−</mo><msub><mi>R</mi><mi>m</mi></msub><mo>)</mo><mo>+</mo><mi>Δ</mi><mi>G</mi><mo>+</mo><mtext>other</mtext></math><dl class="where"><div><dt><math><mrow><mi>Δ</mi><mi>D</mi></mrow></math></dt><dd>the rise in debt since December 2016</dd></div><div><dt><math><mrow><mo>∑</mo><mo>(</mo><msub><mi>E</mi><mi>m</mi></msub><mo>−</mo><msub><mi>R</mi><mi>m</mi></msub><mo>)</mo></mrow></math></dt><dd>the monthly gaps between spending and revenue, added up</dd></div><div><dt><math><mrow><mi>Δ</mi><mi>G</mi></mrow></math></dt><dd>the change in government-guaranteed debt</dd></div><div><dt><math><mrow><mtext>other</mtext></mrow></math></dt><dd>everything else, worked out by subtraction</dd></div></dl></div>
 <div class="live">
   <b>Today's breakdown</b>
@@ -258,14 +258,14 @@
 <p>If series 2049 is ever unavailable, the site falls back to interest paid on external debt only (series 5226, last four quarters), and says so.</p>
 
 <h2 id="usd">9. US dollar figures</h2>
-<p>The MMA records debt in rufiyaa. When you switch to US dollars, figures are converted using the MMA's reference rate (series 4039, rufiyaa per US dollar, end of month). Current figures use the latest rate. Each past quarter on the chart uses the rate for that month.</p>
+<p>MMA records debt in rufiyaa. When you switch to US dollars, figures are converted using MMA's reference rate (series 4039, rufiyaa per US dollar, end of month). Current figures use the latest rate. Each past quarter on the chart uses the rate for that month.</p>
 <div class="live"><b>Rate in use</b><p><span class="v" data-k="usd">…</span> per US dollar</p></div>
 <p>Much of the external debt was originally borrowed in dollars or other currencies and converted to rufiyaa by the Ministry of Finance. The site's dollar figures convert the rufiyaa totals back, so they will not exactly match the original currency amounts.</p>
 
 
 <h2 id="real">10. Adjusting for inflation</h2>
 <p>Prices rise over time, so a rufiyaa in 2015 bought more than a rufiyaa today. The <b>Real</b> button at the top of the page restates past amounts in recent prices, so years can be compared fairly. <b>Nominal</b> shows amounts as they were actually recorded.</p>
-<p>The site uses the national consumer price index (CPI, MMA series 280), published monthly by the Maldives Bureau of Statistics. Rather than one month, the base is the <b>average CPI of the latest 12 months</b>. The CPI can move a lot from one month to the next (it rose 3.8% in April 2026 alone), so a single-month base would make every adjusted figure jump around.</p>
+<p>The site uses the national consumer price index (CPI, MMA series 280), published monthly by Maldives Bureau of Statistics. Rather than one month, the base is the <b>average CPI of the latest 12 months</b>. The CPI can move a lot from one month to the next (it rose 3.8% in April 2026 alone), so a single-month base would make every adjusted figure jump around.</p>
 <div class="formula"><math display="block"><mover><mi>C</mi><mo>‾</mo></mover><mo>=</mo><mfrac><mrow><mn>1</mn></mrow><mrow><mn>12</mn></mrow></mfrac><munderover><mo>∑</mo><mrow><mi>m</mi><mo>=</mo><mn>1</mn></mrow><mn>12</mn></munderover><msub><mi>C</mi><mi>m</mi></msub></math><p class="eqlabel">Nominal to real</p><math display="block"><msubsup><mi>X</mi><mi>t</mi><mtext>real</mtext></msubsup><mo>=</mo><msubsup><mi>X</mi><mi>t</mi><mtext>nominal</mtext></msubsup><mo>×</mo><mfrac><mrow><mover><mi>C</mi><mo>‾</mo></mover></mrow><mrow><msub><mi>C</mi><mi>t</mi></msub></mrow></mfrac></math><p class="eqlabel">Real back to nominal</p><math display="block"><msubsup><mi>X</mi><mi>t</mi><mtext>nominal</mtext></msubsup><mo>=</mo><msubsup><mi>X</mi><mi>t</mi><mtext>real</mtext></msubsup><mo>×</mo><mfrac><mrow><msub><mi>C</mi><mi>t</mi></msub></mrow><mrow><mover><mi>C</mi><mo>‾</mo></mover></mrow></mfrac></math><p class="eqlabel">Growth after inflation</p><math display="block"><mfrac><mrow><msubsup><mi>D</mi><mi>q</mi><mtext>real</mtext></msubsup></mrow><mrow><msubsup><mi>D</mi><mn>0</mn><mtext>real</mtext></msubsup></mrow></mfrac><mo>=</mo><mfrac><mrow><msub><mi>D</mi><mi>q</mi></msub></mrow><mrow><msub><mi>D</mi><mn>0</mn></msub></mrow></mfrac><mo>×</mo><mfrac><mrow><msub><mi>C</mi><mn>0</mn></msub></mrow><mrow><msub><mi>C</mi><mi>q</mi></msub></mrow></mfrac></math><dl class="where"><div><dt><math><mrow><msub><mi>X</mi><mi>t</mi></msub></mrow></math></dt><dd>an amount recorded in month t</dd></div><div><dt><math><mrow><msub><mi>C</mi><mi>t</mi></msub></mrow></math></dt><dd>the consumer price index in month t</dd></div><div><dt><math><mrow><mover><mi>C</mi><mo>‾</mo></mover></mrow></math></dt><dd>the average CPI over the latest 12 months, the price base</dd></div><div><dt><math><mrow><msub><mi>D</mi><mn>0</mn></msub><mo>,</mo><msub><mi>D</mi><mi>q</mi></msub></mrow></math></dt><dd>the first and latest debt figures, with their CPIs <math><msub><mi>C</mi><mn>0</mn></msub></math> and <math><msub><mi>C</mi><mi>q</mi></msub></math></dd></div></dl></div>
 <div class="live">
   <b>Example</b>
@@ -278,11 +278,11 @@
 <p>Changing the base period changes the adjusted amounts, but not the comparisons. "Debt grew 3 times after inflation" is the same whichever base is used. The debt-to-GDP ratio isn't affected, because debt and GDP are measured in the same year's prices. In US dollar mode, real amounts are converted at today's exchange rate.</p>
 
 <h2 id="fuel">11. Fuel imports and crises</h2>
-<p>The <a href="fuel.html">fuel imports page</a> shows the monthly value of the Maldives' petroleum imports recorded by the Maldives Customs Service (MMA series 3503), split into petrol (3504), diesel (3505) and other products (3507). The share of all imports uses total goods imports (3486). The world oil price line is the World Bank's monthly average of Brent, Dubai and WTI crude prices (3787), in US dollars a barrel.</p>
+<p>The <a href="fuel.html">fuel imports page</a> shows the monthly value of Maldives' petroleum imports recorded by Maldives Customs Service (MMA series 3503), split into petrol (3504), diesel (3505) and other products (3507). The share of all imports uses total goods imports (3486). The world oil price line is the World Bank's monthly average of Brent, Dubai and WTI crude prices (3787), in US dollars a barrel.</p>
 <h3>Why the fuel page uses US dollars</h3>
 <p>Fuel is bought and recorded in US dollars, so the charts, yearly totals and crisis comparisons stay in dollars. Converting the history to rufiyaa would distort it. The rufiyaa was fixed at 12.80 per US dollar from July 2001 to March 2011, then moved to about 15.40 from April 2011. In rufiyaa, every bill after 2011 would look about 20% bigger relative to earlier years, for reasons that have nothing to do with fuel. Only the headline figures at the top of the page follow the MVR/US$ switch, converted at each month's MMA reference rate. The Real button isn't offered on this page, because Maldivian consumer prices aren't the right way to adjust prices set in US dollars.</p>
 <h3>Series break in April 2015</h3>
-<p>According to the MMA's note, after amendments to the Export Import Act reinstated duty on petroleum products from 1 April 2015, the series only includes the value of fuel sold within the Maldives. Values before and after are not fully comparable, which is why the chart marks this date.</p>
+<p>According to MMA's note, after amendments to the Export Import Act reinstated duty on petroleum products from 1 April 2015, the series only includes the value of fuel sold within Maldives. Values before and after are not fully comparable, which is why the chart marks this date.</p>
 <h3>Highest and lowest months</h3>
 <p>The chart marks the highest and lowest monthly values in whichever period is selected. These are simply the largest and smallest values in the data; they aren't adjusted for prices or the size of the economy.</p>
 <h3>How crisis periods are chosen</h3>
@@ -303,9 +303,9 @@
 
 <h2 id="time">12. Time and updates</h2>
 <p>The time shown on the clock is Malé time (UTC+5), whatever time zone the visitor is in.</p>
-<p>The site checks the MMA for new data every morning at 08:00 Malé time. The MMA publishes debt figures quarterly and government finance figures monthly, so most days nothing changes. The footer shows when data was last fetched.</p>
+<p>The site checks MMA for new data every morning at 08:00 Malé time. MMA publishes debt figures quarterly and government finance figures monthly, so most days nothing changes. The footer shows when data was last fetched.</p>
 <h3>If the data stops updating</h3>
-<p>The latest data is saved alongside the website, so the site keeps working even if the MMA's data service is unavailable. The clock keeps estimating from the last official figure. To make sure that isn't misleading, the site shows a warning at the top of every page in any of these cases.</p>
+<p>The latest data is saved alongside the website, so the site keeps working even if MMA's data service is unavailable. The clock keeps estimating from the last official figure. To make sure that isn't misleading, the site shows a warning at the top of every page in any of these cases.</p>
 <ul>
   <li>the latest official debt figure is more than seven months old (normally a new quarter is published within about three months);</li>
   <li>the data hasn't been refreshed for more than eight days; or</li>

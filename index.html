@@ -10,9 +10,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
 <title>Maldives National Debt Clock</title>
-<meta name="description" content="A live estimate of the Maldives' public and publicly guaranteed debt, built from Maldives Monetary Authority statistics.">
+<meta name="description" content="A live estimate of Maldives' public and publicly guaranteed debt, built from Maldives Monetary Authority statistics.">
 <meta property="og:title" content="Maldives National Debt Clock">
-<meta property="og:description" content="How much the Maldives government owes, right now.">
+<meta property="og:description" content="How much the Maldivian government owes, right now.">
 <style>
   .hero { position: relative; min-height: 70svh; overflow: hidden; background: linear-gradient(to bottom, var(--sky), var(--sky-low)); }
   .water { position: absolute; left: 0; right: 0; bottom: 0; height: 0; background: linear-gradient(to bottom, var(--lagoon) 0, var(--deep) 6rem, var(--abyss) 100%); transition: height 2.4s cubic-bezier(.2,.7,.2,1); }
@@ -151,7 +151,7 @@
     <h1>Maldives National Debt Clock</h1>
     <p class="clock num"><span class="cur" id="clockCur">MVR</span><span id="clock">…</span></p>
     <p class="asof">As of <time id="mvTime">…</time> in Malé</p>
-    <p class="sub" id="sub">Loading the latest figures from the Maldives Monetary Authority.</p>
+    <p class="sub" id="sub">Loading the latest figures from Maldives Monetary Authority.</p>
     <div class="stats hero-stats">
       <div class="stat hot"><div class="n num" id="perPerson">…</div><div class="l">owed for every Maldivian citizen, rising every second</div><div class="pop" id="popLine"></div></div>
       <div class="stat"><div class="n num" id="perSecond">…</div><div class="l" id="perSecondLbl">added to the debt each second, on the pace of the last year</div></div>
@@ -171,7 +171,7 @@
 
   <section>
     <h2>Who it's owed to</h2>
-    <p>Domestic debt is owed to lenders inside the Maldives, mostly banks, the central bank and the pension fund. External debt is owed abroad, to other governments, development banks and bondholders. Guaranteed debt is borrowed by state companies, with the government promising to pay if they can't.</p>
+    <p>Domestic debt is owed to lenders inside Maldives, mostly banks, the central bank and the pension fund. External debt is owed abroad, to other governments, development banks and bondholders. Guaranteed debt is borrowed by state companies, with the government promising to pay if they can't.</p>
     <div class="bar" id="bar" role="img" aria-label="Debt breakdown"></div>
     <ul class="legend" id="legend"></ul>
     <div class="split" id="gdpSplit"></div>
@@ -426,10 +426,10 @@
         drawAnnual();
       }
 
-      $("methodDetail").innerHTML = `Right now that pace is <b>${moneyNow(rate * SEC_YEAR)} a year</b>, from the change between ${mLabel(back.date)} and ${mLabel(latest.date)}. Dollar figures use the MMA reference rate (MVR ${fmt(MV.USD, 2)} per US dollar today).`;
+      $("methodDetail").innerHTML = `Right now that pace is <b>${moneyNow(rate * SEC_YEAR)} a year</b>, from the change between ${mLabel(back.date)} and ${mLabel(latest.date)}. Dollar figures use MMA reference rate (MVR ${fmt(MV.USD, 2)} per US dollar today).`;
       if (pop && POP) $("popLine").innerHTML = `Based on an estimated ${fmt(Math.round(pop))} citizens (national register, end of ${POP.base_date.slice(0, 4)}, grown at ${fmt(POP.annual_growth * 100, 2)}% a year). This will be updated when the government publishes new figures. <a href="methodology.html#population">How this is estimated</a>`;
       if (pop && POP) $("popNote").innerHTML = `Per-citizen figures divide by an estimated <b>${fmt(Math.round(pop))}</b> Maldivian citizens today. That is the ${fmt(POP.base)} on the national register at the end of 2025, grown at ${fmt(POP.annual_growth * 100, 2)}% a year, the rate the Maldivian population grew between the last two censuses.`;
-      $("fetched").textContent = "Data last fetched " + MV.fetched(data.fetched_at) + ", Malé time. Figures from the MMA Statistics Database.";
+      $("fetched").textContent = "Data last fetched " + MV.fetched(data.fetched_at) + ", Malé time. Figures from MMA Statistics Database.";
       tick(); drawChart();
     }
 
