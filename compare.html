@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#072f40">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<title>Compare the first three years · Maldives National Debt Clock</title>
+<meta name="description" content="Compare the economic and fiscal record of the first three years of the last three Maldivian presidents, with adjustments for crises beyond their control.">
+<style>
+  .lede { font-size: clamp(1.05rem, 2.2vw, 1.2rem); max-width: 46rem; }
+  .panel { background: rgba(255,255,255,.04); border: 1px solid rgba(169,205,214,.18); border-radius: 8px; padding: 1.25rem 1.4rem; }
+  .controls { display: grid; gap: 1.1rem; }
+  .ctl { display: grid; gap: .45rem; }
+  .ctl > span { font-weight: 700; font-size: .95rem; }
+  .ctl small { color: var(--mist); font-size: .85rem; max-width: 40rem; display: block; }
+  .switch { display: flex; gap: .6rem; align-items: flex-start; cursor: pointer; font-size: .95rem; }
+  .switch input { width: 1.2rem; height: 1.2rem; margin: .15rem 0 0; accent-color: var(--sun); flex: none; }
+  .switch b { color: var(--foam); }
+
+  .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 2rem 0 1rem; }
+  .card { border-radius: 8px; padding: 1.2rem 1.25rem; background: rgba(255,255,255,.05); border-top: 5px solid var(--c); position: relative; }
+  .card .rank { position: absolute; top: .9rem; right: 1rem; font: 800 .85rem var(--body); color: var(--abyss); background: var(--c); border-radius: 999px; padding: .15rem .6rem; }
+  .card h3 { margin: 0 0 .15rem !important; font-size: 1.1rem; }
+  .card .yrs { color: var(--mist); font-size: .88rem; }
+  .card .score { font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 72; font-size: clamp(2.6rem, 6vw, 3.6rem); line-height: 1; margin-top: .8rem; color: var(--foam); }
+  .card .score small { font-size: .38em; color: var(--mist); font-weight: 500; }
+  .card .meter { height: .5rem; background: rgba(169,205,214,.15); border-radius: 3px; margin-top: .7rem; overflow: hidden; }
+  .card .meter div { height: 100%; background: var(--c); transition: width .5s; }
+  .card .wins { font-size: .88rem; color: var(--mist); margin-top: .6rem; }
+  .card .prov { font-size: .8rem; color: var(--sun); margin-top: .4rem; }
+  @media (max-width: 720px) { .cards { grid-template-columns: 1fr; } }
+
+  .ind { display: grid; gap: .6rem; }
+  .row { display: grid; grid-template-columns: minmax(12rem, 1.4fr) repeat(3, minmax(0, 1fr)) 8.5rem; gap: .75rem; align-items: center; padding: .85rem 1rem; border-radius: 6px; background: rgba(255,255,255,.035); }
+  .row.head { background: none; padding-top: 0; padding-bottom: 0; font-size: .82rem; color: var(--mist); font-weight: 700; }
+  .row.off { opacity: .45; }
+  .row .name b { display: block; color: var(--foam); }
+  .row .name small { color: var(--mist); font-size: .82rem; }
+  .cell { font-variant-numeric: tabular-nums; font-weight: 700; }
+  .cell .bar { height: .35rem; border-radius: 2px; margin-top: .35rem; background: var(--c); opacity: .85; }
+  .cell.best { color: var(--sun); }
+  .cell small { display: block; font-weight: 400; color: var(--mist); font-size: .78rem; }
+  .cell .lbl { display: none; }
+  .wt { display: grid; gap: .2rem; font-size: .8rem; color: var(--mist); }
+  .wt input { width: 100%; accent-color: var(--sun); }
+  .group { margin: 1.6rem 0 .3rem; font: 700 .95rem var(--body); color: var(--sun); }
+  @media (max-width: 860px) {
+    .row { grid-template-columns: 1fr 1fr 1fr; }
+    .row .name, .row .wt { grid-column: 1 / -1; }
+    .row.head { display: none; }
+    .cell .lbl { display: block; font-weight: 400; color: var(--mist); font-size: .75rem; }
+  }
+  .presets { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .presets button { font: 700 .85rem var(--body); border: 1px solid rgba(169,205,214,.3); background: transparent; color: var(--mist); padding: .4rem .8rem; border-radius: 999px; cursor: pointer; }
+  .presets button:hover { color: var(--foam); border-color: var(--foam); }
+  .robust { margin-top: 1rem; }
+  .robust .rb { display: grid; grid-template-columns: 9rem 1fr 3rem; gap: .7rem; align-items: center; margin: .4rem 0; font-size: .95rem; }
+  .robust .track { height: .7rem; background: rgba(169,205,214,.12); border-radius: 3px; overflow: hidden; }
+  .robust .track div { height: 100%; }
+  .method p, .method li { font-size: .95rem; }
+  .method ul { color: var(--mist); max-width: 44rem; padding-left: 1.2rem; }
+  .method li { margin: .35rem 0; }
+  .method li b { color: var(--foam); }
+  .tbl { overflow-x: auto; margin: 1rem 0 1.5rem; }
+  .tbl table { border-collapse: collapse; font-size: .9rem; color: var(--mist); min-width: 30rem; }
+  .tbl th, .tbl td { padding: .45rem .7rem; border-bottom: 1px solid rgba(169,205,214,.15); text-align: left; }
+  .tbl th { color: var(--foam); }
+  .note { border-left: 3px solid var(--sun); padding: .6rem 1rem; background: rgba(244,201,93,.06); border-radius: 0 6px 6px 0; max-width: 46rem; }
+  .note p { margin: 0; }
+</style>
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="./">MV <span>Debt Clock</span></a>
+  <nav class="site-nav" aria-label="Main">
+    <a href="./" data-page="clock">Debt clock</a>
+    <a href="fuel.html" data-page="fuel">Fuel imports</a>
+    <a href="compare.html" data-page="compare" aria-current="page">Compare</a>
+    <a href="methodology.html" data-page="method">Methodology</a>
+    <a href="about.html" data-page="about">About</a>
+  </nav>
+  <div class="prefs">
+    <div class="toggle" data-pref="cur" role="group" aria-label="Currency"><button type="button" data-v="MVR" aria-pressed="true">MVR</button><button type="button" data-v="USD" aria-pressed="false">US$</button></div>
+    <div class="toggle" data-pref="real" role="group" aria-label="Inflation adjustment" title="Real shows past amounts in today's prices, adjusted for inflation"><button type="button" data-v="0" aria-pressed="true">Nominal</button><button type="button" data-v="1" aria-pressed="false">Real</button></div>
+  </div>
+  <div class="real-note" role="status"></div>
+</header>
+
+<main class="dark">
+<div class="wrap">
+
+  <section>
+    <h1>Compare the first three years</h1>
+    <p class="lede">How did the economy and public finances fare in the first three years of each of the last three presidents? Each president's party or coalition won a parliamentary majority in his first year, so each had a similar chance to carry out his plans.</p>
+    <div class="note"><p>This page does not declare a winner. The result depends on what you think matters most and on how much allowance you give for crises. Change the settings below and see how the comparison moves. Every figure comes from official statistics, and every calculation is explained at the bottom of the page.</p></div>
+  </section>
+
+  <section class="panel controls" aria-label="Settings">
+    <label class="ctl"><span>Years compared</span>
+      <div class="subtoggle" role="group" aria-label="Years compared"><button type="button" data-years="3" aria-pressed="true">First 3 years</button><button type="button" data-years="2" aria-pressed="false">First 2 years</button></div>
+      <small>Muizzu's third year, 2026, is not over. Its figures are official projections and forecasts, so they may change.</small>
+    </label>
+    <div class="ctl"><span>Allowance for things beyond a government's control</span>
+      <label class="switch"><input type="checkbox" id="adjExt"><span><b>Adjust for tourism and world oil prices.</b> Removes the effect of tourism booms and slumps on growth, and of oil price swings on the fuel bill, for every president alike. This applies to good luck as well as bad.</span></label>
+      <label class="switch"><input type="checkbox" id="exCovid"><span><b>Leave out the COVID-19 years</b> (Solih, 2020 and 2021).</span></label>
+      <label class="switch"><input type="checkbox" id="exHormuz"><span><b>Leave out the Strait of Hormuz crisis year</b> (Muizzu, 2026).</span></label>
+    </div>
+    <label class="ctl"><span>How scores are worked out</span>
+      <div class="subtoggle" role="group" aria-label="Scoring"><button type="button" data-scoring="spread" aria-pressed="true">By size of gap</button><button type="button" data-scoring="rank" aria-pressed="false">By position only</button></div>
+      <small>"By size of gap" gives the best result 100 and the worst 0, with the middle one in proportion. "By position only" gives 100, 50 and 0, however close the results are.</small>
+    </label>
+  </section>
+
+  <section aria-live="polite">
+    <div class="cards" id="cards"></div>
+    <div class="panel robust">
+      <b>How robust is this?</b>
+      <p style="margin:.4rem 0 .6rem;font-size:.95rem">With your current weights, we tried every combination of the settings above (<span id="nCombos">32</span> in all). This shows how often each president comes out on top.</p>
+      <div id="robust"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The indicators</h2>
+    <p>Move a slider to give an indicator more or less weight, or set it to 0 to leave it out. The best result in each row is highlighted.</p>
+    <div class="presets"><button type="button" data-preset="equal">Equal weights</button><button type="button" data-preset="fiscal">Focus on public finances</button><button type="button" data-preset="economy">Focus on the economy</button></div>
+    <div id="indicators" class="ind"></div>
+  </section>
+
+  <section class="method" id="how">
+    <h2>How this comparison works</h2>
+    <p><b>Periods.</b> All three presidents took office in mid-November, so we compare their first full calendar years. These are 2014 to 2016 for Abdulla Yameen, 2019 to 2021 for Ibrahim Mohamed Solih, and 2024 to 2026 for Mohamed Muizzu. The year before each term (2013, 2018 and 2023) is the starting point for changes.</p>
+    <p><b>Data.</b> All figures come from the MMA Statistics Database. Government finances use the MMA's annual government finance statistics for every year, so all three presidents are measured the same way. Inflation uses the national consumer price index, tourism uses monthly tourist arrivals, reserves use official reserve assets, and external debt uses central government external debt in US dollars, converted at the MMA rate and divided by GDP. For 2026, revenue, spending and GDP are official projections, and tourism, prices and reserves cover January to the latest month, compared with the same months of 2025.</p>
+    <p><b>Scores.</b> Each indicator is scored from 0 to 100 among the three presidents. The overall score is the weighted average of the indicator scores. Because only three presidents are compared, small differences can look large under "By size of gap", which is why "By position only" and the robustness check are offered.</p>
+
+    <h3>The tourism adjustment</h3>
+    <p>Tourism drives the Maldivian economy, and tourist numbers swing for reasons no government controls, such as pandemics and global recessions. We measured how closely growth follows tourism using <span id="regN">21</span> years of data (<span id="regYrs">2005 to 2025</span>), by fitting a straight line through real GDP growth against growth in tourist arrivals (ordinary least squares).</p>
+    <div class="tbl"><table>
+      <tr><th>What we tested</th><th>Effect of 10% more tourists</th><th>Share of swings explained (R²)</th><th>Adjusted?</th></tr>
+      <tbody id="regTable"></tbody>
+    </table></div>
+    <p>We only adjust where the data show a strong link, which we set at an R² of 0.5 or more. Growth passes this test easily. The budget balance and the current account do not, because governments respond to tourism slumps in very different ways, so adjusting them would rest on guesswork. For those, the fairer allowance is to leave crisis years out, which the switches above let you do.</p>
+    <p>We use log changes, the standard way to measure growth when changes are large. In log terms a 67% crash followed by a full recovery adds up to zero, which ordinary percentages do not. The "check only" row shows the link is almost as strong without the pandemic years, so it is not a COVID effect alone. With the adjustment on, each year's growth becomes</p>
+    <div class="note" style="font-variant-numeric:tabular-nums"><p>ln(1 + adjusted growth) = ln(1 + actual growth) − <span id="betaTxt">0.37</span> × (ln(1 + tourism growth) − typical tourism growth)</p></div>
+    <p style="margin-top:.8rem">The typical tourism growth is the median year, <span id="normTxt">8.9%</span>. The median is used because a few extreme years would distort an average.</p>
+    <p style="margin-top:1rem">Tourist arrivals growth itself is then left out of the score, since it is the very thing being adjusted for.</p>
+
+    <h3>The oil price adjustment</h3>
+    <p>The Maldives imports all its fuel, so world oil prices move the current account. With the adjustment on, each year's fuel bill is recalculated as if oil had been at its <span id="oilRef">long-run average</span>, and the difference is taken out of the current account.</p>
+    <div class="note"><p>adjusted current account = current account + fuel imports × (1 − average oil price ÷ that year's oil price) ÷ GDP</p></div>
+    <p style="margin-top:1rem">This takes away Yameen's advantage from cheap oil in 2015 and 2016, and the costs Muizzu faced from expensive oil in 2026, using the same rule for both.</p>
+
+    <h3>The indicators in detail</h3>
+    <ul id="defs"></ul>
+
+    <h3>Limits</h3>
+    <ul>
+      <li>Three years is a short window, and some results reflect decisions made by earlier governments, such as interest on debt they inherited.</li>
+      <li>The adjustments cover the largest outside forces (tourism and oil) but not everything, such as world interest rates, which rose sharply before Muizzu took office.</li>
+      <li>Leaving out crisis years means judging a president on fewer years.</li>
+      <li>Borrowing decisions can show up years later, as repayments and interest paid by a later government. A three-year window can't capture that fully.</li>
+      <li>Muizzu's 2026 figures are projections and will be replaced with actual results as they are published.</li>
+    </ul>
+  </section>
+
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <span id="fetched">Source: Maldives Monetary Authority Statistics Database.</span>
+  <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent; not affiliated with the MMA.</span></span>
+</div></footer>
+
+<script src="assets/site.js"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const { fmt } = MV;
+  document.querySelectorAll("[data-pref]").forEach(t => t.hidden = true);
+  const P = [
+    { key: "yameen", name: "Abdulla Yameen", term: "In office 2013 to 2018", years: ["2014", "2015", "2016"], color: "#f4c95d" },
+    { key: "solih",  name: "Ibrahim Mohamed Solih", term: "In office 2018 to 2023", years: ["2019", "2020", "2021"], color: "#3fb8b0" },
+    { key: "muizzu", name: "Mohamed Muizzu", term: "In office since 2023", years: ["2024", "2025", "2026"], color: "#ff8a6b" },
+  ];
+  const CRISIS = { covid: { who: "solih", years: ["2020", "2021"] }, hormuz: { who: "muizzu", years: ["2026"] } };
+  const R2_MIN = 0.5;
+
+  Promise.all([MV.getJSON("compare.json"), MV.getJSON("data.json")]).then(([C, Dd]) => {
+    const CS = C.series, DS = Dd.series;
+    MV.checkStale(Dd);
+    const byYear = k => Object.fromEntries((CS[k]?.points || []).map(p => [p.date.slice(0, 4), p.value]));
+    const monthly = pts => pts.map(p => ({ y: p.date.slice(0, 4), m: +p.date.slice(5, 7), date: p.date, v: p.value }));
+    // annual helpers for monthly series: full-year totals or averages, and a same-months comparison for a partial year
+    const lastMonthOf = pts => { const l = pts[pts.length - 1]; return { y: l.y, m: l.m }; };
+    function annualise(pts, how) {         // how: "sum" | "avg" | "dec"
+      const out = {}, L = lastMonthOf(pts);
+      const ys = [...new Set(pts.map(p => p.y))];
+      ys.forEach(y => {
+        const rows = pts.filter(p => p.y === y);
+        if (how === "dec") { const d = rows.find(r => r.m === 12) || (y === L.y ? rows[rows.length - 1] : null); if (d) out[y] = { v: d.v, m: d.m, partial: d.m !== 12 }; return; }
+        const val = how === "sum" ? rows.reduce((a, r) => a + r.v, 0) : rows.reduce((a, r) => a + r.v, 0) / rows.length;
+        out[y] = { v: val, m: rows.length, partial: rows.length < 12 };
+      });
+      return { out, L, pts };
+    }
+    // growth from year y-1 to y, comparing the same months if y is incomplete
+    function growthOf(series, y, how) {
+      const { out, pts } = series, cur = out[y], prev = out[String(+y - 1)];
+      if (!cur || !prev) return null;
+      if (!cur.partial) return how === "dec" ? cur.v / prev.v - 1 : cur.v / prev.v - 1;
+      if (how === "dec") return cur.v / prev.v - 1;                                // change since December, counted as a part-year
+      const n = cur.m, sum = yy => pts.filter(p => p.y === yy && p.m <= n).reduce((a, r) => a + r.v, 0);
+      return sum(y) / sum(String(+y - 1)) - 1;
+    }
+
+    const gdp = byYear("gdp_mvr"), gdpUsd = byYear("gdp_usd"), rg = byYear("real_gdp_growth"), ca = byYear("current_account_pct_gdp");
+    const bal = byYear("gfs_balance_pct_gdp"), prim = byYear("gfs_primary_balance"), tax = byYear("gfs_tax_revenue"), rev = byYear("gfs_revenue_grants");
+    const intr = byYear("gfs_interest"), capx = byYear("gfs_capital_expenditure"), expd = byYear("gfs_expenditure");
+    const tour = annualise(monthly(CS.tourist_arrivals.points), "sum");
+    const cpiA = annualise(monthly(DS.cpi.points), "avg");
+    const resv = annualise(monthly(CS.reserves_usd.points), "dec");
+    const crude = annualise(monthly(DS.crude_price.points), "avg");
+    const fuel = annualise(monthly(DS.fuel_imports.points), "sum");
+    const fxPts = monthly(DS.usd_rate.points);
+    const fxAt = (y, m) => { const r = fxPts.filter(p => p.y < y || (p.y === y && p.m <= m)); return r.length ? r[r.length - 1].v : fxPts[0].v; };
+    // Prefer central government plus government-guaranteed external debt, which covers borrowing by state companies.
+    // It includes guaranteed debt from 2012, so it is consistent across all three terms.
+    const usePG = (CS.external_debt_cg_pg_usd?.points || []).some(p => p.date <= "2013-12-31");
+    const extQ = (CS[usePG ? "external_debt_cg_pg_usd" : "external_debt_cg_usd"]?.points || []).map(p => ({ y: p.date.slice(0, 4), m: +p.date.slice(5, 7), v: p.value }));
+    const extEnd = y => { const r = extQ.filter(p => p.y === y); return r.length ? r[r.length - 1] : null; };
+    const pct = v => v == null ? null : (Math.abs(v) < 5 ? v * 100 : v);   // MMA stores some ratios as decimals
+
+    // ---------- tourism regressions (data-based, all years available) ----------
+    const tg = y => growthOf(tour, y, "sum");
+    function ols(pairs) {
+      const n = pairs.length, mx = pairs.reduce((a, p) => a + p[0], 0) / n, my = pairs.reduce((a, p) => a + p[1], 0) / n;
+      const sxx = pairs.reduce((a, p) => a + (p[0] - mx) ** 2, 0), sxy = pairs.reduce((a, p) => a + (p[0] - mx) * (p[1] - my), 0);
+      const b = sxy / sxx, a = my - b * mx, sst = pairs.reduce((s, p) => s + (p[1] - my) ** 2, 0), sse = pairs.reduce((s, p) => s + (p[1] - a - b * p[0]) ** 2, 0);
+      return { a, b, r2: 1 - sse / sst, n, mx };
+    }
+    const lastFull = String(Math.max(...Object.keys(tour.out).filter(y => !tour.out[y].partial).map(Number)));
+    const span = (from, to) => { const r = []; for (let y = from; y <= +to; y++) r.push(String(y)); return r; };
+    // Log changes are used so that a crash and an equal recovery cancel out exactly.
+    const lt = y => { const t = tg(y); return t == null ? null : Math.log(1 + t); };
+    const pairsFor = (ys, f) => ys.map(y => [lt(y), f(y)]).filter(p => p[0] != null && p[1] != null && isFinite(p[1]));
+    const gYears = span(2005, lastFull).filter(y => rg[y] != null && lt(y) != null);
+    const REG = {
+      growth: { label: "Real GDP growth (log)", ...ols(pairsFor(gYears, y => Math.log(1 + rg[y]))) },
+      growthExCovid: { label: "Same, without 2020 and 2021", check: true, ...ols(pairsFor(gYears.filter(y => y !== "2020" && y !== "2021"), y => Math.log(1 + rg[y]))) },
+      balance: { label: "Budget balance (% of GDP)", ...ols(pairsFor(span(2013, lastFull), y => bal[y])) },
+      ca: { label: "Current account (% of GDP)", ...ols(pairsFor(span(2012, lastFull), y => ca[y])) },
+    };
+    const ltSorted = gYears.map(lt).sort((a, b) => a - b);
+    const ltNormal = ltSorted.length % 2 ? ltSorted[(ltSorted.length - 1) / 2] : (ltSorted[ltSorted.length / 2 - 1] + ltSorted[ltSorted.length / 2]) / 2;   // median, a typical year
+    const oilYears = span(2004, lastFull).filter(y => crude.out[y]);
+    const oilRef = oilYears.reduce((a, y) => a + crude.out[y].v, 0) / oilYears.length;
+
+    // ---------- yearly values ----------
+    function yearVals(y, adj) {
+      const t = tg(y), l = lt(y);
+      let growth = rg[y];
+      if (adj && growth != null && l != null && REG.growth.r2 >= R2_MIN) growth = Math.exp(Math.log(1 + growth) - REG.growth.b * (l - ltNormal)) - 1;
+      const cpiNow = cpiA.out[y], cpiPrev = cpiA.out[String(+y - 1)];
+      let infl = null;
+      if (cpiNow && cpiPrev) {
+        if (!cpiNow.partial) infl = cpiNow.v / cpiPrev.v - 1;
+        else { const n = cpiNow.m, av = yy => { const r = cpiA.pts.filter(p => p.y === yy && p.m <= n); return r.reduce((a, p) => a + p.v, 0) / r.length; }; infl = av(y) / av(String(+y - 1)) - 1; }
+      }
+      let cav = ca[y];
+      if (adj && cav != null && crude.out[y] && fuel.out[y] && gdpUsd[y]) {
+        const fuelYear = fuel.out[y].v * (fuel.out[y].partial ? 12 / fuel.out[y].m : 1);
+        cav = cav + fuelYear * (1 - oilRef / crude.out[y].v) / gdpUsd[y];
+      }
+      const ratio = (num, den) => num[y] != null && den[y] ? num[y] / den[y] : null;
+      const taxR = ratio(tax, gdp), taxPrev = tax[String(+y - 1)] != null && gdp[String(+y - 1)] ? tax[String(+y - 1)] / gdp[String(+y - 1)] : null;
+      const e = extEnd(y), ep = extEnd(String(+y - 1)), rv = resv.out[y];
+      const extR = e && gdp[y] ? e.v * fxAt(y, e.m) / gdp[y] : null, extPrev = ep && gdp[String(+y - 1)] ? ep.v * fxAt(String(+y - 1), ep.m) / gdp[String(+y - 1)] : null;
+      return {
+        growth, infl, tourism: t, ca: cav, reserves: growthOf(resv, y, "dec"),
+        balance: bal[y], primary: ratio(prim, gdp), taxChange: taxR != null && taxPrev != null ? taxR - taxPrev : null,
+        interest: ratio(intr, rev), capital: ratio(capx, expd),
+        extDebt: extR != null && extPrev != null ? extR - extPrev : null,
+        // share of the year each change covers (1 for complete years, 0.5 for January to June)
+        frac: { reserves: rv ? (rv.partial ? rv.m / 12 : 1) : 1, extDebt: e ? (e.m < 12 ? e.m / 12 : 1) : 1 },
+      };
+    }
+
+    // ---------- indicators ----------
+    const IND = [
+      { k: "growth", group: "The economy", name: "Real GDP growth", note: "Average per year", better: "high", agg: "geo", fmt: v => fmt(v * 100, 1) + "%", def: "Average yearly growth of the economy after inflation (geometric mean). With the tourism adjustment on, tourism's effect is removed first." },
+      { k: "infl", group: "The economy", name: "Price stability", note: "Average inflation, closer to 2% is better", better: "near2", agg: "mean", fmt: v => fmt(v * 100, 1) + "%", def: "Average yearly change in the national consumer price index. Scored by distance from 2%, a common benchmark for stable prices, so both high inflation and falling prices count against." },
+      { k: "tourism", group: "The economy", name: "Tourist arrivals", note: "Average growth per year", better: "high", agg: "geo", fmt: v => fmt(v * 100, 0) + "%", ext: true, def: "Compound average yearly growth in tourist arrivals, so a crash followed by a rebound is not mistaken for growth. Left out of the score when the tourism adjustment is on." },
+      { k: "ca", group: "The economy", name: "Current account", note: "Average, % of GDP", better: "high", agg: "mean", fmt: v => fmt(v * 100, 1) + "%", def: "The balance of trade and income with the rest of the world, as a share of GDP. A smaller deficit is better. With the adjustment on, oil price swings are removed." },
+      { k: "reserves", group: "The economy", name: "Foreign reserves", note: "Average growth per year", better: "high", agg: "geo", fmt: v => fmt(v * 100, 0) + "%", def: "Compound average yearly change in official reserve assets in US dollars, December to December. A part-year (such as 2026 so far) counts as that fraction of a year." },
+      { k: "balance", group: "Public finances", name: "Budget balance", note: "Average, % of GDP", better: "high", agg: "mean", fmt: v => fmt(v * 100, 1) + "%", def: "Revenue and grants minus spending and net lending, as a share of GDP. A smaller deficit is better." },
+      { k: "primary", group: "Public finances", name: "Primary balance", note: "Average, % of GDP, excluding interest", better: "high", agg: "mean", fmt: v => fmt(v * 100, 1) + "%", def: "The budget balance before interest payments. It shows the government's own choices, since interest mostly depends on debt built up earlier." },
+      { k: "taxChange", group: "Public finances", name: "Tax collection", note: "Change in tax as % of GDP, per year", better: "high", agg: "rate", fmt: v => (v >= 0 ? "+" : "") + fmt(v * 100, 1) + " pts", def: "How much tax revenue grew relative to the economy each year, in percentage points of GDP." },
+      { k: "interest", group: "Public finances", name: "Interest burden", note: "Interest as % of revenue", better: "low", agg: "mean", fmt: v => fmt(v * 100, 1) + "%", def: "Interest payments as a share of revenue and grants. Lower is better. Much of it depends on debt built up by earlier governments and on world interest rates." },
+      { k: "capital", group: "Public finances", name: "Investment share", note: "Capital spending as % of total spending", better: "high", agg: "mean", fmt: v => fmt(v * 100, 1) + "%", def: "Spending on infrastructure and other assets as a share of total spending." },
+      { k: "extDebt", group: "Public finances", name: "External debt", note: "Change per year, % of GDP", better: "low", agg: "rate", fmt: v => (v >= 0 ? "+" : "") + fmt(v * 100, 1) + " pts", def: "Yearly change in central government debt owed abroad, as a share of GDP. A smaller rise is better. A part-year counts as that fraction of a year rather than being stretched to twelve months, so a one-off repayment isn't exaggerated. Total public debt figures only start in 2015, so external debt is the measure available for all three." },
+    ];
+    const PRESETS = {
+      equal: () => Object.fromEntries(IND.map(i => [i.k, 1])),
+      fiscal: () => Object.fromEntries(IND.map(i => [i.k, i.group === "Public finances" ? 2 : 1])),
+      economy: () => Object.fromEntries(IND.map(i => [i.k, i.group === "The economy" ? 2 : 1])),
+    };
+    let W = PRESETS.equal();
+    const S = { years: 3, adj: false, exCovid: false, exHormuz: false, scoring: "spread" };
+
+    function periodYears(p, s) {
+      let ys = p.years.slice(0, s.years);
+      if (s.exCovid && CRISIS.covid.who === p.key) ys = ys.filter(y => !CRISIS.covid.years.includes(y));
+      if (s.exHormuz && CRISIS.hormuz.who === p.key) ys = ys.filter(y => !CRISIS.hormuz.years.includes(y));
+      return ys;
+    }
+    function compute(s) {
+      return P.map(p => {
+        const ys = periodYears(p, s), rows = ys.map(y => yearVals(y, s.adj)), out = {};
+        IND.forEach(ind => {
+          const vals = rows.map(r => r[ind.k]).filter(v => v != null && isFinite(v));
+          if (!vals.length) { out[ind.k] = null; return; }
+          const fr = rows.filter(r => r[ind.k] != null && isFinite(r[ind.k])).map(r => r.frac?.[ind.k] ?? 1), yrs = fr.reduce((a, f) => a + f, 0);
+          if (ind.agg === "geo") out[ind.k] = Math.pow(vals.reduce((a, v) => a * (1 + v), 1), 1 / yrs) - 1;       // compound average per year
+          else if (ind.agg === "rate") out[ind.k] = vals.reduce((a, v) => a + v, 0) / yrs;                        // total change per year
+          else out[ind.k] = vals.reduce((a, v) => a + v, 0) / vals.length;                                         // simple average of levels
+        });
+        return { p, ys, vals: out, provisional: ys.includes("2026") };
+      });
+    }
+    const active = (ind, s) => !(ind.ext && s.adj) && (W[ind.k] || 0) > 0;
+    function score(res, s) {
+      const scores = res.map(() => ({ total: 0, wsum: 0, wins: 0, per: {} }));
+      IND.forEach(ind => {
+        const raw = res.map(r => r.vals[ind.k]);
+        if (raw.some(v => v == null)) return;
+        const good = raw.map(v => ind.better === "high" ? v : ind.better === "low" ? -v : -Math.abs(v - 0.02));
+        const best = Math.max(...good), worst = Math.min(...good);
+        let sc;
+        if (s.scoring === "rank") { const order = good.map((g, i) => ({ g, i })).sort((a, b) => b.g - a.g); sc = []; order.forEach((o, pos) => sc[o.i] = good.filter(g => g > o.g + 1e-12).length === 0 ? 100 : good.filter(g => g > o.g + 1e-12).length === 1 ? 50 : 0); }
+        else sc = good.map(g => best - worst < 1e-12 ? 100 : 100 * (g - worst) / (best - worst));
+        res.forEach((r, i) => { scores[i].per[ind.k] = { s: sc[i], best: good[i] >= best - 1e-12 }; });
+        if (!active(ind, s)) return;
+        const w = W[ind.k];
+        res.forEach((r, i) => { scores[i].total += w * sc[i]; scores[i].wsum += w; if (good[i] >= best - 1e-12) scores[i].wins++; });
+      });
+      return scores.map(x => ({ ...x, final: x.wsum ? x.total / x.wsum : 0 }));
+    }
+
+    function render() {
+      const res = compute(S), sc = score(res, S);
+      const order = sc.map((x, i) => ({ i, f: x.final })).sort((a, b) => b.f - a.f);
+      const rankOf = i => 1 + sc.filter(x => x.final > sc[i].final + 1e-9).length;
+      const nActive = IND.filter(ind => active(ind, S) && res.every(r => r.vals[ind.k] != null)).length;
+      $("cards").innerHTML = res.map((r, i) => `
+        <article class="card" style="--c:${r.p.color}">
+          <span class="rank">${["1st", "2nd", "3rd"][rankOf(i) - 1]}</span>
+          <h3>${r.p.name}</h3><div class="yrs">${r.p.term}. Years compared ${r.ys.length ? r.ys.join(", ") : "none"}</div>
+          <div class="score num">${fmt(sc[i].final, 0)}<small> out of 100</small></div>
+          <div class="meter"><div style="width:${sc[i].final}%"></div></div>
+          <div class="wins">Best on ${sc[i].wins} of ${nActive} indicators</div>
+          ${r.provisional ? `<div class="prov">Includes 2026 projections</div>` : ""}
+        </article>`).join("");
+
+      // indicator rows
+      let html = `<div class="row head"><span>Indicator</span>${P.map(p => `<span>${p.name.split(" ").slice(-1)[0]}</span>`).join("")}<span>Weight</span></div>`, lastGroup = "";
+      IND.forEach(ind => {
+        if (ind.group !== lastGroup) { html += `<div class="group">${ind.group}</div>`; lastGroup = ind.group; }
+        const on = active(ind, S), cells = res.map((r, i) => {
+          const v = r.vals[ind.k], per = sc[i].per[ind.k];
+          return `<div class="cell ${per?.best ? "best" : ""}" style="--c:${r.p.color}"><span class="lbl">${r.p.name.split(" ").slice(-1)[0]}</span>${v == null ? "n/a" : ind.fmt(v)}${per ? `<div class="bar" style="width:${Math.max(4, per.s)}%"></div>` : ""}</div>`;
+        }).join("");
+        const extNote = ind.ext && S.adj ? `<small>Not scored while the tourism adjustment is on</small>` : `<small>${ind.note}</small>`;
+        html += `<div class="row ${on ? "" : "off"}"><div class="name"><b>${ind.name}</b>${extNote}</div>${cells}
+          <label class="wt">Weight ${W[ind.k]}<input type="range" min="0" max="3" step="1" value="${W[ind.k]}" data-w="${ind.k}" aria-label="Weight for ${ind.name}"></label></div>`;
+      });
+      $("indicators").innerHTML = html;
+
+      // robustness: every combination of settings, with the current weights
+      const combos = []; [3, 2].forEach(years => [false, true].forEach(adj => [false, true].forEach(exCovid => [false, true].forEach(exHormuz => ["spread", "rank"].forEach(scoring => combos.push({ years, adj, exCovid, exHormuz, scoring }))))));
+      const firsts = [0, 0, 0];
+      combos.forEach(c => { const s2 = score(compute(c), c), top = Math.max(...s2.map(x => x.final)); s2.forEach((x, i) => { if (x.final >= top - 1e-9) firsts[i] += 1 / s2.filter(y => y.final >= top - 1e-9).length; }); });
+      $("nCombos").textContent = combos.length;
+      $("robust").innerHTML = P.map((p, i) => `<div class="rb"><span>${p.name.split(" ").slice(-1)[0]}</span><div class="track"><div style="width:${100 * firsts[i] / combos.length}%;background:${p.color}"></div></div><span class="num">${fmt(100 * firsts[i] / combos.length, 0)}%</span></div>`).join("");
+    }
+
+    // ---------- methodology numbers ----------
+    $("regN").textContent = REG.growth.n;
+    const gy = span(2005, lastFull).filter(y => rg[y] != null && tg(y) != null); $("regYrs").textContent = `${gy[0]} to ${gy[gy.length - 1]}`;
+    const eff = r => r.label.includes("log") || r.check ? (Math.exp(r.b * Math.log(1.1)) - 1) * 100 : r.b * Math.log(1.1) * 100;
+    $("regTable").innerHTML = Object.values(REG).map(r => `<tr><td>${r.label}</td><td class="num">${eff(r) >= 0 ? "+" : ""}${fmt(eff(r), 1)} points</td><td class="num">${fmt(r.r2, 2)}</td><td>${r.check ? "Check only" : r.r2 >= R2_MIN ? "Yes" : "No, link too weak"}</td></tr>`).join("");
+    $("betaTxt").textContent = fmt(REG.growth.b, 2);
+    $("normTxt").textContent = fmt((Math.exp(ltNormal) - 1) * 100, 1) + "%";
+    $("oilRef").textContent = `long-run average of US$ ${fmt(oilRef, 0)} a barrel (${oilYears[0]} to ${oilYears[oilYears.length - 1]})`;
+    IND.find(i => i.k === "extDebt").def = (usePG ? "Yearly change in external debt owed by the central government plus loans to state companies that the government guarantees, as a share of GDP. " : "Yearly change in central government debt owed abroad, as a share of GDP. Guaranteed debt of state companies will be added once that series is fetched. ") + "A smaller rise is better. A part-year counts as that fraction of a year rather than being stretched to twelve months, so a one-off repayment isn't exaggerated. Total public debt figures only start in 2015, so external debt is the measure available for all three.";
+    IND.find(i => i.k === "extDebt").note = usePG ? "Change per year, % of GDP, incl. guaranteed" : "Change per year, % of GDP";
+    $("defs").innerHTML = IND.map(i => `<li><b>${i.name}.</b> ${i.def}</li>`).join("");
+
+    // ---------- controls ----------
+    document.addEventListener("click", e => {
+      const b = e.target.closest("[data-years],[data-scoring],[data-preset]"); if (!b) return;
+      if (b.dataset.years) { S.years = +b.dataset.years; b.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); }
+      if (b.dataset.scoring) { S.scoring = b.dataset.scoring; b.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); }
+      if (b.dataset.preset) W = PRESETS[b.dataset.preset]();
+      render();
+    });
+    document.addEventListener("input", e => { const r = e.target.closest("[data-w]"); if (!r) return; r.previousSibling.textContent = "Weight " + r.value; });
+    document.addEventListener("change", e => { const r = e.target.closest("[data-w]"); if (!r) return; W[r.dataset.w] = +r.value; render(); });
+    ["adjExt", "exCovid", "exHormuz"].forEach(id => $(id).addEventListener("change", e => { S[{ adjExt: "adj", exCovid: "exCovid", exHormuz: "exHormuz" }[id]] = e.target.checked; render(); }));
+    $("fetched").textContent = "Data last fetched " + MV.fetched(C.fetched_at) + ", Malé time. Figures from the MMA Statistics Database.";
+    render();
+  }).catch(err => { console.error(err); $("cards").innerHTML = `<p>The comparison data hasn't loaded. Check that compare.json exists in the repository.</p>`; });
+})();
+</script>
+</body>
+</html>

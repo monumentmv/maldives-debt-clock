@@ -7,6 +7,7 @@ A live estimate of Maldives public and publicly guaranteed debt, built from the
 
 - `index.html`: the debt clock
 - `fuel.html`: monthly fuel imports, with crisis periods
+- `compare.html`: compares the first three years of the last three presidents (reads `compare.json`)
 - `methodology.html`: how every figure is calculated
 - `about.html`: about and contact form (set `WEB3FORMS_KEY` near the bottom of the file)
 - `assets/site.css`, `assets/site.js`: shared styles, header toggles and charts

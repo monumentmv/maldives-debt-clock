@@ -84,6 +84,7 @@ COMPARE = {
     # debt before 2015
     4505: "external_debt_total_usd",   # quarterly
     4020: "external_debt_cg_usd",      # quarterly
+    4506: "external_debt_cg_pg_usd",   # central government plus publicly guaranteed, quarterly
     2185: "claims_on_government",      # monthly, domestic lending to government
 }
 
