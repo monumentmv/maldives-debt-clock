@@ -18,12 +18,33 @@
   .water { position: absolute; left: 0; right: 0; bottom: 0; height: 0; background: linear-gradient(to bottom, var(--lagoon) 0, var(--deep) 9rem, var(--abyss) 100%); transition: height 2.4s cubic-bezier(.2,.7,.2,1); }
   .wave { position: absolute; left: 0; top: -23px; width: 200%; height: 24px; animation: drift 14s linear infinite; }
   .wave path { fill: var(--lagoon); }
+  .wave.back { top: -30px; height: 30px; animation-duration: 23s; animation-direction: reverse; opacity: .55; }
+  .wave.back path { fill: #2a9d96; }
   @keyframes drift { to { transform: translateX(-50%); } }
+  .surface { position: absolute; left: 0; right: 0; height: 0; z-index: 3; pointer-events: none; transition: top 2.4s cubic-bezier(.2,.7,.2,1); }
+  .surface .front { position: absolute; left: 0; top: -10px; width: 200%; height: 22px; animation: drift 9s linear infinite; }
+  .surface .front path { fill: var(--lagoon); }
+  .surface .foam { position: absolute; left: 0; top: -12px; width: 200%; height: 8px; animation: drift 9s linear infinite; opacity: .7; }
+  .island { position: absolute; width: clamp(110px, 14vw, 190px); bottom: -14px; left: 58%; z-index: 2; }
+  .island svg { display: block; width: 100%; height: auto; }
+  .critter { position: absolute; left: 0; top: 0; z-index: 4; will-change: transform; }
+  .critter.fin { z-index: 1; }
+  .surface .front, .surface .foam { z-index: 2; }
+  .island { z-index: 3 !important; }
+  .bubble { position: absolute; bottom: -10px; width: 6px; height: 6px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.35); animation: rise linear infinite; z-index: 1; }
+  @keyframes rise { to { transform: translateY(var(--rise)); opacity: 0; } }
+  .gauge { position: absolute; top: 0; bottom: 0; right: max(.6rem, env(safe-area-inset-right)); width: 3.4rem; z-index: 4; pointer-events: none; }
+  .gauge .pole { position: absolute; right: .4rem; top: 0; bottom: 0; width: 8px; background: repeating-linear-gradient(to bottom, #fff 0 10px, #e85a4f 10px 20px); border-radius: 2px; opacity: .9; box-shadow: 0 0 0 1px rgba(7,47,64,.25); }
+  .gauge .tick { position: absolute; right: 1.15rem; height: 0; border-top: 1px solid currentColor; width: 6px; }
+  .gauge .tick span { position: absolute; right: 9px; top: -.6rem; font-size: .72rem; font-weight: 700; white-space: nowrap; }
+  .gauge .now { position: absolute; right: 1.1rem; transform: translateY(-50%); background: var(--sun); color: var(--abyss); font: 800 .82rem var(--body); padding: .15rem .45rem; border-radius: 3px; white-space: nowrap; transition: top 2.4s cubic-bezier(.2,.7,.2,1); }
+  .gauge .now::after { content: ""; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); border: 6px solid transparent; border-right: 0; border-left-color: var(--sun); }
   .gdp-line { position: absolute; left: 0; right: 0; height: 0; border-top: 2px dashed var(--sun); opacity: 0; transition: opacity .6s 1.8s; }
-  .gdp-line span { position: absolute; right: var(--gutter); top: -1.85rem; font-size: .8rem; font-weight: 700; color: var(--abyss); background: var(--sun); padding: .1rem .5rem; border-radius: 3px; white-space: nowrap; }
-  .ratio-tag { position: absolute; z-index: 2; top: 1rem; left: var(--gutter); font-size: .95rem; color: var(--ink); }
+  .gdp-line span { position: absolute; left: var(--gutter); top: -1.85rem; font-size: .8rem; font-weight: 700; color: var(--abyss); background: var(--sun); padding: .1rem .5rem; border-radius: 3px; white-space: nowrap; }
+  .ratio-tag { position: absolute; z-index: 5; top: 1rem; left: var(--gutter); font-size: .95rem; color: var(--ink); max-width: 17rem; line-height: 1.35; }
   .ratio-tag b { font-family: var(--display); font-size: 1.6rem; font-weight: 800; font-variation-settings: "wdth" 75; margin-right: .25rem; }
-  .readout { position: absolute; left: 0; right: 0; padding: 0 var(--gutter); max-width: 72rem; margin: 0 auto; color: var(--foam); }
+  .ratio-tag small { display: block; font-size: .82rem; color: var(--muted); margin-top: .2rem; }
+  .readout { position: absolute; z-index: 4; left: 0; right: 0; padding: 0 calc(var(--gutter) + 3.2rem) 0 var(--gutter); max-width: 76rem; margin: 0 auto; color: var(--foam); }
   .readout.dry { color: var(--ink); }
   .readout p, .readout strong { color: inherit; }
   .readout h1 { font: 700 clamp(1rem, 2.4vw, 1.3rem) var(--body); margin: 0 0 .3rem; }
@@ -65,11 +86,14 @@
   .hbar .fill { height: 100%; border-radius: 3px; }
   .method-teaser { border-top: 1px solid rgba(169,205,214,.25); padding-top: 2rem; }
   @media (max-width: 600px) {
+    .clock { font-size: clamp(2.2rem, 9.6vw, 8.5rem); }
+    .island { left: 54%; }
     .gdp-line span { font-size: .72rem; }
     .ratio-tag b { font-size: 1.3rem; }
     .legend { grid-template-columns: 1fr 1fr; gap: .9rem 1rem; }
     .legend .v { font-size: .85rem; }
   }
+  @media (prefers-reduced-motion: reduce) { .wave, .surface .front, .surface .foam { animation: none !important; } .bubble { display: none; } }
 </style>
 </head>
 <body>
@@ -89,10 +113,18 @@
 </header>
 
 <section class="hero" id="hero" aria-label="Debt clock">
-  <div class="ratio-tag" id="ratioTag" hidden><b id="ratioVal">–</b>of GDP</div>
-  <div class="water" id="water">
-    <svg class="wave" viewBox="0 0 1200 24" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12 Q 75 0 150 12 T 300 12 T 450 12 T 600 12 T 750 12 T 900 12 T 1050 12 T 1200 12 V24 H0Z"/></svg>
+  <div class="ratio-tag" id="ratioTag" hidden><b id="ratioVal">–</b>of GDP<small>The sea level shows public debt as a share of the economy (GDP). The higher the water, the heavier the debt.</small></div>
+  <div class="water" id="water" aria-hidden="true">
+    <svg class="wave back" viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0 16 Q 100 2 200 16 T 400 16 T 600 16 T 800 16 T 1000 16 T 1200 16 V30 H0Z"/></svg>
+    <svg class="wave" viewBox="0 0 1200 24" preserveAspectRatio="none"><path d="M0 12 Q 75 0 150 12 T 300 12 T 450 12 T 600 12 T 750 12 T 900 12 T 1050 12 T 1200 12 V24 H0Z"/></svg>
+    <div id="bubbles"></div>
   </div>
+  <div class="surface" id="surface" aria-hidden="true">
+    <div class="island"><svg viewBox="0 0 160 72"><path d="M4 66 Q 40 46 80 48 Q 122 46 156 66 Z" fill="#f3e3b5"/><path d="M58 54 Q 54 32 66 12" stroke="#7a5a3a" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M66 12 q -16 -6 -30 4 M66 12 q -10 -14 -26 -12 M66 12 q 8 -14 26 -10 M66 12 q 16 0 28 12 M66 12 q 2 10 -6 18" stroke="#2f8a5b" stroke-width="4.5" fill="none" stroke-linecap="round"/><path d="M100 56 Q 104 40 96 26" stroke="#7a5a3a" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M96 26 q -12 -4 -22 4 M96 26 q -6 -12 -18 -10 M96 26 q 8 -10 20 -6 M96 26 q 12 2 18 12" stroke="#3b9e68" stroke-width="4" fill="none" stroke-linecap="round"/></svg></div>
+    <svg class="front" viewBox="0 0 1200 22" preserveAspectRatio="none"><path d="M0 10 Q 60 2 120 10 T 240 10 T 360 10 T 480 10 T 600 10 T 720 10 T 840 10 T 960 10 T 1080 10 T 1200 10 V22 H0Z"/></svg>
+    <svg class="foam" viewBox="0 0 1200 8" preserveAspectRatio="none"><path d="M0 6 Q 60 0 120 6 T 240 6 T 360 6 T 480 6 T 600 6 T 720 6 T 840 6 T 960 6 T 1080 6 T 1200 6" stroke="#fff" stroke-width="1.5" fill="none" stroke-dasharray="14 22"/></svg>
+  </div>
+  <div class="gauge" id="gauge" aria-hidden="true"><div class="pole"></div></div>
   <div class="gdp-line" id="gdpLine"><span>Debt equal to a full year of GDP</span></div>
   <div class="readout" id="readout">
     <h1>Maldives National Debt Clock</h1>
@@ -225,7 +257,7 @@
 
     // hero layout
     const hero = $("hero"), water = $("water"), line = $("gdpLine"), readout = $("readout");
-    const scale = Math.max(130, (ratio || 0) + 20);   // % of GDP at the top of the hero
+    const scale = Math.max(150, (ratio || 0) + 38);   // % of GDP at the top of the hero (leaves sky for the caption)
     if (ratio) { $("ratioVal").textContent = fmt(ratio, 1) + "%"; $("ratioTag").hidden = false; }
     // The hero is only as tall as it needs to be: the readout and key figures sit in the water,
     // just under the "100% of GDP" line, with no empty space below.
@@ -237,6 +269,66 @@
       const waterPx = H * level; water.style.height = waterPx + "px";
       const lineY = H - H * 100 / scale; line.style.top = lineY + "px"; line.style.opacity = ratio ? 1 : 0;
       readout.style.top = (H - H * anchorFrac + offset) + "px";
+      surfaceY = H - waterPx; $("surface").style.top = surfaceY + "px";
+      // tide gauge: a tick every 10%, labelled every 25% (every 50% on small screens)
+      const g = $("gauge"); g.querySelectorAll(".tick").forEach(t => t.remove());
+      const every = innerWidth < 600 ? 50 : 25;
+      for (let v = 0; v <= scale; v += 5) {
+        const y = H - H * v / scale, label = v % every === 0 || v === 100;
+        if (y < 14 || (v % 10 && !label)) continue;
+        const t = document.createElement("div"); t.className = "tick";
+        t.style.top = y + "px"; t.style.width = label ? "10px" : "5px";
+        t.style.color = y < surfaceY ? "#072f40" : "#cfe6ea";
+        if (label && Math.abs(H - H * (ratio || 0) / scale - y) > 18) t.innerHTML = `<span>${v}%</span>`;
+        g.appendChild(t);
+      }
+      let now = g.querySelector(".now"); if (!now) { now = document.createElement("div"); now.className = "now"; g.appendChild(now); }
+      now.textContent = ratio ? fmt(ratio, 1) + "%" : ""; now.style.top = surfaceY + "px"; now.hidden = !ratio;
+    }
+    let surfaceY = 0;
+
+    // sea life: every so often a dolphin leaps or a shark fin glides past
+    const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const DOLPHIN = `<svg width="78" height="34" viewBox="0 0 120 52"><path d="M4 32 C 22 18 52 10 80 15 C 88 9 97 7 102 9 C 99 13 97 15 96 17 C 105 19 113 23 118 28 C 110 29 102 29 96 28 C 90 33 80 36 66 37 L 61 46 L 56 37 C 40 37 26 37 16 35 L 4 45 L 8 33 Z M58 14 L 69 1 L 73 15 Z" fill="#1d5f7a"/><circle cx="98" cy="20" r="1.6" fill="#d7ecef"/></svg>`;
+    const FIN = `<svg width="62" height="46" viewBox="0 0 46 34"><path d="M0 34 Q 15 25 27 0 Q 30 20 46 34 Z" fill="#2e4855"/></svg>`;
+    function splash(x) {
+      for (let i = 0; i < 7; i++) {
+        const d = document.createElement("div"); d.className = "critter";
+        d.style.cssText += "width:5px;height:5px;border-radius:50%;background:#e9f7f6;opacity:.9";
+        $("surface").appendChild(d);
+        const vx = (Math.random() - .5) * 60, vy = -40 - Math.random() * 50, t0 = performance.now();
+        (function step(t) { const k = (t - t0) / 700; if (k > 1) { d.remove(); return; }
+          d.style.transform = `translate(${x + vx * k}px, ${vy * k + 120 * k * k - 8}px)`; d.style.opacity = 1 - k; requestAnimationFrame(step); })(t0);
+      }
+    }
+    function dolphin() {
+      const W = hero.clientWidth, el = document.createElement("div"); el.className = "critter"; el.innerHTML = DOLPHIN; $("surface").appendChild(el);
+      const x0 = W * (.08 + Math.random() * .25), span = 230 + Math.random() * 80, peak = 70 + Math.random() * 30, dur = 1500, t0 = performance.now();
+      splash(x0);
+      (function step(t) {
+        const k = (t - t0) / dur; if (k > 1) { el.remove(); splash(x0 + span); return; }
+        const x = x0 + span * k, y = -peak * Math.sin(Math.PI * k), ang = -Math.atan2(peak * Math.PI * Math.cos(Math.PI * k), span) * 180 / Math.PI;
+        el.style.transform = `translate(${x - 39}px, ${y - 22}px) rotate(${ang}deg)`; requestAnimationFrame(step);
+      })(t0);
+    }
+    function shark() {
+      const W = hero.clientWidth, el = document.createElement("div"); el.className = "critter"; el.innerHTML = FIN; el.classList.add("fin"); $("surface").appendChild(el);
+      const dir = Math.random() < .5 ? 1 : -1, dur = 11000, t0 = performance.now();
+      if (dir < 0) el.firstChild.style.transform = "scaleX(-1)";
+      (function step(t) {
+        const k = (t - t0) / dur; if (k > 1) { el.remove(); return; }
+        const x = dir > 0 ? -60 + (W + 120) * k : W + 60 - (W + 120) * k;
+        el.style.transform = `translate(${x}px, ${-38 + Math.sin(t / 380) * 2.5}px)`; requestAnimationFrame(step);
+      })(t0);
+    }
+    window.__sea = { dolphin, shark };
+    if (!calm) {
+      const bb = $("bubbles");
+      for (let i = 0; i < 10; i++) { const b = document.createElement("div"); b.className = "bubble"; const sz = 4 + Math.random() * 6;
+        b.style.cssText = `left:${5 + Math.random() * 85}%;width:${sz}px;height:${sz}px;animation-duration:${9 + Math.random() * 10}s;animation-delay:${-Math.random() * 15}s;--rise:-${300 + Math.random() * 400}px`; bb.appendChild(b); }
+      let turn = 0;
+      const next = () => setTimeout(() => { if (!document.hidden) (turn++ % 2 ? shark : dolphin)(); next(); }, 22000 + Math.random() * 20000);
+      setTimeout(() => { dolphin(); next(); }, 4500);
     }
 
     function render() {
