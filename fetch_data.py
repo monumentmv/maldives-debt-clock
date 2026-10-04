@@ -31,6 +31,18 @@ SERIES = {
     79:   "population",
     4039: "usd_rate",         # MVR per USD
     5226: "ext_interest_q",   # quarterly external interest paid, USD
+    4523: "domestic_to_gdp",  # ratio
+    4526: "external_to_gdp",  # ratio
+    38:   "gdp",              # nominal GDP, MVR, annual
+    # monthly government finances, MVR
+    1999: "revenue",          # total revenue and grants
+    2000: "tax_revenue",
+    2034: "expenditure",      # recurrent + capital
+    2035: "recurrent_exp",
+    2057: "capital_exp",
+    2036: "salaries_pensions",
+    2049: "interest_costs",   # financing and interest costs
+    2050: "subsidies",        # grants, contributions and subsidies
 }
 
 URL = "https://database.mma.gov.mv/api/series"
@@ -72,6 +84,7 @@ def main():
             "unit": s.get("unit"),
             "frequency": s.get("frequency"),
             "last_updated_at": s.get("last_updated_at"),
+            "notes": s.get("description") or s.get("definition"),
             "points": points,
         }
 
