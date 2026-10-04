@@ -61,11 +61,11 @@
 
   <section>
     <h1>What the Maldives spends on imported fuel</h1>
-    <p class="lede">The Maldives imports almost all its energy as petroleum: diesel for power stations, boats and resorts, and petrol for vehicles. When wars or crises push up world oil prices, the country's fuel bill rises with them, and every dollar spent leaves the economy.</p>
+    <p class="lede">The Maldives imports almost all its energy as petroleum. Diesel runs power stations, boats and resorts, and petrol runs vehicles. When wars or crises push up world oil prices, the country's fuel bill rises with them, and every dollar spent leaves the economy.</p>
     <div class="stats" style="margin-top:2.5rem">
-      <div class="stat hot"><div class="n num" id="sLatest">—</div><div class="l" id="sLatestL">latest month</div><div class="d" id="sLatestD"></div></div>
-      <div class="stat red"><div class="n num" id="s12">—</div><div class="l" id="s12L">spent on fuel imports in the last 12 months</div></div>
-      <div class="stat"><div class="n num" id="sShare">—</div><div class="l" id="sShareL">of everything the Maldives imports</div></div>
+      <div class="stat hot"><div class="n num" id="sLatest">…</div><div class="l" id="sLatestL">latest month</div><div class="d" id="sLatestD"></div></div>
+      <div class="stat red"><div class="n num" id="s12">…</div><div class="l" id="s12L">spent on fuel imports in the last 12 months</div></div>
+      <div class="stat"><div class="n num" id="sShare">…</div><div class="l" id="sShareL">of everything the Maldives imports</div></div>
     </div>
   </section>
 
@@ -100,7 +100,7 @@
 
   <section class="caveat">
     <h2>Reading these figures</h2>
-    <p>Fuel import values come from the Maldives Customs Service (MMA series 3503, with petrol 3504, diesel 3505 and other products 3507). The oil price is the World Bank's monthly average of Brent, Dubai and WTI crude (series 3787). Fuel is bought and recorded in US dollars, so the charts and crisis comparisons stay in dollars. That keeps the history undistorted: the rufiyaa was fixed at 12.80 per dollar until March 2011, then moved to about 15.40, so converting the history to rufiyaa would add a jump that has nothing to do with fuel. Only the headline figures at the top follow the MVR/US$ switch, converted at each month's MMA reference rate.</p>
+    <p>Fuel import values come from the Maldives Customs Service (MMA series 3503, with petrol 3504, diesel 3505 and other products 3507). The oil price is the World Bank's monthly average of Brent, Dubai and WTI crude (series 3787). Fuel is bought and recorded in US dollars, so the charts and crisis comparisons stay in dollars. That keeps the history undistorted. The rufiyaa was fixed at 12.80 per dollar until March 2011, then moved to about 15.40, so converting the history to rufiyaa would add a jump that has nothing to do with fuel. Only the headline figures at the top follow the MVR/US$ switch, converted at each month's MMA reference rate.</p>
     <p><b>Break in April 2015.</b> After duty on petroleum products was reinstated from 1 April 2015, the series only includes fuel sold within the Maldives. Earlier months also include fuel that was not sold locally, so values before and after the dotted line are not fully comparable.</p>
     <p>The import bill reflects both prices and quantities. A higher bill can mean fuel cost more, or that the country bought more of it, for example when tourism grows. The inflation adjustment ("Real") isn't applied on this page because fuel is priced in US dollars, and Maldivian consumer prices aren't the right measure for that. <a href="methodology.html#fuel">More in the methodology</a>.</p>
   </section>
@@ -125,9 +125,9 @@
     { from: "2011-02-01", to: "2011-10-31", label: "Libya", kind: "war", title: "Libyan civil war and the Arab Spring", when: "February to October 2011", text: "War in Libya and unrest across the Middle East cut supply and pushed oil above $100 a barrel." },
     { from: "2014-07-01", to: "2016-02-29", label: "Oil glut", kind: "shock", title: "Oil price collapse", when: "Mid-2014 to early 2016", text: "A global supply glut, driven by US shale oil and OPEC's decision to keep pumping, more than halved oil prices." },
     { from: "2020-03-01", to: "2020-07-31", label: "COVID-19", kind: "shock", title: "COVID-19 border closure", when: "27 March to 15 July 2020", text: "The Maldives closed its borders to tourists, resorts emptied, and world oil demand collapsed." },
-    { from: "2022-02-01", to: "2022-08-31", label: "Russia–Ukraine", kind: "war", title: "Russia–Ukraine war", when: "From 24 February 2022", text: "The outbreak of full-scale war in February 2022 sent oil, shipping and insurance costs soaring." },
-    { from: "2025-06-01", to: "2025-06-30", label: "12-day war", kind: "war", title: "Israel–Iran 12-day war", when: "13 to 24 June 2025", text: "Israel and Iran exchanged strikes and the US bombed Iranian nuclear sites, briefly lifting oil prices." },
-    { from: "2026-03-01", to: "2026-06-30", label: "US–Iran war", kind: "war", title: "US–Iran war and Strait of Hormuz closure", when: "From 28 February 2026", text: "Fighting that began with US and Israeli strikes on Iran, and the closure of the Strait of Hormuz, caused what the International Energy Agency called the largest oil supply disruption in history." },
+    { from: "2022-02-01", to: "2022-08-31", label: "Russia-Ukraine", kind: "war", title: "Russia-Ukraine war", when: "From 24 February 2022", text: "The outbreak of full-scale war in February 2022 sent oil, shipping and insurance costs soaring." },
+    { from: "2025-06-01", to: "2025-06-30", label: "Twelve-Day War", kind: "war", title: "Twelve-Day War (Israel and Iran)", when: "13 to 24 June 2025", text: "Israel and Iran exchanged strikes for twelve days, and the US bombed Iranian nuclear sites near the end, briefly lifting oil prices." },
+    { from: "2026-03-01", to: "2026-06-30", label: "2026 Iran war", kind: "war", title: "2026 Iran war and Strait of Hormuz closure", when: "From 28 February 2026", text: "The United States and Israel went to war with Iran, and the Strait of Hormuz was closed. The International Energy Agency called it the largest oil supply disruption in history." },
   ];
   const colorOf = c => c.kind === "war" ? RED : AMBER;
 
@@ -179,8 +179,8 @@
         rows, label: "Monthly fuel imports", series, noEndDot: split, maxH: 400,
         bands: CRISES.map((c, i) => ({ from: c.from, to: c.to, color: colorOf(c), n: i + 1 })), yTitle: "US$ m", yTitleR: showCrude ? "US$/barrel" : null,
         vlines: rows.some(r => r.date >= "2015-03-01") && rows[0].date < "2015-04-01" ? [{ date: "2015-03-31", label: "Coverage change" }] : [],
-        marks: split ? [] : [{ date: hi.date, value: val(hi), color: RED, label: `Highest: ${unit} ${fmt(val(hi), 0)}m, ${mShort(hi.date)}` },
-                             { date: lo.date, value: val(lo), color: "#9fe0d6", label: `Lowest: ${unit} ${fmt(val(lo), 0)}m, ${mShort(lo.date)}`, below: true }],
+        marks: split ? [] : [{ date: hi.date, value: val(hi), color: RED, label: `Highest ${unit} ${fmt(val(hi), 0)}m, ${mShort(hi.date)}` },
+                             { date: lo.date, value: val(lo), color: "#9fe0d6", label: `Lowest ${unit} ${fmt(val(lo), 0)}m, ${mShort(lo.date)}`, below: true }],
         yFmt: v => fmt(v), yFmtR: v => "$" + fmt(v),
         tip: r => { const c = crisisAt(r.date);
           return `<b>${mLabel(r.date)}</b>` + row("Maldives fuel imports", usd(r.v)) + (split ? row("Diesel", r.die != null ? usd(r.die) : null) + row("Petrol", r.pet != null ? usd(r.pet) : null) + row("Other", r.oth != null ? usd(r.oth) : null) : "")
@@ -188,7 +188,7 @@
             + (r === hi ? `<span class="tag" style="background:${RED}">Highest month in view</span>` : "") + (r === lo ? `<span class="tag" style="background:#0b6b5f">Lowest month in view</span>` : "")
             + (c ? `<br><span class="tag" style="background:${colorOf(c)}">${c.title}</span>` : ""); }
       });
-      $("marks").innerHTML = split ? "" : `<span>Highest month: <b class="hi">US$ ${fmt(hi.v / 1e6, 0)}m, ${mLabel(hi.date)}</b></span><span>Lowest month: <b class="lo">US$ ${fmt(lo.v / 1e6, 1)}m, ${mLabel(lo.date)}</b></span>`;
+      $("marks").innerHTML = split ? "" : `<span>Highest month <b class="hi">US$ ${fmt(hi.v / 1e6, 0)}m, ${mLabel(hi.date)}</b></span><span>Lowest month <b class="lo">US$ ${fmt(lo.v / 1e6, 1)}m, ${mLabel(lo.date)}</b></span>`;
       const short2 = d => MV.mShort(d);
       $("events").innerHTML = CRISES.map((c, i) => `<li><span class="num" style="background:${colorOf(c)}">${i + 1}</span><span><b>${c.title}</b><br>${short2(c.from)}${c.from.slice(0, 7) === c.to.slice(0, 7) ? "" : " to " + short2(c.to)}</span></li>`).join("");
       $("key").innerHTML = (split ? `<span><i class="line" style="background:#3fb8b0"></i>Maldives diesel imports</span><span><i class="line" style="background:#9fe0d6"></i>Maldives petrol imports</span><span><i class="line" style="background:#a98bd6"></i>Other products</span>` : `<span><i class="line" style="background:#3fb8b0"></i>Maldives fuel imports</span>`)
@@ -206,7 +206,7 @@
         let impact = "";
         if (during.length && before.length >= 6) {
           const a = avg(during), b = avg(before), ch = (a / b - 1) * 100, pk = during.reduce((m, r) => r.v > m.v ? r : m);
-          impact = `Maldives fuel imports averaged <b>${usd(a)}</b> a month, <b class="${ch >= 0 ? "up" : "down"}">${ch >= 0 ? "+" : "−"}${fmt(Math.abs(ch), 0)}%</b> on the year before. Peak: ${usd(pk.v)} in ${mShort(pk.date)}.`;
+          impact = `Maldives fuel imports averaged <b>${usd(a)}</b> a month, <b class="${ch >= 0 ? "up" : "down"}">${ch >= 0 ? "+" : "−"}${fmt(Math.abs(ch), 0)}%</b> on the year before. The peak was ${usd(pk.v)} in ${mShort(pk.date)}.`;
           const ca = avgC(during), cb = avgC(before);
           if (ca && cb) { const cc = (ca / cb - 1) * 100; impact += ` World crude oil averaged US$ ${fmt(ca, 0)} a barrel, <b class="${cc >= 0 ? "up" : "down"}">${cc >= 0 ? "+" : "−"}${fmt(Math.abs(cc), 0)}%</b>.`; }
           if (during[during.length - 1].date < c.to) impact += ` <i>(Data so far, to ${mShort(during[during.length - 1].date)}.)</i>`;
@@ -224,7 +224,7 @@
       const L = all[all.length - 1], l12 = all.slice(-12), v12 = l12.reduce((a, r) => a + r.v, 0);
       const maxI = vals.indexOf(Math.max(...vals));
       $("annualNote").textContent = "The Maldives' total fuel imports each full calendar year, in millions of US dollars. The highest year is in red.";
-      $("l12").innerHTML = `Last 12 months (${mLabel(l12[0].date)} to ${mLabel(L.date)}): <b>${usd(v12)}</b>` + (l12.every(r => r.imp) ? `, ${fmt(100 * v12 / l12.reduce((a, r) => a + r.imp, 0), 1)}% of all goods imported` : "") + (MV.state.cur === "MVR" ? `, about MVR ${short(l12.reduce((a, r) => a + fromUSD(r.v, r.date), 0))}` : "") + ".";
+      $("l12").innerHTML = `In the last 12 months (${mLabel(l12[0].date)} to ${mLabel(L.date)}) the Maldives spent <b>${usd(v12)}</b> on fuel imports` + (l12.every(r => r.imp) ? `, ${fmt(100 * v12 / l12.reduce((a, r) => a + r.imp, 0), 1)}% of all goods imported` : "") + (MV.state.cur === "MVR" ? `, about MVR ${short(l12.reduce((a, r) => a + fromUSD(r.v, r.date), 0))}` : "") + ".";
       MV.barChart($("annual"), {
         cats, label: "Fuel imports by year",
         groups: [{ color: "#3fb8b0", vals: vals.map(v => v / 1e6) }],
@@ -242,7 +242,7 @@
       b.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); drawChart();
     });
     MV.onPrefs(render); MV.onResize(() => { drawChart(); drawAnnual(); });
-    $("fetched").textContent = "Data last fetched " + MV.fetched(data.fetched_at) + ", Malé time. Sources: Maldives Customs Service and World Bank, via the MMA Statistics Database.";
+    $("fetched").textContent = "Data last fetched " + MV.fetched(data.fetched_at) + ", Malé time. Figures from the Maldives Customs Service and the World Bank, via the MMA Statistics Database.";
     render();
   }).catch(err => { console.error(err); $("chartNote").textContent = "Couldn't load the data."; });
 })();

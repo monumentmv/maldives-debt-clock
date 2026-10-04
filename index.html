@@ -42,7 +42,8 @@
   .gdp-line { position: absolute; left: 0; right: 0; height: 0; border-top: 2px dashed var(--sun); opacity: 0; transition: opacity .6s 1.8s; }
   .surface-label { position: absolute; z-index: 5; left: var(--gutter); font-size: .8rem; font-weight: 700; color: var(--ink); transition: top 2.4s cubic-bezier(.2,.7,.2,1); }
   .gdp-line { z-index: 4; transition: opacity .6s 1.2s, top 2.4s cubic-bezier(.2,.7,.2,1); }
-  .gdp-line span { position: absolute; left: var(--gutter); top: -1.85rem; font-size: .8rem; font-weight: 700; color: var(--abyss); background: var(--sun); padding: .1rem .5rem; border-radius: 3px; white-space: nowrap; }
+  .gdp-line span b { font-size: 1.05rem; margin-right: .45rem; }
+  .gdp-line span { position: absolute; left: var(--gutter); top: -2.05rem; font-size: .8rem; font-weight: 700; color: var(--abyss); background: var(--sun); padding: .1rem .5rem; border-radius: 3px; white-space: nowrap; }
   .ratio-tag { position: absolute; z-index: 5; top: 1rem; left: var(--gutter); font-size: .95rem; color: var(--ink); max-width: 17rem; line-height: 1.35; }
   .ratio-tag b { font-family: var(--display); font-size: 1.6rem; font-weight: 800; font-variation-settings: "wdth" 75; margin-right: .25rem; }
   .ratio-tag small { display: block; font-size: .82rem; color: var(--muted); margin-top: .2rem; }
@@ -115,7 +116,7 @@
 </header>
 
 <section class="hero" id="hero" aria-label="Debt clock">
-  <div class="ratio-tag" id="ratioTag" hidden><b id="ratioVal">–</b>of GDP<small>The sea surface marks debt equal to one full year of the economy (100% of GDP). Debt above that puts us underwater: the deeper the yellow line, the deeper the debt.</small></div>
+  <div class="ratio-tag" id="ratioTag" hidden><b id="ratioVal">…</b>of GDP</div>
   <div class="water" id="water" aria-hidden="true">
     <svg class="wave back" viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0 16 Q 100 2 200 16 T 400 16 T 600 16 T 800 16 T 1000 16 T 1200 16 V30 H0Z"/></svg>
     <svg class="wave" viewBox="0 0 1200 24" preserveAspectRatio="none"><path d="M0 12 Q 75 0 150 12 T 300 12 T 450 12 T 600 12 T 750 12 T 900 12 T 1050 12 T 1200 12 V24 H0Z"/></svg>
@@ -127,17 +128,16 @@
     <svg class="foam" viewBox="0 0 1200 8" preserveAspectRatio="none"><path d="M0 6 Q 60 0 120 6 T 240 6 T 360 6 T 480 6 T 600 6 T 720 6 T 840 6 T 960 6 T 1080 6 T 1200 6" stroke="#fff" stroke-width="1.5" fill="none" stroke-dasharray="14 22"/></svg>
   </div>
   <div class="gauge" id="gauge" aria-hidden="true"><div class="pole"></div></div>
-  <div class="surface-label" id="surfaceLabel">Surface = 100% of GDP</div>
   <div class="gdp-line" id="gdpLine"><span id="lineLabel"></span></div>
   <div class="readout" id="readout">
     <h1>Maldives National Debt Clock</h1>
-    <p class="clock num"><span class="cur" id="clockCur">MVR</span><span id="clock">—</span></p>
-    <p class="asof">As of <time id="mvTime">—</time> in Malé</p>
+    <p class="clock num"><span class="cur" id="clockCur">MVR</span><span id="clock">…</span></p>
+    <p class="asof">As of <time id="mvTime">…</time> in Malé</p>
     <p class="sub" id="sub">Loading the latest figures from the Maldives Monetary Authority.</p>
     <div class="stats hero-stats">
-      <div class="stat hot"><div class="n num" id="perPerson">—</div><div class="l">owed for every Maldivian citizen, rising every second</div><div class="pop" id="popLine"></div></div>
-      <div class="stat"><div class="n num" id="perSecond">—</div><div class="l" id="perSecondLbl">added to the debt each second, on the pace of the last year</div></div>
-      <div class="stat warn" id="interestStat"><div class="n num" id="interest">—</div><div class="l" id="interestLbl">spent on interest and financing costs every day</div></div>
+      <div class="stat hot"><div class="n num" id="perPerson">…</div><div class="l">owed for every Maldivian citizen, rising every second</div><div class="pop" id="popLine"></div></div>
+      <div class="stat"><div class="n num" id="perSecond">…</div><div class="l" id="perSecondLbl">added to the debt each second, on the pace of the last year</div></div>
+      <div class="stat warn" id="interestStat"><div class="n num" id="interest">…</div><div class="l" id="interestLbl">spent on interest and financing costs every day</div></div>
     </div>
   </div>
   <div class="notice" id="notice" role="status"></div>
@@ -175,21 +175,21 @@
     <h2>What the government collects and spends</h2>
     <p id="fiscalNote"></p>
     <div class="stats">
-      <div class="stat"><div class="n num" id="revPP">—</div><div class="l">collected per citizen in a year, in taxes, fees and grants</div></div>
-      <div class="stat red"><div class="n num" id="expPP">—</div><div class="l">spent per citizen in a year</div></div>
-      <div class="stat red"><div class="n num" id="gapPP">—</div><div class="l" id="gapLbl">gap per citizen, covered by borrowing</div></div>
+      <div class="stat"><div class="n num" id="revPP">…</div><div class="l">collected per citizen in a year, in taxes, fees and grants</div></div>
+      <div class="stat red"><div class="n num" id="expPP">…</div><div class="l">spent per citizen in a year</div></div>
+      <div class="stat red"><div class="n num" id="gapPP">…</div><div class="l" id="gapLbl">gap per citizen, covered by borrowing</div></div>
     </div>
     <div class="why" id="why" hidden></div>
     <h3>Every second, the government</h3>
     <div class="stats">
-      <div class="stat"><div class="n num" id="revSec">—</div><div class="l">collects</div></div>
-      <div class="stat red"><div class="n num" id="expSec">—</div><div class="l">spends</div></div>
+      <div class="stat"><div class="n num" id="revSec">…</div><div class="l">collects</div></div>
+      <div class="stat red"><div class="n num" id="expSec">…</div><div class="l">spends</div></div>
     </div>
 
     <h3>Year by year</h3>
     <p id="annualNote" style="margin-bottom:0"></p>
     <div class="chart-box" id="annual"></div>
-    <div class="key"><span><i style="background:#3fb8b0"></i>Revenue</span><span><i style="background:#ff5f56"></i>Spending</span><span style="color:#ff5f56;font-weight:700">Red figure under each year: deficit</span></div>
+    <div class="key"><span><i style="background:#3fb8b0"></i>Revenue</span><span><i style="background:#ff5f56"></i>Spending</span><span style="color:#ff5f56;font-weight:700">Red figure under each year shows the deficit</span></div>
     <div class="l12 num" id="l12"></div>
 
     <p class="callout" id="interestShare" style="margin-top:2.5rem"></p>
@@ -202,7 +202,7 @@
     <p>Official debt figures come out once a quarter. The clock starts from the latest published total and adds debt at the average pace of the most recent four quarters, so the number between releases is an <b>estimate</b>. When a new quarter is published, the clock resets to the official figure. The site checks for new data every morning.</p>
     <p id="methodDetail"></p>
     <p id="popNote"></p>
-    <p><a href="methodology.html">Read the full methodology</a>: where every number comes from, how it's calculated, and what it leaves out.</p>
+    <p>The <a href="methodology.html">full methodology</a> explains where every number comes from, how it's calculated, and what it leaves out.</p>
   </section>
 
 </div>
@@ -262,7 +262,7 @@
     const hero = $("hero"), water = $("water"), line = $("gdpLine"), readout = $("readout");
     if (ratio) {
       $("ratioVal").textContent = fmt(ratio, 1) + "%"; $("ratioTag").hidden = false;
-      $("lineLabel").textContent = ratio >= 100 ? `We are here: ${fmt(ratio - 100, 1)} points underwater` : `We are here: ${fmt(100 - ratio, 1)} points above water`;
+      $("lineLabel").innerHTML = ratio >= 100 ? `<b>${fmt(ratio, 1)}% of GDP</b> ${fmt(ratio - 100, 1)} points underwater` : `<b>${fmt(ratio, 1)}% of GDP</b> ${fmt(100 - ratio, 1)} points above water`;
     }
     // The sea surface is fixed at 100% of GDP (debt equal to a full year of the economy).
     // Debt above 100% sits below the surface: the further down the yellow line, the deeper underwater.
@@ -270,13 +270,13 @@
     function layout() {
       const k = innerWidth < 600 ? 6 : 7;                                  // pixels per percentage point
       const tag = $("ratioTag"), tagB = tag.offsetTop + tag.offsetHeight;
-      const y0 = Math.max(150, tagB + 72);                                   // the surface: 100% of GDP
+      const y0 = Math.max(120, tagB + 56);                                   // the surface: 100% of GDP
       const markY = y0 + ((ratio || 100) - 100) * k;                         // today's debt
       const rh = readout.offsetHeight, top = Math.max(markY, y0) + 48;
       const H = Math.max(520, Math.ceil(top + rh + 56));
       hero.style.height = H + "px";
       water.style.height = (H - y0) + "px";
-      surfaceY = y0; $("surface").style.top = y0 + "px"; $("surfaceLabel").style.top = (y0 - 40) + "px";
+      surfaceY = y0; $("surface").style.top = y0 + "px";
       line.style.top = markY + "px"; line.style.opacity = ratio ? 1 : 0;
       readout.style.top = top + "px";
       // depth gauge: 100% at the surface, counting down into the water (and up into the sky for lower debt)
@@ -288,7 +288,8 @@
         const t = document.createElement("div"); t.className = "tick";
         t.style.top = y + "px"; t.style.width = label ? "10px" : "5px";
         t.style.color = y < y0 ? "#072f40" : "#cfe6ea";
-        if (label && Math.abs(markY - y) > 16) t.innerHTML = `<span>${v}%</span>`;
+        if (label && Math.abs(markY - y) > 26) t.innerHTML = `<span>${v}%</span>`;
+        if (Math.abs(markY - y) <= 14) continue;
         g.appendChild(t);
       }
       let now = g.querySelector(".now"); if (!now) { now = document.createElement("div"); now.className = "now"; g.appendChild(now); }
@@ -395,8 +396,8 @@
 
       $("methodDetail").innerHTML = `Right now that pace is <b>${moneyNow(rate * SEC_YEAR)} a year</b>, from the change between ${mLabel(back.date)} and ${mLabel(latest.date)}. Dollar figures use the MMA reference rate (MVR ${fmt(MV.USD, 2)} per US dollar today).`;
       if (pop && POP) $("popLine").innerHTML = `Based on an estimated ${fmt(Math.round(pop))} citizens (national register, end of ${POP.base_date.slice(0, 4)}, grown at ${fmt(POP.annual_growth * 100, 2)}% a year). This will be updated when the government publishes new figures. <a href="methodology.html#population">How this is estimated</a>`;
-      if (pop && POP) $("popNote").innerHTML = `Per-citizen figures divide by an estimated <b>${fmt(Math.round(pop))}</b> Maldivian citizens today: the ${fmt(POP.base)} on the national register at the end of 2025, grown at ${fmt(POP.annual_growth * 100, 2)}% a year, the rate the Maldivian population grew between the last two censuses.`;
-      $("fetched").textContent = "Data last fetched " + MV.fetched(data.fetched_at) + ", Malé time. Source: MMA Statistics Database.";
+      if (pop && POP) $("popNote").innerHTML = `Per-citizen figures divide by an estimated <b>${fmt(Math.round(pop))}</b> Maldivian citizens today. That is the ${fmt(POP.base)} on the national register at the end of 2025, grown at ${fmt(POP.annual_growth * 100, 2)}% a year, the rate the Maldivian population grew between the last two censuses.`;
+      $("fetched").textContent = "Data last fetched " + MV.fetched(data.fetched_at) + ", Malé time. Figures from the MMA Statistics Database.";
       tick(); drawChart();
     }
 
@@ -416,7 +417,7 @@
       const pp = convNow(debtNow() / popNow());
       $("why").innerHTML = `<h3>Why is the debt so much bigger than this gap?</h3>
         <p>The ${sym()} ${fmt(convNow(Math.abs(gapPP)))} gap is just <b>one year's</b> shortfall. The ${sym()} ${fmt(pp)} debt per citizen is what has <b>built up over many years</b>, like a credit card balance compared with one month's overspending. And some borrowing never shows up as government spending at all.</p>
-        <p>Since ${mLabel(q0.date)}, debt has risen by <b>${n(rise)}</b>:</p>
+        <p>Since ${mLabel(q0.date)}, debt has risen by <b>${n(rise)}</b>. This is where it came from.</p>
         <div class="sbar" role="img" aria-label="Where the rise in debt came from">${segs.map(x => `<div style="flex-grow:${x[1]};background:${x[0]}"></div>`).join("")}</div>
         <ul>${segs.map(x => `<li><i style="background:${x[0]}"></i><span>${x[2]}</span></li>`).join("")}</ul>
         <p class="small">The ${n(q0.value)} owed in ${mLabel(q0.date)} came from earlier years. Yearly gaps are summed from monthly figures, ${mLabel(S.revenue.points.find(p => p.date > q0.date).date)} to ${mLabel(q1.date)}. <a href="methodology.html#fiscal">More on how this is worked out</a>.</p>`;
@@ -432,7 +433,7 @@
       const bn = v => fmt(v / 1e9, 1) + " bn";
       $("annualNote").textContent = `Revenue and spending each full calendar year, in billions of ${MV.state.cur === "USD" ? "US dollars" : "rufiyaa"}${MV.isReal() ? `, in ${MV.baseLabel()}` : ""}. The red figure under each year is the deficit.`;
       const r12 = last12("revenue", sumReal), e12 = last12("expenditure", sumReal), firstM = months("revenue").slice(-12)[0].date;
-      $("l12").innerHTML = `<span>Last 12 months (${mLabel(firstM)} to ${mLabel(fEnd)}${MV.isReal() ? ", same prices as the chart" : ""}):</span><span>Revenue <b>${sym()} ${bn(r12)}</b></span><span>Spending <b class="red">${sym()} ${bn(e12)}</b></span><span>${e12 >= r12 ? "Deficit" : "Surplus"} <b class="${e12 >= r12 ? "red" : ""}">${sym()} ${bn(Math.abs(e12 - r12))}</b></span>`;
+      $("l12").innerHTML = `<span>In the last 12 months (${mLabel(firstM)} to ${mLabel(fEnd)}${MV.isReal() ? ", same prices as the chart" : ""})</span><span>Revenue <b>${sym()} ${bn(r12)}</b></span><span>Spending <b class="red">${sym()} ${bn(e12)}</b></span><span>${e12 >= r12 ? "Deficit" : "Surplus"} <b class="${e12 >= r12 ? "red" : ""}">${sym()} ${bn(Math.abs(e12 - r12))}</b></span>`;
       MV.barChart($("annual"), {
         cats, label: "Government revenue and spending by year",
         groups: [{ color: "#3fb8b0", vals: R.map(v => v / 1e9) }, { color: "#ff5f56", vals: E.map(v => v / 1e9) }],

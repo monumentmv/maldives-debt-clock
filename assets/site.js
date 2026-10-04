@@ -74,7 +74,7 @@ const MV = (() => {
     document.querySelectorAll('[data-pref="real"] button').forEach(b => b.setAttribute("aria-pressed", (b.dataset.v === "1") === state.real));
     document.body.classList.toggle("is-real", state.real && !!cpiBase && !document.querySelector('[data-pref="real"][hidden]'));
     const note = document.querySelector(".real-note");
-    if (note && cpiBase) note.innerHTML = `<span class="long">Real: charts and comparisons over time are adjusted for inflation, in ${baseLabel()}. Current figures are always in today's money.</span><span class="short">Real: past amounts adjusted for inflation</span>`;
+    if (note && cpiBase) note.innerHTML = `<span class="long">Real mode. Charts and comparisons over time are adjusted for inflation, in ${baseLabel()}. Current figures are always in today's money.</span><span class="short">Real mode, past amounts adjusted for inflation</span>`;
   }
   document.addEventListener("click", e => {
     const b = e.target.closest("[data-pref] button"); if (!b) return;
