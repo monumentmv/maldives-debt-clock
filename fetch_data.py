@@ -54,6 +54,39 @@ SERIES = {
     3787: "crude_price",      # World Bank average of Brent, Dubai and WTI, US$ per barrel
 }
 
+# Extra series for comparing presidencies (first three years of each term).
+# Saved separately in compare.json so the debt clock pages stay light.
+COMPARE = {
+    # annual government finance statistics, MVR
+    2080: "gfs_revenue_grants",
+    2081: "gfs_revenue",
+    2082: "gfs_current_revenue",
+    2083: "gfs_tax_revenue",       # name checked against the API response
+    2138: "gfs_grants",
+    2141: "gfs_expenditure_net_lending",
+    2142: "gfs_expenditure",
+    2143: "gfs_current_expenditure",
+    2155: "gfs_interest",
+    2156: "gfs_subsidies_transfers",
+    2159: "gfs_capital_expenditure",
+    2167: "gfs_overall_balance",
+    2168: "gfs_primary_balance",
+    2171: "gfs_financing",
+    2176: "gfs_balance_pct_gdp",
+    # economy
+    72:   "real_gdp_growth",
+    38:   "gdp_mvr",
+    76:   "gdp_usd",
+    104:  "tourist_arrivals",          # monthly
+    3382: "reserves_usd",              # official reserve assets, monthly
+    3450: "current_account_pct_gdp",
+    2299: "broad_money",
+    # debt before 2015
+    4505: "external_debt_total_usd",   # quarterly
+    4020: "external_debt_cg_usd",      # quarterly
+    2185: "claims_on_government",      # monthly, domestic lending to government
+}
+
 URL = "https://database.mma.gov.mv/api/series"
 
 
@@ -74,6 +107,47 @@ def fetch(ids):
         if meta.get("current_page", 1) >= meta.get("last_page", 1):
             return out
         page += 1
+
+
+def pack(raw, mapping):
+    out = {}
+    for s in raw:
+        key = mapping.get(s["id"])
+        if not key:
+            continue
+        points = sorted(
+            [{"date": p["date"], "value": p["amount"]} for p in s.get("data", []) if p.get("amount") is not None],
+            key=lambda p: p["date"],
+        )
+        out[key] = {"id": s["id"], "name": s.get("name"), "unit": s.get("unit"),
+                    "frequency": s.get("frequency"), "points": points}
+    return out
+
+
+def write_compare():
+    """Fetch the comparison series. Failures here never stop the debt clock update."""
+    try:
+        new = pack(fetch(list(COMPARE)), COMPARE)
+    except Exception as e:  # noqa: BLE001
+        print(f"Warning: comparison series not updated ({e})")
+        return
+    old = {}
+    if os.path.exists("compare.json"):
+        try:
+            with open("compare.json") as f:
+                old = json.load(f).get("series", {})
+        except (OSError, ValueError):
+            old = {}
+    carried = [k for k in COMPARE.values() if (k not in new or not new[k]["points"]) and old.get(k, {}).get("points")]
+    for k in carried:
+        new[k] = old[k]
+    with open("compare.json", "w") as f:
+        json.dump({"fetched_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                   "carried_over": carried, "series": new}, f, indent=1)
+    cover = {k: (v["points"][0]["date"], v["points"][-1]["date"]) for k, v in new.items() if v["points"]}
+    print("compare.json coverage:")
+    for k in sorted(cover, key=lambda k: cover[k][0]):
+        print(f"  {k:30} {cover[k][0]} to {cover[k][1]}")
 
 
 def main():
@@ -131,6 +205,7 @@ def main():
         )
     t = series["total"]["points"][-1]
     print(f"OK. Latest total debt: MVR {t['value']:,.0f} at {t['date']}")
+    write_compare()
 
 
 if __name__ == "__main__":
