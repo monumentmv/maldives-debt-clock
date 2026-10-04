@@ -34,7 +34,6 @@
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock">Debt clock</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
-    <a href="compare.html" data-page="compare">Compare</a>
     <a href="methodology.html" data-page="method">Methodology</a>
     <a href="about.html" data-page="about" aria-current="page">About</a>
   </nav>
@@ -53,15 +52,12 @@
       <div>
         <p>The Maldives National Debt Clock shows how much the Maldivian government owes, what that means for each citizen, and how the government's income and spending compare. It is built entirely from official statistics published by the Maldives Monetary Authority, and every figure is explained on the <a href="methodology.html">methodology page</a>.</p>
         <p>Public debt affects everyone. It shapes what the government can spend on schools, hospitals and islands, and what future generations will have to repay. The aim is to make those numbers easy to see and understand, without taking a political side.</p>
-        <p>The site is independent and is not affiliated with the Maldives Monetary Authority, the Ministry of Finance or any political party. Its code is open, so anyone can check how it works: <a href="https://github.com/shaheed33/maldives-debt-clock" rel="noopener">github.com/shaheed33/maldives-debt-clock</a>.</p>
-
-        <h2 style="margin-top:3rem">Who made it</h2>
-        <p><b>Shaheed</b> is a Maldivian economist and PhD candidate in Economics and Econometrics at the University of York, where his research looks at how climate vulnerability affects the cost of government borrowing. He has worked in public finance in the Maldives, including as a financial controller in a state-owned enterprise.</p>
+        <p>The site is independent and is not affiliated with the Maldives Monetary Authority, the Ministry of Finance or any political party.</p>
       </div>
 
       <div>
         <h2>Get in touch</h2>
-        <p>Spotted an error, have a question about the data, or want to use the figures? Send a message and it will come straight to me.</p>
+        <p>Spotted an error, have a question about the data, or want to use the figures? Send a message using the form below.</p>
         <form id="contact" novalidate>
           <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
           <label>Your name<input name="name" autocomplete="name" required maxlength="120"></label>
@@ -92,12 +88,21 @@
 <script src="assets/site.js"></script>
 <script>
 (() => {
-  // Paste the access key from web3forms.com here. It is safe to publish, because it only lets people send messages to you.
-  const WEB3FORMS_KEY = "PASTE-YOUR-WEB3FORMS-ACCESS-KEY";
+  // Paste the pre-filled link from your Google Form here (see the steps in the README).
+  // Fill the form's fields with NAME, EMAIL, TOPIC and MESSAGE when making the link.
+  const GOOGLE_FORM_LINK = "PASTE-YOUR-GOOGLE-FORM-PREFILLED-LINK";
 
   document.querySelectorAll("[data-pref]").forEach(t => t.hidden = true);
   const form = document.getElementById("contact"), status = document.getElementById("status"), btn = form.querySelector("button.send");
-  const configured = WEB3FORMS_KEY && !WEB3FORMS_KEY.startsWith("PASTE");
+
+  // Work out the form's address and field IDs from the pre-filled link.
+  let action = null, ids = {};
+  try {
+    const u = new URL(GOOGLE_FORM_LINK);
+    action = u.origin + u.pathname.replace(/\/viewform$/, "/formResponse");
+    u.searchParams.forEach((v, k) => { if (k.startsWith("entry.")) ids[v.trim().toUpperCase()] = k; });
+  } catch (e) { action = null; }
+  const configured = !!action && ["NAME", "EMAIL", "MESSAGE"].every(k => ids[k]);
   if (!configured) { status.textContent = "The contact form isn't switched on yet. Please check back soon."; status.className = "status err"; btn.disabled = true; }
 
   form.addEventListener("submit", async e => {
@@ -105,17 +110,16 @@
     if (!configured) return;
     const f = new FormData(form);
     if (f.get("botcheck")) return;
-    const name = (f.get("name") || "").trim(), email = (f.get("email") || "").trim(), message = (f.get("message") || "").trim();
+    const name = (f.get("name") || "").trim(), email = (f.get("email") || "").trim(), message = (f.get("message") || "").trim(), topic = f.get("topic") || "";
     if (!name || !message || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { status.textContent = "Add your name, a valid email address and a message, then send again."; status.className = "status err"; return; }
+    const body = new URLSearchParams();
+    body.append(ids.NAME, name); body.append(ids.EMAIL, email); body.append(ids.MESSAGE, message);
+    if (ids.TOPIC) body.append(ids.TOPIC, topic);
     btn.disabled = true; btn.textContent = "Sending…"; status.textContent = ""; status.className = "status";
     try {
-      const r = await fetch("https://api.web3forms.com/submit", {
-        method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ access_key: WEB3FORMS_KEY, subject: "MV Debt Clock: " + f.get("topic"), from_name: "MV Debt Clock", name, email, topic: f.get("topic"), message, replyto: email })
-      });
-      const j = await r.json();
-      if (!r.ok || !j.success) throw new Error(j.message || r.status);
-      form.reset(); status.textContent = "Message sent. Thank you, I'll reply by email."; status.className = "status ok";
+      // Google Forms doesn't report back to other websites, so a completed request is treated as sent.
+      await fetch(action, { method: "POST", mode: "no-cors", body });
+      form.reset(); status.textContent = "Message sent. Thank you, you'll get a reply by email."; status.className = "status ok";
     } catch (err) {
       status.textContent = "The message didn't send. Check your connection and try again."; status.className = "status err";
     } finally { btn.disabled = !configured; btn.textContent = "Send message"; }

@@ -25,12 +25,26 @@
   .surface .front { position: absolute; left: 0; top: -10px; width: 200%; height: 22px; animation: drift 9s linear infinite; }
   .surface .front path { fill: var(--lagoon); }
   .surface .foam { position: absolute; left: 0; top: -12px; width: 200%; height: 8px; animation: drift 9s linear infinite; opacity: .7; }
-  .island { position: absolute; width: clamp(110px, 14vw, 190px); bottom: -14px; left: 58%; z-index: 2; }
+  .island { position: absolute; width: clamp(190px, 24vw, 330px); top: 0; left: 52%; transform: translateY(-76.5%); z-index: 3; }
+  .island .fronds { transform-box: fill-box; }
+  .sky { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .sun { position: absolute; top: 1.6rem; left: 74%; width: 3.4rem; height: 3.4rem; border-radius: 50%; background: radial-gradient(circle, #fff6d6 0 45%, #ffe9a8 60%, rgba(255,233,168,0) 72%); box-shadow: 0 0 60px 30px rgba(255,240,190,.45); }
+  .cloud { position: absolute; height: 1.4rem; border-radius: 999px; background: rgba(255,255,255,.85); filter: blur(.4px); animation: cloud 140s linear infinite; }
+  .cloud::before, .cloud::after { content: ""; position: absolute; background: inherit; border-radius: 50%; }
+  .cloud::before { width: 2.2rem; height: 2.2rem; left: 1rem; top: -1.1rem; }
+  .cloud::after { width: 1.6rem; height: 1.6rem; left: 2.8rem; top: -.7rem; }
+  .cloud.c1 { width: 6rem; top: 3.2rem; left: 30%; }
+  .cloud.c2 { width: 4.4rem; top: 1.6rem; left: 60%; opacity: .7; animation-duration: 190s; animation-delay: -70s; }
+  @keyframes cloud { from { transform: translateX(-60vw); } to { transform: translateX(70vw); } }
+  .rays { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+  .rays i { position: absolute; top: 0; width: 5rem; height: 26rem; background: linear-gradient(to bottom, rgba(255,255,255,.16), rgba(255,255,255,0)); transform: skewX(-18deg); transform-origin: top; animation: ray 9s ease-in-out infinite alternate; }
+  .rays i:nth-child(1) { left: 12%; } .rays i:nth-child(2) { left: 34%; width: 3rem; animation-delay: -3s; } .rays i:nth-child(3) { left: 63%; width: 6rem; animation-delay: -5s; } .rays i:nth-child(4) { left: 85%; width: 2.5rem; animation-delay: -7s; }
+  @keyframes ray { from { opacity: .35; } to { opacity: 1; } }
   .island svg { display: block; width: 100%; height: auto; }
   .critter { position: absolute; left: 0; top: 0; z-index: 4; will-change: transform; }
-  .critter.fin { z-index: 1; }
+  .critter.under { z-index: 1; }
+  .critter.boat { z-index: 2; }
   .surface .front, .surface .foam { z-index: 2; }
-  .island { z-index: 3 !important; }
   .bubble { position: absolute; bottom: -10px; width: 6px; height: 6px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.35); animation: rise linear infinite; z-index: 1; }
   @keyframes rise { to { transform: translateY(var(--rise)); opacity: 0; } }
   .gauge { position: absolute; top: 0; bottom: 0; right: max(.6rem, env(safe-area-inset-right)); width: 3.4rem; z-index: 4; pointer-events: none; }
@@ -90,13 +104,15 @@
   .method-teaser { border-top: 1px solid rgba(169,205,214,.25); padding-top: 2rem; }
   @media (max-width: 600px) {
     .clock { font-size: clamp(2.2rem, 9.6vw, 8.5rem); }
-    .island { left: 54%; }
+    .island { left: 40%; width: 190px; }
+    .sun { width: 2.4rem; height: 2.4rem; top: 1rem; left: 70%; }
+    .cloud.c1 { top: 2.6rem; }
     .gdp-line span { font-size: .72rem; }
     .ratio-tag b { font-size: 1.3rem; }
     .legend { grid-template-columns: 1fr 1fr; gap: .9rem 1rem; }
     .legend .v { font-size: .85rem; }
   }
-  @media (prefers-reduced-motion: reduce) { .wave, .surface .front, .surface .foam { animation: none !important; } .bubble { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .wave, .surface .front, .surface .foam, .cloud, .rays i { animation: none !important; } .bubble { display: none; } }
 </style>
 </head>
 <body>
@@ -105,7 +121,6 @@
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock" aria-current="page">Debt clock</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
-    <a href="compare.html" data-page="compare">Compare</a>
     <a href="methodology.html" data-page="method">Methodology</a>
     <a href="about.html" data-page="about">About</a>
   </nav>
@@ -118,13 +133,15 @@
 
 <section class="hero" id="hero" aria-label="Debt clock">
   <div class="ratio-tag" id="ratioTag" hidden><b id="ratioVal">…</b>of GDP</div>
+  <div class="sky" aria-hidden="true"><div class="sun"></div><div class="cloud c1"></div><div class="cloud c2"></div></div>
   <div class="water" id="water" aria-hidden="true">
+    <div class="rays"><i></i><i></i><i></i><i></i></div>
     <svg class="wave back" viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0 16 Q 100 2 200 16 T 400 16 T 600 16 T 800 16 T 1000 16 T 1200 16 V30 H0Z"/></svg>
     <svg class="wave" viewBox="0 0 1200 24" preserveAspectRatio="none"><path d="M0 12 Q 75 0 150 12 T 300 12 T 450 12 T 600 12 T 750 12 T 900 12 T 1050 12 T 1200 12 V24 H0Z"/></svg>
     <div id="bubbles"></div>
   </div>
   <div class="surface" id="surface" aria-hidden="true">
-    <div class="island"><svg viewBox="0 0 160 72"><path d="M4 66 Q 40 46 80 48 Q 122 46 156 66 Z" fill="#f3e3b5"/><path d="M58 54 Q 54 32 66 12" stroke="#7a5a3a" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M66 12 q -16 -6 -30 4 M66 12 q -10 -14 -26 -12 M66 12 q 8 -14 26 -10 M66 12 q 16 0 28 12 M66 12 q 2 10 -6 18" stroke="#2f8a5b" stroke-width="4.5" fill="none" stroke-linecap="round"/><path d="M100 56 Q 104 40 96 26" stroke="#7a5a3a" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M96 26 q -12 -4 -22 4 M96 26 q -6 -12 -18 -10 M96 26 q 8 -10 20 -6 M96 26 q 12 2 18 12" stroke="#3b9e68" stroke-width="4" fill="none" stroke-linecap="round"/></svg></div>
+    <div class="island"><svg viewBox="0 0 340 120" aria-hidden="true"><defs><radialGradient id="lagoon" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#c4f5ec"/><stop offset=".55" stop-color="#7fdcd0"/><stop offset="1" stop-color="#3fb8b0" stop-opacity="0"/></radialGradient><linearGradient id="sandg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf4df"/><stop offset="1" stop-color="#ead9ae"/></linearGradient></defs><ellipse cx="160" cy="98" rx="165" ry="20" fill="url(#lagoon)"/><g stroke="#7a5a3a" stroke-width="2"><line x1="232" y1="84" x2="314" y2="84"/><line x1="252" y1="78" x2="252" y2="96"/><line x1="262" y1="78" x2="262" y2="96"/><line x1="280" y1="78" x2="280" y2="96"/><line x1="290" y1="78" x2="290" y2="96"/><line x1="306" y1="78" x2="306" y2="96"/><line x1="316" y1="78" x2="316" y2="96"/></g><rect x="248" y="68" width="18" height="11" fill="#f3e6c8"/><path d="M244 69 L257 58 L270 69 Z" fill="#b8874f"/><rect x="276" y="68" width="18" height="11" fill="#f3e6c8"/><path d="M272 69 L285 58 L298 69 Z" fill="#b8874f"/><rect x="302" y="68" width="18" height="11" fill="#f3e6c8"/><path d="M298 69 L311 58 L324 69 Z" fill="#b8874f"/><path d="M40 92 Q 70 74 120 72 Q 170 68 215 74 Q 240 80 250 92 Z" fill="url(#sandg)"/><path d="M70 80 q 8 -14 22 -10 q 8 -12 22 -6 q 12 -10 26 -2 q 12 -8 24 0 q 12 -4 18 8 q -60 6 -112 10 Z" fill="#3c8f4f"/><path d="M84 80 q 10 -10 22 -6 q 10 -8 22 -2 q 10 -6 20 2 q -30 6 -64 6 Z" fill="#4fa35c"/><g stroke-linecap="round" fill="none"><path d="M100 76 Q 92 46 104 18" stroke="#8a6a44" stroke-width="4.5"/><path d="M140 74 Q 146 44 132 10" stroke="#7a5a3a" stroke-width="5"/><path d="M176 76 Q 186 52 196 30" stroke="#8a6a44" stroke-width="4"/><path d="M120 75 Q 116 58 122 42" stroke="#7a5a3a" stroke-width="3.5"/><path d="M200 80 Q 214 64 226 54" stroke="#8a6a44" stroke-width="3.5"/></g><g class="fronds" fill="#2f8a5b"><g transform="translate(104,18)"><path d="M0 0 C -12 -8 -26 -6 -36 4 C -24 -2 -12 -1 0 2 Z"/><path d="M0 0 C 10 -12 26 -12 34 -2 C 22 -6 10 -4 0 2 Z"/><path d="M0 0 C -6 -14 -2 -24 6 -30 C 2 -20 2 -10 2 0 Z"/><path d="M0 0 C 14 2 24 10 28 20 C 18 12 8 8 0 4 Z"/><path d="M0 0 C -14 4 -22 12 -24 22 C -16 14 -8 8 0 4 Z"/></g><g transform="translate(132,10)" fill="#36985f"><path d="M0 0 C -12 -8 -28 -6 -40 6 C -26 -2 -12 -1 0 2 Z"/><path d="M0 0 C 12 -12 30 -12 40 0 C 26 -6 12 -4 0 2 Z"/><path d="M0 0 C -4 -14 2 -24 10 -28 C 4 -18 4 -8 2 0 Z"/><path d="M0 0 C 16 2 28 12 30 24 C 20 14 10 8 0 4 Z"/><path d="M0 0 C -16 4 -26 14 -28 26 C -18 16 -8 8 0 4 Z"/></g><g transform="translate(196,30)"><path d="M0 0 C -10 -8 -24 -6 -32 4 C -22 -2 -10 -1 0 2 Z"/><path d="M0 0 C 10 -10 24 -10 32 0 C 22 -4 10 -3 0 2 Z"/><path d="M0 0 C 12 2 20 10 22 18 C 14 12 6 7 0 4 Z"/><path d="M0 0 C -12 4 -18 10 -20 18 C -12 12 -6 7 0 4 Z"/></g><g transform="translate(122,42)" fill="#3f9f63"><path d="M0 0 C -8 -6 -18 -5 -24 3 C -16 -1 -8 0 0 2 Z"/><path d="M0 0 C 8 -8 18 -8 24 0 C 16 -3 8 -2 0 2 Z"/><path d="M0 0 C 8 2 14 7 16 13 C 10 9 4 6 0 4 Z"/></g><g transform="translate(226,54)" fill="#3f9f63"><path d="M0 0 C -8 -6 -18 -5 -24 3 C -16 -1 -8 0 0 2 Z"/><path d="M0 0 C 8 -8 18 -8 24 0 C 16 -3 8 -2 0 2 Z"/><path d="M0 0 C 8 2 14 7 16 13 C 10 9 4 6 0 4 Z"/></g></g><g fill="#6b4a2a"><circle cx="102" cy="21" r="2.4"/><circle cx="106" cy="22" r="2.4"/><circle cx="131" cy="13" r="2.6"/><circle cx="135" cy="14" r="2.6"/><circle cx="195" cy="33" r="2.2"/></g></svg></div>
     <svg class="front" viewBox="0 0 1200 22" preserveAspectRatio="none"><path d="M0 10 Q 60 2 120 10 T 240 10 T 360 10 T 480 10 T 600 10 T 720 10 T 840 10 T 960 10 T 1080 10 T 1200 10 V22 H0Z"/></svg>
     <svg class="foam" viewBox="0 0 1200 8" preserveAspectRatio="none"><path d="M0 6 Q 60 0 120 6 T 240 6 T 360 6 T 480 6 T 600 6 T 720 6 T 840 6 T 960 6 T 1080 6 T 1200 6" stroke="#fff" stroke-width="1.5" fill="none" stroke-dasharray="14 22"/></svg>
   </div>
@@ -271,7 +288,7 @@
     function layout() {
       const k = innerWidth < 600 ? 6 : 7;                                  // pixels per percentage point
       const tag = $("ratioTag"), tagB = tag.offsetTop + tag.offsetHeight;
-      const y0 = Math.max(120, tagB + 56);                                   // the surface: 100% of GDP
+      const y0 = Math.max(innerWidth < 600 ? 200 : 210, tagB + 100);          // the surface: 100% of GDP, with room in the sky for the scene
       const markY = y0 + ((ratio || 100) - 100) * k;                         // today's debt
       const rh = readout.offsetHeight, top = Math.max(markY, y0) + 48;
       const H = Math.max(520, Math.ceil(top + rh + 56));
@@ -300,10 +317,12 @@
 
     // sea life: every so often a dolphin leaps or a shark fin glides past
     const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const DOLPHIN = `<svg width="78" height="34" viewBox="0 0 120 52"><path d="M4 32 C 22 18 52 10 80 15 C 88 9 97 7 102 9 C 99 13 97 15 96 17 C 105 19 113 23 118 28 C 110 29 102 29 96 28 C 90 33 80 36 66 37 L 61 46 L 56 37 C 40 37 26 37 16 35 L 4 45 L 8 33 Z M58 14 L 69 1 L 73 15 Z" fill="#1d5f7a"/><circle cx="98" cy="20" r="1.6" fill="#d7ecef"/></svg>`;
-    const FIN = `<svg width="62" height="46" viewBox="0 0 46 34"><path d="M0 34 Q 15 25 27 0 Q 30 20 46 34 Z" fill="#2e4855"/></svg>`;
+    // spinner dolphin (two-tone), whale shark and dhoni, all drawn for this site
+    const DOLPHIN = `<svg width="92" height="38" viewBox="0 0 140 58"><path d="M10 31 C 24 21 48 15 76 16 C 88 12 100 12 110 17 C 117 18 126 20 135 22 C 129 25 121 26 113 26 C 106 32 92 37 74 38 C 54 39 32 37 18 34 C 13 38 8 43 3 46 C 6 40 7 35 6 31 C 7 27 6 22 3 16 C 8 20 12 25 14 30 Z" fill="#2f6f8a"/><path d="M113 26 C 106 32 92 37 74 38 C 56 39 40 37 28 35 C 46 33 70 31 92 28 C 100 27 107 26 113 26 Z" fill="#a9cfd9"/><path d="M62 17 C 64 11 68 5 75 2 C 73 8 73 13 77 17 Z" fill="#245a71"/><path d="M88 32 C 86 38 80 43 73 46 C 78 40 81 36 82 32 Z" fill="#245a71"/><circle cx="111" cy="21" r="1.6" fill="#0d2a36"/></svg>`;
+    const WHALESHARK = `<svg width="200" height="64" viewBox="0 0 230 74"><path d="M30 36 L 6 8 L 16 36 L 4 66 Z" fill="#244d5e"/><path d="M26 37 C 60 24 120 20 172 23 C 198 25 216 30 222 37 C 216 44 198 49 172 50 C 120 52 60 48 26 40 Z" fill="#2c5a6c"/><path d="M112 23 L 124 7 L 134 22 Z" fill="#244d5e"/><path d="M162 48 L 150 66 L 174 49 Z" fill="#244d5e"/><path d="M205 42 C 212 41 217 39 221 37" stroke="#1b3a47" stroke-width="2" fill="none"/><g fill="#d8f1f3" opacity=".75"><circle cx="190" cy="31" r="1.8"/><circle cx="178" cy="28" r="1.8"/><circle cx="184" cy="38" r="1.8"/><circle cx="166" cy="33" r="1.8"/><circle cx="152" cy="28" r="1.8"/><circle cx="158" cy="40" r="1.8"/><circle cx="140" cy="34" r="1.8"/><circle cx="126" cy="29" r="1.8"/><circle cx="130" cy="42" r="1.8"/><circle cx="112" cy="35" r="1.8"/><circle cx="98" cy="30" r="1.8"/><circle cx="100" cy="42" r="1.8"/><circle cx="84" cy="36" r="1.8"/><circle cx="70" cy="33" r="1.8"/><circle cx="58" cy="38" r="1.8"/></g><g stroke="#d8f1f3" stroke-width="1" opacity=".45"><line x1="146" y1="24" x2="146" y2="48"/><line x1="120" y1="23" x2="120" y2="48"/><line x1="92" y1="25" x2="92" y2="46"/><line x1="66" y1="28" x2="66" y2="44"/></g></svg>`;
+    const DHONI = `<svg width="104" height="76" viewBox="0 0 150 110"><path d="M62 10 L 62 74" stroke="#5a4030" stroke-width="2.5"/><path d="M64 14 L 64 66 L 100 66 Z" fill="#fbf7ec" stroke="#e2dccb" stroke-width="1"/><rect x="30" y="60" width="34" height="14" rx="1.5" fill="#f6efe0"/><rect x="27" y="56" width="40" height="5" rx="1" fill="#b83a2e"/><rect x="35" y="64" width="6" height="5" fill="#1d5f7a"/><rect x="45" y="64" width="6" height="5" fill="#1d5f7a"/><rect x="55" y="64" width="6" height="5" fill="#1d5f7a"/><path d="M6 74 L 114 74 C 122 74 126 66 128 50 C 130 36 134 28 140 24 C 143 23 144 25 142 27 C 137 32 135 42 134 54 C 132 76 124 90 108 92 L 26 92 C 16 92 9 84 6 74 Z" fill="#fdfbf5"/><path d="M10 82 C 40 84 90 84 126 80" stroke="#1d5f7a" stroke-width="3.5" fill="none"/></svg>`;
     function splash(x) {
-      for (let i = 0; i < 7; i++) {
+      for (let i = 0; i < 8; i++) {
         const d = document.createElement("div"); d.className = "critter";
         d.style.cssText += "width:5px;height:5px;border-radius:50%;background:#e9f7f6;opacity:.9";
         $("surface").appendChild(d);
@@ -312,34 +331,46 @@
           d.style.transform = `translate(${x + vx * k}px, ${vy * k + 120 * k * k - 8}px)`; d.style.opacity = 1 - k; requestAnimationFrame(step); })(t0);
       }
     }
-    function dolphin() {
-      const W = hero.clientWidth, el = document.createElement("div"); el.className = "critter"; el.innerHTML = DOLPHIN; $("surface").appendChild(el);
-      const x0 = W * (.08 + Math.random() * .25), span = 230 + Math.random() * 80, peak = 70 + Math.random() * 30, dur = 1500, t0 = performance.now();
-      splash(x0);
-      (function step(t) {
-        const k = (t - t0) / dur; if (k > 1) { el.remove(); splash(x0 + span); return; }
-        const x = x0 + span * k, y = -peak * Math.sin(Math.PI * k), ang = -Math.atan2(peak * Math.PI * Math.cos(Math.PI * k), span) * 180 / Math.PI;
-        el.style.transform = `translate(${x - 39}px, ${y - 22}px) rotate(${ang}deg)`; requestAnimationFrame(step);
-      })(t0);
+    // one leap; spin = a full roll mid-air, as spinner dolphins do
+    function leap(x0, span, peak, delay, spin) {
+      setTimeout(() => {
+        const el = document.createElement("div"); el.className = "critter"; el.innerHTML = DOLPHIN; $("surface").appendChild(el);
+        const dur = 1500, t0 = performance.now(); splash(x0);
+        (function step(t) {
+          const k = (t - t0) / dur; if (k > 1) { el.remove(); splash(x0 + span); return; }
+          const x = x0 + span * k, y = -peak * Math.sin(Math.PI * k), ang = -Math.atan2(peak * Math.PI * Math.cos(Math.PI * k), span) * 180 / Math.PI;
+          const roll = spin ? Math.cos(Math.PI * 2 * Math.min(1, Math.max(0, (k - .2) / .6))) : 1;   // scaleY swings to -1 and back
+          el.style.transform = `translate(${x - 46}px, ${y - 24}px) rotate(${ang}deg) scaleY(${roll})`; requestAnimationFrame(step);
+        })(t0);
+      }, delay);
     }
-    function shark() {
-      const W = hero.clientWidth, el = document.createElement("div"); el.className = "critter"; el.innerHTML = FIN; el.classList.add("fin"); $("surface").appendChild(el);
-      const dir = Math.random() < .5 ? 1 : -1, dur = 11000, t0 = performance.now();
+    function dolphin() {   // a small pod, one of them spinning
+      const W = hero.clientWidth, x0 = W * (.06 + Math.random() * .2), n = W < 600 ? 2 : 3, spinner = Math.floor(Math.random() * n);
+      const maxPeak = Math.max(40, surfaceY - ($("ratioTag").offsetTop + $("ratioTag").offsetHeight) - 30);   // stay below the top label
+      for (let i = 0; i < n; i++) leap(x0 + i * 46, (W < 600 ? 170 : 220) + Math.random() * 60, Math.min(maxPeak, 64 + Math.random() * 34 + (i === spinner ? 16 : 0)), i * 320, i === spinner);
+    }
+    function glide(html, cls, dur, y, sway, flip) {
+      const W = hero.clientWidth, el = document.createElement("div"); el.className = "critter " + cls; el.innerHTML = html; $("surface").appendChild(el);
+      const w = el.firstChild.getAttribute("width") * 1, dir = flip ? -1 : 1, t0 = performance.now();
       if (dir < 0) el.firstChild.style.transform = "scaleX(-1)";
       (function step(t) {
         const k = (t - t0) / dur; if (k > 1) { el.remove(); return; }
-        const x = dir > 0 ? -60 + (W + 120) * k : W + 60 - (W + 120) * k;
-        el.style.transform = `translate(${x}px, ${-38 + Math.sin(t / 380) * 2.5}px)`; requestAnimationFrame(step);
+        const x = dir > 0 ? -w - 20 + (W + w + 40) * k : W + 20 - (W + w + 40) * k;
+        el.style.transform = `translate(${x}px, ${y + Math.sin(t / 700) * sway}px)`; requestAnimationFrame(step);
       })(t0);
     }
-    window.__sea = { dolphin, shark };
+    const whaleShark = () => glide(WHALESHARK, "under", 30000, 26 + Math.random() * 30, 4, Math.random() < .5);
+    const dhoni = () => glide(DHONI, "boat", 38000, -58, 1.6, Math.random() < .5);
+    const shark = whaleShark;
+    window.__sea = { dolphin, whaleShark, dhoni };
     if (!calm) {
       const bb = $("bubbles");
       for (let i = 0; i < 10; i++) { const b = document.createElement("div"); b.className = "bubble"; const sz = 4 + Math.random() * 6;
         b.style.cssText = `left:${5 + Math.random() * 85}%;width:${sz}px;height:${sz}px;animation-duration:${9 + Math.random() * 10}s;animation-delay:${-Math.random() * 15}s;--rise:-${300 + Math.random() * 400}px`; bb.appendChild(b); }
-      let turn = 0;
-      const next = () => setTimeout(() => { if (!document.hidden) (turn++ % 2 ? shark : dolphin)(); next(); }, 22000 + Math.random() * 20000);
-      setTimeout(() => { dolphin(); next(); }, 4500);
+      const cast = [whaleShark, dolphin, dhoni, dolphin]; let turn = 0;
+      const next = () => setTimeout(() => { if (!document.hidden) cast[turn++ % cast.length](); next(); }, 18000 + Math.random() * 16000);
+      setTimeout(() => { dolphin(); next(); }, 4000);
+      setTimeout(() => { if (!document.hidden) dhoni(); }, 9000);
     }
 
     function render() {
