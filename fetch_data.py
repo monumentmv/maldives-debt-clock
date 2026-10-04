@@ -43,6 +43,15 @@ SERIES = {
     2036: "salaries_pensions",
     2049: "interest_costs",   # financing and interest costs
     2050: "subsidies",        # grants, contributions and subsidies
+    # prices, for inflation adjustment
+    280:  "cpi",              # national consumer price index, monthly
+    # fuel imports, US dollars, monthly (Maldives Customs Service)
+    3486: "imports_goods",    # all goods imports
+    3503: "fuel_imports",     # petroleum products
+    3504: "fuel_petrol",
+    3505: "fuel_diesel",      # diesel (marine gas oil)
+    3507: "fuel_other",
+    3787: "crude_price",      # World Bank average of Brent, Dubai and WTI, US$ per barrel
 }
 
 URL = "https://database.mma.gov.mv/api/series"

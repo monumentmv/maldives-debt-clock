@@ -3,153 +3,82 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Maldives National Debt Clock</title>
-<meta name="description" content="A live estimate of the Maldives' public and publicly guaranteed debt, built from Maldives Monetary Authority statistics.">
-<meta property="og:title" content="Maldives National Debt Clock">
-<meta property="og:description" content="How much the Maldives government owes, right now.">
 <meta name="theme-color" content="#072f40">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<title>Maldives National Debt Clock</title>
+<meta name="description" content="A live estimate of the Maldives' public and publicly guaranteed debt, built from Maldives Monetary Authority statistics.">
+<meta property="og:title" content="Maldives National Debt Clock">
+<meta property="og:description" content="How much the Maldives government owes, right now.">
 <style>
-  :root {
-    --sky: #d7ecef; --sky-low: #eef6f4;
-    --lagoon: #3fb8b0; --deep: #0b4f6c; --abyss: #072f40; --trench: #05222f;
-    --sun: #f4c95d; --coral: #ff8a6b; --foam: #ffffff; --ink: #072f40; --mist: #a9cdd6;
-    --display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
-    --body: "Atkinson Hyperlegible", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    --gutter: max(1.25rem, env(safe-area-inset-left));
-  }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; }
-  body { font-family: var(--body); color: var(--ink); background: var(--abyss); line-height: 1.5; -webkit-font-smoothing: antialiased; }
-  .num { font-variant-numeric: tabular-nums; }
-
-  /* ---------- hero: the lagoon ---------- */
-  .hero { position: relative; min-height: 100svh; overflow: hidden; background: linear-gradient(to bottom, var(--sky), var(--sky-low)); }
-  .water { position: absolute; left: 0; right: 0; bottom: 0; height: 0;
-    background: linear-gradient(to bottom, var(--lagoon) 0, var(--deep) 9rem, var(--abyss) 100%);
-    transition: height 2.4s cubic-bezier(.2,.7,.2,1); }
+  .hero { position: relative; min-height: calc(100svh - var(--head-h)); overflow: hidden; background: linear-gradient(to bottom, var(--sky), var(--sky-low)); }
+  .water { position: absolute; left: 0; right: 0; bottom: 0; height: 0; background: linear-gradient(to bottom, var(--lagoon) 0, var(--deep) 9rem, var(--abyss) 100%); transition: height 2.4s cubic-bezier(.2,.7,.2,1); }
   .wave { position: absolute; left: 0; top: -23px; width: 200%; height: 24px; animation: drift 14s linear infinite; }
   .wave path { fill: var(--lagoon); }
   @keyframes drift { to { transform: translateX(-50%); } }
-
   .gdp-line { position: absolute; left: 0; right: 0; height: 0; border-top: 2px dashed var(--sun); opacity: 0; transition: opacity .6s 1.8s; }
   .gdp-line span { position: absolute; right: var(--gutter); top: -1.85rem; font-size: .8rem; font-weight: 700; color: var(--abyss); background: var(--sun); padding: .1rem .5rem; border-radius: 3px; white-space: nowrap; }
-
-  .topbar { position: absolute; z-index: 2; top: max(1rem, env(safe-area-inset-top)); left: var(--gutter); right: var(--gutter);
-    display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
-  .ratio-tag { font-size: .95rem; color: var(--ink); }
+  .ratio-tag { position: absolute; z-index: 2; top: 1rem; left: var(--gutter); font-size: .95rem; color: var(--ink); }
   .ratio-tag b { font-family: var(--display); font-size: 1.6rem; font-weight: 800; font-variation-settings: "wdth" 75; margin-right: .25rem; }
-
-  .toggle { display: inline-flex; background: rgba(7,47,64,.08); border-radius: 999px; padding: 3px; }
-  .toggle button { font: 700 .9rem var(--body); border: 0; background: transparent; color: var(--ink); padding: .45rem .9rem; border-radius: 999px; cursor: pointer; min-height: 2.25rem; }
-  .toggle button[aria-pressed="true"] { background: var(--abyss); color: var(--foam); }
-  .toggle button:focus-visible { outline: 2px solid var(--sun); outline-offset: 2px; }
-  .toggle.on-dark { background: rgba(255,255,255,.08); }
-  .toggle.on-dark button { color: var(--mist); }
-  .toggle.on-dark button[aria-pressed="true"] { background: var(--sun); color: var(--abyss); }
-
   .readout { position: absolute; left: 0; right: 0; padding: 0 var(--gutter); max-width: 72rem; margin: 0 auto; color: var(--foam); }
   .readout.dry { color: var(--ink); }
+  .readout p, .readout strong { color: inherit; }
   .readout h1 { font: 700 clamp(1rem, 2.4vw, 1.3rem) var(--body); margin: 0 0 .3rem; }
-  .clock { font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 66;
-    font-size: clamp(2.5rem, 11.2vw, 8.5rem); line-height: .95; letter-spacing: -.01em; margin: 0; white-space: nowrap;
-    text-shadow: 0 2px 24px rgba(7,47,64,.35); }
+  .clock { font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 66; font-size: clamp(2.5rem, 11.2vw, 8.5rem); line-height: .95; letter-spacing: -.01em; margin: 0; white-space: nowrap; text-shadow: 0 2px 24px rgba(7,47,64,.35); }
   .clock .cur { font-weight: 400; font-size: .4em; vertical-align: .95em; margin-right: .18em; }
   .asof { margin: .8rem 0 0; font-size: clamp(.95rem, 2.2vw, 1.15rem); }
   .asof time { font-weight: 700; }
   .sub { font-size: clamp(.95rem, 2vw, 1.1rem); margin: .35rem 0 0; max-width: 40rem; opacity: .85; }
-  .readout p, .readout strong { color: inherit; }
-  .readout .sub { opacity: .85; }
-
   .notice { position: absolute; inset: auto 1.25rem 2rem 1.25rem; max-width: 36rem; margin: 0 auto; background: var(--foam); color: var(--ink); padding: 1rem 1.25rem; border-radius: 6px; display: none; }
   .notice.on { display: block; }
 
-  /* ---------- below the surface ---------- */
-  main { color: var(--foam); background: var(--abyss); padding: 4rem var(--gutter) 3rem; }
-  .wrap { max-width: 72rem; margin: 0 auto; }
-  section { margin: 0 0 5rem; }
-  h2 { font-family: var(--display); font-weight: 700; font-variation-settings: "wdth" 85; font-size: clamp(1.6rem, 4vw, 2.4rem); margin: 0 0 1rem; line-height: 1.1; }
-  h3 { font: 700 1.05rem var(--body); margin: 2.5rem 0 1rem; }
-  p { max-width: 40rem; margin: 0 0 1rem; color: var(--mist); }
-  p b, p strong { color: var(--foam); }
-
-  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: 2.5rem 3rem; }
-  .stat .n { font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 70; font-size: clamp(2rem, 4.6vw, 3rem); line-height: 1; color: var(--foam); white-space: nowrap; }
-  .stat .n small { font-size: .55em; font-weight: 500; color: var(--mist); }
-  .stat .l { color: var(--mist); margin-top: .55rem; max-width: 22rem; }
-  .stat.hot .n { color: var(--sun); }
-  .stat.warn .n { color: var(--coral); }
-
-  .callout { font-family: var(--display); font-variation-settings: "wdth" 85; font-weight: 500; font-size: clamp(1.25rem, 3vw, 1.75rem); line-height: 1.3; color: var(--foam); max-width: 46rem; margin: 0 0 1rem; }
-  .callout b { color: var(--sun); font-weight: 800; }
-
   .bar { display: flex; height: 3.25rem; border-radius: 4px; overflow: hidden; margin: 1.5rem 0 1.25rem; gap: 2px; }
-  .bar div { height: 100%; }
   .legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem 2rem; list-style: none; padding: 0; margin: 0; }
   .legend li { display: grid; grid-template-columns: .9rem 1fr; gap: .2rem .7rem; align-items: baseline; }
   .legend i { width: .9rem; height: .9rem; border-radius: 2px; display: inline-block; transform: translateY(.1rem); }
   .legend .v { grid-column: 2; color: var(--mist); font-size: .95rem; }
-
   .split { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1.5rem 3rem; margin-top: 2rem; }
   .split .big { font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 72; font-size: clamp(2.2rem, 5vw, 3rem); line-height: 1; }
   .split .lbl { color: var(--mist); margin-top: .4rem; }
-
-  .chart-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; flex-wrap: wrap; }
-  .chart-box { position: relative; margin-top: 1.25rem; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
-  .chart-box svg { display: block; width: 100%; height: auto; overflow: visible; }
-  .chart-box text { fill: var(--mist); font-family: var(--body); font-size: 12px; }
-  .tip { position: absolute; top: 0; pointer-events: none; background: var(--foam); color: var(--ink); border-radius: 6px; padding: .6rem .8rem; font-size: .875rem; line-height: 1.35; min-width: 11rem; box-shadow: 0 6px 24px rgba(0,0,0,.25); opacity: 0; transition: opacity .12s; }
-  .tip.on { opacity: 1; }
-  .tip b { display: block; font-size: .95rem; margin-bottom: .2rem; }
-  .tip .row { display: flex; justify-content: space-between; gap: 1rem; }
-  .tip .row span:last-child { font-weight: 700; font-variant-numeric: tabular-nums; }
-  .hint { font-size: .85rem; color: var(--mist); margin-top: .5rem; }
-
   .hbars { display: grid; gap: .9rem; max-width: 46rem; }
   .hbar .top { display: flex; justify-content: space-between; gap: 1rem; font-size: .95rem; }
   .hbar .top span:last-child { color: var(--mist); white-space: nowrap; }
   .hbar .track { height: .6rem; background: rgba(169,205,214,.12); border-radius: 3px; margin-top: .35rem; overflow: hidden; }
   .hbar .fill { height: 100%; border-radius: 3px; }
-
-  .method { border-top: 1px solid rgba(169,205,214,.25); padding-top: 2rem; }
-  .method p { font-size: .95rem; }
-  footer { color: var(--mist); font-size: .875rem; padding-bottom: env(safe-area-inset-bottom); }
-  a { color: var(--sun); }
-  a:focus-visible { outline: 2px solid var(--sun); outline-offset: 3px; }
-
+  .method-teaser { border-top: 1px solid rgba(169,205,214,.25); padding-top: 2rem; }
   @media (max-width: 600px) {
-    main { padding-top: 3rem; }
-    section { margin-bottom: 3.5rem; }
     .gdp-line span { font-size: .72rem; }
     .ratio-tag b { font-size: 1.3rem; }
-    .stats { gap: 2rem; }
     .legend { grid-template-columns: 1fr 1fr; gap: .9rem 1rem; }
     .legend .v { font-size: .85rem; }
   }
-  @media (prefers-reduced-motion: reduce) { .wave { animation: none; } .water, .gdp-line { transition: none; } }
 </style>
 </head>
 <body>
-
-<header class="hero" id="hero">
-  <div class="topbar">
-    <div class="ratio-tag" id="ratioTag" hidden><b id="ratioVal">–</b>of GDP</div>
-    <div class="toggle" role="group" aria-label="Currency">
-      <button type="button" data-cur="MVR" aria-pressed="true">MVR</button>
-      <button type="button" data-cur="USD" aria-pressed="false">US$</button>
-    </div>
+<header class="site-head">
+  <a class="brand" href="./">MV <span>Debt Clock</span></a>
+  <nav class="site-nav" aria-label="Main">
+    <a href="./" data-page="clock" aria-current="page">Debt clock</a>
+    <a href="fuel.html" data-page="fuel">Fuel imports</a>
+    <a href="methodology.html" data-page="method">Methodology</a>
+    <a href="about.html" data-page="about">About</a>
+  </nav>
+  <div class="prefs">
+    <div class="toggle" data-pref="cur" role="group" aria-label="Currency"><button type="button" data-v="MVR" aria-pressed="true">MVR</button><button type="button" data-v="USD" aria-pressed="false">US$</button></div>
+    <div class="toggle" data-pref="real" role="group" aria-label="Inflation adjustment" title="Real shows past amounts in today's prices, adjusted for inflation"><button type="button" data-v="0" aria-pressed="true">Nominal</button><button type="button" data-v="1" aria-pressed="false">Real</button></div>
   </div>
+</header>
+<div class="real-note" role="status"></div>
 
+<section class="hero" id="hero" aria-label="Debt clock">
+  <div class="ratio-tag" id="ratioTag" hidden><b id="ratioVal">–</b>of GDP</div>
   <div class="water" id="water">
-    <svg class="wave" viewBox="0 0 1200 24" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0 12 Q 75 0 150 12 T 300 12 T 450 12 T 600 12 T 750 12 T 900 12 T 1050 12 T 1200 12 V24 H0Z"/>
-    </svg>
+    <svg class="wave" viewBox="0 0 1200 24" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12 Q 75 0 150 12 T 300 12 T 450 12 T 600 12 T 750 12 T 900 12 T 1050 12 T 1200 12 V24 H0Z"/></svg>
   </div>
   <div class="gdp-line" id="gdpLine"><span>Debt equal to a full year of GDP</span></div>
-
   <div class="readout" id="readout">
     <h1>Maldives National Debt Clock</h1>
     <p class="clock num"><span class="cur" id="clockCur">MVR</span><span id="clock">—</span></p>
@@ -157,342 +86,242 @@
     <p class="sub" id="sub">Loading the latest figures from the Maldives Monetary Authority.</p>
   </div>
   <div class="notice" id="notice" role="status"></div>
-</header>
+</section>
 
-<main>
-  <div class="wrap">
+<main class="dark">
+<div class="wrap">
 
-    <section aria-label="Key figures">
-      <div class="stats">
-        <div class="stat hot"><div class="n num" id="perPerson">—</div><div class="l">owed for every person living in the Maldives, rising every second</div></div>
-        <div class="stat"><div class="n num" id="perSecond">—</div><div class="l" id="perSecondLbl">added to the debt each second, on the pace of the last year</div></div>
-        <div class="stat warn" id="interestStat"><div class="n num" id="interest">—</div><div class="l" id="interestLbl">spent on interest and financing costs every day</div></div>
+  <section aria-label="Key figures">
+    <div class="stats">
+      <div class="stat hot"><div class="n num" id="perPerson">—</div><div class="l">owed for every Maldivian citizen, rising every second</div></div>
+      <div class="stat"><div class="n num" id="perSecond">—</div><div class="l" id="perSecondLbl">added to the debt each second, on the pace of the last year</div></div>
+      <div class="stat warn" id="interestStat"><div class="n num" id="interest">—</div><div class="l" id="interestLbl">spent on interest and financing costs every day</div></div>
+    </div>
+  </section>
+
+  <section id="growthSec" hidden>
+    <p class="callout" id="growthLine"></p>
+    <p id="quarterLine"></p>
+  </section>
+
+  <section>
+    <h2>Who it's owed to</h2>
+    <p>Domestic debt is owed to lenders inside the Maldives, mostly banks, the central bank and the pension fund. External debt is owed abroad, to other governments, development banks and bondholders. Guaranteed debt is borrowed by state companies, with the government promising to pay if they can't.</p>
+    <div class="bar" id="bar" role="img" aria-label="Debt breakdown"></div>
+    <ul class="legend" id="legend"></ul>
+    <div class="split" id="gdpSplit"></div>
+  </section>
+
+  <section>
+    <div class="chart-head">
+      <div><h2>How it got here</h2><p id="chartNote" style="margin:0"></p></div>
+      <div class="subtoggle" role="group" aria-label="Chart view">
+        <button type="button" data-view="amount" aria-pressed="true">Amount</button>
+        <button type="button" data-view="ratio" aria-pressed="false">% of GDP</button>
       </div>
-    </section>
+    </div>
+    <div class="chart-box" id="chart"></div>
+    <div class="hint">Hover or tap the chart to see each quarter.</div>
+  </section>
 
-    <section id="growthSec" hidden>
-      <p class="callout" id="growthLine"></p>
-      <p id="quarterLine"></p>
-    </section>
+  <section id="fiscalSec" hidden>
+    <h2>What the government collects and spends</h2>
+    <p id="fiscalNote"></p>
+    <div class="stats">
+      <div class="stat"><div class="n num" id="revPP">—</div><div class="l">collected per citizen in a year, in taxes, fees and grants</div></div>
+      <div class="stat red"><div class="n num" id="expPP">—</div><div class="l">spent per citizen in a year</div></div>
+      <div class="stat red"><div class="n num" id="gapPP">—</div><div class="l" id="gapLbl">gap per citizen, covered by borrowing</div></div>
+    </div>
+    <h3>Every second, the government</h3>
+    <div class="stats">
+      <div class="stat"><div class="n num" id="revSec">—</div><div class="l">collects</div></div>
+      <div class="stat red"><div class="n num" id="expSec">—</div><div class="l">spends</div></div>
+    </div>
 
-    <section>
-      <h2>Who it's owed to</h2>
-      <p>Domestic debt is owed to lenders inside the Maldives, mostly banks, the central bank and the pension fund. External debt is owed abroad, to other governments, development banks and bondholders. Guaranteed debt is borrowed by state companies, with the government promising to pay if they can't.</p>
-      <div class="bar" id="bar" role="img" aria-label="Debt breakdown"></div>
-      <ul class="legend" id="legend"></ul>
-      <div class="split" id="gdpSplit"></div>
-    </section>
+    <h3>Year by year</h3>
+    <p id="annualNote" style="margin-bottom:0"></p>
+    <div class="chart-box" id="annual"></div>
+    <div class="key"><span><i style="background:#3fb8b0"></i>Revenue</span><span><i style="background:#ff5f56"></i>Spending</span><span style="color:#ff5f56;font-weight:700">Red figure under each year: deficit</span></div>
 
-    <section>
-      <div class="chart-head">
-        <div>
-          <h2>How it got here</h2>
-          <p id="chartNote" style="margin:0"></p>
-        </div>
-        <div class="toggle on-dark" role="group" aria-label="Chart view">
-          <button type="button" data-view="amount" aria-pressed="true">Amount</button>
-          <button type="button" data-view="ratio" aria-pressed="false">% of GDP</button>
-        </div>
-      </div>
-      <div class="chart-box" id="chart"><div class="tip" id="tip"></div></div>
-      <div class="hint">Hover or tap the chart to see each quarter.</div>
-    </section>
+    <p class="callout" id="interestShare" style="margin-top:2.5rem"></p>
+    <h3 id="spendHead">Where a year's spending goes</h3>
+    <div class="hbars" id="hbars"></div>
+  </section>
 
-    <section id="fiscalSec" hidden>
-      <h2>What the government collects and spends</h2>
-      <p id="fiscalNote"></p>
-      <div class="stats">
-        <div class="stat"><div class="n num" id="revPP">—</div><div class="l">collected per person in a year, in taxes, fees and grants</div></div>
-        <div class="stat"><div class="n num" id="expPP">—</div><div class="l">spent per person in a year</div></div>
-        <div class="stat warn"><div class="n num" id="gapPP">—</div><div class="l" id="gapLbl">gap per person, covered by more borrowing</div></div>
-      </div>
-      <h3>Every second, the government</h3>
-      <div class="stats">
-        <div class="stat"><div class="n num" id="revSec">—</div><div class="l">collects</div></div>
-        <div class="stat"><div class="n num" id="expSec">—</div><div class="l">spends</div></div>
-      </div>
-      <p class="callout" id="interestShare" style="margin-top:2.5rem"></p>
-      <h3 id="spendHead">Where a year's spending goes</h3>
-      <div class="hbars" id="hbars"></div>
-    </section>
+  <section class="method-teaser">
+    <h2>How the clock works</h2>
+    <p>Official debt figures come out once a quarter. The clock starts from the latest published total and adds debt at the average pace of the most recent four quarters, so the number between releases is an <b>estimate</b>. When a new quarter is published, the clock resets to the official figure. The site checks for new data every morning.</p>
+    <p id="methodDetail"></p>
+    <p id="popNote"></p>
+    <p><a href="methodology.html">Read the full methodology</a>: where every number comes from, how it's calculated, and what it leaves out.</p>
+  </section>
 
-    <section class="method">
-      <h2>How the clock works</h2>
-      <p>Official debt figures come out once a quarter. The clock starts from the latest published total and adds debt at the average pace of the most recent four quarters, so the number between releases is an <b>estimate</b>. When a new quarter is published, the clock resets to the official figure. The page checks for new data every morning.</p>
-      <p id="methodDetail"></p>
-      <p id="popNote"></p>
-      <p>Source: <a href="https://database.mma.gov.mv" rel="noopener">MMA Statistics Database</a>, compiled from the Ministry of Finance and Planning and the Maldives Bureau of Statistics. This site is independent and not affiliated with the Maldives Monetary Authority.</p>
-    </section>
-
-    <footer id="footer"></footer>
-  </div>
+</div>
 </main>
+<footer class="site-foot"><div class="wrap">
+  <span id="fetched">Source: Maldives Monetary Authority Statistics Database.</span>
+  <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent; not affiliated with the MMA.</span></span>
+</div></footer>
 
+<script src="assets/site.js"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
+  const { fmt, sym, short, money, moneyFull, conv, ts, mLabel, qLabel, last, row, SEC_YEAR } = MV;
   const SCALE_MAX = 160;
   const COLORS = { domestic_cg: "#3fb8b0", domestic_guaranteed: "#9fe0d6", external_cg: "#f4c95d", external_guaranteed: "#f7e2a6" };
   const LABELS = { domestic_cg: "Domestic, central government", domestic_guaranteed: "Domestic, guaranteed", external_cg: "External, central government", external_guaranteed: "External, guaranteed" };
-  const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-  const SEC_YEAR = 365.25 * 86400;
-
-  // ---------- currency state ----------
-  let cur = "MVR";
-  try { cur = new URLSearchParams(location.search).get("cur")?.toUpperCase() === "USD" ? "USD" : (localStorage.getItem("cur") || "MVR"); } catch (e) {}
-  let USD = 15.42;           // replaced by MMA's latest rate
-  let rateAt = () => USD;    // historical rate lookup, set once data loads
-
-  const fmt = (n, d = 0) => n.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
-  const conv = (mvr, date) => cur === "USD" ? mvr / (date ? rateAt(date) : USD) : mvr;
-  const sym = () => cur === "USD" ? "US$" : "MVR";
-  const short = n => { const a = Math.abs(n);
-    if (a >= 1e9) return fmt(n / 1e9, 1) + " bn";
-    if (a >= 1e6) return fmt(n / 1e6, 1) + " m";
-    if (a >= 1e4) return fmt(n);
-    return fmt(n, a < 10 ? 2 : 0); };
-  const money = (mvr, date) => sym() + " " + short(conv(mvr, date));
-  const moneyFull = (mvr, d = 0) => sym() + " " + fmt(conv(mvr), d);
-
-  const last = s => s && s.points && s.points.length ? s.points[s.points.length - 1] : null;
-  const ts = d => new Date(d + "T23:59:59Z").getTime();
   const pct = v => v == null ? null : (v < 5 ? v * 100 : v);   // MMA stores some ratios as 1.23 rather than 123
-  const qLabel = d => { const dt = new Date(d); return "Q" + (Math.floor(dt.getUTCMonth() / 3) + 1) + " " + dt.getUTCFullYear(); };
-  const mLabel = d => { const dt = new Date(d); return MONTHS[dt.getUTCMonth()] + " " + dt.getUTCFullYear(); };
 
-  // ---------- live Malé clock ----------
+  // live Malé time
   const mvFmt = new Intl.DateTimeFormat("en-GB", { timeZone: "Indian/Maldives", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false, weekday: "long", day: "numeric", month: "long", year: "numeric" });
-  const mvTick = () => {
-    const p = Object.fromEntries(mvFmt.formatToParts(new Date()).map(x => [x.type, x.value]));
-    $("mvTime").textContent = `${p.hour}:${p.minute}:${p.second}, ${p.weekday} ${p.day} ${p.month} ${p.year}`;
-  };
+  const mvTick = () => { const p = Object.fromEntries(mvFmt.formatToParts(new Date()).map(x => [x.type, x.value])); $("mvTime").textContent = `${p.hour}:${p.minute}:${p.second}, ${p.weekday} ${p.day} ${p.month} ${p.year}`; };
   mvTick(); setInterval(mvTick, 1000);
 
-  function fail(msg) { const n = $("notice"); n.textContent = msg; n.classList.add("on"); $("sub").textContent = ""; }
+  Promise.all([MV.getJSON("data.json"), MV.getJSON("population.json").catch(() => null)])
+    .then(([d, p]) => init(d, p))
+    .catch(err => { console.error(err); const n = $("notice"); n.textContent = "No debt data yet. The repository owner needs to run the “Update debt data” workflow under the Actions tab."; n.classList.add("on"); $("sub").textContent = ""; });
 
-  fetch("data.json", { cache: "no-store" })
-    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(init)
-    .catch(err => { console.error(err); fail("No debt data yet. The repository owner needs to run the “Update debt data” workflow under the Actions tab."); });
-
-  function init(data) {
-    const S = data.series;
+  function init(data, POP) {
+    const S = data.series; MV.setData(S); MV.paintPrefs();
     const tot = S.total.points.filter(p => p.value > 0);
-    const latest = tot[tot.length - 1];
-    const back = tot[Math.max(0, tot.length - 5)];
-    const rate = (latest.value - back.value) / ((ts(latest.date) - ts(back.date)) / 1000 || 1); // MVR per second
-    const t0 = ts(latest.date);
-    const debtNow = () => latest.value + rate * (Date.now() - t0) / 1000;
-
-    // exchange rate
-    const fx = (S.usd_rate?.points || []).filter(p => p.value > 0);
-    if (fx.length) {
-      USD = fx[fx.length - 1].value;
-      rateAt = date => { let r = fx[0].value; for (const p of fx) { if (p.date <= date) r = p.value; else break; } return r; };
-    }
-
-    // population: this year's projection (MBS mid-year), else the latest before it
-    const thisYear = Number(new Intl.DateTimeFormat("en", { timeZone: "Indian/Maldives", year: "numeric" }).format(new Date()));
-    const popPts = S.population?.points || [];
-    const popPt = popPts.find(p => new Date(p.date).getUTCFullYear() === thisYear) || [...popPts].reverse().find(p => ts(p.date) <= Date.now()) || popPts[popPts.length - 1];
-    let pop = popPt?.value;
-    if (pop && pop < 10000) pop *= 1000;
-
+    const latest = tot[tot.length - 1], back = tot[Math.max(0, tot.length - 5)];
+    const rate = (latest.value - back.value) / ((ts(latest.date) - ts(back.date)) / 1000 || 1);
+    const debtNow = () => latest.value + rate * (Date.now() - ts(latest.date)) / 1000;
+    const popNow = POP ? () => POP.base * Math.exp(POP.annual_growth * (Date.now() - ts(POP.base_date)) / 1000 / SEC_YEAR) : () => null;
     const ratioPts = (S.debt_to_gdp?.points || []).map(p => ({ date: p.date, value: pct(p.value) }));
     const ratio = ratioPts.length ? ratioPts[ratioPts.length - 1].value : null;
 
-    // ---------- monthly fiscal: 12 months to the latest month every series has ----------
-    const fiscalKeys = ["revenue", "expenditure", "interest_costs", "salaries_pensions", "subsidies", "capital_exp", "tax_revenue"];
-    const have = fiscalKeys.filter(k => S[k]?.points?.length >= 12);
-    let fiscal = null;
-    if (have.includes("revenue") && have.includes("expenditure")) {
-      const end = have.map(k => last(S[k]).date).sort()[0];
-      const sum12 = k => {
-        if (!have.includes(k)) return null;
-        const pts = S[k].points.filter(p => p.date <= end).slice(-12);
-        if (pts.length < 12) return null;
-        const months = (new Date(pts[11].date).getUTCFullYear() - new Date(pts[0].date).getUTCFullYear()) * 12 + new Date(pts[11].date).getUTCMonth() - new Date(pts[0].date).getUTCMonth();
-        return months === 11 ? pts.reduce((a, p) => a + p.value, 0) : null;
-      };
-      fiscal = { end }; fiscalKeys.forEach(k => fiscal[k] = sum12(k));
-      if (fiscal.revenue == null || fiscal.expenditure == null) fiscal = null;
-    }
+    // monthly fiscal: months up to the latest month that revenue and spending both have
+    const fk = ["revenue", "expenditure", "interest_costs", "salaries_pensions", "subsidies", "capital_exp"];
+    const fiscalOK = S.revenue?.points?.length >= 12 && S.expenditure?.points?.length >= 12;
+    const fEnd = fiscalOK ? ["revenue", "expenditure"].map(k => last(S[k]).date).sort()[0] : null;
+    const months = k => (S[k]?.points || []).filter(p => p.date <= fEnd);
+    const sumDisp = pts => pts.reduce((a, p) => a + conv(p.value, p.date), 0);   // in the visitor's currency and price basis
+    const last12 = k => { const m = months(k).slice(-12); return m.length === 12 ? sumDisp(m) : null; };
+    const disp = v => sym() + " " + short(v), dispFull = (v, d = 0) => sym() + " " + fmt(v, d);
 
-    // ---------- tickers ----------
+    // tickers
     const tick = () => {
-      const v = debtNow();
-      $("clock").textContent = fmt(conv(v));
-      if (pop) {
-        const pp = conv(v / pop), d = cur === "USD" ? 5 : 4, s = pp.toFixed(d).split(".");
-        $("perPerson").innerHTML = `${sym()} ${fmt(Number(s[0]))}<small>.${s[1]}</small>`;
-      }
+      const v = debtNow(); $("clock").textContent = fmt(conv(v));
+      const pop = popNow();
+      if (pop) { const pp = conv(v / pop), dd = MV.state.cur === "USD" ? 5 : 4, s = pp.toFixed(dd).split("."); $("perPerson").innerHTML = `${sym()} ${fmt(Number(s[0]))}<small>.${s[1]}</small>`; }
     };
     setInterval(tick, 60);
 
-    // ---------- hero layout ----------
+    // hero layout
     const hero = $("hero"), water = $("water"), line = $("gdpLine"), readout = $("readout");
     const scale = Math.max(SCALE_MAX, (ratio || 0) + 25);
     if (ratio) { $("ratioVal").textContent = fmt(ratio, 1) + "%"; $("ratioTag").hidden = false; }
     function layout() {
-      const H = hero.clientHeight, top0 = 72;
-      const waterPx = H * (ratio ? Math.min(ratio / scale, 0.9) : 0.6);
+      const H = hero.clientHeight, waterPx = H * (ratio ? Math.min(ratio / scale, 0.9) : 0.6);
       water.style.height = waterPx + "px";
-      const lineY = H - H * 100 / scale;
-      line.style.top = lineY + "px"; line.style.opacity = ratio ? 1 : 0;
+      const lineY = H - H * 100 / scale; line.style.top = lineY + "px"; line.style.opacity = ratio ? 1 : 0;
       const rh = readout.offsetHeight, surface = H - waterPx;
       let top = Math.max(surface + 110, ratio >= 100 ? lineY + 44 : 0);
       if (top + rh > H - 20) top = Math.max(surface + 40, H - rh - 28);
       if (waterPx > rh + 60) { readout.classList.remove("dry"); readout.style.top = top + "px"; }
-      else { readout.classList.add("dry"); readout.style.top = Math.max(top0, surface - rh - 40) + "px"; }
+      else { readout.classList.add("dry"); readout.style.top = Math.max(64, surface - rh - 40) + "px"; }
     }
 
-    // ---------- everything that depends on currency ----------
-    function renderStatic() {
+    function render() {
+      const real = MV.state.real && MV.cpiLast;
       $("clockCur").textContent = sym();
-      document.querySelectorAll("[data-cur]").forEach(b => b.setAttribute("aria-pressed", b.dataset.cur === cur));
-      const other = cur === "USD" ? "MVR " + short(debtNow()) : "US$ " + short(debtNow() / USD);
-      $("sub").innerHTML = `Estimated from the official figure of ${money(latest.value)} at the end of ${mLabel(latest.date)}. About <strong>${other}</strong> today.`;
-      $("perSecond").textContent = (rate < 0 ? "−" : "") + moneyFull(Math.abs(rate), cur === "USD" ? 2 : 0);
+      const other = MV.state.cur === "USD" ? "MVR " + short(debtNow()) : "US$ " + short(debtNow() / MV.USD);
+      $("sub").innerHTML = `Estimated from the official figure of ${money(latest.value, latest.date)} at the end of ${mLabel(latest.date)}. About <strong>${other}</strong> today.`;
+      $("perSecond").textContent = (rate < 0 ? "−" : "") + moneyFull(Math.abs(rate), MV.state.cur === "USD" ? 2 : 0);
       $("perSecondLbl").textContent = rate >= 0 ? "added to the debt each second, on the pace of the last year" : "paid down each second, on the pace of the last year";
 
-      // interest: all government financing and interest costs, else external interest only
-      const iq = S.ext_interest_q?.points || [];
-      if (fiscal?.interest_costs) {
-        $("interest").textContent = money(fiscal.interest_costs / 365.25);
-        $("interestLbl").textContent = `spent on interest and financing costs every day, over the 12 months to ${mLabel(fiscal.end)}`;
-      } else if (iq.length >= 4) {
-        $("interest").textContent = money(iq.slice(-4).reduce((a, p) => a + p.value, 0) * USD / 365.25);
-        $("interestLbl").textContent = "paid in interest to foreign lenders every day, over the last four quarters";
-      } else $("interestStat").hidden = true;
+      const int12 = fiscalOK ? last12("interest_costs") : null;
+      if (int12) { $("interest").textContent = disp(int12 / 365.25); $("interestLbl").textContent = `spent on interest and financing costs every day, over the 12 months to ${mLabel(fEnd)}`; }
+      else $("interestStat").hidden = true;
 
       // growth story
       const first = tot[0], prev = tot[tot.length - 2];
-      if (first && prev) {
-        $("growthLine").innerHTML = `Since ${mLabel(first.date)}, public debt has grown <b>${fmt(latest.value / first.value, 1)} times</b>, from ${money(first.value, first.date)} to ${money(latest.value, latest.date)}.`
-          + (fiscal ? ` It now equals <b>${fmt(latest.value / fiscal.revenue, 1)} years</b> of everything the government collects.` : "");
-        const ch = k => { const s = S[k]?.points; if (!s || s.length < 2) return null; return s[s.length - 1].value - s[s.length - 2].value; };
-        const dd = ch("domestic"), de = ch("external"), dt = latest.value - prev.value;
-        const word = (v, up, down) => v >= 0 ? `${up} by ${money(v)}` : `${down} by ${money(-v)}`;
-        let q = `In the three months to ${mLabel(latest.date)}, total debt ${word(dt, "rose", "fell")}`;
-        if (dd != null && de != null) q += `: domestic debt ${word(dd, "rose", "fell")} and external debt ${word(de, "rose", "fell")}`;
-        $("quarterLine").textContent = q + ".";
-        $("growthSec").hidden = false;
-      }
+      const rev12 = fiscalOK ? last12("revenue") : null, exp12 = fiscalOK ? last12("expenditure") : null;
+      const mult = conv(latest.value, latest.date) / conv(first.value, first.date);
+      $("growthLine").innerHTML = `Since ${mLabel(first.date)}, public debt has grown <b>${fmt(mult, 1)} times</b>${real ? " after inflation" : ""}, from ${money(first.value, first.date)} to ${money(latest.value, latest.date)}${real ? ` in ${mLabel(MV.cpiLast.date)} prices` : ""}.`
+        + (rev12 ? ` It now equals <b>${fmt(conv(latest.value, latest.date) / rev12, 1)} years</b> of everything the government collects.` : "");
+      const ch = k => { const s = S[k]?.points; if (!s || s.length < 2) return null; const a = s[s.length - 2], b = s[s.length - 1]; return conv(b.value, b.date) - conv(a.value, a.date); };
+      const word = (v, up, down) => v >= 0 ? `${up} by ${disp(v)}` : `${down} by ${disp(-v)}`;
+      const dt = conv(latest.value, latest.date) - conv(prev.value, prev.date), dd = ch("domestic"), de = ch("external");
+      $("quarterLine").textContent = `In the three months to ${mLabel(latest.date)}, total debt ${word(dt, "rose", "fell")}` + (dd != null && de != null ? `: domestic debt ${word(dd, "rose", "fell")} and external debt ${word(de, "rose", "fell")}.` : ".");
+      $("growthSec").hidden = false;
 
       // breakdown
-      const parts = ["domestic_cg", "domestic_guaranteed", "external_cg", "external_guaranteed"].map(k => ({ k, v: last(S[k])?.value })).filter(p => p.v > 0);
-      const sum = parts.reduce((a, p) => a + p.v, 0);
-      $("bar").innerHTML = parts.map(p => `<div style="flex-grow:${p.v};background:${COLORS[p.k]}" title="${LABELS[p.k]}"></div>`).join("");
-      $("legend").innerHTML = parts.map(p => `<li><i style="background:${COLORS[p.k]}"></i><span>${LABELS[p.k]}</span><span class="v num">${money(p.v)}, ${fmt(100 * p.v / sum, 1)}% of debt</span></li>`).join("");
-      const dg = pct(last(S.domestic_to_gdp)?.value), eg = pct(last(S.external_to_gdp)?.value);
-      const dv = last(S.domestic)?.value, ev = last(S.external)?.value;
+      const parts = ["domestic_cg", "domestic_guaranteed", "external_cg", "external_guaranteed"].map(k => ({ k, p: last(S[k]) })).filter(x => x.p?.value > 0);
+      const sum = parts.reduce((a, x) => a + x.p.value, 0);
+      $("bar").innerHTML = parts.map(x => `<div style="flex-grow:${x.p.value};background:${COLORS[x.k]}" title="${LABELS[x.k]}"></div>`).join("");
+      $("legend").innerHTML = parts.map(x => `<li><i style="background:${COLORS[x.k]}"></i><span>${LABELS[x.k]}</span><span class="v num">${money(x.p.value, x.p.date)}, ${fmt(100 * x.p.value / sum, 1)}% of debt</span></li>`).join("");
+      const dg = pct(last(S.domestic_to_gdp)?.value), eg = pct(last(S.external_to_gdp)?.value), dv = last(S.domestic), ev = last(S.external);
       $("gdpSplit").innerHTML = [
-        dv ? `<div><div class="big num" style="color:${COLORS.domestic_cg}">${dg ? fmt(dg, 1) + "%" : fmt(100 * dv / latest.value, 1) + "%"}</div><div class="lbl">${dg ? "of GDP is owed at home" : "of the debt is owed at home"} (${money(dv)})</div></div>` : "",
-        ev ? `<div><div class="big num" style="color:${COLORS.external_cg}">${eg ? fmt(eg, 1) + "%" : fmt(100 * ev / latest.value, 1) + "%"}</div><div class="lbl">${eg ? "of GDP is owed abroad" : "of the debt is owed abroad"} (${money(ev)})</div></div>` : "",
-        ratio ? `<div><div class="big num" style="color:var(--foam)">${fmt(ratio, 1)}%</div><div class="lbl">of GDP in total, at the end of ${mLabel(latest.date)}</div></div>` : ""
-      ].join("");
+        dv && dg ? `<div><div class="big num" style="color:${COLORS.domestic_cg}">${fmt(dg, 1)}%</div><div class="lbl">of GDP is owed at home (${money(dv.value, dv.date)})</div></div>` : "",
+        ev && eg ? `<div><div class="big num" style="color:${COLORS.external_cg}">${fmt(eg, 1)}%</div><div class="lbl">of GDP is owed abroad (${money(ev.value, ev.date)})</div></div>` : "",
+        ratio ? `<div><div class="big num" style="color:var(--foam)">${fmt(ratio, 1)}%</div><div class="lbl">of GDP in total, at the end of ${mLabel(latest.date)}</div></div>` : ""].join("");
 
       // fiscal
-      if (fiscal && pop) {
-        const gap = fiscal.expenditure - fiscal.revenue;
-        $("fiscalNote").innerHTML = `Over the 12 months to <b>${mLabel(fiscal.end)}</b>, the latest monthly figures published. Per-person figures use the same population as above.`;
-        $("revPP").textContent = money(fiscal.revenue / pop);
-        $("expPP").textContent = money(fiscal.expenditure / pop);
-        $("gapPP").textContent = money(Math.abs(gap) / pop);
-        $("gapLbl").textContent = gap >= 0 ? "more spent than collected per person, covered by borrowing" : "more collected than spent per person";
-        $("revSec").textContent = moneyFull(fiscal.revenue / SEC_YEAR, cur === "USD" ? 2 : 0);
-        $("expSec").textContent = moneyFull(fiscal.expenditure / SEC_YEAR, cur === "USD" ? 2 : 0);
-        $("interestShare").innerHTML = fiscal.interest_costs
-          ? `For every <b>${sym()} 100</b> the government collects, <b>${sym()} ${fmt(100 * fiscal.interest_costs / fiscal.revenue, 0)}</b> goes on interest and financing costs.` : "";
-        const items = [
-          ["Salaries, wages and pensions", fiscal.salaries_pensions, "#3fb8b0"],
-          ["Grants, contributions and subsidies", fiscal.subsidies, "#9fe0d6"],
-          ["Interest and financing costs", fiscal.interest_costs, "#ff8a6b"],
-          ["Capital spending (building and equipment)", fiscal.capital_exp, "#f4c95d"],
-        ].filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
-        $("hbars").innerHTML = items.map(([l, v, c]) => `<div class="hbar"><div class="top"><span>${l}</span><span class="num">${money(v)}, ${fmt(100 * v / fiscal.expenditure, 0)}%</span></div><div class="track"><div class="fill" style="width:${100 * v / fiscal.expenditure}%;background:${c}"></div></div></div>`).join("");
+      const pop = popNow();
+      if (fiscalOK && pop && rev12 && exp12) {
+        const gap = exp12 - rev12, firstM = months("revenue").slice(-12)[0].date;
+        $("fiscalNote").innerHTML = `Over the 12 months from <b>${mLabel(firstM)} to ${mLabel(fEnd)}</b>, the latest monthly figures published. Per-citizen figures use the same population estimate as the debt clock.`;
+        $("revPP").textContent = disp(rev12 / pop); $("expPP").textContent = disp(exp12 / pop); $("gapPP").textContent = disp(Math.abs(gap) / pop);
+        $("gapLbl").textContent = gap >= 0 ? "more spent than collected per citizen, covered by borrowing" : "more collected than spent per citizen";
+        $("revSec").textContent = dispFull(rev12 / SEC_YEAR, MV.state.cur === "USD" ? 2 : 0);
+        $("expSec").textContent = dispFull(exp12 / SEC_YEAR, MV.state.cur === "USD" ? 2 : 0);
+        $("interestShare").innerHTML = int12 ? `For every <b>${sym()} 100</b> the government collects, <b class="red">${sym()} ${fmt(100 * int12 / rev12, 0)}</b> goes on interest and financing costs.` : "";
+        const items = [["Salaries, wages and pensions", last12("salaries_pensions"), "#3fb8b0"], ["Grants, contributions and subsidies", last12("subsidies"), "#9fe0d6"],
+          ["Interest and financing costs", int12, "#ff8a6b"], ["Capital spending (building and equipment)", last12("capital_exp"), "#f4c95d"]].filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
+        $("hbars").innerHTML = items.map(([l, v, c]) => `<div class="hbar"><div class="top"><span>${l}</span><span class="num">${disp(v)}, ${fmt(100 * v / exp12, 0)}%</span></div><div class="track"><div class="fill" style="width:${100 * v / exp12}%;background:${c}"></div></div></div>`).join("");
         $("spendHead").hidden = !items.length;
         $("fiscalSec").hidden = false;
+        drawAnnual();
       }
 
-      // method + footer
-      $("methodDetail").innerHTML = `Right now that pace is <b>${money(rate * SEC_YEAR)} a year</b>, from the change between ${mLabel(back.date)} and ${mLabel(latest.date)}.`
-        + ` Dollar figures use the MMA reference rate (MVR ${fmt(USD, 2)} per US dollar today; historical rates for past quarters).`;
-      if (pop) $("popNote").innerHTML = `Per-person figures divide by <b>${fmt(Math.round(pop))}</b> people, the Maldives Bureau of Statistics projected mid-year population for ${new Date(popPt.date).getUTCFullYear()}. It includes both Maldivians and foreign residents.`;
-      $("footer").textContent = "Data last fetched " + new Date(data.fetched_at).toLocaleString("en-GB", { timeZone: "Indian/Maldives", dateStyle: "long", timeStyle: "short" }) + ", Malé time.";
+      $("methodDetail").innerHTML = `Right now that pace is <b>${money(rate * SEC_YEAR)} a year</b>, from the change between ${mLabel(back.date)} and ${mLabel(latest.date)}. Dollar figures use the MMA reference rate (MVR ${fmt(MV.USD, 2)} per US dollar today).`;
+      if (pop && POP) $("popNote").innerHTML = `Per-citizen figures divide by an estimated <b>${fmt(Math.round(pop))}</b> Maldivian citizens today: the ${fmt(POP.base)} on the national register at the end of 2025, grown at ${fmt(POP.annual_growth * 100, 2)}% a year, the rate the Maldivian population grew between the last two censuses.`;
+      $("fetched").textContent = "Data last fetched " + MV.fetched(data.fetched_at) + ", Malé time. Source: MMA Statistics Database.";
       tick(); drawChart();
     }
 
-    // ---------- chart ----------
+    // annual revenue vs spending
+    function drawAnnual() {
+      const rv = months("revenue"), ex = months("expenditure");
+      const years = [...new Set(rv.map(p => p.date.slice(0, 4)))].filter(y => rv.filter(p => p.date.startsWith(y)).length === 12 && ex.filter(p => p.date.startsWith(y)).length === 12);
+      const cats = years.map(y => ({ label: y }));
+      const R = years.map(y => sumDisp(rv.filter(p => p.date.startsWith(y)))), E = years.map(y => sumDisp(ex.filter(p => p.date.startsWith(y))));
+      const lastFull = years[years.length - 1];
+      if (fEnd.slice(0, 4) !== lastFull || fEnd.slice(5, 7) !== "12") { cats.push({ label: "Last 12m", partial: false }); R.push(last12("revenue")); E.push(last12("expenditure")); }
+      const bn = v => fmt(v / 1e9, 1) + " bn";
+      $("annualNote").textContent = `Revenue and spending each calendar year, in billions of ${MV.state.cur === "USD" ? "US dollars" : "rufiyaa"}${MV.state.real && MV.cpiLast ? `, in ${mLabel(MV.cpiLast.date)} prices` : ""}. The red figure under each year is the deficit. "Last 12m" is the 12 months to ${mLabel(fEnd)}.`;
+      MV.barChart($("annual"), {
+        cats, label: "Government revenue and spending by year",
+        groups: [{ color: "#3fb8b0", vals: R.map(v => v / 1e9) }, { color: "#ff5f56", vals: E.map(v => v / 1e9) }],
+        yFmt: v => fmt(v), below: i => { const g = E[i] - R[i]; return { text: (g >= 0 ? "−" : "+") + fmt(Math.abs(g) / 1e9, 1), color: g >= 0 ? "#ff5f56" : "#3fb8b0" }; },
+        tip: i => `<b>${cats[i].label === "Last 12m" ? "12 months to " + mLabel(fEnd) : cats[i].label}</b>` + row("Revenue", sym() + " " + bn(R[i])) + row("Spending", sym() + " " + bn(E[i])) +
+          row(E[i] >= R[i] ? "Deficit" : "Surplus", `<span style="color:${E[i] >= R[i] ? "#d63b33" : "#0b6b5f"}">${sym()} ${bn(Math.abs(E[i] - R[i]))}</span>`) + row("Spending per 100 collected", fmt(100 * E[i] / R[i], 0))
+      });
+    }
+
+    // debt chart
     let view = "amount";
     const byDate = k => Object.fromEntries((S[k]?.points || []).map(p => [p.date, p.value]));
     const domD = byDate("domestic"), extD = byDate("external"), ratD = Object.fromEntries(ratioPts.map(p => [p.date, p.value]));
     const rows = tot.map(p => ({ date: p.date, total: p.value, dom: domD[p.date], ext: extD[p.date], ratio: ratD[p.date] }));
-    const box = $("chart"), tip = $("tip");
-
     function drawChart() {
-      const useRatio = view === "ratio" && rows.some(r => r.ratio);
-      const data = rows.filter(r => useRatio ? r.ratio != null : true);
-      const val = r => useRatio ? r.ratio : conv(r.total, r.date) / 1e9;
-      $("chartNote").textContent = useRatio ? "Total public debt as a share of the economy (GDP), each quarter." : `Total public and publicly guaranteed debt at the end of each quarter, in billions of ${cur === "USD" ? "US dollars" : "rufiyaa"}.`;
-
-      const W = Math.max(300, box.clientWidth), Hc = Math.round(Math.min(360, Math.max(220, W * .42)));
-      const pad = { l: 40, r: 10, t: 14, b: 28 };
-      const x0 = ts(data[0].date), x1 = ts(data[data.length - 1].date);
-      const ymax = Math.max(...data.map(val), useRatio ? 110 : 0) * 1.08;
-      const X = t => pad.l + (t - x0) / (x1 - x0 || 1) * (W - pad.l - pad.r);
-      const Y = v => Hc - pad.b - v / ymax * (Hc - pad.t - pad.b);
-      const path = data.map((r, i) => (i ? "L" : "M") + X(ts(r.date)).toFixed(1) + " " + Y(val(r)).toFixed(1)).join(" ");
-      const area = path + ` L${X(x1)} ${Hc - pad.b} L${X(x0)} ${Hc - pad.b} Z`;
-      const mag = Math.pow(10, Math.floor(Math.log10(ymax / 5)));
-      const step = [1, 2, 5, 10].map(m => m * mag).find(s => ymax / s <= (W < 500 ? 4 : 6));
-      let g = "";
-      for (let v = 0; v <= ymax; v += step) g += `<line x1="${pad.l}" x2="${W - pad.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="rgba(169,205,214,.15)"/><text x="${pad.l - 8}" y="${Y(v) + 4}" text-anchor="end">${fmt(v)}${useRatio ? "%" : ""}</text>`;
-      if (useRatio) g += `<line x1="${pad.l}" x2="${W - pad.r}" y1="${Y(100)}" y2="${Y(100)}" stroke="#f4c95d" stroke-dasharray="5 4" stroke-width="1.5"/>`;
-      const y0 = new Date(x0).getUTCFullYear(), y1 = new Date(x1).getUTCFullYear();
-      const every = Math.max(1, Math.ceil((y1 - y0) / Math.max(3, Math.floor(W / 90))));
-      for (let y = y0 + 1; y <= y1; y += every) g += `<text x="${X(Date.UTC(y, 0, 1))}" y="${Hc - 8}" text-anchor="middle">${y}</text>`;
-      const lr = data[data.length - 1];
-      box.querySelector("svg")?.remove();
-      box.insertAdjacentHTML("afterbegin", `<svg viewBox="0 0 ${W} ${Hc}" width="${W}" height="${Hc}" role="img" aria-label="Debt by quarter, ${qLabel(data[0].date)} to ${qLabel(lr.date)}">
-        <defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#3fb8b0" stop-opacity=".55"/><stop offset="1" stop-color="#3fb8b0" stop-opacity="0"/></linearGradient></defs>
-        ${g}<path d="${area}" fill="url(#g)"/><path d="${path}" fill="none" stroke="#3fb8b0" stroke-width="2.5" stroke-linejoin="round"/>
-        <circle cx="${X(ts(lr.date))}" cy="${Y(val(lr))}" r="5" fill="#f4c95d"/>
-        <g id="hov" style="display:none"><line id="hl" y1="${pad.t}" y2="${Hc - pad.b}" stroke="#ffffff" stroke-opacity=".5"/><circle id="hc" r="6" fill="#ffffff" stroke="#072f40" stroke-width="2"/></g>
-        <rect x="${pad.l}" y="0" width="${W - pad.l - pad.r}" height="${Hc}" fill="transparent" id="hit"/></svg>`);
-
-      const svg = box.querySelector("svg"), hov = svg.querySelector("#hov");
-      const show = e => {
-        const r = svg.getBoundingClientRect(), mx = (e.clientX - r.left) * W / r.width;
-        let i = 0, best = Infinity;
-        data.forEach((d, j) => { const dx = Math.abs(X(ts(d.date)) - mx); if (dx < best) { best = dx; i = j; } });
-        const d = data[i], cx = X(ts(d.date)), cy = Y(val(d));
-        hov.style.display = ""; svg.querySelector("#hl").setAttribute("x1", cx); svg.querySelector("#hl").setAttribute("x2", cx);
-        svg.querySelector("#hc").setAttribute("cx", cx); svg.querySelector("#hc").setAttribute("cy", cy);
-        const row = (l, v) => v == null ? "" : `<div class="row"><span>${l}</span><span>${v}</span></div>`;
-        tip.innerHTML = `<b>${qLabel(d.date)}</b>` + row("Total", money(d.total, d.date)) + row("Domestic", d.dom != null ? money(d.dom, d.date) : null) + row("External", d.ext != null ? money(d.ext, d.date) : null) + row("Share of GDP", d.ratio != null ? fmt(d.ratio, 1) + "%" : null);
-        tip.classList.add("on");
-        const px = cx * r.width / W, tw = tip.offsetWidth;
-        tip.style.left = Math.min(Math.max(0, px + 14 + tw > r.width ? px - tw - 14 : px + 14), r.width - tw) + "px";
-      };
-      const hide = () => { hov.style.display = "none"; tip.classList.remove("on"); };
-      const hit = svg.querySelector("#hit");
-      hit.addEventListener("pointermove", show); hit.addEventListener("pointerdown", show); hit.addEventListener("pointerleave", hide);
+      const useRatio = view === "ratio";
+      $("chartNote").textContent = useRatio ? "Total public debt as a share of the economy (GDP), each quarter. Inflation doesn't affect this view." :
+        `Total public and publicly guaranteed debt at the end of each quarter, in billions of ${MV.state.cur === "USD" ? "US dollars" : "rufiyaa"}${MV.state.real && MV.cpiLast ? `, in ${mLabel(MV.cpiLast.date)} prices` : ""}.`;
+      MV.lineChart($("chart"), {
+        rows: useRatio ? rows.filter(r => r.ratio != null) : rows, label: "Debt by quarter",
+        series: [{ val: r => useRatio ? r.ratio : conv(r.total, r.date) / 1e9, color: "#3fb8b0", area: true }],
+        ref: useRatio ? { value: 100, color: "#f4c95d" } : null, yFmt: v => fmt(v) + (useRatio ? "%" : ""),
+        tip: r => `<b>${qLabel(r.date)}</b>` + row("Total", money(r.total, r.date)) + row("Domestic", r.dom != null ? money(r.dom, r.date) : null) + row("External", r.ext != null ? money(r.ext, r.date) : null) + row("Share of GDP", r.ratio != null ? fmt(r.ratio, 1) + "%" : null)
+      });
     }
-
-    // ---------- controls ----------
-    document.querySelectorAll("[data-cur]").forEach(b => b.addEventListener("click", () => {
-      cur = b.dataset.cur; try { localStorage.setItem("cur", cur); } catch (e) {}
-      renderStatic();
-    }));
-    document.querySelectorAll("[data-view]").forEach(b => b.addEventListener("click", () => {
-      view = b.dataset.view; document.querySelectorAll("[data-view]").forEach(x => x.setAttribute("aria-pressed", x === b)); drawChart();
-    }));
-    let rz; addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { layout(); drawChart(); }, 120); });
-
-    renderStatic();
-    requestAnimationFrame(layout);
-    document.fonts?.ready.then(layout);
+    document.querySelectorAll("[data-view]").forEach(b => b.addEventListener("click", () => { view = b.dataset.view; document.querySelectorAll("[data-view]").forEach(x => x.setAttribute("aria-pressed", x === b)); drawChart(); }));
+    MV.onPrefs(render);
+    MV.onResize(() => { layout(); drawChart(); if (!$("fiscalSec").hidden) drawAnnual(); });
+    render(); requestAnimationFrame(layout); document.fonts?.ready.then(layout);
   }
 })();
 </script>

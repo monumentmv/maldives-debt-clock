@@ -1,29 +1,21 @@
-# Maldives Debt Clock
+# Maldives National Debt Clock
 
 A live estimate of Maldives public and publicly guaranteed debt, built from the
 [MMA Statistics Database](https://database.mma.gov.mv).
 
-- `index.html` is the whole website (no build step).
-- `fetch_data.py` pulls the latest figures from the MMA API and writes `data.json`.
-- `.github/workflows/update-data.yml` runs that script every day and commits the result.
+## Files
 
-The API token lives only in a GitHub secret. It is never in the code or the website.
+- `index.html`: the debt clock
+- `fuel.html`: monthly fuel imports, with crisis periods
+- `methodology.html`: how every figure is calculated
+- `about.html`: about and contact form (set `WEB3FORMS_KEY` near the bottom of the file)
+- `assets/site.css`, `assets/site.js`: shared styles, header toggles and charts
+- `population.json`: the citizen population estimate. Update it once a year when the
+  Department of National Registration publishes a new year-end figure.
+- `fetch_data.py`: downloads the latest figures from the MMA API into `data.json`
+- `.github/workflows/update-data.yml`: runs that script every morning
 
-## Series used
-
-| ID   | Series |
-|------|--------|
-| 4514 | Total outstanding public & publicly guaranteed debt (MVR) |
-| 4515–4520 | Domestic / external, central government / guaranteed |
-| 4522 | Total outstanding debt, % of GDP |
-| 79   | Population |
-| 4039 | MVR per US dollar |
-| 5226 | Quarterly interest paid on central government external debt (USD) |
-
-## How the clock ticks
-
-Start from the latest quarterly total, then add debt at the average pace of the
-last four quarters, per second. Each new official release resets it.
+The MMA API token lives only in the `MMA_TOKEN` repository secret.
 
 ## Run locally
 
