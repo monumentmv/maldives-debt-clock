@@ -23,6 +23,17 @@
   .crisis .impact b.up { color: var(--red); } .crisis .impact b.down { color: var(--lagoon); }
   .stat .d { font-size: .9rem; margin-top: .35rem; font-weight: 700; }
   .stat .d.up { color: var(--red); } .stat .d.down { color: var(--lagoon); }
+  .pill { font: 700 .85rem var(--body); border: 1px solid rgba(244,201,93,.5); background: transparent; color: var(--mist); padding: .4rem .85rem; border-radius: 999px; cursor: pointer; min-height: 2.1rem; display: inline-flex; align-items: center; gap: .45rem; }
+  .pill .dot { width: .7rem; height: .7rem; border-radius: 2px; border: 2px solid var(--sun); }
+  .pill[aria-pressed="true"] { color: var(--foam); }
+  .pill[aria-pressed="true"] .dot { background: var(--sun); }
+  .marks { display: flex; flex-wrap: wrap; gap: .4rem 1.5rem; margin-top: .6rem; font-size: .9rem; color: var(--mist); }
+  .marks b.hi { color: var(--red); } .marks b.lo { color: #9fe0d6; }
+  .events { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: .5rem 1.5rem; font-size: .9rem; color: var(--mist); }
+  .events li { display: grid; grid-template-columns: 1.4rem 1fr; gap: .5rem; align-items: start; }
+  .events .num { width: 1.25rem; height: 1.25rem; border-radius: 50%; color: var(--abyss); font-weight: 800; font-size: .75rem; display: grid; place-items: center; margin-top: .1rem; }
+  .events b { color: var(--foam); }
+  .crisis h3 .num { display: inline-grid; place-items: center; width: 1.35rem; height: 1.35rem; border-radius: 50%; color: var(--abyss); font-size: .78rem; margin-right: .4rem; vertical-align: .1rem; }
   .ctl-label { font-size: .875rem; font-weight: 700; color: var(--mist); margin-right: -.5rem; }
   .l12 { margin-top: 1.25rem; padding: .9rem 1.1rem; background: rgba(255,255,255,.05); border-radius: 6px; font-size: .95rem; color: var(--mist); }
   .l12 b { color: var(--foam); }
@@ -64,12 +75,14 @@
       <div class="controls">
         <div class="subtoggle" role="group" aria-label="Period"><button type="button" data-range="all" aria-pressed="true">All</button><button type="button" data-range="2015" aria-pressed="false">Since 2015</button><button type="button" data-range="5" aria-pressed="false">5 years</button></div>
         <div class="subtoggle" role="group" aria-label="Detail"><button type="button" data-split="0" aria-pressed="true">Total</button><button type="button" data-split="1" aria-pressed="false">By product</button></div>
-        <span class="ctl-label">World oil price</span><div class="subtoggle" role="group" aria-label="World oil price"><button type="button" data-crude="1" aria-pressed="true">On</button><button type="button" data-crude="0" aria-pressed="false">Off</button></div>
+        <button type="button" class="pill" id="crudeBtn" aria-pressed="true"><span class="dot"></span>World oil price</button>
       </div>
     </div>
     <div class="chart-box" id="chart"></div>
+    <div class="marks num" id="marks"></div>
     <div class="key" id="key"></div>
-    <div class="hint">Hover or tap the chart to see each month. Shaded periods are crises listed below.</div>
+    <ol class="events" id="events" aria-label="Crises shaded on the chart"></ol>
+    <div class="hint">Hover or tap the chart to see each month. Numbers match the crises listed below.</div>
   </section>
 
   <section>
@@ -164,7 +177,7 @@
       const unit = "US$";
       MV.lineChart($("chart"), {
         rows, label: "Monthly fuel imports", series, noEndDot: split, maxH: 400,
-        bands: CRISES.map(c => ({ from: c.from, to: c.to, color: colorOf(c), label: c.label })),
+        bands: CRISES.map((c, i) => ({ from: c.from, to: c.to, color: colorOf(c), n: i + 1 })), yTitle: "US$ m", yTitleR: showCrude ? "US$/barrel" : null,
         vlines: rows.some(r => r.date >= "2015-03-01") && rows[0].date < "2015-04-01" ? [{ date: "2015-03-31", label: "Coverage change" }] : [],
         marks: split ? [] : [{ date: hi.date, value: val(hi), color: RED, label: `Highest: ${unit} ${fmt(val(hi), 0)}m, ${mShort(hi.date)}` },
                              { date: lo.date, value: val(lo), color: "#9fe0d6", label: `Lowest: ${unit} ${fmt(val(lo), 0)}m, ${mShort(lo.date)}`, below: true }],
@@ -175,6 +188,9 @@
             + (r === hi ? `<span class="tag" style="background:${RED}">Highest month in view</span>` : "") + (r === lo ? `<span class="tag" style="background:#0b6b5f">Lowest month in view</span>` : "")
             + (c ? `<br><span class="tag" style="background:${colorOf(c)}">${c.title}</span>` : ""); }
       });
+      $("marks").innerHTML = split ? "" : `<span>Highest month: <b class="hi">US$ ${fmt(hi.v / 1e6, 0)}m, ${mLabel(hi.date)}</b></span><span>Lowest month: <b class="lo">US$ ${fmt(lo.v / 1e6, 1)}m, ${mLabel(lo.date)}</b></span>`;
+      const short2 = d => MV.mShort(d);
+      $("events").innerHTML = CRISES.map((c, i) => `<li><span class="num" style="background:${colorOf(c)}">${i + 1}</span><span><b>${c.title}</b><br>${short2(c.from)}${c.from.slice(0, 7) === c.to.slice(0, 7) ? "" : " to " + short2(c.to)}</span></li>`).join("");
       $("key").innerHTML = (split ? `<span><i class="line" style="background:#3fb8b0"></i>Maldives diesel imports</span><span><i class="line" style="background:#9fe0d6"></i>Maldives petrol imports</span><span><i class="line" style="background:#a98bd6"></i>Other products</span>` : `<span><i class="line" style="background:#3fb8b0"></i>Maldives fuel imports</span>`)
         + (showCrude ? `<span><i class="line" style="background:#f4c95d"></i>World crude oil price</span>` : "")
         + `<span><i style="background:${RED};opacity:.6"></i>War or conflict</span><span><i style="background:${AMBER};opacity:.6"></i>Other crisis</span>`;
@@ -197,7 +213,7 @@
           if (before[0].date < "2015-04-01" && during[during.length - 1].date >= "2015-04-01") impact += ` <i>Part of this change reflects the April 2015 change in what the fuel series covers, not just prices.</i>`;
         } else if (!during.length) impact = "Not yet in the published data.";
         else impact = "Not enough earlier data to compare.";
-        return `<article class="crisis" style="border-color:${colorOf(c)}"><h3>${c.title}</h3><div class="when">${c.when}</div><p>${c.text}</p><div class="impact">${impact}</div></article>`;
+        return `<article class="crisis" style="border-color:${colorOf(c)}"><h3><span class="num" style="background:${colorOf(c)}">${CRISES.indexOf(c) + 1}</span>${c.title}</h3><div class="when">${c.when}</div><p>${c.text}</p><div class="impact">${impact}</div></article>`;
       }).join("");
     }
 
@@ -220,8 +236,9 @@
     }
 
     document.addEventListener("click", e => {
-      const b = e.target.closest("[data-range],[data-split],[data-crude]"); if (!b) return;
-      if (b.dataset.range) range = b.dataset.range; if (b.dataset.split) split = b.dataset.split === "1"; if (b.dataset.crude) showCrude = b.dataset.crude === "1";
+      if (e.target.closest("#crudeBtn")) { showCrude = !showCrude; $("crudeBtn").setAttribute("aria-pressed", showCrude); drawChart(); return; }
+      const b = e.target.closest("[data-range],[data-split]"); if (!b) return;
+      if (b.dataset.range) range = b.dataset.range; if (b.dataset.split) split = b.dataset.split === "1";
       b.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); drawChart();
     });
     MV.onPrefs(render); MV.onResize(() => { drawChart(); drawAnnual(); });

@@ -101,7 +101,7 @@ const MV = (() => {
     const hasR = opts.series.some(s => s.axis === "right");
     const W = Math.max(300, box.clientWidth), small = W < 560;
     const Hc = Math.round(Math.min(opts.maxH || 380, Math.max(240, W * .42)));
-    const pad = { l: 44, r: hasR ? 44 : 10, t: opts.bands?.length && !small ? 26 : 14, b: 28 };
+    const pad = { l: 44, r: hasR ? 44 : 10, t: opts.bands?.length ? 40 : (opts.yTitle ? 24 : 14), b: 28 };
     const x0 = ts(rows[0].date), x1 = ts(rows[rows.length - 1].date);
     const X = t => pad.l + (t - x0) / (x1 - x0 || 1) * (W - pad.l - pad.r);
     const ext = axis => { let m = 0; opts.series.filter(s => (s.axis || "left") === axis).forEach(s => rows.forEach(r => { const v = s.val(r); if (v != null && v > m) m = v; })); if (opts.ref && axis === "left") m = Math.max(m, opts.ref.value); return m * 1.08 || 1; };
@@ -110,11 +110,18 @@ const MV = (() => {
     const nice = (max, n) => { const mag = Math.pow(10, Math.floor(Math.log10(max / n))); return [1, 2, 2.5, 5, 10].map(m => m * mag).find(s => max / s <= n); };
     let g = "";
     // bands
+    let lastBadge = -1e9, row = 0;
     (opts.bands || []).forEach((b, i) => {
       const a = Math.max(X(ts(b.from)), pad.l), z = Math.min(X(ts(b.to)), W - pad.r); if (z <= pad.l || a >= W - pad.r) return;
-      g += `<rect x="${a}" y="${pad.t}" width="${Math.max(2, z - a)}" height="${Hc - pad.t - pad.b}" fill="${b.color}" fill-opacity=".2"/>`;
-      if (!small && b.label && z - a > 34) g += `<text class="band-label" x="${a + 3}" y="${pad.t - 8 - (i % 2) * 0}" fill="${b.color}" style="fill:${b.color}">${b.label}</text>`;
+      g += `<rect x="${a}" y="${pad.t}" width="${Math.max(3, z - a)}" height="${Hc - pad.t - pad.b}" fill="${b.color}" fill-opacity=".22"/>`;
+      if (b.n != null) {
+        const cx = (a + z) / 2; row = cx - lastBadge < 20 ? 1 - row : 0; lastBadge = cx;
+        const cy = pad.t - 10 - row * 0, cyy = row ? pad.t - 30 + 0 : pad.t - 12;
+        g += `<line x1="${cx}" x2="${cx}" y1="${cyy + 8}" y2="${pad.t}" stroke="${b.color}" stroke-width="1"/><circle cx="${cx}" cy="${cyy}" r="8.5" fill="${b.color}"/><text x="${cx}" y="${cyy + 4}" text-anchor="middle" style="fill:#072f40;font-weight:800;font-size:11px">${b.n}</text>`;
+      }
     });
+    if (opts.yTitle) g += `<text x="${pad.l - 8}" y="${opts.bands?.length ? 12 : pad.t - 10}" text-anchor="end" style="font-weight:700">${opts.yTitle}</text>`;
+    if (opts.yTitleR && hasR) g += `<text x="${W - 2}" y="${opts.bands?.length ? 12 : pad.t - 10}" text-anchor="end" style="font-weight:700">${opts.yTitleR}</text>`;
     // grid
     const sL = nice(yL, small ? 4 : 5);
     for (let v = 0; v <= yL; v += sL) g += `<line x1="${pad.l}" x2="${W - pad.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="rgba(169,205,214,.15)"/><text x="${pad.l - 8}" y="${Y(v) + 4}" text-anchor="end">${(opts.yFmt || fmt)(v)}</text>`;
@@ -139,7 +146,7 @@ const MV = (() => {
     (opts.marks || []).forEach(m => {
       const x = X(ts(m.date)), y = Y(m.value), anchor = x > W * .75 ? "end" : x < W * .25 ? "start" : "middle", dx = anchor === "end" ? -8 : anchor === "start" ? 8 : 0;
       const up = m.below ? 18 : -12;
-      g += `<circle cx="${x}" cy="${y}" r="6" fill="${m.color}" stroke="#072f40" stroke-width="2"/><text class="mark-label" x="${x + dx}" y="${y + up}" text-anchor="${anchor}" style="fill:${m.color}">${m.label}</text>`;
+      g += `<circle cx="${x}" cy="${y}" r="6" fill="${m.color}" stroke="#072f40" stroke-width="2"/>` + (small ? "" : `<text class="mark-label" x="${x + dx}" y="${y + up}" text-anchor="${anchor}" style="fill:${m.color}">${m.label}</text>`);
     });
     const lastRow = rows[rows.length - 1], s0 = opts.series[0];
     if (s0.val(lastRow) != null && !opts.noEndDot) g += `<circle cx="${X(ts(lastRow.date))}" cy="${Y(s0.val(lastRow), s0.axis)}" r="5" fill="#f4c95d"/>`;
