@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#072f40">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<title>Data · Maldives National Debt Clock</title>
+<meta name="description" content="Download every series behind the Maldives National Debt Clock in one file: public debt, government finance, revenue and the weekly budget, from MMA, MIRA and the Ministry of Finance.">
+<style>
+  .lede { font-size: clamp(1.05rem, 2.2vw, 1.25rem); max-width: 44rem; }
+  .downloads { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; margin-top: 2rem; max-width: 56rem; }
+  .dl { display: block; text-decoration: none; background: rgba(255,255,255,.05); border: 1px solid rgba(169,205,214,.25); border-radius: 8px; padding: 1.1rem 1.2rem; color: var(--mist); }
+  .dl:hover { border-color: var(--sun); background: rgba(255,255,255,.08); }
+  .dl b { display: block; color: var(--foam); font-size: 1.1rem; margin-bottom: .3rem; }
+  .dl.main { border-color: var(--sun); }
+  .dl.main b { color: var(--sun); }
+  .dl span { font-size: .9rem; }
+  .facts { display: flex; flex-wrap: wrap; gap: .5rem 2rem; margin-top: 1.25rem; color: var(--mist); font-size: .95rem; }
+  .facts b { color: var(--foam); }
+  .filters { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin-top: 1rem; }
+  input[type=search] { font: 400 1rem var(--body); background: rgba(255,255,255,.08); color: var(--foam); border: 1px solid rgba(169,205,214,.3); border-radius: 6px; padding: .5rem .7rem; min-width: min(22rem, 100%); }
+  .pill { font: 700 .85rem var(--body); border: 1px solid rgba(169,205,214,.35); background: transparent; color: var(--mist); padding: .35rem .75rem; border-radius: 999px; cursor: pointer; min-height: 2.1rem; }
+  .pill[aria-pressed="true"] { background: var(--foam); color: var(--abyss); border-color: var(--foam); }
+  .rev-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: .92rem; color: var(--mist); }
+  .rev-table th { text-align: left; font-weight: 700; color: var(--foam); padding: .5rem .6rem; border-bottom: 1px solid rgba(169,205,214,.35); }
+  .rev-table td { padding: .45rem .6rem; border-bottom: 1px solid rgba(169,205,214,.1); vertical-align: top; }
+  .rev-table td:first-child { color: var(--foam); }
+  .rev-table td small { display: block; color: var(--mist); opacity: .8; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .78rem; margin-top: .15rem; }
+  .tbl-wrap { overflow-x: auto; }
+  .count { margin-top: .75rem; font-size: .9rem; color: var(--mist); }
+  .caveat { border-top: 1px solid rgba(169,205,214,.25); padding-top: 2rem; }
+  @media (max-width: 560px) { .rev-table .hide-s { display: none; } }
+</style>
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="./">MV <span>Debt Clock</span></a>
+  <nav class="site-nav" aria-label="Main">
+    <a href="./" data-page="clock">Debt clock</a>
+    <a href="budget.html" data-page="budget">Budget</a>
+    <a href="revenue.html" data-page="revenue">Taxes</a>
+    <a href="fuel.html" data-page="fuel">Fuel imports</a>
+    <a href="data.html" data-page="data" aria-current="page">Data</a>
+    <a href="methodology.html" data-page="method">Methodology</a>
+    <a href="about.html" data-page="about">About</a>
+  </nav>
+  <div class="real-note" role="status"></div>
+</header>
+
+<main class="dark">
+<div class="wrap">
+
+  <section>
+    <h1>All the data, in one file</h1>
+    <p class="lede">Every figure on this site comes from three official publishers, the Maldives Monetary Authority (MMA), the Maldives Inland Revenue Authority (MIRA) and the Ministry of Finance. They are combined here into one clean dataset, with plain names, consistent units and a note of where each series comes from. It is rebuilt every morning when new figures are published.</p>
+    <div class="downloads">
+      <a class="dl main" id="dlXlsx" href="https://github.com/monumentmv/maldives-debt-clock/releases/download/data-latest/maldives_public_finance.xlsx"><b>Download everything (Excel)</b><span>One workbook with a catalogue of every series, a sheet for each frequency and the weekly budget tables.</span></a>
+      <a class="dl" id="dlZip" href="https://github.com/monumentmv/maldives-debt-clock/releases/download/data-latest/maldives_public_finance_csv.zip"><b>Download everything (CSV)</b><span>The same data as plain CSV files, for R, Stata, Python or any other software.</span></a>
+    </div>
+    <div class="facts num" id="facts"></div>
+  </section>
+
+  <section>
+    <h2>What's inside</h2>
+    <p>Search or filter the list to see every series, its unit and how far back it goes. Money is in millions of rufiyaa or US dollars, as shown.</p>
+    <div class="filters">
+      <input type="search" id="q" placeholder="Search, for example tourism GST or external debt" aria-label="Search series">
+    </div>
+    <div class="filters" id="cats" role="group" aria-label="Category"></div>
+    <div class="count" id="count"></div>
+    <div class="tbl-wrap"><table class="rev-table" id="cat"></table></div>
+  </section>
+
+  <section class="caveat">
+    <h2>Using this data</h2>
+    <p>The data is free to use. Please credit the original publishers, MMA, MIRA and the Ministry of Finance, and the Maldives National Debt Clock. Figures are as published by each source, which can revise them later, and they are not adjusted for inflation. The <a href="methodology.html">methodology</a> explains how each source is read and what it covers.</p>
+    <p>The individual files are also available directly: <a href="data/master/series_catalogue.csv">series catalogue</a>, <a href="data/master/all_series_long.csv">all series in one list</a> and <a href="data/master/weekly_budget_tables.csv">weekly budget tables</a>. Spotted a problem? Send a message through the form on the <a href="about.html">About page</a>.</p>
+  </section>
+
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <span id="fetched">Sources: Maldives Monetary Authority, Maldives Inland Revenue Authority and Ministry of Finance.</span>
+  <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent; not affiliated with any of the publishers.</span></span>
+</div></footer>
+
+<script src="assets/site.js"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const parseCSV = text => {
+    const rows = []; let row = [], cell = "", q = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (q) { if (c === '"') { if (text[i + 1] === '"') { cell += '"'; i++; } else q = false; } else cell += c; }
+      else if (c === '"') q = true;
+      else if (c === ",") { row.push(cell); cell = ""; }
+      else if (c === "\n") { row.push(cell); rows.push(row); row = []; cell = ""; }
+      else if (c !== "\r") cell += c;
+    }
+    if (cell || row.length) { row.push(cell); rows.push(row); }
+    const head = rows.shift(); return rows.filter(r => r.length === head.length).map(r => Object.fromEntries(head.map((h, i) => [h, r[i]])));
+  };
+  const fmtD = d => { if (!d) return ""; const x = new Date(d + "T00:00:00Z"); return MV.MONTHS[x.getUTCMonth()].slice(0, 3) + " " + x.getUTCFullYear(); };
+  let all = [], cat = "All";
+
+  fetch("data/master/about.json", { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(a => {
+    if (!a) return;
+    $("facts").innerHTML = `<span><b>${a.series}</b> series</span><span><b>${Number(a.observations).toLocaleString("en-US")}</b> figures</span><span><b>${Number(a.weekly_table_rows).toLocaleString("en-US")}</b> rows of weekly budget tables</span><span>Rebuilt <b>${a.built_at}</b> UTC</span>`;
+  }).catch(() => {});
+
+  fetch("data/master/series_catalogue.csv", { cache: "no-store" }).then(r => { if (!r.ok) throw new Error(r.status); return r.text(); }).then(t => {
+    const ORDER = ["Public debt", "Economy", "Government finance (monthly)", "Weekly budget (Ministry of Finance)", "Revenue collected by MIRA (monthly)", "Prices and exchange rate", "Trade and fuel"];
+    const rank = c => { const i = ORDER.indexOf(c); return i < 0 ? 99 : i; };
+    all = parseCSV(t).sort((a, b) => rank(a.category) - rank(b.category) || a.series_id.localeCompare(b.series_id));
+    const cats = ["All", ...new Set(all.map(s => s.category))];  // already in display order
+    $("cats").innerHTML = cats.map(c => `<button type="button" class="pill" data-cat="${c}" aria-pressed="${c === cat}">${c}</button>`).join("");
+    draw();
+  }).catch(() => { $("count").textContent = "The list of series appears after the next automatic update."; });
+
+  function draw() {
+    const q = $("q").value.trim().toLowerCase();
+    const rows = all.filter(s => (cat === "All" || s.category === cat) && (!q || (s.name + " " + s.series_id + " " + s.source_reference + " " + s.category).toLowerCase().includes(q)));
+    $("count").textContent = `${rows.length} of ${all.length} series`;
+    $("cat").innerHTML = `<tr><th>Series</th><th>Unit</th><th class="hide-s">How often</th><th>Covers</th><th class="hide-s">Source</th></tr>`
+      + rows.map(s => `<tr><td>${s.name}<small>${s.series_id}</small></td><td>${s.unit}</td><td class="hide-s">${s.frequency}</td><td>${fmtD(s.first_date)} to ${fmtD(s.last_date)}</td><td class="hide-s">${s.source_reference}${s.notes ? `<br><small style="font-family:inherit">${s.notes}</small>` : ""}</td></tr>`).join("");
+  }
+  $("q").addEventListener("input", draw);
+  document.addEventListener("click", e => { const b = e.target.closest("[data-cat]"); if (!b) return; cat = b.dataset.cat; document.querySelectorAll("[data-cat]").forEach(x => x.setAttribute("aria-pressed", x === b)); draw(); });
+})();
+</script>
+</body>
+</html>

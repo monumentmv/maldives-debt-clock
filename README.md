@@ -18,8 +18,11 @@ A live estimate of Maldives public and publicly guaranteed debt, built from the
 - `fetch_wfd.py`: checks the Ministry of Finance for new Weekly Fiscal Developments reports, reads them (with `wfd_extract.py`), adds them to `data/wfd/` and writes `budget.json`
 - `wfd_extract.py`: reads the tables in a Weekly Fiscal Developments PDF. Also works on its own to download and extract every report to your computer
 - `data/wfd/`: the weekly dataset, one row per report (`wfd_headline.csv`), every table row (`wfd_long.csv`), and which reports were read (`processed.csv`)
+- `data.html`: the data page, with downloads of everything in one Excel or CSV file
+- `build_master.py`: combines MMA, MIRA and Ministry of Finance data into one clean dataset in `data/master/`, and builds the Excel and CSV downloads, published as the `data-latest` release
+- `fetch_mira.py`: checks MIRA's website every morning and downloads new versions of its revenue files into `inputs/mira/`
 - `build_revenue.py`: reads the MIRA spreadsheets in `inputs/mira/` and writes `revenue.json`
-- `inputs/mira/`: MIRA's monthly revenue files. Replace them each month when MIRA publishes new figures
+- `inputs/mira/`: MIRA's monthly revenue files, kept up to date by `fetch_mira.py`
 - `.github/workflows/update-data.yml`: runs both scripts every morning, and whenever a file in `inputs/` changes
 
 The MMA API token lives only in the `MMA_TOKEN` repository secret.

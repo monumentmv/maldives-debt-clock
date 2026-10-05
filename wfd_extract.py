@@ -167,7 +167,7 @@ TABLES = [  # (key, words that start the table heading)
     ("revenue", ("revenue details",)),
     ("expenditure", ("expenditure details",)),
     ("psip", ("public sector investment",)),
-    ("agencies", ("budget utilization of accountable", "budget utilisation of accountable")),
+    ("agencies", ("budget utilization of accountable", "budget utilisation of accountable", "(aga)")),
     ("securities", ("government securities",)),   # also "TABLE 5: Government Securities" in older reports
 ]
 

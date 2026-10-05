@@ -81,6 +81,7 @@
     <a href="budget.html" data-page="budget">Budget</a>
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
+    <a href="data.html" data-page="data">Data</a>
     <a href="methodology.html" data-page="method" aria-current="page">Methodology</a>
     <a href="about.html" data-page="about">About</a>
   </nav>
@@ -125,8 +126,9 @@
 <h2 id="sources">1. Where the data comes from</h2>
 <p>All economic figures come from the <a href="https://database.mma.gov.mv" rel="noopener">Maldives Monetary Authority (MMA) Statistics Database</a>, which publishes data compiled by MMA, the Ministry of Finance and Planning, Maldives Bureau of Statistics (MBS), Maldives Customs Service and the World Bank.</p>
 <p>Every morning at 08:00 Malé time, an automated script downloads the latest figures through MMA's official API and saves them to a file the website reads. Nothing is typed in by hand, with one exception, the population estimate, explained in <a href="#population">section 6</a>.</p>
-<p>The <a href="revenue.html">revenue page</a> also uses the monthly revenue collection files published by the Maldives Inland Revenue Authority (MIRA). These are downloaded from MIRA's website each month and read by a script, without retyping any figures. See <a href="#revenue">section 12</a>.</p>
+<p>The <a href="revenue.html">revenue page</a> also uses the monthly revenue collection files published by the Maldives Inland Revenue Authority (MIRA). Every morning a script checks MIRA's website for new versions, downloads them and reads them, without retyping any figures. See <a href="#revenue">section 12</a>.</p>
 <p>The <a href="budget.html">budget page</a> uses the Ministry of Finance's Weekly Fiscal Developments reports. The same morning script checks the Ministry's website for a new report, downloads it and reads its tables. See <a href="#budget">section 13</a>.</p>
+<p>Every series the site uses can be downloaded in one file from the <a href="data.html">data page</a>. The file is rebuilt every morning after the updates above. Money is converted to millions of rufiyaa or US dollars, ratios to GDP to percent, and each series is given a plain name and a note of its original source, such as its MMA series number or MIRA line.</p>
 <p>This site is independent. It is not produced or endorsed by MMA, the Ministry of Finance or any government body.</p>
 
 <h2 id="debt">2. What counts as debt</h2>
@@ -351,7 +353,7 @@
 
 <h2 id="time">14. Time and updates</h2>
 <p>The time shown on the clock is Malé time (UTC+5), whatever time zone the visitor is in.</p>
-<p>The site checks MMA and the Ministry of Finance for new data every morning at 08:00 Malé time. MMA publishes debt figures quarterly and government finance figures monthly, and the Ministry publishes its budget report weekly, so most days nothing changes. MIRA's revenue files are added by hand each month. The footer of each page shows when its data was last updated.</p>
+<p>The site checks MMA and the Ministry of Finance for new data every morning at 08:00 Malé time. MMA publishes debt figures quarterly and government finance figures monthly, and the Ministry publishes its budget report weekly, so most days nothing changes. MIRA's revenue files are checked every morning too, and replaced when MIRA publishes a new version. The footer of each page shows when its data was last updated.</p>
 <h3>If the data stops updating</h3>
 <p>The latest data is saved alongside the website, so the site keeps working even if MMA's data service is unavailable. The clock keeps estimating from the last official figure. To make sure that isn't misleading, the site shows a warning at the top of every page in any of these cases.</p>
 <ul>
