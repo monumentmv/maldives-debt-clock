@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: [fetch_data.py, build_revenue.py, fetch_wfd.py, wfd_extract.py, "inputs/**", .github/workflows/update-data.yml]
+    paths: [fetch_data.py, fetch_mira.py, build_revenue.py, fetch_wfd.py, wfd_extract.py, build_master.py, "inputs/**", .github/workflows/update-data.yml]
 
 permissions:
   contents: write
@@ -28,16 +28,31 @@ jobs:
       - run: python fetch_data.py
         env:
           MMA_TOKEN: ${{ secrets.MMA_TOKEN }}
+      - name: New MIRA revenue files
+        if: always()
+        run: python fetch_mira.py
       - name: Build revenue data from MIRA files
         if: always()
         run: python build_revenue.py
       - name: Weekly budget figures from the Ministry of Finance
         if: always()
         run: python fetch_wfd.py
+      - name: Master dataset and downloads
+        if: always()
+        run: python build_master.py
       - name: Commit if changed
         if: always()
         run: |
           git config user.name "debt-clock-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data.json revenue.json budget.json data/wfd
+          for p in data.json revenue.json budget.json data/wfd data/master inputs/mira; do if [ -e "$p" ]; then git add -A "$p"; fi; done
           git diff --cached --quiet || (git commit -m "Update data $(date -u +%F)" && git pull --rebase && git push)
+      - name: Publish the downloads
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -f dist/maldives_public_finance.xlsx ]; then
+            gh release view data-latest >/dev/null 2>&1 || gh release create data-latest --title "Latest data" --notes "Every series behind the Maldives National Debt Clock, rebuilt every morning. See https://mvdebtclock.org/data.html"
+            gh release upload data-latest dist/maldives_public_finance.xlsx dist/maldives_public_finance_csv.zip --clobber
+          fi
