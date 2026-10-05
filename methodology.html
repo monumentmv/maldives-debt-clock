@@ -78,7 +78,8 @@
   <a class="brand" href="./">MV <span>Debt Clock</span></a>
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock">Debt clock</a>
-    <a href="revenue.html" data-page="revenue">Revenue</a>
+    <a href="budget.html" data-page="budget">Budget</a>
+    <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
     <a href="methodology.html" data-page="method" aria-current="page">Methodology</a>
     <a href="about.html" data-page="about">About</a>
@@ -114,6 +115,7 @@
     <li><a href="#real">Adjusting for inflation</a></li>
     <li><a href="#fuel">Fuel imports and crises</a></li>
     <li><a href="#revenue">Revenue collected by MIRA</a></li>
+    <li><a href="#budget">Weekly budget figures</a></li>
     <li><a href="#time">Time and updates</a></li>
     <li><a href="#limits">Limitations</a></li>
     <li><a href="#series">Every data series used</a></li>
@@ -124,6 +126,7 @@
 <p>All economic figures come from the <a href="https://database.mma.gov.mv" rel="noopener">Maldives Monetary Authority (MMA) Statistics Database</a>, which publishes data compiled by MMA, the Ministry of Finance and Planning, Maldives Bureau of Statistics (MBS), Maldives Customs Service and the World Bank.</p>
 <p>Every morning at 08:00 Malé time, an automated script downloads the latest figures through MMA's official API and saves them to a file the website reads. Nothing is typed in by hand, with one exception, the population estimate, explained in <a href="#population">section 6</a>.</p>
 <p>The <a href="revenue.html">revenue page</a> also uses the monthly revenue collection files published by the Maldives Inland Revenue Authority (MIRA). These are downloaded from MIRA's website each month and read by a script, without retyping any figures. See <a href="#revenue">section 12</a>.</p>
+<p>The <a href="budget.html">budget page</a> uses the Ministry of Finance's Weekly Fiscal Developments reports. The same morning script checks the Ministry's website for a new report, downloads it and reads its tables. See <a href="#budget">section 13</a>.</p>
 <p>This site is independent. It is not produced or endorsed by MMA, the Ministry of Finance or any government body.</p>
 
 <h2 id="debt">2. What counts as debt</h2>
@@ -334,9 +337,21 @@
 <h3>Updates</h3>
 <p>MIRA updates these files around the middle of each month. Recent months are provisional until MIRA reconciles them, so figures can change slightly. MIRA's weekly revenue file isn't used, because it is provisional, runs several weeks behind and repeats the dollar figures inside its rufiyaa totals.</p>
 
-<h2 id="time">13. Time and updates</h2>
+<h2 id="budget">13. Weekly budget figures</h2>
+<p>The <a href="budget.html">budget page</a> uses the Weekly Fiscal Developments report, which the Ministry of Finance has published most weeks since December 2018. Each report gives running totals from 1 January to its date for revenue, spending, the overall balance, interest costs, loan repayments and other items, with the approved budget for the full year and the figures for the same date a year earlier. It also lists revenue and spending line by line, the budget used by each government office, and, every two weeks, the government securities outstanding.</p>
+<h3>How the reports are read</h3>
+<p>Every morning the site checks the Ministry's list of reports. Any report it hasn't read yet is downloaded and its tables are read by a script, without retyping. Where the Ministry has published a revised version of a report, the revised one is used. The script checks that each report's totals add up, so that total spending equals recurrent plus capital spending, and the overall balance equals revenue minus spending. A report that fails these checks isn't used. The previous figures stay on the site until the problem is resolved. Every figure read is kept in a public dataset alongside the site, with a note of any report that couldn't be used.</p>
+<p>The layout of the reports has changed over the years. Reports from 2018 and 2019 give only the approved budget and the year so far. Later reports add the same date a year earlier. Some reports from 2020 list that year before the previous one, while most list them the other way round, so the script reads the years in each table's heading to put every figure in the right column.</p>
+<h3>What the figures cover</h3>
+<p>Revenue and grants include taxes, non-tax revenue such as fees, rents and dividends, capital receipts and grants. Spending is recurrent plus capital spending. It excludes loan repayments, investments and lending, which the reports list separately as memorandum items. The overall balance is revenue and grants minus spending, and it doesn't include loan repayments, so the government's borrowing need in a year is larger than the gap shown. Interest costs are the reports' financing and interest costs.</p>
+<h3>Comparisons</h3>
+<p>The latest figures compare each total with the same date a year earlier, using the previous year's figure printed in the same report. The chart of this year against other years plots every report's running total by day of the year, so each year's line can be read at the same point. The compare table sets any two reports against each other. Because the totals run from 1 January, two reports are only directly comparable if they are at about the same point in their years. The year-by-year chart uses the last report of each year, which isn't the final outturn. Comparisons over time follow the MVR/US$ and Real switches, as elsewhere on the site.</p>
+<h3>How these figures relate to others on the site</h3>
+<p>Weekly figures are provisional. The Ministry notes that they change as accounts are reconciled, and that spending is counted when it is recorded rather than when cash is paid. MMA's monthly government finance series, used on the main page, is compiled later and can differ by several billion rufiyaa for a full year. Revenue figures also differ from MIRA's collections on the <a href="revenue.html">taxes page</a>, because MIRA records money when it is collected and the Ministry when it reaches the government's accounts, and because some revenue, such as import duty and dividends, isn't collected by MIRA.</p>
+
+<h2 id="time">14. Time and updates</h2>
 <p>The time shown on the clock is Malé time (UTC+5), whatever time zone the visitor is in.</p>
-<p>The site checks MMA for new data every morning at 08:00 Malé time. MMA publishes debt figures quarterly and government finance figures monthly, so most days nothing changes. The footer shows when data was last fetched.</p>
+<p>The site checks MMA and the Ministry of Finance for new data every morning at 08:00 Malé time. MMA publishes debt figures quarterly and government finance figures monthly, and the Ministry publishes its budget report weekly, so most days nothing changes. MIRA's revenue files are added by hand each month. The footer of each page shows when its data was last updated.</p>
 <h3>If the data stops updating</h3>
 <p>The latest data is saved alongside the website, so the site keeps working even if MMA's data service is unavailable. The clock keeps estimating from the last official figure. To make sure that isn't misleading, the site shows a warning at the top of every page in any of these cases.</p>
 <ul>
@@ -345,7 +360,7 @@
   <li>some figures couldn't be updated at the last refresh. In that case the previous values are kept rather than dropped, and the warning says so.</li>
 </ul>
 
-<h2 id="limits">14. Limitations</h2>
+<h2 id="limits">15. Limitations</h2>
 <ul>
   <li>The clock between quarterly releases is an estimate based on the past year's pace, not a live record of borrowing.</li>
   <li>The current debt-to-GDP ratio relies on a GDP forecast.</li>
@@ -354,11 +369,12 @@
   <li>Guaranteed debt is counted in full, although state companies are expected to repay most of it themselves.</li>
   <li>In nominal mode, comparisons over time are not adjusted for inflation. Switch to Real to adjust them.</li>
   <li>Crisis periods on the fuel page are approximate, and the before-and-after comparisons don't separate a crisis's effect from other causes.</li>
+  <li>Weekly budget figures are provisional and are revised as accounts are reconciled. If the Ministry changes the layout of its reports, a new report may not be read until the script is updated.</li>
   <li>MIRA's collections are only part of government revenue, and the split between rufiyaa and dollar payments depends on the exchange rate used to convert them.</li>
 </ul>
 <p>Spotted an error? Please send a message using the form on the <a href="about.html">About page</a>.</p>
 
-<h2 id="series">15. Every data series used</h2>
+<h2 id="series">16. Every data series used</h2>
 <div class="tbl"><table>
   <tr><th>MMA ID</th><th>Series</th><th>Frequency</th><th>Used for</th></tr>
   <tr><td>4514</td><td>Total outstanding public and publicly guaranteed debt</td><td>Quarterly</td><td>The clock, chart, growth</td></tr>
@@ -378,6 +394,7 @@
   <tr><td>3504, 3505, 3507</td><td>Import of petrol; diesel (marine gas oil); other petroleum products</td><td>Monthly</td><td>Fuel by product</td></tr>
   <tr><td>3486</td><td>Import of goods (total)</td><td>Monthly</td><td>Fuel's share of imports</td></tr>
   <tr><td>3787</td><td>Crude oil prices (World Bank average of Brent, Dubai and WTI)</td><td>Monthly</td><td>Oil price line</td></tr>
+  <tr><td>n/a</td><td>Weekly Fiscal Developments (Ministry of Finance), every report since December 2018</td><td>Weekly</td><td>Budget page</td></tr>
   <tr><td>n/a</td><td>MIRA monthly revenue collection, all collections in rufiyaa (Maldives Inland Revenue Authority)</td><td>Monthly</td><td>Revenue page</td></tr>
   <tr><td>n/a</td><td>MIRA monthly revenue collection paid in US dollars (Maldives Inland Revenue Authority)</td><td>Monthly</td><td>Dollar share on the revenue page</td></tr>
   <tr><td>n/a</td><td>Registered Maldivian population, end of 2025 (Department of National Registration, via MBS)</td><td>Annual</td><td>Per-citizen figures</td></tr>
