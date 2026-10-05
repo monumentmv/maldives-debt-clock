@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#072f40">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<title>Revenue · Maldives National Debt Clock</title>
+<meta name="description" content="Taxes, fees and rents collected by the Maldives Inland Revenue Authority since 2010, and how much of it is paid in US dollars.">
+<style>
+  .lede { font-size: clamp(1.05rem, 2.2vw, 1.25rem); max-width: 44rem; }
+  .controls { display: flex; flex-wrap: wrap; gap: .75rem 1rem; align-items: center; margin-top: 1rem; }
+  .stat .d { font-size: .9rem; margin-top: .4rem; font-weight: 700; color: var(--mist); line-height: 1.45; }
+  .up { color: var(--lagoon) !important; } .down { color: var(--red) !important; }
+  .stat .d .gold { color: var(--sun); }
+  .callout-line { margin-top: 1.25rem; padding: .9rem 1.1rem; background: rgba(255,255,255,.05); border-radius: 6px; font-size: .95rem; color: var(--mist); max-width: 52rem; }
+  .callout-line b { color: var(--foam); }
+  /* compare tool */
+  .cmp { margin-top: 1.5rem; display: grid; gap: .9rem; }
+  .period { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .6rem; }
+  .period .who { display: inline-flex; align-items: center; gap: .5rem; font-weight: 700; min-width: 9rem; }
+  .period .who i { width: .85rem; height: .85rem; border-radius: 2px; display: inline-block; }
+  .period span.to { color: var(--mist); font-size: .9rem; }
+  select { font: 700 .9rem var(--body); background: rgba(255,255,255,.08); color: var(--foam); border: 1px solid rgba(169,205,214,.3); border-radius: 6px; padding: .35rem .45rem; min-height: 2.2rem; }
+  select option { color: var(--ink); background: #fff; }
+  .presets { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.25rem; }
+  .preset { font: 700 .85rem var(--body); border: 1px solid rgba(169,205,214,.35); background: transparent; color: var(--mist); padding: .4rem .8rem; border-radius: 999px; cursor: pointer; min-height: 2.1rem; }
+  .preset:hover { color: var(--foam); border-color: var(--mist); }
+  .preset[aria-pressed="true"] { background: var(--foam); color: var(--abyss); border-color: var(--foam); }
+  .cmp-err { color: var(--coral); font-weight: 700; margin-top: .5rem; }
+  .cmp-sum { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1.5rem 2rem; margin-top: 2rem; }
+  .cmp-sum .k { color: var(--mist); font-size: .9rem; }
+  .cmp-sum .v { font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 70; font-size: clamp(1.6rem, 3.4vw, 2.2rem); line-height: 1.1; margin-top: .2rem; }
+  .cmp-sum .s { color: var(--mist); font-size: .9rem; margin-top: .2rem; }
+  .note-len { margin-top: 1rem; font-size: .9rem; color: var(--sun); }
+  /* tables */
+  .rev-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: .95rem; color: var(--mist); }
+  .rev-table th { text-align: right; font-weight: 700; color: var(--foam); padding: .55rem .75rem; border-bottom: 1px solid rgba(169,205,214,.35); vertical-align: bottom; }
+  .rev-table th:first-child, .rev-table td:first-child { text-align: left; }
+  .rev-table td { text-align: right; white-space: nowrap; padding: .5rem .75rem; border-bottom: 1px solid rgba(169,205,214,.12); font-variant-numeric: tabular-nums; vertical-align: top; }
+  .rev-table td:first-child { color: var(--foam); white-space: normal; }
+  .rev-table td .sw { display: inline-block; width: .75rem; height: .75rem; border-radius: 2px; margin-right: .5rem; transform: translateY(.08rem); }
+  .rev-table tr.total td { font-weight: 700; color: var(--foam); border-bottom: 0; border-top: 1px solid rgba(169,205,214,.35); }
+  .rev-table tr.sub td { color: var(--mist); font-weight: 400; border-bottom: 0; }
+  .pair { display: grid; gap: 3px; margin-top: .4rem; max-width: 16rem; }
+  .pair i { display: block; height: 6px; border-radius: 3px; min-width: 1px; }
+  .bar-share { display: inline-block; width: 5rem; height: .5rem; background: rgba(255,255,255,.1); border-radius: 999px; margin-left: .6rem; vertical-align: middle; overflow: hidden; }
+  .bar-share i { display: block; height: 100%; background: var(--sun); }
+  .tbl-wrap { overflow-x: auto; }
+  .tbl-head { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; }
+  .tbl-head h3 { margin: 0 !important; }
+  .subtoggle[hidden] { display: none; }
+  .rev-table tr.sub td:first-child { padding-left: 2rem; }
+  .caveat { border-top: 1px solid rgba(169,205,214,.25); padding-top: 2rem; }
+  @media (max-width: 560px) {
+    .bar-share { display: none; } .rev-table { font-size: .875rem; } .rev-table th, .rev-table td { padding: .45rem .4rem; }
+    .period .who { min-width: 100%; }
+  }
+</style>
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="./">MV <span>Debt Clock</span></a>
+  <nav class="site-nav" aria-label="Main">
+    <a href="./" data-page="clock">Debt clock</a>
+    <a href="revenue.html" data-page="revenue" aria-current="page">Revenue</a>
+    <a href="fuel.html" data-page="fuel">Fuel imports</a>
+    <a href="methodology.html" data-page="method">Methodology</a>
+    <a href="about.html" data-page="about">About</a>
+  </nav>
+  <div class="prefs">
+    <div class="toggle" data-pref="cur" role="group" aria-label="Currency"><button type="button" data-v="MVR" aria-pressed="true">MVR</button><button type="button" data-v="USD" aria-pressed="false">US$</button></div>
+    <div class="toggle" data-pref="real" role="group" aria-label="Inflation adjustment" title="Real shows past amounts in today's prices, adjusted for inflation"><button type="button" data-v="0" aria-pressed="true">Nominal</button><button type="button" data-v="1" aria-pressed="false">Real</button></div>
+  </div>
+  <div class="real-note" role="status"></div>
+</header>
+
+<main class="dark">
+<div class="wrap">
+
+  <section>
+    <h1>What MIRA collects, and how much is paid in dollars</h1>
+    <p class="lede">Maldives Inland Revenue Authority (MIRA) collects most of the government's taxes, along with fees and rents such as resort land rent. A large part is paid in US dollars, mainly by resorts and other tourism businesses. Those dollars matter for the debt, because loans from abroad have to be repaid in foreign currency.</p>
+  </section>
+
+  <section>
+    <h2>Latest figures</h2>
+    <p id="latestNote"></p>
+    <div class="stats" style="margin-top:2rem">
+      <div class="stat hot"><div class="n num" id="sMonth">…</div><div class="l" id="sMonthL">collected in the latest month</div><div class="d" id="sMonthD"></div></div>
+      <div class="stat hot"><div class="n num" id="s12">…</div><div class="l" id="s12L">collected in the last 12 months</div><div class="d" id="s12D"></div></div>
+      <div class="stat"><div class="n num" id="sYtd">…</div><div class="l" id="sYtdL">collected this year so far</div><div class="d" id="sYtdD"></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Compare any two periods</h2>
+    <p>Pick a month, a year or any run of months, and compare it with another. Use the shortcuts or set the dates yourself.</p>
+    <div class="presets" id="presets" role="group" aria-label="Shortcuts"></div>
+    <div class="cmp">
+      <div class="period" id="pB"><span class="who"><i style="background:#f4c95d"></i>This period</span></div>
+      <div class="period" id="pA"><span class="who"><i style="background:#6fb3c2"></i>Compared with</span></div>
+    </div>
+    <div class="controls">
+      <div class="subtoggle" role="group" aria-label="Show as"><button type="button" data-avg="0" aria-pressed="true">Totals</button><button type="button" data-avg="1" aria-pressed="false">Average per month</button></div>
+    </div>
+    <div class="cmp-err" id="cmpErr" role="alert"></div>
+    <div class="cmp-sum num" id="cmpSum"></div>
+    <div class="note-len" id="cmpLen"></div>
+    <div class="tbl-wrap"><table class="rev-table" id="cmpTbl"></table></div>
+    <p class="hint" id="cmpLink"></p>
+  </section>
+
+  <section>
+    <div class="chart-head">
+      <div><h2>The whole history</h2><p id="histNote" style="margin:0"></p></div>
+      <div class="controls">
+        <div class="subtoggle" role="group" aria-label="Detail"><button type="button" data-gran="year" aria-pressed="true">By year</button><button type="button" data-gran="month" aria-pressed="false">By month</button></div>
+        <div class="subtoggle" role="group" aria-label="Period" id="rangeCtl" hidden><button type="button" data-range="all" aria-pressed="true">All</button><button type="button" data-range="2015" aria-pressed="false">Since 2015</button><button type="button" data-range="3" aria-pressed="false">3 years</button></div>
+      </div>
+    </div>
+    <div class="chart-box" id="hist"></div>
+    <div class="key" id="histKey"></div>
+    <div class="callout-line num" id="dollarLine"></div>
+    <div class="hint">Hover or tap the chart to see the figures.</div>
+  </section>
+
+  <section>
+    <div class="chart-head">
+      <div><h2>Where the money comes from</h2><p id="typeNote" style="margin:0"></p></div>
+      <div class="controls">
+        <div class="subtoggle" role="group" aria-label="Which collections"><button type="button" data-which="all" aria-pressed="true">All collections</button><button type="button" data-which="usd" aria-pressed="false">Paid in US dollars</button></div>
+        <div class="subtoggle" role="group" aria-label="Show as"><button type="button" data-as="amt" aria-pressed="true">Amounts</button><button type="button" data-as="pct" aria-pressed="false">Shares</button></div>
+      </div>
+    </div>
+    <div class="chart-box" id="types"></div>
+    <div class="key" id="typeKey"></div>
+    <div class="hint">Hover or tap a year to see each tax.</div>
+
+    <div class="tbl-head" style="margin-top:3rem"><h3>Where the dollars came from in</h3><select id="tblYear" aria-label="Year"></select></div>
+    <p id="tblNote" style="margin-top:.75rem"></p>
+    <div class="tbl-wrap"><table class="rev-table" id="tbl"></table></div>
+  </section>
+
+  <section class="caveat">
+    <h2>Reading these figures</h2>
+    <p>These figures come from MIRA's monthly revenue collection files. One lists everything MIRA collected, and the other lists the part paid in US dollars. MIRA isn't the only collector. Import duties are collected by Maldives Customs Service, and the government also receives dividends from state companies, other income and grants, so these totals are smaller than all government revenue. <span id="shareOfAll"></span></p>
+    <p>MIRA's rufiyaa figures already include the dollar payments, converted at MIRA's own rate, which is slightly below MMA's reference rate. This page converts the dollar figures at each month's MMA reference rate. For taxes paid almost entirely in dollars, such as tourism GST and green tax, that can come out a little above MIRA's own rufiyaa total, so the dollar part of each tax is capped at that total. Dollar figures start in January 2011.</p>
+    <p>Resort land and leases includes one-off payments. Lease period extension fees, paid by resorts to extend their island leases, jump in some years and fall back in others, so a big year for this line is not a sign of lasting growth. The compare table and the chart pop-ups show them separately. Tourism tax was a fixed charge for each tourist night that ended in 2014. Tourism GST began in 2011 and is now the largest single tax.</p>
+    <p>Comparisons between periods follow the Real switch. With Real on, both periods are shown in today's prices, so the change reflects growth after inflation. The latest figures at the top are always in the money of the time. MIRA updates these files around the middle of each month, and recent months are provisional until MIRA reconciles them. <a href="methodology.html#revenue">More in the methodology</a>.</p>
+  </section>
+
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <span id="fetched">Source: Maldives Inland Revenue Authority, with exchange rates and prices from the Maldives Monetary Authority Statistics Database.</span>
+  <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent; not affiliated with MIRA or the MMA.</span></span>
+</div></footer>
+
+<script src="assets/site.js"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const { fmt, sym, short, mLabel, row } = MV;
+  const COLORS = { tourism_gst: "#3fb8b0", green: "#9fe0d6", airport: "#f4c95d", resort_land: "#f2a541", tourism_tax: "#ffd9a0",
+                   gst_other: "#6fa8dc", business: "#a98bd6", personal: "#e0a3c8", other: "#7f9aa5" };
+  const ORDER = ["tourism_gst", "green", "airport", "resort_land", "tourism_tax", "gst_other", "business", "personal", "other"];
+  const RUF = "#3d7d8f", DOL = "#f4c95d", CA = "#6fb3c2", CB = "#f4c95d";
+  const MON = MV.MONTHS.map(m => m.slice(0, 3));
+  const monthEnd = ym => { const [y, m] = ym.split("-").map(Number); return new Date(Date.UTC(y, m, 0)).toISOString().slice(0, 10); };
+
+  /* stacked bars, in the same style as the site's other charts */
+  function stackChart(box, opts) {
+    const tip = box.querySelector(".tip") || box.appendChild(Object.assign(document.createElement("div"), { className: "tip" }));
+    const W = Math.max(300, box.clientWidth), small = W < 560, Hc = Math.round(Math.min(380, Math.max(250, W * .42)));
+    const pad = { l: 46, r: 8, t: opts.yTitle ? 26 : 14, b: opts.below ? 46 : 28 };
+    const n = opts.cats.length;
+    const totals = opts.cats.map((_, i) => opts.stacks.reduce((a, s) => a + (s.vals[i] || 0), 0));
+    const max = opts.max || (Math.max(...totals) * 1.08 || 1);
+    const Y = v => Hc - pad.b - v / max * (Hc - pad.t - pad.b);
+    const slot = (W - pad.l - pad.r) / n, bw = Math.max(4, Math.min(34, slot * .72));
+    const mag = Math.pow(10, Math.floor(Math.log10(max / 4))); const step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(s => max / s <= (small ? 4 : 5));
+    let g = "";
+    for (let v = 0; v <= max + 1e-9; v += step) g += `<line x1="${pad.l}" x2="${W - pad.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="rgba(169,205,214,.15)"/><text x="${pad.l - 8}" y="${Y(v) + 4}" text-anchor="end">${(opts.yFmt || fmt)(v)}</text>`;
+    if (opts.yTitle) g += `<text x="${pad.l - 8}" y="12" text-anchor="end" style="font-weight:700">${opts.yTitle}</text>`;
+    const labEvery = Math.max(1, Math.ceil(n / Math.floor((W - pad.l) / (small ? 40 : 52))));
+    opts.cats.forEach((c, i) => {
+      const cx = pad.l + slot * (i + .5); let base = 0;
+      opts.stacks.forEach(s => { const v = s.vals[i]; if (!v) return;
+        g += `<rect x="${cx - bw / 2}" y="${Y(base + v)}" width="${bw}" height="${Math.max(0, Y(base) - Y(base + v))}" fill="${s.color}"${c.partial ? ' fill-opacity=".5"' : ""}/>`; base += v; });
+      const show = (n - 1 - i) % labEvery === 0;
+      if (show) g += `<text x="${cx}" y="${Hc - pad.b + 16}" text-anchor="middle">${c.label}</text>`;
+      if (opts.below && show) { const b = opts.below(i); if (b) g += `<text x="${cx}" y="${Hc - pad.b + 32}" text-anchor="middle" style="fill:${b.color};font-weight:700;font-size:11px">${b.text}</text>`; }
+    });
+    g += `<rect class="hl" x="0" y="${pad.t}" width="${slot}" height="${Hc - pad.t - pad.b}" fill="#fff" fill-opacity="0"/>`;
+    g += `<rect class="hit" x="${pad.l}" y="0" width="${W - pad.l - pad.r}" height="${Hc}" fill="transparent"/>`;
+    box.querySelector("svg")?.remove();
+    box.insertAdjacentHTML("afterbegin", `<svg viewBox="0 0 ${W} ${Hc}" width="${W}" height="${Hc}" role="img" aria-label="${opts.label}">${g}</svg>`);
+    const svg = box.querySelector("svg"), hl = svg.querySelector(".hl");
+    const show = e => {
+      const rc = svg.getBoundingClientRect(), mx = (e.clientX - rc.left) * W / rc.width;
+      const i = Math.max(0, Math.min(n - 1, Math.floor((mx - pad.l) / slot)));
+      hl.setAttribute("x", pad.l + slot * i); hl.setAttribute("fill-opacity", ".06");
+      tip.innerHTML = opts.tip(i); tip.classList.add("on");
+      const px = (pad.l + slot * (i + .5)) * rc.width / W, tw = tip.offsetWidth;
+      tip.style.left = Math.min(Math.max(0, px + 14 + tw > rc.width ? px - tw - 14 : px + 14), rc.width - tw) + "px";
+    };
+    const hide = () => { hl.setAttribute("fill-opacity", "0"); tip.classList.remove("on"); };
+    const hit = svg.querySelector(".hit");
+    hit.addEventListener("pointermove", show); hit.addEventListener("pointerdown", show); hit.addEventListener("pointerleave", hide);
+  }
+
+  Promise.all([MV.getJSON("data.json"), MV.getJSON("revenue.json")]).then(([data, R]) => {
+    const S = data.series; MV.setData(S); MV.paintPrefs(); MV.checkStale(data);
+    const months = R.months.map(m => ({ ym: m, date: monthEnd(m), y: m.slice(0, 4), mo: Number(m.slice(5)) }));
+    const N = months.length, G = R.groups.map(g => g.key), LABEL = Object.fromEntries(R.groups.map(g => [g.key, g.label]));
+    const IDX = Object.fromEntries(months.map((m, i) => [m.ym, i]));
+    const usdFrom = R.usd_start ? IDX[R.usd_start] : N;
+
+    // rufiyaa value of the dollar part of each tax, per month, capped at that tax's total
+    const dol = {}; G.forEach(k => dol[k] = months.map((m, i) => { const u = R.usd?.[k]?.[i]; if (u == null) return null; return Math.min(R.mvr[k][i] || 0, u * MV.rateAt(m.date)); }));
+    const allM = months.map((_, i) => R.total.mvr[i] || 0);
+    const dolM = months.map((_, i) => i >= usdFrom ? G.reduce((a, k) => a + (dol[k][i] || 0), 0) : null);
+    const detM = R.detail.mvr;
+
+    const years = [...new Set(months.map(m => m.y))];
+    const idxOf = y => months.map((m, i) => m.y === y ? i : -1).filter(i => i >= 0);
+    const range = (a, b) => { const r = []; for (let i = a; i <= b; i++) r.push(i); return r; };
+    const lastI = N - 1, lastM = months[lastI];
+    const partial = y => idxOf(y).length < 12;
+    const yLabel = y => partial(y) ? `${y}*` : y;
+    const sumC = (arr, idx) => idx.reduce((a, i) => a + (arr[i] == null ? 0 : MV.conv(arr[i], months[i].date)), 0);    // comparisons over time, follows Real
+    const sumN = (arr, idx) => idx.reduce((a, i) => a + (arr[i] == null ? 0 : MV.convNow(arr[i], months[i].date)), 0);  // figures of the time
+    const raw = (arr, idx) => idx.reduce((a, i) => a + (arr[i] || 0), 0);
+    const pct = (a, b) => b ? 100 * a / b : null;
+    const hasUSD = idx => idx.length && idx.every(i => i >= usdFrom);
+    const chg = (b, a) => a ? (b / a - 1) * 100 : null;
+    const chgTxt = c => c == null ? "n/a" : (c >= 0 ? "+" : "−") + fmt(Math.abs(c), 1) + "%";
+    const chgCls = c => c == null ? "" : c >= 0 ? "up" : "down";
+    const money = v => sym() + " " + short(v);
+    const spanTxt = (a, b) => {
+      const A = months[a], B = months[b];
+      if (a === b) return `${MV.MONTHS[A.mo - 1]} ${A.y}`;
+      if (A.y === B.y && A.mo === 1 && B.mo === 12) return A.y;
+      if (A.y === B.y) return `${MV.MONTHS[A.mo - 1]} to ${MV.MONTHS[B.mo - 1]} ${A.y}`;
+      return `${MV.MONTHS[A.mo - 1]} ${A.y} to ${MV.MONTHS[B.mo - 1]} ${B.y}`;
+    };
+    const mmaRev = {}; (S.revenue?.points || []).forEach(p => { const y = p.date.slice(0, 4); (mmaRev[y] = mmaRev[y] || []).push(p.value); });
+    const mmaShare = y => (mmaRev[y]?.length === 12 && !partial(y)) ? pct(raw(allM, idxOf(y)), mmaRev[y].reduce((a, v) => a + v, 0)) : null;
+
+    // ---------- latest figures ----------
+    function drawLatest() {
+      const yAgo = IDX[`${Number(lastM.y) - 1}-${String(lastM.mo).padStart(2, "0")}`];
+      const share = idx => hasUSD(idx) ? `<span class="gold">${fmt(pct(raw(dolM, idx), raw(allM, idx)), 0)}% paid in US dollars</span>` : "";
+      const line = (now, before, label) => { const c = chg(raw(allM, now), raw(allM, before)); return `<span class="${chgCls(c)}">${chgTxt(c)} on ${label}</span>`; };
+      $("latestNote").textContent = `The latest month MIRA has published is ${mLabel(lastM.date)}. Changes are against the same period a year earlier, in the money of the time.`;
+      const m = [lastI];
+      $("sMonth").textContent = money(sumN(allM, m));
+      $("sMonthL").textContent = `collected in ${mLabel(lastM.date)}`;
+      $("sMonthD").innerHTML = (yAgo != null ? line(m, [yAgo], MV.MONTHS[lastM.mo - 1] + " " + (Number(lastM.y) - 1)) + "<br>" : "") + share(m);
+      const l12 = range(lastI - 11, lastI), p12 = range(lastI - 23, lastI - 12);
+      $("s12").textContent = money(sumN(allM, l12));
+      $("s12L").textContent = `collected in the 12 months to ${mLabel(lastM.date)}`;
+      $("s12D").innerHTML = line(l12, p12, "the 12 months before") + "<br>" + share(l12);
+      const ytd = idxOf(lastM.y), prev = idxOf(String(Number(lastM.y) - 1)).filter(i => months[i].mo <= lastM.mo);
+      $("sYtd").textContent = money(sumN(allM, ytd));
+      $("sYtdL").textContent = `collected from January to ${MV.MONTHS[lastM.mo - 1]} ${lastM.y}`;
+      $("sYtdD").innerHTML = line(ytd, prev, `the same months of ${Number(lastM.y) - 1}`) + "<br>" + share(ytd);
+    }
+
+    // ---------- compare tool ----------
+    const P = { A: [0, 0], B: [0, 0] }; let avg = false, preset = null;
+    const yearOpts = years.map(y => `<option value="${y}">${y}</option>`).join(""), monOpts = MON.map((m, i) => `<option value="${i + 1}">${m}</option>`).join("");
+    ["A", "B"].forEach(k => {
+      $("p" + k).insertAdjacentHTML("beforeend",
+        `<select data-p="${k}" data-e="0" data-f="m" aria-label="From month">${monOpts}</select><select data-p="${k}" data-e="0" data-f="y" aria-label="From year">${yearOpts}</select>` +
+        `<span class="to">to</span><select data-p="${k}" data-e="1" data-f="m" aria-label="To month">${monOpts}</select><select data-p="${k}" data-e="1" data-f="y" aria-label="To year">${yearOpts}</select>`);
+    });
+    const fullYears = years.filter(y => !partial(y));
+    const fy = fullYears[fullYears.length - 1], fyPrev = String(Number(fy) - 1);
+    const ytdPrev = idxOf(String(Number(lastM.y) - 1)).filter(i => months[i].mo <= lastM.mo);
+    const PRESETS = [
+      { id: "m", label: "Latest month vs a year earlier", B: [lastI, lastI], A: [lastI - 12, lastI - 12] },
+      { id: "l12", label: "Last 12 months vs the 12 before", B: [lastI - 11, lastI], A: [lastI - 23, lastI - 12] },
+      { id: "ytd", label: `${lastM.y} so far vs the same months of ${Number(lastM.y) - 1}`, B: [idxOf(lastM.y)[0], lastI], A: [ytdPrev[0], ytdPrev[ytdPrev.length - 1]] },
+      { id: "fy", label: `${fy} vs ${fyPrev}`, B: [idxOf(fy)[0], idxOf(fy)[11]], A: [idxOf(fyPrev)[0], idxOf(fyPrev)[11]] },
+      { id: "covid", label: `${fy} vs 2019, before COVID`, B: [idxOf(fy)[0], idxOf(fy)[11]], A: [idxOf("2019")[0], idxOf("2019")[11]] },
+    ].filter(p => [...p.A, ...p.B].every(i => i >= 0 && i < N));
+    $("presets").innerHTML = PRESETS.map(p => `<button type="button" class="preset" data-preset="${p.id}" aria-pressed="false">${p.label}</button>`).join("");
+
+    function setSelects() {
+      ["A", "B"].forEach(k => [0, 1].forEach(e => { const m = months[P[k][e]];
+        document.querySelector(`select[data-p="${k}"][data-e="${e}"][data-f="m"]`).value = m.mo;
+        document.querySelector(`select[data-p="${k}"][data-e="${e}"][data-f="y"]`).value = m.y; }));
+      document.querySelectorAll(".preset").forEach(b => b.setAttribute("aria-pressed", b.dataset.preset === preset));
+    }
+    function readSelect(k, e) {
+      const mo = document.querySelector(`select[data-p="${k}"][data-e="${e}"][data-f="m"]`).value, y = document.querySelector(`select[data-p="${k}"][data-e="${e}"][data-f="y"]`).value;
+      const ym = `${y}-${String(mo).padStart(2, "0")}`;
+      if (ym < months[0].ym) return 0; if (ym > lastM.ym) return lastI; return IDX[ym];
+    }
+    function applyPreset(id) { const p = PRESETS.find(x => x.id === id); if (!p) return; preset = id; P.A = [...p.A]; P.B = [...p.B]; setSelects(); drawCompare(); }
+
+    function drawCompare() {
+      const err = [];
+      ["A", "B"].forEach(k => { if (P[k][0] > P[k][1]) err.push(`${k === "B" ? "This period" : "Compared with"} ends before it starts.`); });
+      $("cmpErr").textContent = err.join(" ");
+      if (err.length) { $("cmpSum").innerHTML = $("cmpTbl").innerHTML = $("cmpLen").textContent = ""; return; }
+      const iA = range(...P.A), iB = range(...P.B), nA = iA.length, nB = iB.length;
+      const dA = avg ? nA : 1, dB = avg ? nB : 1;
+      const tA = sumC(allM, iA) / dA, tB = sumC(allM, iB) / dB;
+      const uA = hasUSD(iA), uB = hasUSD(iB);
+      const xA = uA ? sumC(dolM, iA) / dA : null, xB = uB ? sumC(dolM, iB) / dB : null;
+      const lA = spanTxt(...P.A), lB = spanTxt(...P.B), per = avg && (nA > 1 || nB > 1) ? " a month" : "";
+      const sufA = avg && nA > 1 ? ", average a month" : "", sufB = avg && nB > 1 ? ", average a month" : "";
+      const card = (k, v, s) => `<div><div class="k">${k}</div><div class="v">${v}</div>${s ? `<div class="s">${s}</div>` : ""}</div>`;
+      const c = chg(tB, tA), cx = (xA != null && xB != null) ? chg(xB, xA) : null;
+      $("cmpSum").innerHTML =
+        card(`${lB}${sufB}`, `<span style="color:${CB}">${money(tB)}</span>`, uB ? `${money(xB)} paid in US dollars, ${fmt(pct(raw(dolM, iB), raw(allM, iB)), 0)}%` : "Dollar split not published before 2011") +
+        card(`${lA}${sufA}`, `<span style="color:${CA}">${money(tA)}</span>`, uA ? `${money(xA)} paid in US dollars, ${fmt(pct(raw(dolM, iA), raw(allM, iA)), 0)}%` : "Dollar split not published before 2011") +
+        card("Change in everything collected", `<span class="${chgCls(c)}">${chgTxt(c)}</span>`, `${c != null && tB - tA >= 0 ? "+" : "−"}${money(Math.abs(tB - tA))}${per}`) +
+        (cx != null ? card("Change in the part paid in dollars", `<span class="${chgCls(cx)}">${chgTxt(cx)}</span>`, `${xB - xA >= 0 ? "+" : "−"}${money(Math.abs(xB - xA))}${per}`) : "");
+      $("cmpLen").textContent = nA !== nB && !avg ? `The two periods have different lengths (${nB} and ${nA} months). Switch to average per month for a fair comparison.` : "";
+      // table by tax
+      const rows = ORDER.map(k => ({ k, a: sumC(R.mvr[k], iA) / dA, b: sumC(R.mvr[k], iB) / dB })).filter(r => r.a > 0 || r.b > 0);
+      const max = Math.max(...rows.flatMap(r => [r.a, r.b]));
+      const bars = (a, b) => `<div class="pair"><i style="width:${100 * b / max}%;background:${CB}"></i><i style="width:${100 * a / max}%;background:${CA}"></i></div>`;
+      const cell = v => v > 0 ? short(v) : "none";
+      const line = (name, a, b, cls = "", extra = "") => { const ch = a > 0 ? chg(b, a) : null;
+        return `<tr class="${cls}"><td>${name}${extra}</td><td>${cell(b)}</td><td>${cell(a)}</td><td class="${chgCls(ch)}">${a > 0 && b > 0 ? chgTxt(ch) : a > 0 ? "−100%" : "new"}</td></tr>`; };
+      const lease = k => sumC(detM["Lease period extensions"], k === "A" ? iA : iB) / (k === "A" ? dA : dB);
+      const conv = k => sumC(detM["Land acquisition and conversion"], k === "A" ? iA : iB) / (k === "A" ? dA : dB);
+      let h = `<tr><th>Tax</th><th>${lB}${sufB} (${sym()})</th><th>${lA}${sufA} (${sym()})</th><th>Change</th></tr>`;
+      rows.forEach(r => {
+        h += line(`<span class="sw" style="background:${COLORS[r.k]}"></span>${LABEL[r.k]}`, r.a, r.b, "", bars(r.a, r.b));
+        if (r.k === "resort_land" && (lease("A") || lease("B") || conv("A") || conv("B"))) {
+          h += line("of which lease extensions", lease("A"), lease("B"), "sub") + line("of which land conversion", conv("A"), conv("B"), "sub");
+        }
+      });
+      h += line("All MIRA collections", tA, tB, "total");
+      if (xA != null && xB != null) h += line("Paid in US dollars", xA, xB, "sub");
+      $("cmpTbl").innerHTML = h;
+      try { const q = new URLSearchParams(location.search); q.set("a", `${months[P.A[0]].ym}:${months[P.A[1]].ym}`); q.set("b", `${months[P.B[0]].ym}:${months[P.B[1]].ym}`); history.replaceState(null, "", "?" + q.toString()); } catch (e) {}
+      $("cmpLink").textContent = "The page address now includes these two periods, so you can copy it to share this comparison.";
+    }
+
+    // ---------- history ----------
+    let gran = "year", hrange = "all";
+    function drawHist() {
+      $("rangeCtl").hidden = gran !== "month";
+      if (gran === "year") {
+        const cats = years.map(y => ({ label: yLabel(y), partial: partial(y) }));
+        const ruf = years.map(y => { const ix = idxOf(y); return (sumC(allM, ix) - sumC(dolM, ix)) / 1e9; });
+        const dl = years.map(y => sumC(dolM, idxOf(y)) / 1e9);
+        const share = years.map(y => { const ix = idxOf(y); return hasUSD(ix) ? pct(raw(dolM, ix), raw(allM, ix)) : null; });
+        $("histNote").textContent = `Everything MIRA collected each year since ${years[0]}, split by the currency it was paid in. The figure under each bar is the share paid in US dollars.` + (partial(lastM.y) ? ` ${lastM.y}* covers January to ${MV.MONTHS[lastM.mo - 1]} only.` : "");
+        stackChart($("hist"), {
+          cats, label: "MIRA collections by year, split by currency", yTitle: `${sym()} bn`, yFmt: v => fmt(v, v < 10 && v % 1 ? 1 : 0),
+          stacks: [{ color: RUF, vals: ruf }, { color: DOL, vals: dl }],
+          below: i => share[i] == null ? null : { text: fmt(share[i], 0) + "%", color: DOL },
+          tip: i => { const y = years[i], ix = idxOf(y), s = mmaShare(y), pv = years[i - 1] && !partial(y) ? sumC(allM, idxOf(years[i - 1])) : null;
+            return `<b>${spanTxt(ix[0], ix[ix.length - 1])}</b>` + row("Collected by MIRA", money(sumC(allM, ix)))
+              + (pv ? row(`Change on ${years[i - 1]}`, chgTxt(chg(sumC(allM, ix), pv))) : "")
+              + (share[i] != null ? row("Paid in US dollars", money(sumC(dolM, ix))) + row("Paid in rufiyaa", money(sumC(allM, ix) - sumC(dolM, ix))) + row("Share in dollars", fmt(share[i], 0) + "%") + row("In US dollars", "US$ " + short(raw(R.total.usd, ix))) : row("Paid in US dollars", "not published"))
+              + (s != null ? row("Share of all government revenue", fmt(s, 0) + "%") : ""); }
+        });
+        $("histKey").innerHTML = `<span><i style="background:${RUF}"></i>Paid in rufiyaa</span><span><i style="background:${DOL}"></i>Paid in US dollars</span>`;
+      } else {
+        let ix = range(0, lastI);
+        if (hrange === "2015") ix = ix.filter(i => months[i].y >= "2015");
+        if (hrange === "3") ix = range(Math.max(0, lastI - 35), lastI);
+        const rows = ix.map(i => ({ date: months[i].date, i, all: MV.conv(allM[i], months[i].date) / 1e6, dl: dolM[i] == null ? null : MV.conv(dolM[i], months[i].date) / 1e6 }));
+        const hi = rows.reduce((a, r) => r.all > a.all ? r : a);
+        $("histNote").textContent = "Everything MIRA collected each month, and the part paid in US dollars. Collections swing a lot from month to month, because many taxes are paid quarterly or once a year.";
+        MV.lineChart($("hist"), {
+          rows, label: "MIRA collections by month", maxH: 400, yTitle: `${sym()} m`, yFmt: v => fmt(v),
+          series: [{ val: r => r.all, color: "#3fb8b0", area: true, width: 2 }, { val: r => r.dl, color: DOL, width: 2 }],
+          marks: [{ date: hi.date, value: hi.all, color: "#ff8a6b", label: `Highest month, ${MV.mShort(hi.date)}` }],
+          tip: r => { const a = IDX[`${Number(months[r.i].y) - 1}-${String(months[r.i].mo).padStart(2, "0")}`];
+            return `<b>${mLabel(r.date)}</b>` + row("Collected by MIRA", money(MV.conv(allM[r.i], r.date)))
+              + (a != null ? row(`Change on ${MV.MONTHS[months[r.i].mo - 1].slice(0, 3)} ${months[a].y}`, chgTxt(chg(MV.conv(allM[r.i], r.date), MV.conv(allM[a], months[a].date)))) : "")
+              + (dolM[r.i] != null ? row("Paid in US dollars", money(MV.conv(dolM[r.i], r.date))) + row("Share in dollars", fmt(pct(dolM[r.i], allM[r.i]), 0) + "%") : row("Paid in US dollars", "not published")); }
+        });
+        $("histKey").innerHTML = `<span><i class="line" style="background:#3fb8b0"></i>Everything collected</span><span><i class="line" style="background:${DOL}"></i>Paid in US dollars</span>`;
+      }
+      const full = years.filter(y => !partial(y) && hasUSD(idxOf(y))), f1 = full[full.length - 1], fx = idxOf(f1), f0 = full[0];
+      $("dollarLine").innerHTML = `In ${f1}, <b>US$ ${short(raw(R.total.usd, fx))}</b> of MIRA's collections were paid in US dollars, <b>${fmt(pct(raw(dolM, fx), raw(allM, fx)), 0)}%</b> of the total. In ${f0} it was US$ ${short(raw(R.total.usd, idxOf(f0)))}.`;
+    }
+
+    // ---------- by tax ----------
+    let which = "all", as = "amt";
+    function drawTypes() {
+      const yrs = which === "usd" ? years.filter(y => hasUSD(idxOf(y))) : years;
+      const src = which === "usd" ? dol : R.mvr;
+      const vals = {}; ORDER.forEach(k => vals[k] = yrs.map(y => sumC(src[k], idxOf(y))));
+      const tot = yrs.map((_, i) => ORDER.reduce((a, k) => a + vals[k][i], 0));
+      const used = ORDER.filter(k => vals[k].some(v => v > 0));
+      const stacks = used.map(k => ({ color: COLORS[k], vals: vals[k].map((v, i) => as === "pct" ? pct(v, tot[i]) : v / 1e9) }));
+      $("typeNote").textContent = (which === "usd" ? "The part paid in US dollars, by tax" : "Everything MIRA collected, by tax") + (as === "pct" ? ", as a share of each year's total." : ", each year.") + (partial(lastM.y) ? ` ${lastM.y}* is January to ${MV.MONTHS[lastM.mo - 1]}.` : "");
+      stackChart($("types"), {
+        cats: yrs.map(y => ({ label: yLabel(y), partial: partial(y) })), label: "MIRA collections by tax and year",
+        yTitle: as === "pct" ? "%" : `${sym()} bn`, max: as === "pct" ? 100 : null, yFmt: v => as === "pct" ? fmt(v) : fmt(v, v < 10 && v % 1 ? 1 : 0), stacks,
+        tip: i => { const y = yrs[i], ix = idxOf(y);
+          let h = `<b>${spanTxt(ix[0], ix[ix.length - 1])}</b>`;
+          [...used].reverse().forEach(k => { const v = vals[k][i]; if (v > 0) h += row(LABEL[k], money(v) + ` (${fmt(pct(v, tot[i]), 0)}%)`); });
+          if (which === "all") { const le = sumC(detM["Lease period extensions"], ix), lc = sumC(detM["Land acquisition and conversion"], ix);
+            if (le || lc) h += `<span class="tag" style="background:#8a5a12">Resort land includes lease extensions ${money(le)}, land conversion ${money(lc)}</span>`; }
+          return h + row("Total", money(tot[i])); }
+      });
+      $("typeKey").innerHTML = used.map(k => `<span><i style="background:${COLORS[k]}"></i>${LABEL[k]}</span>`).join("");
+    }
+
+    const usdYears = years.filter(y => hasUSD(idxOf(y)));
+    $("tblYear").innerHTML = usdYears.slice().reverse().map(y => `<option value="${y}">${partial(y) ? `${y}, January to ${MV.MONTHS[idxOf(y).length - 1]}` : y}</option>`).join("");
+    $("tblYear").value = usdYears.filter(y => !partial(y)).pop();
+    const avgRate = ix => { const a = raw(allM, ix), c = ix.reduce((s, i) => s + allM[i] / MV.rateAt(months[i].date), 0); return a / c; };
+    function drawTable() {
+      const y = $("tblYear").value, ix = idxOf(y);
+      $("tblNote").textContent = `Each tax collected by MIRA in ${spanTxt(ix[0], ix[ix.length - 1])}, and how much of it was paid in US dollars. Amounts are in the money of the time.`;
+      const rows = ORDER.map(k => ({ k, a: raw(R.mvr[k], ix), d: raw(dol[k], ix) })).filter(r => r.a > 0).sort((p, q) => q.d - p.d || q.a - p.a);
+      const A = rows.reduce((s, r) => s + r.a, 0), D = rows.reduce((s, r) => s + r.d, 0);
+      const cur = v => { const x = MV.state.cur === "USD" ? v / avgRate(ix) : v; return x < 0.5 ? "none" : short(x); };
+      const line = (name, a, d, cls = "", sw = "") => `<tr class="${cls}"><td>${sw}${name}</td><td>${cur(a)}</td><td>${cur(d)}</td><td>${fmt(pct(d, a), 0)}%<span class="bar-share"><i style="width:${Math.min(100, pct(d, a))}%"></i></span></td></tr>`;
+      $("tbl").innerHTML = `<tr><th>Tax</th><th>Collected (${sym()})</th><th>Paid in US dollars (${sym()})</th><th>Share in dollars</th></tr>`
+        + rows.map(r => line(LABEL[r.k], r.a, r.d, "", `<span class="sw" style="background:${COLORS[r.k]}"></span>`)).join("")
+        + line("All MIRA collections", A, D, "total");
+    }
+
+    function render() {
+      drawLatest(); drawCompare(); drawHist(); drawTypes(); drawTable();
+      const sh = years.map(y => [y, mmaShare(y)]).filter(([, s]) => s != null);
+      if (sh.length) { const [y, s] = sh[sh.length - 1]; $("shareOfAll").textContent = `In ${y}, MIRA's collections were ${fmt(s, 0)}% of all government revenue and grants recorded by MMA (series 1999).`; }
+    }
+
+    // start-up state: periods from the address if present, otherwise this year so far
+    const q = new URLSearchParams(location.search), parse = v => { const m = (v || "").match(/^(\d{4}-\d{2}):(\d{4}-\d{2})$/); return m && IDX[m[1]] != null && IDX[m[2]] != null ? [IDX[m[1]], IDX[m[2]]] : null; };
+    const qa = parse(q.get("a")), qb = parse(q.get("b"));
+    if (qa && qb) { P.A = qa; P.B = qb; setSelects(); } else { const p = PRESETS.find(x => x.id === "ytd") || PRESETS[0]; preset = p.id; P.A = [...p.A]; P.B = [...p.B]; setSelects(); }
+
+    document.addEventListener("change", e => {
+      if (e.target.id === "tblYear") { drawTable(); return; }
+      const s = e.target.closest("select[data-p]"); if (!s) return;
+      const k = s.dataset.p, en = Number(s.dataset.e); P[k][en] = readSelect(k, en); preset = null; setSelects(); drawCompare();
+    });
+    document.addEventListener("click", e => {
+      const pr = e.target.closest("[data-preset]"); if (pr) { applyPreset(pr.dataset.preset); return; }
+      const b = e.target.closest("[data-which],[data-as],[data-avg],[data-gran],[data-range]"); if (!b) return;
+      if (b.dataset.which) which = b.dataset.which; if (b.dataset.as) as = b.dataset.as;
+      if (b.dataset.avg) avg = b.dataset.avg === "1"; if (b.dataset.gran) gran = b.dataset.gran; if (b.dataset.range) hrange = b.dataset.range;
+      b.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+      if (b.dataset.avg) drawCompare(); else if (b.dataset.gran || b.dataset.range) drawHist(); else drawTypes();
+    });
+    MV.onPrefs(render); MV.onResize(() => { drawHist(); drawTypes(); });
+    $("fetched").textContent = `MIRA figures to ${mLabel(lastM.date)}${R.source_note ? `, file updated ${R.source_note.replace(/^Updated on\s*/i, "").replace(/(\d+)(st|nd|rd|th)\b/, "$1")}` : ""}. Exchange rates and prices from MMA Statistics Database, last fetched ${MV.fetched(data.fetched_at)}, Malé time.`;
+    render();
+  }).catch(err => { console.error(err); $("latestNote").textContent = "Couldn't load the revenue data."; });
+})();
+</script>
+</body>
+</html>

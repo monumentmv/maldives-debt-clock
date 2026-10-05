@@ -78,6 +78,7 @@
   <a class="brand" href="./">MV <span>Debt Clock</span></a>
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock">Debt clock</a>
+    <a href="revenue.html" data-page="revenue">Revenue</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
     <a href="methodology.html" data-page="method" aria-current="page">Methodology</a>
     <a href="about.html" data-page="about">About</a>
@@ -112,6 +113,7 @@
     <li><a href="#usd">US dollar figures</a></li>
     <li><a href="#real">Adjusting for inflation</a></li>
     <li><a href="#fuel">Fuel imports and crises</a></li>
+    <li><a href="#revenue">Revenue collected by MIRA</a></li>
     <li><a href="#time">Time and updates</a></li>
     <li><a href="#limits">Limitations</a></li>
     <li><a href="#series">Every data series used</a></li>
@@ -121,6 +123,7 @@
 <h2 id="sources">1. Where the data comes from</h2>
 <p>All economic figures come from the <a href="https://database.mma.gov.mv" rel="noopener">Maldives Monetary Authority (MMA) Statistics Database</a>, which publishes data compiled by MMA, the Ministry of Finance and Planning, Maldives Bureau of Statistics (MBS), Maldives Customs Service and the World Bank.</p>
 <p>Every morning at 08:00 Malé time, an automated script downloads the latest figures through MMA's official API and saves them to a file the website reads. Nothing is typed in by hand, with one exception, the population estimate, explained in <a href="#population">section 6</a>.</p>
+<p>The <a href="revenue.html">revenue page</a> also uses the monthly revenue collection files published by the Maldives Inland Revenue Authority (MIRA). These are downloaded from MIRA's website each month and read by a script, without retyping any figures. See <a href="#revenue">section 12</a>.</p>
 <p>This site is independent. It is not produced or endorsed by MMA, the Ministry of Finance or any government body.</p>
 
 <h2 id="debt">2. What counts as debt</h2>
@@ -301,7 +304,37 @@
 <div class="formula"><math display="block"><mtext>change</mtext><mo>=</mo><mn>100</mn><mo>×</mo><mo>(</mo><mfrac><mrow><msub><mover><mi>x</mi><mo>‾</mo></mover><mtext>during</mtext></msub></mrow><mrow><msub><mover><mi>x</mi><mo>‾</mo></mover><mtext>before</mtext></msub></mrow></mfrac><mo>−</mo><mn>1</mn><mo>)</mo></math><dl class="where"><div><dt><math><mrow><msub><mover><mi>x</mi><mo>‾</mo></mover><mtext>during</mtext></msub></mrow></math></dt><dd>the average monthly fuel bill (or oil price) during the shaded period</dd></div><div><dt><math><mrow><msub><mover><mi>x</mi><mo>‾</mo></mover><mtext>before</mtext></msub></mrow></math></dt><dd>the average over the 12 months before it began</dd></div></dl></div>
 <p>For each crisis, the impact figures compare the average monthly fuel bill during the shaded period with the average of the 12 months before it began, and do the same for the crude oil price. This is a simple before-and-after comparison. It shows what happened during each crisis, not how much the crisis itself caused, since tourism, the season and other factors also move the fuel bill.</p>
 
-<h2 id="time">12. Time and updates</h2>
+<h2 id="revenue">12. Revenue collected by MIRA</h2>
+<p>The <a href="revenue.html">revenue page</a> shows the taxes, fees and rents collected by the Maldives Inland Revenue Authority (MIRA) each month since January 2010, and the part paid in US dollars since January 2011. It uses two MIRA files, the monthly revenue collection in rufiyaa, which already includes dollar payments converted to rufiyaa, and the monthly collection paid in US dollars. Zakat and donations, which MIRA lists below its totals, are left out.</p>
+<h3>What MIRA's figures cover</h3>
+<p>MIRA collects most taxes, but not all government revenue. Import duties are collected by Maldives Customs Service, and the government also receives dividends from state companies, other income and grants. The revenue figures on the main clock page use MMA's total revenue and grants (series 1999), which covers all of these. MIRA's collections have been between about 68% and 81% of that total since 2017. MIRA's figures are also collections, recorded when money comes in, while the Ministry of Finance records revenue when it reaches the government's accounts, so the two can differ for any given month.</p>
+<h3>How the dollar part is worked out</h3>
+<p>MIRA's rufiyaa totals convert dollar payments at MIRA's own rate, about 15.36 rufiyaa per dollar in recent years, which is slightly below MMA's reference rate. This page converts each month's dollar figures at that month's MMA reference rate (series 4039), the same rate used everywhere else on the site. For taxes paid almost entirely in dollars, that can give a dollar amount slightly above MIRA's own rufiyaa total, so the dollar part of each tax is capped at its total. The part paid in rufiyaa is the total minus the dollar part.</p>
+<div class="formula"><math display="block"><mtext>dollar share</mtext><mo>=</mo><mfrac><mrow><munder><mo>∑</mo><mi>t</mi></munder><mo>min</mo><mo>(</mo><msub><mi>T</mi><mi>t</mi></msub><mo>,</mo><msub><mi>D</mi><mi>t</mi></msub><mo>×</mo><msub><mi>r</mi><mi>m</mi></msub><mo>)</mo></mrow><mrow><munder><mo>∑</mo><mi>t</mi></munder><msub><mi>T</mi><mi>t</mi></msub></mrow></mfrac></math><dl class="where"><div><dt><math><msub><mi>T</mi><mi>t</mi></msub></math></dt><dd>MIRA's rufiyaa total for tax <i>t</i> in the month</dd></div><div><dt><math><msub><mi>D</mi><mi>t</mi></msub></math></dt><dd>the amount of tax <i>t</i> paid in US dollars</dd></div><div><dt><math><msub><mi>r</mi><mi>m</mi></msub></math></dt><dd>MMA's reference rate for that month</dd></div></dl></div>
+<h3>How taxes are grouped</h3>
+<p>MIRA lists around 40 separate lines, some of them tiny. The page groups them as follows.</p>
+<div class="tbl"><table>
+  <tr><th>Group</th><th>MIRA lines</th></tr>
+  <tr><td>Tourism GST</td><td>GST (tourism sector)</td></tr>
+  <tr><td>GST outside tourism</td><td>GST (non-tourism sector)</td></tr>
+  <tr><td>Green tax</td><td>Green tax</td></tr>
+  <tr><td>Airport taxes and fees</td><td>Airport development fee, departure tax, airport service charge</td></tr>
+  <tr><td>Resort land and leases</td><td>Tourism land rent, lease period extension fee, land acquisition and conversion fee, construction period extension fee</td></tr>
+  <tr><td>Business profit taxes</td><td>Corporate income tax, business profit tax, bank profit tax, withholding tax, non-resident withholding tax</td></tr>
+  <tr><td>Personal income taxes</td><td>Personal income tax, employee withholding tax</td></tr>
+  <tr><td>Tourism tax (ended 2014)</td><td>Tourism tax</td></tr>
+  <tr><td>Other taxes and fees</td><td>Everything else, including work permit and expatriate quota fees, royalties, business permits and fines</td></tr>
+</table></div>
+<p>Lease period extension fees and land conversion fees are one-off payments that vary a lot from year to year, so a jump in resort land and leases doesn't mean lasting growth. The chart's pop-up shows them separately.</p>
+<h3>Years, currency and inflation</h3>
+<p>Years are calendar years. The latest year is shown up to the latest month MIRA has published, marked with an asterisk, and compared with the same months of the year before. When the site is set to US dollars, rufiyaa amounts are converted at each month's MMA reference rate. When Real is on, past amounts are adjusted with the national consumer price index (series 280), as on the rest of the site. The table of dollar sources shows whichever year is chosen, in that year's money.</p>
+<h3>Latest figures and comparisons</h3>
+<p>The latest figures at the top of the page are the most recent month MIRA has published, the 12 months to that month, and the year so far. Each is compared with the same period a year earlier, in the money of the time, so they are never adjusted for inflation.</p>
+<p>The compare tool sets any run of whole months against any other. The change is the later amount divided by the earlier one, minus one. When the two periods have different lengths, totals aren't directly comparable, so the tool offers an average per month, which divides each total by its number of months. Comparisons follow the MVR/US$ and Real switches, so with Real on the change is after inflation. The two periods chosen are saved in the page address, so a comparison can be shared as a link.</p>
+<h3>Updates</h3>
+<p>MIRA updates these files around the middle of each month. Recent months are provisional until MIRA reconciles them, so figures can change slightly. MIRA's weekly revenue file isn't used, because it is provisional, runs several weeks behind and repeats the dollar figures inside its rufiyaa totals.</p>
+
+<h2 id="time">13. Time and updates</h2>
 <p>The time shown on the clock is Malé time (UTC+5), whatever time zone the visitor is in.</p>
 <p>The site checks MMA for new data every morning at 08:00 Malé time. MMA publishes debt figures quarterly and government finance figures monthly, so most days nothing changes. The footer shows when data was last fetched.</p>
 <h3>If the data stops updating</h3>
@@ -312,7 +345,7 @@
   <li>some figures couldn't be updated at the last refresh. In that case the previous values are kept rather than dropped, and the warning says so.</li>
 </ul>
 
-<h2 id="limits">13. Limitations</h2>
+<h2 id="limits">14. Limitations</h2>
 <ul>
   <li>The clock between quarterly releases is an estimate based on the past year's pace, not a live record of borrowing.</li>
   <li>The current debt-to-GDP ratio relies on a GDP forecast.</li>
@@ -321,10 +354,11 @@
   <li>Guaranteed debt is counted in full, although state companies are expected to repay most of it themselves.</li>
   <li>In nominal mode, comparisons over time are not adjusted for inflation. Switch to Real to adjust them.</li>
   <li>Crisis periods on the fuel page are approximate, and the before-and-after comparisons don't separate a crisis's effect from other causes.</li>
+  <li>MIRA's collections are only part of government revenue, and the split between rufiyaa and dollar payments depends on the exchange rate used to convert them.</li>
 </ul>
 <p>Spotted an error? Please send a message using the form on the <a href="about.html">About page</a>.</p>
 
-<h2 id="series">14. Every data series used</h2>
+<h2 id="series">15. Every data series used</h2>
 <div class="tbl"><table>
   <tr><th>MMA ID</th><th>Series</th><th>Frequency</th><th>Used for</th></tr>
   <tr><td>4514</td><td>Total outstanding public and publicly guaranteed debt</td><td>Quarterly</td><td>The clock, chart, growth</td></tr>
@@ -344,6 +378,8 @@
   <tr><td>3504, 3505, 3507</td><td>Import of petrol; diesel (marine gas oil); other petroleum products</td><td>Monthly</td><td>Fuel by product</td></tr>
   <tr><td>3486</td><td>Import of goods (total)</td><td>Monthly</td><td>Fuel's share of imports</td></tr>
   <tr><td>3787</td><td>Crude oil prices (World Bank average of Brent, Dubai and WTI)</td><td>Monthly</td><td>Oil price line</td></tr>
+  <tr><td>n/a</td><td>MIRA monthly revenue collection, all collections in rufiyaa (Maldives Inland Revenue Authority)</td><td>Monthly</td><td>Revenue page</td></tr>
+  <tr><td>n/a</td><td>MIRA monthly revenue collection paid in US dollars (Maldives Inland Revenue Authority)</td><td>Monthly</td><td>Dollar share on the revenue page</td></tr>
   <tr><td>n/a</td><td>Registered Maldivian population, end of 2025 (Department of National Registration, via MBS)</td><td>Annual</td><td>Per-citizen figures</td></tr>
   <tr><td>n/a</td><td>Census 2014 and 2022 Maldivian population (MBS)</td><td>Census</td><td>Population growth rate and check</td></tr>
 </table></div>

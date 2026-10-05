@@ -120,6 +120,7 @@
   <a class="brand" href="./">MV <span>Debt Clock</span></a>
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock" aria-current="page">Debt clock</a>
+    <a href="revenue.html" data-page="revenue">Revenue</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
     <a href="methodology.html" data-page="method">Methodology</a>
     <a href="about.html" data-page="about">About</a>
@@ -411,7 +412,7 @@
       const pop = popNow();
       if (fiscalOK && pop && rev12 && exp12) {
         const gap = exp12 - rev12, firstM = months("revenue").slice(-12)[0].date;
-        $("fiscalNote").innerHTML = `Over the 12 months from <b>${mLabel(firstM)} to ${mLabel(fEnd)}</b>, the latest monthly figures published. Per-citizen figures use the same population estimate as the debt clock.`;
+        $("fiscalNote").innerHTML = `Over the 12 months from <b>${mLabel(firstM)} to ${mLabel(fEnd)}</b>, the latest monthly figures published. Per-citizen figures use the same population estimate as the debt clock. <a href="revenue.html">See which taxes bring the money in, and how much is paid in US dollars</a>.`;
         $("revPP").textContent = disp(rev12 / pop); $("expPP").textContent = disp(exp12 / pop); $("gapPP").textContent = disp(Math.abs(gap) / pop);
         $("gapLbl").textContent = gap >= 0 ? "more spent than collected per citizen, covered by borrowing" : "more collected than spent per citizen";
         $("revSec").textContent = dispFull(rev12 / SEC_YEAR, MV.state.cur === "USD" ? 2 : 0);
