@@ -6,26 +6,38 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: [fetch_data.py, .github/workflows/update-data.yml]
+    paths: [fetch_data.py, build_revenue.py, fetch_wfd.py, wfd_extract.py, "inputs/**", .github/workflows/update-data.yml]
 
 permissions:
   contents: write
 
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install requests
+      - run: pip install requests openpyxl pdfplumber
       - run: python fetch_data.py
         env:
           MMA_TOKEN: ${{ secrets.MMA_TOKEN }}
+      - name: Build revenue data from MIRA files
+        if: always()
+        run: python build_revenue.py
+      - name: Weekly budget figures from the Ministry of Finance
+        if: always()
+        run: python fetch_wfd.py
       - name: Commit if changed
+        if: always()
         run: |
           git config user.name "debt-clock-bot"
           git config user.email "actions@users.noreply.github.com"
-             git add data.json compare.json
-          git diff --cached --quiet || (git commit -m "Update data $(date -u +%F)" && git push)
+          git add data.json revenue.json budget.json data/wfd
+          git diff --cached --quiet || (git commit -m "Update data $(date -u +%F)" && git pull --rebase && git push)
