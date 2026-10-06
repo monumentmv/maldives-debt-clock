@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Protection, policing and interest | Maldives National Debt Clock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F5F7F6; --ink:#1B2533; --muted:#5B6673; --rule:#CDD4D9;
+  --interest:#A8322B; --interest-soft:#F2DEDB;
+  --protect:#1E6B60; --protect-soft:#D7EBE6; --panel:#FFFFFF;
+  --font:"Public Sans", "Segoe UI", Roboto, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#141A22; --ink:#E6EBEF; --muted:#9AA6B2; --rule:#2E3946;
+    --interest:#E0675D; --interest-soft:#3A2224;
+    --protect:#5BB5A6; --protect-soft:#183330; --panel:#1B232D;
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--font);
+  font-size:17px;line-height:1.55;font-variant-numeric:tabular-nums}
+.wrap{max-width:1040px;margin:0 auto;padding:48px 24px 80px}
+p{max-width:68ch}
+a{color:inherit}
+h1{font-size:clamp(30px,4.6vw,50px);line-height:1.08;font-weight:800;
+  letter-spacing:-0.02em;margin:0 0 20px;max-width:20ch}
+h2{font-size:26px;line-height:1.2;font-weight:800;letter-spacing:-0.01em;margin:0 0 10px}
+.lede{font-size:19px;color:var(--muted);margin:0 0 36px}
+section{padding:48px 0;border-top:1px solid var(--rule)}
+section:first-of-type{border-top:0;padding-top:0}
+
+/* live meter */
+.meter{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px;margin-top:8px}
+.meter .fig{font-size:clamp(30px,4vw,44px);font-weight:800;color:var(--interest);line-height:1.1}
+.meter .cap{color:var(--muted);font-size:15px;margin-top:6px}
+
+/* days ruler */
+.ruler{margin-top:28px}
+.scale{display:grid;grid-template-columns:220px 1fr;gap:16px;font-size:13px;color:var(--muted)}
+.ticks{position:relative;height:22px;border-bottom:1px solid var(--rule)}
+.ticks span{position:absolute;bottom:4px;transform:translateX(-50%)}
+.ticks span::after{content:"";position:absolute;left:50%;top:18px;height:6px;border-left:1px solid var(--rule)}
+.row{display:grid;grid-template-columns:220px 1fr;gap:16px;align-items:center;padding:14px 0;border-bottom:1px solid var(--rule)}
+.row .name{font-weight:700;line-height:1.3}
+.row .name small{display:block;font-weight:400;color:var(--muted);font-size:14px}
+.track{position:relative;height:30px;background:repeating-linear-gradient(90deg,transparent 0,transparent calc(12.5% - 1px),var(--rule) calc(12.5% - 1px),var(--rule) 12.5%)}
+.bar{position:absolute;left:0;top:4px;bottom:4px;background:var(--protect);border-radius:2px;
+  transform-origin:left;animation:grow .9s ease-out both}
+.bar.total{background:var(--ink)}
+.tag{position:absolute;top:50%;transform:translateY(-50%);font-size:14px;font-weight:700;white-space:nowrap;padding-left:8px}
+.cases{grid-column:2;font-size:14px;color:var(--muted);margin-top:-4px}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+/* comparison */
+.versus{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:24px;background:var(--rule);border:1px solid var(--rule)}
+.versus > div{background:var(--panel);padding:24px}
+.versus .big{font-size:36px;font-weight:800;line-height:1.1}
+.versus .i .big{color:var(--interest)}
+.versus .p .big{color:var(--protect)}
+.versus .lbl{font-weight:700;margin-bottom:6px}
+.versus .sub{color:var(--muted);font-size:15px;margin-top:8px}
+
+/* utilisation table */
+.tablewrap{overflow-x:auto;margin-top:20px}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:15px}
+th,td{text-align:right;padding:10px 12px;border-bottom:1px solid var(--rule)}
+th:first-child,td:first-child{text-align:left}
+th{font-weight:700;color:var(--muted);font-size:14px}
+.use{display:flex;align-items:center;gap:10px;justify-content:flex-end}
+.use .t{position:relative;width:110px;height:8px;background:var(--protect-soft)}
+.use .f{position:absolute;inset:0 auto 0 0;background:var(--protect)}
+.use .mark{position:absolute;top:-4px;bottom:-4px;border-left:2px solid var(--ink)}
+tr.low .f{background:var(--interest)}
+tr.low td:first-child{font-weight:700}
+
+/* recipients */
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px;margin-top:20px}
+.cols h3{font-size:18px;margin:0 0 6px}
+.cols p{margin:0;color:var(--muted)}
+
+.notes{font-size:14px;color:var(--muted)}
+.notes li{margin-bottom:8px;max-width:80ch}
+
+@media (max-width:640px){
+  .scale,.row{grid-template-columns:1fr}
+  .scale > span:first-child{display:none}
+  .cases{grid-column:1}
+  .versus{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){.bar{animation:none}}
+:focus-visible{outline:3px solid var(--protect);outline-offset:2px}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<section>
+  <h1 id="headline">Family protection spending so far this year equals about 12 hours of interest</h1>
+  <p class="lede" id="lede"></p>
+  <div class="meter">
+    <div><div class="fig" id="sinceOpen">MVR 0</div><div class="cap">Interest accrued since you opened this page</div></div>
+    <div><div class="fig" id="perHour"></div><div class="cap">Interest per hour in 2026</div></div>
+    <div><div class="fig" id="ytdEst"></div><div class="cap">Interest so far in 2026, estimated from the latest weekly report</div></div>
+  </div>
+</section>
+
+<section>
+  <h2>Measured in days of interest</h2>
+  <p>Each bar shows an agency's spending in 2026 so far, expressed as the number of days of government interest it would cover. One day of interest is about <strong id="dayValue"></strong>.</p>
+  <div class="ruler" id="ruler"></div>
+</section>
+
+<section>
+  <h2>Interest and policing</h2>
+  <p id="policeText"></p>
+  <div class="versus">
+    <div class="i"><div class="lbl">Financing and interest costs</div><div class="big" id="vInt"></div><div class="sub" id="vIntSub"></div></div>
+    <div class="p"><div class="lbl">Maldives Police Service</div><div class="big" id="vPol"></div><div class="sub" id="vPolSub"></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>How much of each budget has been used</h2>
+  <p id="utilText"></p>
+  <div class="tablewrap"><table id="util">
+    <thead><tr><th>Agency</th><th>Approved 2026</th><th>Spent so far</th><th>Same point in 2025</th><th>Budget used</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Where interest goes</h2>
+  <p>Interest is income for whoever lent to the government. It pays for borrowing that has already happened, so in the year it is paid it does not build a classroom, buy medicine or pay a new salary.</p>
+  <div class="cols">
+    <div><h3>Lenders in Maldives</h3><p>Commercial banks, MMA, the pension fund and other financial institutions hold most Treasury bills and bonds. Their interest stays in the economy but goes to lenders rather than public services.</p></div>
+    <div><h3>Lenders abroad</h3><p>Interest on external loans, sukuk and international bonds leaves the country in foreign currency and draws on reserves.</p></div>
+    <div><h3>What it crowds out</h3><p>Every rufiyaa of interest is a rufiyaa the budget cannot spend on policing, protection or anything else in the same year.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Notes</h2>
+  <ul class="notes" id="notes"></ul>
+</section>
+
+</main>
+
+<script>
+const DATA = {
+  period: { label: "1 January to 24 September 2026", end: "2026-09-24", days: 267, week: 38 },
+  interest: { approved: 5557.3, spent: 3799.6, spent2025: 3945.9 },
+  protection: [
+    { name: "Family Protection Authority", approved: 9.4, spent: 7.1, spent2025: 7.1,
+      cases: { n: 254, text: "domestic violence cases reported" } },
+    { name: "Children\u2019s Ombudsperson\u2019s Office", approved: 8.9, spent: 6.5, spent2025: 5.6,
+      cases: { n: 203, text: "sexual offence cases reported, all ages" } },
+    { name: "Human Rights Commission", approved: 29.2, spent: 21.8, spent2025: 20.2 },
+    { name: "National Drug Agency", approved: 179.1, spent: 69.1, spent2025: 68.8,
+      cases: { n: 2012, text: "drug cases reported" } }
+  ],
+  police: { name: "Maldives Police Service", approved: 2828.6, spent: 1925.4, spent2025: 1692.8,
+    cases: { n: 9555, text: "cases reported in total" } },
+  justice: [
+    { name: "Maldives Correctional Services", approved: 413.8, spent: 294.6, spent2025: 262.7 },
+    { name: "Prosecutor General\u2019s Office", approved: 72.2, spent: 53.2, spent2025: 47.1 },
+    { name: "Anti-Corruption Commission", approved: 47.9, spent: 33.0, spent2025: 38.7 }
+  ],
+  crimeRetrieved: "5 October 2026"
+};
+
+const M = 1e6;
+const fmt = (n, d=0) => n.toLocaleString("en-GB", {minimumFractionDigits:d, maximumFractionDigits:d});
+const mvr = n => n >= 1e9 ? "MVR " + fmt(n/1e9, 2) + " billion" : n >= 1e6 ? "MVR " + fmt(n/1e6, 1) + " million" : "MVR " + fmt(n);
+const perDay = DATA.interest.spent * M / DATA.period.days;
+const perSec = perDay / 86400;
+const yearShare = DATA.period.days / 365;
+
+function asTime(days){
+  if (days < 1) return Math.round(days * 24) + " hours";
+  if (days < 10) return fmt(days, 1) + " days";
+  return fmt(Math.round(days)) + " days";
+}
+
+/* hero */
+const prot = DATA.protection;
+const protTotal = prot.reduce((s,a) => s + a.spent, 0);
+const fpa = prot[0];
+document.getElementById("headline").textContent =
+  "Family protection spending so far this year equals about " + asTime(fpa.spent * M / perDay) + " of interest";
+document.getElementById("lede").textContent =
+  "From " + DATA.period.label + " government interest and financing costs reached " + mvr(DATA.interest.spent * M) +
+  ". That is about " + fmt(DATA.interest.spent / protTotal) + " times the combined spending of the four agencies that protect families, children, human rights and people affected by drugs.";
+document.getElementById("perHour").textContent = mvr(perDay / 24);
+document.getElementById("dayValue").textContent = mvr(perDay);
+
+/* live counters */
+const opened = performance.now();
+const periodEnd = new Date(DATA.period.end + "T24:00:00+05:00").getTime();
+function tick(){
+  const s = (performance.now() - opened) / 1000;
+  document.getElementById("sinceOpen").textContent = "MVR " + fmt(s * perSec);
+  const est = DATA.interest.spent * M + Math.max(0, (Date.now() - periodEnd) / 1000) * perSec;
+  document.getElementById("ytdEst").textContent = mvr(est);
+  requestAnimationFrame(tick);
+}
+tick();
+
+/* days ruler */
+const maxDays = 8;
+const ruler = document.getElementById("ruler");
+let html = '<div class="scale"><span></span><div class="ticks">';
+for (let d = 0; d <= maxDays; d++) html += '<span style="left:' + (d / maxDays * 100) + '%">' + d + (d === 1 ? " day" : "") + '</span>';
+html += '</div></div>';
+const rows = [...prot, { name: "All four combined", spent: protTotal, total: true }];
+rows.forEach(a => {
+  const days = a.spent * M / perDay;
+  const w = Math.min(days / maxDays, 1) * 100;
+  html += '<div class="row"><div class="name">' + a.name + '<small>' + mvr(a.spent * M) + ' spent</small></div>' +
+    '<div class="track"><div class="bar' + (a.total ? " total" : "") + '" style="width:' + w + '%"></div>' +
+    '<span class="tag" style="left:' + w + '%">' + asTime(days) + '</span></div>' +
+    (a.cases ? '<div class="cases">' + fmt(a.cases.n) + ' ' + a.cases.text + ' in 2026</div>' : '') + '</div>';
+});
+ruler.innerHTML = html;
+
+/* police */
+const pol = DATA.police;
+const polDays = pol.spent * M / perDay;
+const chg = (a, b) => (a / b - 1) * 100;
+document.getElementById("policeText").textContent =
+  "Running the police service cost " + mvr(pol.spent * M) + " in the same period, the equivalent of " + asTime(polDays) +
+  " of interest. Interest cost " + fmt(DATA.interest.spent / pol.spent, 1) + " times as much. The police received " +
+  fmt(pol.cases.n) + " reported cases in 2026 up to " + DATA.crimeRetrieved + ".";
+document.getElementById("vInt").textContent = mvr(DATA.interest.spent * M);
+document.getElementById("vIntSub").textContent = fmt(chg(DATA.interest.spent, DATA.interest.spent2025), 1) + "% compared with the same point in 2025";
+document.getElementById("vPol").textContent = mvr(pol.spent * M);
+document.getElementById("vPolSub").textContent = "+" + fmt(chg(pol.spent, pol.spent2025), 1) + "% compared with the same point in 2025";
+
+/* utilisation */
+const all = [{ name: "Financing and interest costs", ...DATA.interest }, pol, ...prot, ...DATA.justice];
+const tbody = document.querySelector("#util tbody");
+all.forEach(a => {
+  const used = a.spent / a.approved;
+  const low = used < yearShare - 0.2;
+  tbody.insertAdjacentHTML("beforeend",
+    '<tr class="' + (low ? "low" : "") + '"><td>' + a.name + '</td><td>' + fmt(a.approved, 1) + '</td><td>' + fmt(a.spent, 1) +
+    '</td><td>' + fmt(a.spent2025, 1) + '</td><td><div class="use"><div class="t"><div class="f" style="width:' + Math.min(used,1) * 100 +
+    '%"></div><div class="mark" style="left:' + yearShare * 100 + '%"></div></div>' + fmt(used * 100) + '%</div></td></tr>');
+});
+const nda = prot.find(a => a.name === "National Drug Agency");
+document.getElementById("utilText").textContent =
+  "Figures in MVR million. The dark line marks how much of the year has passed (" + fmt(yearShare * 100) +
+  "%). The National Drug Agency has used " + fmt(nda.spent / nda.approved * 100) + "% of its budget in a year with " +
+  fmt(nda.cases.n) + " reported drug cases.";
+
+/* notes */
+[
+  "Spending figures come from MoF Weekly Fiscal Developments, week " + DATA.period.week + ", covering " + DATA.period.label + ". They show transactions posted, not necessarily settled in cash, and may change as reconciliation continues.",
+  "Interest is the Financing and Interest Costs line, which MoF reports within recurrent expenditure. Loan principal repayments are excluded.",
+  "Days of interest divide each agency's spending by the average daily interest cost over the same period.",
+  "Case counts are reported cases from police.gov.mv/crime-statistics, retrieved " + DATA.crimeRetrieved + ". They run slightly past the spending period, count reports rather than convictions, and include traffic accidents and lost items.",
+  "Pairing an agency with a case type shows scale only. It does not mean the agency handles every case, or that spending and cases are linked.",
+  "Courts are not shown because judiciary spending moved into the Special Budget in April 2026. Gender and family functions merged into other ministries in April 2026 and are not reported separately."
+].forEach(t => document.getElementById("notes").insertAdjacentHTML("beforeend", "<li>" + t + "</li>"));
+</script>
+</body>
+</html>
