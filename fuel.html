@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#072f40">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
@@ -49,7 +51,6 @@
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel" aria-current="page">Fuel imports</a>
     <a href="protection.html" data-page="protection">Protection</a>
-    <a href="data.html" data-page="data">Data</a>
     <a href="methodology.html" data-page="method">Methodology</a>
     <a href="about.html" data-page="about">About</a>
   </nav>
@@ -68,8 +69,8 @@
     <p class="lede">Maldives imports almost all of its energy as petroleum products. Diesel accounts for a large share of fuel use, generating most of the country's electricity and powering many road vehicles, boats and fishing vessels. Petrol is also widely used in cars, motorcycles and smaller boats, while aviation fuel, cooking gas and other petroleum products make up the remainder. When wars or other global crises push up oil prices, the country's fuel import bill rises with them, and the foreign currency spent on these imports flows out of the economy.</p>
     <div class="stats" style="margin-top:2.5rem">
       <div class="stat hot"><div class="n num" id="sLatest">…</div><div class="l" id="sLatestL">latest month</div><div class="d" id="sLatestD"></div></div>
-      <div class="stat red"><div class="n num" id="s12">…</div><div class="l" id="s12L">spent on fuel imports in the last 12 months</div></div>
-      <div class="stat"><div class="n num" id="sShare">…</div><div class="l" id="sShareL">of everything Maldives imports</div></div>
+      <div class="stat red"><div class="n num" id="s12">…</div><div class="l" id="s12L">spent on fuel imports in the last 12 months</div><div id="s12M"></div></div>
+      <div class="stat"><div class="n num" id="sShare">…</div><div class="l" id="sShareL">of everything Maldives imports</div><div id="sShareM"></div></div>
     </div>
   </section>
 
@@ -113,7 +114,7 @@
 </main>
 <footer class="site-foot"><div class="wrap">
   <span id="fetched">Figures from Maldives Monetary Authority Statistics Database.</span>
-  <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with MMA.</span></span>
+  <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with MMA.</span></span>
 </div></footer>
 
 <script src="assets/site.js"></script>
@@ -161,6 +162,11 @@
       $("s12L").textContent = `spent on fuel imports in the 12 months to ${mLabel(L.date)}`;
       if (i12) { $("sShare").textContent = fmt(100 * l12.reduce((a, r) => a + r.v, 0) / i12, 1) + "%"; $("sShareL").textContent = `of all goods imported over the same 12 months was fuel`; }
       else $("sShare").closest(".stat").hidden = true;
+      const l13 = all.slice(-13), p12 = all.slice(-24, -12);
+      $("sLatestD").innerHTML += MV.mini.spark(l13.map(r => r.v), "var(--sun)", { ref: l13.length === 13 ? 0 : null, left: mShort(l13[0].date), right: mShort(L.date) });
+      if (p12.length === 12) { const sp = p12.reduce((a, r) => a + fromUSD(r.v, r.date), 0);
+        $("s12M").innerHTML = MV.mini.duo([[`12 months to ${mShort(L.date)}`, s12, "var(--red)", sym() + " " + short(s12)], [`12 months before`, sp, "var(--mist)", sym() + " " + short(sp)]]); }
+      if (i12) $("sShareM").innerHTML = MV.mini.waffle(100 * l12.reduce((a, r) => a + r.v, 0) / i12, "var(--foam)", "Each square is 1% of goods imported");
       $("sinceYr").textContent = all[0].date.slice(0, 4);
       drawChart(); drawCrises(); drawAnnual();
     }

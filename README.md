@@ -13,13 +13,12 @@ A live estimate of Maldives public and publicly guaranteed debt, built from the
 - `methodology.html`: how every figure is calculated
 - `about.html`: about and contact form, which sends messages to a Google Form (see below)
 - `assets/site.css`, `assets/site.js`: shared styles, header toggles and charts
-- `population.json`: the citizen population estimate. Update it once a year when the
+- `population.json`: the citizen population estimate. Update `base` and `base_date` once a year when the
   Department of National Registration publishes a new year-end figure.
 - `fetch_data.py`: downloads the latest figures from the MMA API into `data.json`
 - `fetch_wfd.py`: checks the Ministry of Finance for new Weekly Fiscal Developments reports, reads them (with `wfd_extract.py`), adds them to `data/wfd/` and writes `budget.json`
 - `wfd_extract.py`: reads the tables in a Weekly Fiscal Developments PDF. Also works on its own to download and extract every report to your computer
 - `data/wfd/`: the weekly dataset, one row per report (`wfd_headline.csv`), every table row (`wfd_long.csv`), and which reports were read (`processed.csv`)
-- `data.html`: the data page, with downloads of everything in one Excel or CSV file
 - `build_master.py`: combines MMA, MIRA, Ministry of Finance and police data into one clean dataset in `data/master/`, and builds the Excel and CSV downloads into `downloads/` whenever the data changes
 - `fetch_police.py`: reads the Maldives Police Service crime statistics page every morning (with a headless browser) into `data/police/crime_monthly.csv`. If the page can't be read, the existing figures stay
 - `build_protection.py`: builds `protection.json` for the protection page from the weekly budget tables and the police figures
@@ -57,3 +56,10 @@ The form on `about.html` sends messages into a Google Form.
    Type `NAME`, `EMAIL`, `TOPIC` and `MESSAGE` into the four boxes, click **Get link**, then **Copy link**.
 3. In `about.html`, replace `PASTE-YOUR-GOOGLE-FORM-PREFILLED-LINK` with that link.
 4. In the form's **Responses** tab, open **⋮** and turn on **Get email notifications for new responses**.
+
+## What visitors can open
+
+`functions/_middleware.js` serves only the files the site needs: the pages, `assets/`, the JSON files the
+pages read, `data/master/`, `data/police/crime_monthly.csv` and `downloads/`. Everything else in the repo,
+including the scripts, `inputs/`, `data/wfd/`, this README and the workflow, returns "Not found".
+If you add a new page or data file, add it to the `PUBLIC` list in that file.

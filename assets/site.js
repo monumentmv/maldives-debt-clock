@@ -223,7 +223,69 @@ const MV = (() => {
   const row = (l, v) => v == null ? "" : `<div class="row"><span>${l}</span><span>${v}</span></div>`;
   const onResize = fn => { let t; addEventListener("resize", () => { clearTimeout(t); t = setTimeout(fn, 120); }); };
 
-  return { SEC_YEAR, MONTHS, state, setData, rateAt, cpiAt, realFactor, conv, convNow, isReal, baseLabel, checkStale, fromUSD, fmt, sym, short, money, moneyNow, moneyFull,
+
+  // ---------- small graphics for stat cards ----------
+  const clamp01 = x => Math.max(0, Math.min(1, x));
+  const mini = {
+    /** progress bar, with an optional white line (for example, how much of the year has passed) */
+    meter: (share, mark, color, left = "", right = "") => `<div class="mini" style="color:${color}"><div class="meter" role="img" aria-label="${left}"><i style="width:${clamp01(share) * 100}%"></i>${mark != null ? `<b style="left:calc(${clamp01(mark) * 100}% - 1px)"></b>` : ""}</div>${left || right ? `<div class="cap"><span>${left}</span><span>${right}</span></div>` : ""}</div>`,
+    /** small bar chart of recent values; hi = index to highlight, ref = index to outline */
+    spark: (vals, color, { hi = vals.length - 1, ref = null, left = "", right = "" } = {}) => {
+      const max = Math.max(...vals.filter(v => v != null)) || 1, n = vals.length, w = 100 / n;
+      const bars = vals.map((v, i) => v == null ? "" : `<rect x="${i * w + w * .12}" y="${40 - v / max * 38}" width="${w * .76}" height="${Math.max(1, v / max * 38)}" rx=".8" fill="${color}" fill-opacity="${i === hi ? 1 : i === ref ? .75 : .35}"${i === ref ? ` stroke="${color}" stroke-width=".8"` : ""}/>`).join("");
+      return `<div class="mini spark"><svg viewBox="0 0 100 40" preserveAspectRatio="none" role="img" aria-label="${left}">${bars}</svg>${left || right ? `<div class="cap"><span>${left}</span><span>${right}</span></div>` : ""}</div>`;
+    },
+    /** 100 squares, share of them filled */
+    waffle: (pct, color, caption = "") => `<div class="mini" style="color:${color}"><div class="waffle" role="img" aria-label="${caption}">${Array.from({ length: 100 }, (_, i) => `<i${i < Math.round(pct) ? ' class="on"' : ""}></i>`).join("")}</div>${caption ? `<div class="cap"><span>${caption}</span></div>` : ""}</div>`,
+    /** two or three bars on the same scale: [label, value, colour, text] */
+    duo: rows => { const max = Math.max(...rows.map(r => r[1])) || 1;
+      return `<div class="mini duo">${rows.map(([l, v, c, t]) => `<div><span>${l}<b>${t}</b></span><div class="t"><i style="width:${clamp01(v / max) * 100}%;background:${c}"></i></div></div>`).join("")}</div>`; },
+  };
+
+  // ---------- colour themes ----------
+  const THEMES = [["", "Ocean"], ["light", "Daylight"], ["contrast", "High contrast"]];
+  function setTheme(t) {
+    if (t) document.documentElement.dataset.theme = t; else delete document.documentElement.dataset.theme;
+    try { t ? localStorage.setItem("theme", t) : localStorage.removeItem("theme"); } catch (e) {}
+    const b = document.querySelector(".theme-btn"), name = (THEMES.find(x => x[0] === t) || THEMES[0])[1];
+    if (b) { b.setAttribute("aria-label", `Colour theme, ${name}. Change theme`); b.title = `Theme, ${name}`; }
+    listeners.forEach(fn => fn());
+  }
+  function themeButton() {
+    const box = document.querySelector(".prefs") || document.querySelector(".site-head");
+    if (!box || box.querySelector(".theme-btn")) return;
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "theme-btn";
+    b.innerHTML = `<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 2a8 8 0 0 1 0 16z" fill="currentColor"/></svg>`;
+    b.addEventListener("click", () => { const cur = document.documentElement.dataset.theme || "", i = THEMES.findIndex(x => x[0] === cur); setTheme(THEMES[(i + 1) % THEMES.length][0]); });
+    box.appendChild(b);
+    setTheme(document.documentElement.dataset.theme || "");
+  }
+
+  // ---------- interest ticker, counting from when the visitor arrived ----------
+  function ticker() {
+    let off = false; try { off = sessionStorage.getItem("tickerOff") === "1"; } catch (e) {}
+    if (off || document.querySelector(".ticker")) return;
+    getJSON("protection.json").then(P => {
+      const it = P?.latest?.interest?.[2], days = P?.latest?.days;
+      if (!it || !days) return;
+      const perSec = it * 1e6 / days / 86400;
+      let start = Date.now(); try { start = Number(sessionStorage.getItem("arrived")) || start; sessionStorage.setItem("arrived", start); } catch (e) {}
+      const el = document.createElement("div");
+      el.className = "ticker";
+      el.innerHTML = `<span class="dot" aria-hidden="true"></span><a href="protection.html" title="What interest pays for"><span>Interest paid since you arrived</span><span class="v">…</span></a><button type="button" aria-label="Hide the interest counter">×</button>`;
+      document.body.appendChild(el);
+      const v = el.querySelector(".v");
+      let last = 0;
+      const tick = t => { if (!el.isConnected) return; if (t - last > 100) { last = t; v.textContent = sym() + " " + fmt(convNow((Date.now() - start) / 1000 * perSec)); } requestAnimationFrame(tick); };
+      requestAnimationFrame(tick);
+      el.querySelector("button").addEventListener("click", () => { el.remove(); try { sessionStorage.setItem("tickerOff", "1"); } catch (e) {} });
+    }).catch(() => {});
+  }
+  const boot = () => { themeButton(); ticker(); };
+  document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", boot) : boot();
+
+  return { SEC_YEAR, mini, setTheme, MONTHS, state, setData, rateAt, cpiAt, realFactor, conv, convNow, isReal, baseLabel, checkStale, fromUSD, fmt, sym, short, money, moneyNow, moneyFull,
     ts, mLabel, mShort, qLabel, dayLabel, last, getJSON, fetched, onPrefs, paintPrefs, lineChart, barChart, row, onResize,
     get USD() { return USD; }, get cpiLast() { return cpiLast; } };
 })();

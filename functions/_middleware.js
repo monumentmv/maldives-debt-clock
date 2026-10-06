@@ -10,7 +10,21 @@
     SESSION_SECRET  a long random string used to sign the unlock cookie.
   Binding (Cloudflare Pages > Settings > Bindings):
     CODES_KV        a KV namespace that records used codes and failed attempts.
+
+  Only the files visitors need are served, whether the site is locked or not.
+  Scripts, raw inputs, logs, the README and workflow files return "Not found".
 */
+
+const PUBLIC = [
+  /^\/$/,
+  /^\/[a-z0-9_-]+(\.html)?$/i,                                   // pages, with or without .html
+  /^\/(data|budget|revenue|protection|population)\.json$/,       // data the pages read
+  /^\/assets\/[\w.-]+$/,
+  /^\/downloads\/[\w.-]+$/,
+  /^\/robots\.txt$/,
+  /^\/__unlock$/,
+];
+const isPublic = path => PUBLIC.some(re => re.test(path));
 
 const SALT = "2c930bc38a800aad2f39886075fb5188";
 const CODE_HASHES = new Set([
@@ -96,6 +110,7 @@ async function validPass(token, secret) {
 
 export async function onRequest(context) {
   const { request, env, next } = context;
+  if (!isPublic(new URL(request.url).pathname)) return new Response("Not found", { status: 404, headers: { "Content-Type": "text/plain", "Cache-Control": "no-store" } });
   if (String(env.LOCKED || "").trim().toLowerCase() !== "true") return next();
   try {
     if (!env.SESSION_SECRET || !env.CODES_KV) return gate("The site is being set up. Please try again shortly.", 503);

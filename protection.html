@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#072f40">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
@@ -83,7 +85,6 @@
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
     <a href="protection.html" data-page="protection" aria-current="page">Protection</a>
-    <a href="data.html" data-page="data">Data</a>
     <a href="methodology.html" data-page="method">Methodology</a>
     <a href="about.html" data-page="about">About</a>
   </nav>
@@ -101,9 +102,9 @@
     <h1 id="headline">Protection, policing and interest</h1>
     <p class="lede" id="lede">Interest pays for borrowing that has already happened. It doesn't build a classroom, buy medicine or pay a new salary. This page sets it against what the state spends on the police and on protecting families, children and human rights.</p>
     <div class="stats" style="margin-top:2rem">
-      <div class="stat warn"><div class="n num" id="sOpen">…</div><div class="l">interest building up since you opened this page</div></div>
-      <div class="stat warn"><div class="n num" id="sHour">…</div><div class="l">interest every hour in <span id="yr1"></span></div></div>
-      <div class="stat warn"><div class="n num" id="sYtd">…</div><div class="l">interest so far this year, estimated from the latest weekly report</div></div>
+      <div class="stat warn"><div class="n num" id="sYtd">…</div><div class="l">interest so far this year, estimated from the latest weekly report</div><div id="sYtdM"></div></div>
+      <div class="stat warn"><div class="n num" id="sHour">…</div><div class="l">interest every hour in <span id="yr1"></span></div><div class="d" id="sHourD" style="font-size:.9rem;margin-top:.4rem;font-weight:700;color:var(--mist)"></div></div>
+      <div class="stat"><div class="n num" id="sProt">…</div><div class="l">spent on the four protection agencies together this year</div><div id="sProtM"></div></div>
     </div>
   </section>
 
@@ -118,8 +119,8 @@
     <p id="polNote"></p>
     <div class="stats" style="margin-top:1.5rem">
       <div class="stat warn"><div class="n num" id="pInt">…</div><div class="l">interest and financing costs</div></div>
-      <div class="stat hot"><div class="n num" id="pPol">…</div><div class="l">Maldives Police Service</div></div>
-      <div class="stat"><div class="n num" id="pCases">…</div><div class="l" id="pCasesL">cases reported to the police</div></div>
+      <div class="stat hot"><div class="n num" id="pPol">…</div><div class="l">Maldives Police Service</div><div id="pPolM"></div></div>
+      <div class="stat" id="pCasesCard" hidden><div class="n num" id="pCases">…</div><div class="l" id="pCasesL">cases reported to the police</div><div id="pCasesM"></div></div>
     </div>
   </section>
 
@@ -172,9 +173,9 @@
 
   <section class="caveat">
     <h2>Reading these figures</h2>
-    <p>Spending comes from the Ministry of Finance's Weekly Fiscal Developments, table 5, budget by office. Interest is the line "Financing and Interest Costs", which the Ministry counts within recurrent spending. Loan repayments are not included. Weekly figures are early and change as accounts are reconciled.</p>
+    <p>Spending and interest come from the Ministry of Finance's weekly fiscal reports. Interest is what the Ministry reports as financing and interest costs, and doesn't include loan repayments. Weekly figures are early and change as accounts are reconciled.</p>
     <p>Days of interest divide an agency's spending by the average daily interest cost over the same period. Matching an agency with a type of case shows scale only. It doesn't mean the agency handles every such case, or that spending and cases are linked.</p>
-    <p>Case counts are cases reported to the Maldives Police Service, taken from its crime statistics page. They count reports, not convictions, and include traffic accidents and lost items. Older years may be undercounted if fewer cases were recorded on the police reporting platform.</p>
+    <p>Case counts are cases reported to the Maldives Police Service. They count reports, not convictions, and include traffic accidents and lost items.</p>
     <p>Courts aren't shown because judiciary spending moved into the Special Budget in April 2026. Gender and family functions were merged into other ministries in April 2026 and aren't reported separately. The National Drug Agency first appears as its own office in 2024. <a href="methodology.html#protection">More in the methodology</a>.</p>
   </section>
 
@@ -182,7 +183,7 @@
 </main>
 <footer class="site-foot"><div class="wrap">
   <span id="fetched">Figures from the Ministry of Finance, Weekly Fiscal Developments, and the Maldives Police Service.</span>
-  <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with the Ministry of Finance, the Maldives Police Service or MMA.</span></span>
+  <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with the Ministry of Finance, the Maldives Police Service or MMA.</span></span>
 </div></footer>
 
 <script src="assets/site.js"></script>
@@ -208,19 +209,22 @@
     const caseFor = cats => (al && cats.length) ? cats.reduce((s, c) => s + (al.cases[c] || 0), 0) : null;
     const throughMonth = al ? (al.to_month === 1 ? "January" : `January to ${MONTHS[al.to_month - 1]}`) : "";
 
-    // ---------- live counters ----------
-    const opened = performance.now(), periodEnd = new Date(LD + "T24:00:00+05:00").getTime();
-    (function tick() {
-      $("sOpen").textContent = sym() + " " + fmt(MV.convNow((performance.now() - opened) / 1000 * perSec));
-      $("sYtd").textContent = cur(L.interest[2] * M + Math.max(0, (Date.now() - periodEnd) / 1000) * perSec);
-      requestAnimationFrame(tick);
-    })();
+    // ---------- live estimate of interest so far ----------
+    const periodEnd = new Date(LD + "T24:00:00+05:00").getTime();
+    const ytdNow = () => L.interest[2] * M + Math.max(0, (Date.now() - periodEnd) / 1000) * perSec;
+    setInterval(() => { $("sYtd").textContent = cur(ytdNow()); }, 1000);
 
     function render() {
       const fpa = now("fpa");
       if (fpa != null) $("headline").textContent = `Family protection spending this year equals about ${asTime(days(fpa))} of interest`;
       $("lede").textContent = `From 1 January to ${dayLabel(LD)}, the government paid ${cur(L.interest[2] * M, LD)} in interest and financing costs. That is about ${fmt(L.interest[2] / protTotal)} times what it spent on the four agencies that protect families, children, human rights and people affected by drugs. Interest pays for borrowing that has already happened, so it doesn't build a classroom, buy medicine or pay a new salary.`;
       $("sHour").textContent = cur(perDay / 24); $("yr1").textContent = Ly;
+      $("sHourD").innerHTML = `about ${cur(perDay)} a day<br>about ${sym()} ${fmt(MV.convNow(perSec))} every second`;
+      $("sYtd").textContent = cur(ytdNow());
+      const yr = L.days / (Ly % 4 === 0 ? 366 : 365);
+      $("sYtdM").innerHTML = MV.mini.meter(ytdNow() / (L.interest[0] * M), yr, "var(--coral)", `${fmt(ytdNow() / (L.interest[0] * M) * 100)}% of the ${Ly} interest budget`, `${fmt(yr * 100)}% of year gone`);
+      $("sProt").textContent = cur(protTotal * M, LD);
+      $("sProtM").innerHTML = MV.mini.duo([["Interest", L.interest[2], "var(--coral)", cur(L.interest[2] * M, LD)], ["Protection agencies", protTotal, "var(--lagoon)", cur(protTotal * M, LD)]]);
 
       // ruler
       const maxD = Math.max(8, Math.ceil(days(protTotal)));
@@ -239,8 +243,14 @@
       $("pInt").textContent = cur(L.interest[2] * M, LD);
       $("pPol").textContent = cur(pol * M, LD);
       const tot = al ? Object.values(al.cases).reduce((s, n) => s + n, 0) : null;
-      $("pCases").textContent = tot != null ? fmt(tot) : "n/a";
-      $("pCasesL").textContent = al ? `cases reported to the police, ${throughMonth} ${al.year}` : "cases reported to the police, appears after the next update";
+      $("pPolM").innerHTML = MV.mini.duo([["Interest", L.interest[2], "var(--coral)", cur(L.interest[2] * M, LD)], ["Police", pol, "var(--sun)", cur(pol * M, LD)]]);
+      $("pCasesCard").hidden = tot == null;
+      if (tot != null) {
+        $("pCases").textContent = fmt(tot);
+        $("pCasesL").textContent = `cases reported to the police, ${throughMonth} ${al.year}`;
+        const top = Object.entries(al.cases).sort((a, b) => b[1] - a[1]).slice(0, 3);
+        $("pCasesM").innerHTML = MV.mini.duo(top.map(([c, n]) => [c, n, "var(--mist)", fmt(n)]));
+      }
       $("polNote").textContent = `Running the police service cost ${cur(pol * M, LD)} from 1 January to ${dayLabel(LD)}, the same as ${asTime(days(pol))} of interest. Interest cost ${fmt(L.interest[2] / pol, 1)} times as much.` +
         (polL ? ` Police spending is ${pol >= polL ? "up" : "down"} ${fmt(Math.abs(pol / polL - 1) * 100, 1)}% on the same date a year earlier, and interest is ${L.interest[2] >= L.interest[1] ? "up" : "down"} ${fmt(Math.abs(L.interest[2] / L.interest[1] - 1) * 100, 1)}%.` : "");
 
@@ -331,13 +341,13 @@
       else if (m === "ytd") Object.values(C.monthly[y] || {}).forEach(o => Object.entries(o).forEach(([c, n]) => cats[c] = (cats[c] || 0) + n));
       else cats = C.monthly[y]?.[m] || {};
       const list = Object.entries(cats).sort((a, b) => b[1] - a[1]), max = list[0]?.[1] || 1, total = list.reduce((s, [, n]) => s + n, 0);
-      $("casesNote").textContent = `${fmt(total)} cases reported to the Maldives Police Service in ${m === "0" ? y : m === "ytd" ? `${$("cMonth").selectedOptions[0].text} ${y}` : `${MONTHS[m - 1]} ${y}`}, by category. Counts taken from the police website on ${dayLabel(C.retrieved)}.`;
+      $("casesNote").textContent = `${fmt(total)} cases reported to the Maldives Police Service in ${m === "0" ? y : m === "ytd" ? `${$("cMonth").selectedOptions[0].text} ${y}` : `${MONTHS[m - 1]} ${y}`}, by category. Latest figures as of ${dayLabel(C.retrieved)}.`;
       $("casesList").innerHTML = list.map(([c, n]) => `<div class="row${linked.has(c) ? " linked" : ""}"><span>${c}</span><div class="bar"><i style="width:${n / max * 100}%"></i></div><span>${fmt(n)}</span></div>`).join("");
     }
 
     render();
     MV.onPrefs(render); MV.onResize(drawYears);
-    $("fetched").textContent = `Ministry of Finance, Weekly Fiscal Developments, report of ${dayLabel(LD)}` + (C ? `. Maldives Police Service crime statistics, taken ${dayLabel(C.retrieved)}` : "") + `. Exchange rates and prices from MMA Statistics Database, last fetched ${MV.fetched(data.fetched_at)}, Malé time.`;
+    $("fetched").textContent = `Ministry of Finance, Weekly Fiscal Developments, report of ${dayLabel(LD)}` + (C ? ". Maldives Police Service" : "") + `. Exchange rates and prices from MMA Statistics Database, last fetched ${MV.fetched(data.fetched_at)}, Malé time.`;
   }).catch(err => { console.error(err); $("rulerNote").textContent = "These figures haven't been built yet. They appear after the next automatic update."; });
 })();
 </script>

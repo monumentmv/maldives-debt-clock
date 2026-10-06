@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#072f40">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
@@ -93,7 +95,6 @@
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
     <a href="protection.html" data-page="protection">Protection</a>
-    <a href="data.html" data-page="data">Data</a>
     <a href="methodology.html" data-page="method">Methodology</a>
     <a href="about.html" data-page="about">About</a>
   </nav>
@@ -121,6 +122,7 @@
       <div class="stat red"><div class="n num" id="sBal">…</div><div class="l" id="sBalL">gap between the two</div><div class="d" id="sBalD"></div></div>
       <div class="stat warn"><div class="n num" id="sInt">…</div><div class="l" id="sIntL">paid in interest so far this year</div><div class="d" id="sIntD"></div></div>
     </div>
+    <p class="mini-key" id="miniKey" hidden><b></b>Bars show how much of the full-year budget has been used or collected. The thin line marks how much of the year has passed.</p>
     <div class="flow" id="flow" role="figure" aria-label="Where the money came from and where it went"></div>
   </section>
 
@@ -184,7 +186,7 @@
 </main>
 <footer class="site-foot"><div class="wrap">
   <span id="fetched">Figures from Ministry of Finance, Weekly Fiscal Developments.</span>
-  <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with the Ministry of Finance or MMA.</span></span>
+  <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with the Ministry of Finance or MMA.</span></span>
 </div></footer>
 
 <script src="assets/site.js"></script>
@@ -244,6 +246,13 @@
       $("sInt").textContent = now(it, L.d);
       $("sIntL").textContent = `paid in interest and other financing costs since 1 January`;
       $("sIntD").innerHTML = line("interest_costs", "down") + `<br><span class="neutral">about ${sym()} ${short(MV.convNow(M(it) / days, L.d))} a day</span>`;
+      const yr = doy(L.d) / yearLen(Ly), mm = MV.mini, P = (k, i = 1) => { const a = val(L, k, i), b = val(L, k); return a ? b / a : null; };
+      if (P("revenue_and_grants") != null) $("sRevD").innerHTML += mm.meter(P("revenue_and_grants"), yr, "var(--sun)");
+      if (P("total_expenditure") != null) $("sExpD").innerHTML += mm.meter(P("total_expenditure"), yr, "var(--lagoon)");
+      const rv = val(L, "revenue_and_grants"), ex = val(L, "total_expenditure");
+      $("sBalD").innerHTML += mm.duo([["Collected", rv, "var(--sun)", now(rv, L.d)], ["Spent", ex, "var(--red)", now(ex, L.d)]]);
+      if (P("interest_costs") != null) $("sIntD").innerHTML += mm.meter(P("interest_costs"), yr, "var(--coral)");
+      $("miniKey").hidden = false;
       drawFlow();
     }
 

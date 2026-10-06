@@ -10,7 +10,7 @@ Runs every morning in GitHub Actions, after the other scripts. Writes:
   data/master/weekly_budget_tables.csv every row of every weekly budget table, cleaned
   dist/maldives_public_finance.xlsx    the same, in one Excel workbook with a sheet per frequency
   dist/maldives_public_finance_csv.zip the CSV files in one download
-When the data has changed, the dist/ files are also copied to downloads/, which the data page links to.
+When the data has changed, the dist/ files are also copied to downloads/, which every page footer links to.
 
 To run it yourself:
     pip install openpyxl
