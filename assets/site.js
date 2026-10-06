@@ -319,12 +319,17 @@ const MV = (() => {
       html += `<option value="${o.v}"${o.v === value ? " selected" : ""}>${o.label}</option>`;
     });
     if (g != null) html += "</optgroup>";
+    const idx = Math.max(0, options.findIndex(o => o.v === value)), cur = options[idx];
     el.className = "period-pick";
-    el.innerHTML = `<label><span>Showing</span> <select aria-label="Period shown">${html}</select></label>` +
-      `<button type="button" class="pill back"${value === latest ? " hidden" : ""}>Back to the latest</button><span class="hint-old"${value === latest ? " hidden" : ""}>You are looking at an earlier period.</span>`;
+    el.innerHTML = `<span class="yr-chip" title="Year shown">${cur.group ?? String(cur.v).slice(0, 4)}</span>` +
+      `<button type="button" class="step" data-d="1"${idx >= options.length - 1 ? " disabled" : ""} aria-label="Earlier period">‹ Earlier</button>` +
+      `<label><span>Showing</span> <select aria-label="Period shown">${html}</select></label>` +
+      `<button type="button" class="step" data-d="-1"${idx <= 0 ? " disabled" : ""} aria-label="Later period">Later ›</button>` +
+      `<button type="button" class="pill back"${value === latest ? " hidden" : ""}>Back to the latest</button>`;
     const sel = el.querySelector("select");
     const go = v => { onChange(v); asOf(el, options, v, onChange); try { const u = new URL(location.href); v === latest ? u.searchParams.delete("p") : u.searchParams.set("p", v); history.replaceState(null, "", u); } catch (e) {} };
     sel.onchange = () => go(sel.value);
+    el.querySelectorAll(".step").forEach(b => b.onclick = () => { const o = options[idx + Number(b.dataset.d)]; if (o) go(o.v); });
     el.querySelector(".back").onclick = () => go(latest);
   }
   /** the period asked for in the page address (?p=...), if any */

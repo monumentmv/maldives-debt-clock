@@ -93,7 +93,19 @@ window.MVUpdates = (() => {
       out.push({ type: "police", d: date, big: fmt(tot), bigLabel: `cases, ${mLabel(date)}`, spark: [], sparkCap: "", title: `${list[0][0]} was the most reported case in ${mLabel(date)}`,
         lead: `About one every ${fmt(Math.round(new Date(date).getUTCDate() * 1440 / tot))} minutes.`,
         lines: [`The most common were ${list.slice(0, 3).map(([c, n]) => `${c.toLowerCase()} (${fmt(n)})`).join(", ")}.`],
-        link: "priorities.html", linkText: "See the police figures", period: mLabel(date) });
+        link: `priorities.html?cy=${y}&cm=${mo}`, linkText: "See that month's police figures", period: mLabel(date) });
+    }));
+    // earlier months, from the Statistical Yearbook: totals only, including other kinds of case
+    const BM = C?.book?.monthly || {};
+    Object.entries(BM).forEach(([y, months]) => Object.entries(months).forEach(([mo, n]) => {
+      if (C.monthly?.[y]?.[mo]) return;
+      const date = new Date(Date.UTC(Number(y), Number(mo), 0)).toISOString().slice(0, 10), ly = BM[String(Number(y) - 1)]?.[mo], c = chg(n, ly);
+      const series = []; for (let k = 12; k >= 0; k--) { const dd = new Date(Date.UTC(Number(y), Number(mo) - 1 - k, 1)); const v = BM[dd.getUTCFullYear()]?.[dd.getUTCMonth() + 1]; if (v) series.push(v); }
+      out.push({ type: "police", d: date, big: fmt(n), bigLabel: `cases logged, ${mLabel(date)}`, spark: series, sparkCap: "last 13 months",
+        title: c != null ? `Cases logged with the police were ${chgTxt(c)} on a year earlier` : `Cases logged with the police in ${mLabel(date)}`,
+        lead: `About one every ${fmt(Math.round(new Date(date).getUTCDate() * 1440 / n))} minutes, counting every kind of case.`,
+        lines: ["From the Statistical Yearbook, which gives the monthly total for these years."],
+        link: `priorities.html?cy=${y}&cm=${mo}`, linkText: "See that month's police figures", period: mLabel(date) });
     }));
 
     return out.sort((a, b) => b.d.localeCompare(a.d) || Object.keys(TYPES).indexOf(a.type) - Object.keys(TYPES).indexOf(b.type));

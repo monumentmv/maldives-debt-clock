@@ -265,3 +265,13 @@ html:is([data-theme="light"],[data-theme="sand"],[data-theme="lagoon"]) .upd { b
 @media (max-width: 640px) { .upd { grid-template-columns: 2.6rem 1fr; } .upd-viz { grid-column: 2; text-align: left; } }
 
 @media (max-width: 520px) { .back-to { bottom: calc(max(.75rem, env(safe-area-inset-bottom)) + 4.2rem); } }
+
+/* ---------- year shown, and stepping one period at a time ---------- */
+.yr-chip { font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 75; font-size: 1.35rem; line-height: 1; color: #072f40; background: var(--sun); border-radius: 8px; padding: .35rem .6rem; }
+.period-pick .step { font: 700 .88rem var(--body); border: 1px solid rgba(169,205,214,.4); background: rgba(255,255,255,.06); color: var(--foam); padding: .4rem .8rem; border-radius: 999px; cursor: pointer; min-height: 2.25rem; }
+.period-pick .step:hover:not(:disabled) { border-color: var(--foam); }
+.period-pick .step:disabled { opacity: .35; cursor: default; }
+.cases-pick { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin: 1.5rem 0 1rem; }
+.cases-pick label { display: inline-flex; align-items: center; gap: .5rem; font-weight: 700; color: var(--foam); }
+.cases-pick label span { color: var(--sun); }
+@media (max-width: 600px) { .period-pick .step { padding: .35rem .6rem; } .yr-chip { font-size: 1.15rem; } }

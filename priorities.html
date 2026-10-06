@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261007e">
+<link rel="stylesheet" href="assets/site.css?v=20261007f">
 <title>Priorities · Maldives National Debt Clock</title>
 <meta name="description" content="What the government pays in interest, set against what it spends on the police, justice, and protecting families, children and human rights.">
 <style>
@@ -73,6 +73,10 @@
   .often .big { font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 75; font-size: 1.45rem; line-height: 1.1; color: var(--foam); }
   .often .sm { font-size: .88rem; color: var(--mist); line-height: 1.35; }
   .often .c.all { grid-column: 1 / -1; background: rgba(244,201,93,.1); }
+  .often .c { border-left: 4px solid var(--cc, var(--mist)); background: linear-gradient(110deg, color-mix(in srgb, var(--cc, #a9cdd6) 22%, transparent), rgba(255,255,255,.03) 70%); }
+  .often .c .ico { background: var(--cc, var(--mist)); color: #072f40; box-shadow: 0 4px 14px color-mix(in srgb, var(--cc, #a9cdd6) 45%, transparent); }
+  .often .c .big { color: var(--foam); }
+  .often .c.all .ico { background: #f4c95d; }
   .often .c.all .big { font-size: clamp(1.4rem, 3vw, 1.9rem); }
   html:is([data-theme="light"],[data-theme="sand"],[data-theme="lagoon"]) .often .c { background: rgba(7,47,64,.06); }
   .where { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 2rem 2.5rem; margin-top: 1.5rem; }
@@ -154,16 +158,23 @@
 
   <section id="casesSec" hidden>
     <h2>Cases reported to the police</h2>
-    <p id="casesNote"></p>
-    <div class="controls">
-      <label>Year <select id="cYear" aria-label="Year"></select></label>
-      <label>Period <select id="cMonth" aria-label="Period"></select></label>
+    <p>How many cases were reported each year, and how often each kind happens. Pick a year, then a month if you like.</p>
+    <div class="chart-box" id="casesYears"></div>
+    <div class="period-zone">
+    <div class="period-pick cases-pick">
+      <span class="yr-chip" id="cYearChip"></span>
+      <button type="button" class="step" id="cPrev" aria-label="Earlier">‹ Earlier</button>
+      <label><span>Year</span> <select id="cYear" aria-label="Year"></select></label>
+      <label><span>Period</span> <select id="cMonth" aria-label="Period"></select></label>
+      <button type="button" class="step" id="cNext" aria-label="Later">Later ›</button>
     </div>
+    <p id="casesNote"></p>
     <h3 style="margin-top:2rem">How often, on average</h3>
     <div class="often" id="often"></div>
     <h3 style="margin-top:2.5rem">Every type of case</h3>
     <div class="cases-list" id="casesList"></div>
     <div class="chips" id="casesKey" style="margin-top:1rem"></div>
+    </div>
   </section>
 
   <section>
@@ -190,7 +201,7 @@
   <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with the Ministry of Finance, the Maldives Police Service or MMA.</span></span>
 </div></footer>
 
-<script src="assets/site.js?v=20261007e"></script>
+<script src="assets/site.js?v=20261007f"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -223,9 +234,10 @@
     // cases for the same months as the report shown
     function casesFor(r) {
       if (!C) return null;
-      const y = r.d.slice(0, 4), m = Number(r.d.slice(5, 7)), have = C.monthly[y] || {};
+      const y = r.d.slice(0, 4), m = Number(r.d.slice(5, 7)), have = C.monthly?.[y] || {};
       if ([...Array(m)].every((_, i) => have[i + 1])) { const o = {}; for (let i = 1; i <= m; i++) Object.entries(have[i]).forEach(([c, n]) => o[c] = (o[c] || 0) + n); return { cases: o, label: m === 1 ? `January ${y}` : `January to ${MONTHS[m - 1]} ${y}` }; }
       if (r === LR && C.yearly[y]) return { cases: C.yearly[y], label: `so far in ${y}` };
+      if (r.d.slice(5) >= "12-24" && C.book?.yearly?.[y]) return { cases: C.book.yearly[y], label: `in ${y}` };
       return null;
     }
 
@@ -344,39 +356,65 @@
     }
 
     // ---------- cases ----------
-    if (C) {
+    // ---------- police cases: the police website for recent years, the Statistical Yearbook for earlier ones ----------
+    const BOOK = C?.book || { yearly: {}, monthly: {}, others: {} };
+    const CC = { "Theft": "#f4a62a", "Traffic Accidents": "#5aa9ff", "Drugs": "#b48cff", "Lost items": "#3fd0c0", "Vandalism": "#ff8f4d", "Assault": "#ff5f6d",
+      "Domestic violence": "#ff7fb8", "Embezzlement": "#7ddc7a", "Sexual Offences": "#d58cff", "Robbery": "#ff4d4d", "Counterfeit and forgery": "#c6e05a", "Cheque Bounce": "#9fb4bd" };
+    const ICON = { "Theft": "lock", "Traffic Accidents": "car", "Drugs": "pill", "Lost items": "search", "Vandalism": "hammer", "Assault": "alert", "Domestic violence": "family", "Embezzlement": "coins", "Sexual Offences": "child", "Robbery": "lock", "Counterfeit and forgery": "dollar", "Cheque Bounce": "dollar" };
+    const fromSite = y => !!(C && (C.yearly?.[y] || C.monthly?.[y]));
+    const caseYears = C ? [...new Set([...Object.keys(BOOK.yearly), ...Object.keys(BOOK.monthly), ...Object.keys(C.yearly || {}), ...Object.keys(C.monthly || {})])].sort() : [];
+    if (caseYears.length) {
       $("casesSec").hidden = false;
-      const cy = [...new Set([...Object.keys(C.yearly), ...Object.keys(C.monthly)])].sort();
-      $("cYear").innerHTML = cy.slice().reverse().map(y => `<option>${y}</option>`).join("");
-      const months = () => Object.keys(C.monthly[$("cYear").value] || {}).map(Number).sort((a, b) => a - b);
-      const fill = () => { const ms = months(), y = $("cYear").value; $("cMonth").innerHTML = (C.yearly[y] ? `<option value="0">Whole year${y == ly ? " so far" : ""}</option>` : "") + (ms.length > 1 ? `<option value="ytd">January to ${MONTHS[ms[ms.length - 1] - 1]}</option>` : "") + ms.slice().reverse().map(m => `<option value="${m}">${MONTHS[m - 1]}</option>`).join(""); };
-      fill(); $("cYear").onchange = () => { fill(); drawCases(); }; $("cMonth").onchange = drawCases;
-      drawCases();
+      $("cYear").innerHTML = caseYears.slice().reverse().map(y => `<option>${y}</option>`).join("");
+      const fill = () => { const y = $("cYear").value, site = fromSite(y);
+        const ms = Object.keys((site ? C.monthly[y] : BOOK.monthly[y]) || {}).map(Number).sort((a, b) => a - b);
+        const whole = site ? C.yearly[y] : BOOK.yearly[y];
+        $("cMonth").innerHTML = (whole ? `<option value="0">Whole year${y == ly ? " so far" : ""}</option>` : "") + (site && ms.length > 1 ? `<option value="ytd">January to ${MONTHS[ms[ms.length - 1] - 1]}</option>` : "") + ms.slice().reverse().map(m => `<option value="${m}">${MONTHS[m - 1]}</option>`).join(""); };
+      const go = (y, m) => { $("cYear").value = y; fill(); if ([...$("cMonth").options].some(o => o.value === String(m))) $("cMonth").value = String(m); drawCases(); };
+      const step = d => { const all = caseSteps(), i = all.findIndex(([y, m]) => y === $("cYear").value && m === $("cMonth").value), j = i + d; if (all[j]) go(...all[j]); };
+      $("cPrev").onclick = () => step(1); $("cNext").onclick = () => step(-1);
+      $("cYear").onchange = () => { fill(); drawCases(); }; $("cMonth").onchange = drawCases;
+      fill();
+      const q = new URLSearchParams(location.search); if (q.get("cy") && caseYears.includes(q.get("cy"))) go(q.get("cy"), q.get("cm") || "0"); else drawCases();
+      if (q.get("cy")) setTimeout(() => $("casesSec").scrollIntoView({ behavior: "smooth" }), 400);
+      drawCaseYears(); MV.onResize(drawCaseYears);
+    }
+    // every year and month that can be shown, newest first, for the Earlier and Later buttons
+    function caseSteps() { const out = []; caseYears.slice().reverse().forEach(yy => { const s2 = fromSite(yy), ms = Object.keys((s2 ? C.monthly[yy] : BOOK.monthly[yy]) || {}).map(Number).sort((a, b) => b - a); const w = s2 ? C.yearly[yy] : BOOK.yearly[yy]; if (w) out.push([yy, "0"]); if (s2 && ms.length > 1) out.push([yy, "ytd"]); ms.forEach(mm => out.push([yy, String(mm)])); }); return out; }
+    function drawCaseYears() {
+      const rows = caseYears.map(y => { const t = fromSite(y) ? (C.yearly[y] ? Object.values(C.yearly[y]).reduce((a, b) => a + b, 0) : null) : (BOOK.yearly[y] ? Object.values(BOOK.yearly[y]).reduce((a, b) => a + b, 0) : null); return { y, t }; }).filter(r => r.t);
+      if (!rows.length) return;
+      MV.barChart($("casesYears"), { cats: rows.map(r => ({ label: r.y == ly ? r.y + "*" : r.y, partial: r.y == ly })), label: "Cases reported each year",
+        groups: [{ color: "#f4c95d", vals: rows.map(r => r.t / 1000) }], yFmt: v => fmt(v, v % 1 ? 1 : 0) + "k",
+        tip: i => `<b>${rows[i].y}${rows[i].y == ly ? ", so far" : ""}</b>` + row("Cases", fmt(rows[i].t)) + row("Source", fromSite(rows[i].y) ? "Police website" : "Statistical Yearbook") });
     }
     function drawCases() {
-      const y = $("cYear").value, m = $("cMonth").value; let cats = {}, days;
+      const y = $("cYear").value, m = $("cMonth").value, site = fromSite(y); let cats = {}, days, totalOnly = null;
+      $("cYearChip").textContent = y;
       const yearDays = Number(y) % 4 === 0 ? 366 : 365, dim = mm => new Date(Date.UTC(Number(y), Number(mm), 0)).getUTCDate();
       if (m === "0") {
-        cats = C.yearly[y] || {};
-        if (Number(y) === Number(C.retrieved.slice(0, 4))) { const r = new Date(C.retrieved + "T12:00:00Z"); days = Math.max(1, Math.round((r - Date.UTC(Number(y), 0, 1)) / 864e5)); } else days = yearDays;
+        cats = (site ? C.yearly[y] : BOOK.yearly[y]) || {};
+        if (site && C.retrieved && Number(y) === Number(C.retrieved.slice(0, 4))) { const r = new Date(C.retrieved + "T12:00:00Z"); days = Math.max(1, Math.round((r - Date.UTC(Number(y), 0, 1)) / 864e5)); } else days = yearDays;
       } else if (m === "ytd") {
         const ms = Object.keys(C.monthly[y] || {}); ms.forEach(k => Object.entries(C.monthly[y][k]).forEach(([c, n]) => cats[c] = (cats[c] || 0) + n));
         days = ms.reduce((t, k) => t + dim(k), 0);
-      } else { cats = C.monthly[y]?.[m] || {}; days = dim(m); }
-      const list = Object.entries(cats).sort((a, b) => b[1] - a[1]), max = list[0]?.[1] || 1, total = list.reduce((s, [, n]) => s + n, 0);
+      } else if (site) { cats = C.monthly[y]?.[m] || {}; days = dim(m); }
+      else { totalOnly = BOOK.monthly[y]?.[m] || 0; days = dim(m); }
+      const list = Object.entries(cats).sort((a, b) => b[1] - a[1]), max = list[0]?.[1] || 1, total = totalOnly ?? list.reduce((s, [, n]) => s + n, 0);
       const when = m === "0" ? (y == ly ? `so far in ${y}` : `in ${y}`) : m === "ytd" ? `${$("cMonth").selectedOptions[0].text} ${y}` : `in ${MONTHS[m - 1]} ${y}`;
-      $("casesNote").textContent = `${fmt(total)} cases were reported to the Maldives Police Service ${when}. Figures as of ${dayLabel(C.retrieved)}. Pick a year or month to compare.`;
-      // which office each kind of case sits closest to. Everything else is the police's alone
+      const src = site ? `Figures from the police website, as of ${dayLabel(C.retrieved)}.` : totalOnly != null ? "From the Statistical Yearbook, which gives only the monthly total for these years, including other kinds of cases." : `From the Statistical Yearbook. ${fmt(BOOK.others[y] || 0)} cases logged as other kinds are left out, so the types match the police website.`;
+      $("casesNote").textContent = `${fmt(total)} cases ${totalOnly != null ? "logged" : "reported"} ${when}. ${src}`;
       const owner = c => O.find(o => o.cases.includes(c))?.key || "police";
       const every = n => { const mins = days * 1440 / n; if (mins < 60) return `${Math.max(1, Math.round(mins))} minutes`; const h = mins / 60; if (h < 10) { const hh = Math.floor(h), mm = Math.round((h - hh) * 60); return mm ? `${hh} hr${hh > 1 ? "s" : ""} ${mm} min` : `${hh} hour${hh > 1 ? "s" : ""}`; } if (h < 48) return `${Math.round(h)} hours`; const d = h / 24; return d < 14 ? `${Math.round(d)} days` : `${Math.round(d / 7)} weeks`; };
       const perDay = n => n / days;
-      const ICON = { "Theft": "lock", "Traffic Accidents": "car", "Drugs": "pill", "Lost items": "search", "Vandalism": "hammer", "Assault": "alert", "Domestic violence": "family", "Embezzlement": "coins", "Sexual Offences": "child", "Robbery": "lock", "Counterfeit and forgery": "dollar", "Cheque Bounce": "dollar" };
       const pick = list.filter(([c, n]) => n > 0).slice(0, 5).concat(list.filter(([c]) => owner(c) !== "police" && !list.slice(0, 5).some(x => x[0] === c)));
-      $("often").innerHTML = total ? `<div class="c all">${MV.icon("cases")}<span class="big">A case every ${every(total)}</span><span class="sm">About ${fmt(perDay(total), perDay(total) < 10 ? 1 : 0)} reports a day to the police, ${when}.</span></div>` +
-        pick.map(([c, n]) => `<div class="c" style="color:${SEG[owner(c)]}">${MV.icon(ICON[c] || "cases")}<span class="sm k">${c}</span><span class="big">One every ${every(n)}</span><span class="sm">${perDay(n) >= 1 ? `About ${fmt(perDay(n), perDay(n) < 10 ? 1 : 0)} a day` : `About ${fmt(perDay(n) * 7, perDay(n) * 7 < 10 ? 1 : 0)} a week`}</span></div>`).join("") : "";
-      $("casesList").innerHTML = list.map(([c, n]) => `<div class="row"><span>${c}</span><div class="bar"><i style="width:${n / max * 100}%;background:${SEG[owner(c)]}"></i></div><span>${fmt(n)}</span></div>`).join("");
+      $("often").innerHTML = total ? `<div class="c all">${MV.icon("cases")}<span class="big">A case every ${every(total)}</span><span class="sm">About ${fmt(perDay(total), perDay(total) < 10 ? 1 : 0)} a day, ${when}.</span></div>` +
+        pick.map(([c, n]) => `<div class="c" style="--cc:${CC[c] || "#a9cdd6"}">${MV.icon(ICON[c] || "cases")}<span class="sm k">${c}</span><span class="big">One every ${every(n)}</span><span class="sm">${perDay(n) >= 1 ? `About ${fmt(perDay(n), perDay(n) < 10 ? 1 : 0)} a day` : `About ${fmt(perDay(n) * 7, perDay(n) * 7 < 10 ? 1 : 0)} a week`}</span></div>`).join("") : "";
+      $("casesList").innerHTML = list.map(([c, n]) => `<div class="row"><span>${c}</span><div class="bar"><i style="width:${n / max * 100}%;background:${CC[c] || SEG[owner(c)]}"></i></div><span>${fmt(n)}</span></div>`).join("") || `<p class="hint">The types of case aren't published for single months before the police website began.</p>`;
       const owners = ["police", ...new Set(list.map(([c]) => owner(c)).filter(k => k !== "police"))];
-      $("casesKey").innerHTML = owners.map(k => `<span class="chip" style="color:${SEG[k]}">${MV.icon(office(k).icon)}<span>${k === "police" ? "Handled by the police" : `Closest to the ${office(k).name}`}</span></span>`).join("");
+      $("casesKey").innerHTML = list.length ? owners.map(k => `<span class="chip" style="color:${SEG[k]}">${MV.icon(office(k).icon)}<span>${k === "police" ? "Handled by the police" : `Also matched to the ${office(k).name}`}</span></span>`).join("") : "";
+      const all = caseSteps();
+      const i = all.findIndex(([a, b]) => a === y && b === m); $("cPrev").disabled = i < 0 || i >= all.length - 1; $("cNext").disabled = i <= 0;
     }
 
     render();
