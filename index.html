@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/site.css?v=20261006b">
 <title>Maldives National Debt Clock</title>
 <meta name="description" content="A live estimate of Maldives' public and publicly guaranteed debt, built from Maldives Monetary Authority statistics.">
 <meta property="og:title" content="Maldives National Debt Clock">
@@ -239,7 +239,7 @@
   <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with MMA.</span></span>
 </div></footer>
 
-<script src="assets/site.js"></script>
+<script src="assets/site.js?v=20261006b"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -254,8 +254,13 @@
   mvTick(); setInterval(mvTick, 1000);
 
   Promise.all([MV.getJSON("data.json"), MV.getJSON("population.json").catch(() => null)])
-    .then(([d, p]) => { MV.checkStale(d); init(d, p); })
-    .catch(err => { console.error(err); const n = $("notice"); n.textContent = "No debt data yet. The repository owner needs to run the “Update debt data” workflow under the Actions tab."; n.classList.add("on"); $("sub").textContent = ""; });
+    .then(([d, p]) => { try { MV.checkStale(d); } catch (e) { console.error(e); } init(d, p); })
+    .catch(err => {
+      console.error("Debt clock could not start:", err);
+      const n = $("notice");
+      n.innerHTML = `The latest figures didn't load. Please refresh the page. <button type="button" onclick="location.reload()" style="margin-left:.5rem;font:700 .9rem var(--body);border:0;border-radius:999px;padding:.35rem .8rem;background:#072f40;color:#fff;cursor:pointer">Refresh</button>`;
+      n.classList.add("on"); $("sub").textContent = "";
+    });
 
   function init(data, POP) {
     const S = data.series; MV.setData(S); MV.paintPrefs();
@@ -263,11 +268,13 @@
     const latest = tot[tot.length - 1], back = tot[Math.max(0, tot.length - 5)];
     const rate = (latest.value - back.value) / ((ts(latest.date) - ts(back.date)) / 1000 || 1);
     const debtNow = () => latest.value + rate * (Date.now() - ts(latest.date)) / 1000;
+    try {
     MV.fresh($("fresh"), { asOf: latest.date.slice(0, 10), what: "Official quarterly debt figures", cadence: "quarterly" });
     MV.since("clock", [
       { id: "q", value: latest.date.slice(0, 10), say: p => `A new official debt figure is out, for the end of <b>${MV.mLabel(latest.date)}</b>. The last one you saw was for ${MV.mLabel(p)}.` },
       { id: "debt", value: Math.round(debtNow()), say: p => debtNow() > p ? `The clock has added about <b>${MV.moneyNow(debtNow() - p)}</b> to the debt since then.` : null },
     ], $("since"));
+    } catch (e) { console.error("Extras skipped:", e); }
     const popNow = POP ? () => POP.base * Math.exp(POP.annual_growth * (Date.now() - ts(POP.base_date)) / 1000 / SEC_YEAR) : () => null;
     const ratioPts = (S.debt_to_gdp?.points || []).map(p => ({ date: p.date, value: pct(p.value) }));
     const ratio = ratioPts.length ? ratioPts[ratioPts.length - 1].value : null;

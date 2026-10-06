@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/site.css?v=20261006b">
 <title>Fuel imports · Maldives National Debt Clock</title>
 <meta name="description" content="How much Maldives spends on imported fuel each month, and how wars and crises have moved the bill.">
 <style>
@@ -120,7 +120,7 @@
   <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with MMA.</span></span>
 </div></footer>
 
-<script src="assets/site.js"></script>
+<script src="assets/site.js?v=20261006b"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -142,7 +142,7 @@
   MV.getJSON("data.json").then(data => {
     const S = data.series; MV.setData(S); MV.paintPrefs(); MV.checkStale(data);
     document.querySelectorAll('[data-pref="real"]').forEach(t => t.hidden = true);
-    if (!S.fuel_imports?.points?.length) { $("chartNote").textContent = "Fuel data hasn't been fetched yet. Run the “Update debt data” workflow."; return; }
+    if (!S.fuel_imports?.points?.length) { $("chartNote").textContent = "Fuel figures aren't available right now. Please check back soon."; return; }
     const map = k => Object.fromEntries((S[k]?.points || []).map(p => [p.date, p.value]));
     const pet = map("fuel_petrol"), die = map("fuel_diesel"), oth = map("fuel_other"), imp = map("imports_goods"), crude = map("crude_price");
     const all = S.fuel_imports.points.filter(p => p.value > 0).map(p => ({ date: p.date, v: p.value, pet: pet[p.date], die: die[p.date], oth: oth[p.date], imp: imp[p.date], crude: crude[p.date] }));

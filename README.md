@@ -63,3 +63,9 @@ The form on `about.html` sends messages into a Google Form.
 pages read, `data/master/`, `data/police/crime_monthly.csv` and `downloads/`. Everything else in the repo,
 including the scripts, `inputs/`, `data/wfd/`, this README and the workflow, returns "Not found".
 If you add a new page or data file, add it to the `PUBLIC` list in that file.
+
+## After changing the shared files
+
+Every page loads `assets/site.css` and `assets/site.js` with a version tag, for example `site.js?v=20261006b`.
+Whenever you change either file, change the tag on every page (find and replace across the `.html` files),
+so visitors never get a new page with an old script. `_headers` tells Cloudflare not to keep old copies for long.
