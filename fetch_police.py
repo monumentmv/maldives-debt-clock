@@ -88,27 +88,38 @@ async def click_button(page, text):
     return True
 
 
-async def wait_for_period(page, expected_label):
-    """Wait until the page shows the period asked for and the numbers have stopped changing."""
-    deadline = asyncio.get_event_loop().time() + TIMEOUT_MS / 1000
-    last = None
+async def wait_for_period(page, expected_label, before=None):
+    """Wait until the page shows the period asked for, the figures have actually arrived
+    (the page shows 0 for a moment while it fetches them), and they have stopped changing."""
+    try:
+        await page.wait_for_load_state("networkidle", timeout=8000)
+    except Exception:
+        pass
+    deadline = asyncio.get_event_loop().time() + 30
+    last, same = None, 0
+    st = await page_state(page)
     while asyncio.get_event_loop().time() < deadline:
         st = await page_state(page)
-        if st["label"].lower() == expected_label.lower():
-            key = (st["total"], tuple(map(tuple, st["rows"])))
-            if key == last:
-                return st
+        key = (st["total"], tuple(map(tuple, st["rows"])))
+        if st["label"].lower() == expected_label.lower() and to_int(st["total"]) > 0 and st["rows"] and (before is None or key != before):
+            same = same + 1 if key == last else 0
             last = key
-        await page.wait_for_timeout(400)
-    return await page_state(page)
+            if same >= 2:
+                return st
+        await page.wait_for_timeout(600)
+    return st
 
 
 async def read_period(page, year, month_index):
     """month_index 0 = the whole year, 1..12 = a month"""
     expected = str(year) if month_index == 0 else f"{MONTHS[month_index - 1]} {year}"
+    b4 = await page_state(page)
+    before = (b4["total"], tuple(map(tuple, b4["rows"]))) if b4["label"].lower() != expected.lower() else None
     if not await click_button(page, "All" if month_index == 0 else MONTHS[month_index - 1]):
         return None, f"{expected}: no button"
-    st = await wait_for_period(page, expected)
+    st = await wait_for_period(page, expected, before)
+    if to_int(st["total"]) == 0:
+        return None, f"{expected}: page showed no cases"
     if st["label"].lower() != expected.lower():
         return None, f"{expected}: page showed '{st['label']}'"
     rows = [(c, to_int(n)) for c, n in st["rows"] if c]

@@ -1,4 +1,136 @@
 year,month,category,cases,retrieved
+2017,0,Theft,3493,2026-10-06
+2017,0,Traffic Accidents,2100,2026-10-06
+2017,0,Drugs,2040,2026-10-06
+2017,0,Lost items,1649,2026-10-06
+2017,0,Assault,773,2026-10-06
+2017,0,Robbery,655,2026-10-06
+2017,0,Embezzlement,518,2026-10-06
+2017,0,Vandalism,450,2026-10-06
+2017,0,Sexual Offences,420,2026-10-06
+2017,0,Cheque Bounce,287,2026-10-06
+2017,0,Domestic violence,276,2026-10-06
+2017,0,Counterfeit and forgery,87,2026-10-06
+2018,0,Theft,3282,2026-10-06
+2018,0,Drugs,2231,2026-10-06
+2018,0,Traffic Accidents,2006,2026-10-06
+2018,0,Lost items,1784,2026-10-06
+2018,0,Assault,749,2026-10-06
+2018,0,Robbery,537,2026-10-06
+2018,0,Embezzlement,523,2026-10-06
+2018,0,Vandalism,476,2026-10-06
+2018,0,Sexual Offences,367,2026-10-06
+2018,0,Domestic violence,240,2026-10-06
+2018,0,Cheque Bounce,234,2026-10-06
+2018,0,Counterfeit and forgery,71,2026-10-06
+2019,0,Theft,4547,2026-10-06
+2019,0,Traffic Accidents,2324,2026-10-06
+2019,0,Drugs,2187,2026-10-06
+2019,0,Lost items,1820,2026-10-06
+2019,0,Assault,634,2026-10-06
+2019,0,Embezzlement,493,2026-10-06
+2019,0,Robbery,482,2026-10-06
+2019,0,Vandalism,467,2026-10-06
+2019,0,Sexual Offences,407,2026-10-06
+2019,0,Domestic violence,221,2026-10-06
+2019,0,Cheque Bounce,187,2026-10-06
+2019,0,Counterfeit and forgery,87,2026-10-06
+2020,0,Theft,3577,2026-10-06
+2020,0,Drugs,1419,2026-10-06
+2020,0,Traffic Accidents,1390,2026-10-06
+2020,0,Lost items,740,2026-10-06
+2020,0,Assault,664,2026-10-06
+2020,0,Embezzlement,607,2026-10-06
+2020,0,Sexual Offences,491,2026-10-06
+2020,0,Vandalism,391,2026-10-06
+2020,0,Robbery,352,2026-10-06
+2020,0,Domestic violence,248,2026-10-06
+2020,0,Counterfeit and forgery,107,2026-10-06
+2020,0,Cheque Bounce,72,2026-10-06
+2020,9,Theft,322,2026-10-06
+2020,9,Drugs,134,2026-10-06
+2020,9,Traffic Accidents,111,2026-10-06
+2020,9,Embezzlement,89,2026-10-06
+2020,9,Assault,67,2026-10-06
+2020,9,Lost items,64,2026-10-06
+2020,9,Sexual Offences,47,2026-10-06
+2020,9,Vandalism,43,2026-10-06
+2020,9,Robbery,32,2026-10-06
+2020,9,Domestic violence,23,2026-10-06
+2020,9,Counterfeit and forgery,14,2026-10-06
+2020,9,Cheque Bounce,5,2026-10-06
+2021,0,Theft,4680,2026-10-06
+2021,0,Traffic Accidents,1562,2026-10-06
+2021,0,Drugs,1447,2026-10-06
+2021,0,Lost items,976,2026-10-06
+2021,0,Embezzlement,902,2026-10-06
+2021,0,Assault,604,2026-10-06
+2021,0,Vandalism,508,2026-10-06
+2021,0,Robbery,374,2026-10-06
+2021,0,Sexual Offences,338,2026-10-06
+2021,0,Domestic violence,269,2026-10-06
+2021,0,Counterfeit and forgery,152,2026-10-06
+2021,0,Cheque Bounce,11,2026-10-06
+2021,3,Theft,426,2026-10-06
+2021,3,Drugs,153,2026-10-06
+2021,3,Traffic Accidents,133,2026-10-06
+2021,3,Embezzlement,84,2026-10-06
+2021,3,Assault,57,2026-10-06
+2021,3,Lost items,55,2026-10-06
+2021,3,Vandalism,42,2026-10-06
+2021,3,Sexual Offences,31,2026-10-06
+2021,3,Domestic violence,23,2026-10-06
+2021,3,Counterfeit and forgery,19,2026-10-06
+2021,3,Robbery,18,2026-10-06
+2021,3,Cheque Bounce,1,2026-10-06
+2022,0,Theft,3976,2026-10-06
+2022,0,Traffic Accidents,1615,2026-10-06
+2022,0,Drugs,1420,2026-10-06
+2022,0,Lost items,1415,2026-10-06
+2022,0,Embezzlement,699,2026-10-06
+2022,0,Assault,520,2026-10-06
+2022,0,Vandalism,477,2026-10-06
+2022,0,Robbery,373,2026-10-06
+2022,0,Sexual Offences,331,2026-10-06
+2022,0,Domestic violence,233,2026-10-06
+2022,0,Counterfeit and forgery,118,2026-10-06
+2022,0,Cheque Bounce,15,2026-10-06
+2023,0,Theft,3817,2026-10-06
+2023,0,Traffic Accidents,2299,2026-10-06
+2023,0,Drugs,1752,2026-10-06
+2023,0,Lost items,1481,2026-10-06
+2023,0,Embezzlement,759,2026-10-06
+2023,0,Assault,656,2026-10-06
+2023,0,Vandalism,618,2026-10-06
+2023,0,Robbery,481,2026-10-06
+2023,0,Sexual Offences,294,2026-10-06
+2023,0,Domestic violence,221,2026-10-06
+2023,0,Counterfeit and forgery,128,2026-10-06
+2023,0,Cheque Bounce,11,2026-10-06
+2024,0,Theft,3763,2026-10-06
+2024,0,Traffic Accidents,2881,2026-10-06
+2024,0,Drugs,1670,2026-10-06
+2024,0,Lost items,1036,2026-10-06
+2024,0,Assault,714,2026-10-06
+2024,0,Vandalism,662,2026-10-06
+2024,0,Embezzlement,657,2026-10-06
+2024,0,Robbery,506,2026-10-06
+2024,0,Sexual Offences,321,2026-10-06
+2024,0,Domestic violence,257,2026-10-06
+2024,0,Counterfeit and forgery,167,2026-10-06
+2024,0,Cheque Bounce,7,2026-10-06
+2025,0,Theft,3480,2026-10-06
+2025,0,Traffic Accidents,3079,2026-10-06
+2025,0,Drugs,2066,2026-10-06
+2025,0,Lost items,993,2026-10-06
+2025,0,Assault,603,2026-10-06
+2025,0,Vandalism,596,2026-10-06
+2025,0,Embezzlement,356,2026-10-06
+2025,0,Domestic violence,323,2026-10-06
+2025,0,Sexual Offences,273,2026-10-06
+2025,0,Robbery,232,2026-10-06
+2025,0,Counterfeit and forgery,107,2026-10-06
+2025,0,Cheque Bounce,6,2026-10-06
 2026,0,Theft,2649,2026-10-06
 2026,0,Traffic Accidents,2319,2026-10-06
 2026,0,Drugs,2018,2026-10-06
@@ -11,14 +143,3 @@ year,month,category,cases,retrieved
 2026,0,Robbery,115,2026-10-06
 2026,0,Counterfeit and forgery,50,2026-10-06
 2026,0,Cheque Bounce,2,2026-10-06
-2026,1,Theft,311,2026-10-06
-2026,1,Traffic Accidents,303,2026-10-06
-2026,1,Drugs,169,2026-10-06
-2026,1,Lost items,112,2026-10-06
-2026,1,Assault,60,2026-10-06
-2026,1,Vandalism,56,2026-10-06
-2026,1,Domestic violence,40,2026-10-06
-2026,1,Embezzlement,20,2026-10-06
-2026,1,Robbery,14,2026-10-06
-2026,1,Sexual Offences,14,2026-10-06
-2026,1,Counterfeit and forgery,9,2026-10-06
