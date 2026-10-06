@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261007a">
+<link rel="stylesheet" href="assets/site.css?v=20261007c">
 <title>Maldives National Debt Clock</title>
 <meta name="description" content="A live estimate of Maldives' public and publicly guaranteed debt, built from Maldives Monetary Authority statistics.">
 <meta property="og:title" content="Maldives National Debt Clock">
@@ -156,6 +156,7 @@
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock" aria-current="page">Debt clock</a>
     <a href="priorities.html" data-page="priorities">Priorities</a>
+    <a href="updates.html" data-page="updates">What's new</a>
     <a href="budget.html" data-page="budget">Budget</a>
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
@@ -210,6 +211,12 @@
     <div class="plain-grid" id="plain"></div>
   </section>
 
+  <section class="latest-upd" id="latestSec" hidden>
+    <h2>Latest updates</h2>
+    <p>New official figures come out every week, month and quarter. Here are the newest, in plain words. <a href="updates.html">See every update, and go back in time</a>.</p>
+    <div class="upd-list" id="latestUpd" style="margin-top:1.5rem"></div>
+  </section>
+
   <section class="chapters">
     <h2>Want to know more?</h2>
     <p>Each question opens up the charts and figures behind it.</p>
@@ -222,7 +229,7 @@
     <div class="chap-body" id="ch-owed-body" hidden>
 
     
-    <p>Domestic debt is owed to lenders inside Maldives, mostly banks, the central bank and the pension fund. External debt is owed abroad, to other governments, development banks and bondholders. <a href="#" class="term" data-term="owed">Guaranteed debt</a> is borrowed by state companies, with the government promising to pay if they can't.</p>
+    <p>Domestic debt is owed to lenders inside Maldives, mostly banks, the central bank and the pension fund. External debt is owed abroad, to other governments, development banks and bondholders. <a href="#" class="term" data-term="guaranteed">Guaranteed debt</a> is borrowed mostly by state-owned companies, from banks and other lenders, with the government promising to pay if they can't.</p>
     <div class="bar" id="bar" role="img" aria-label="Debt breakdown"></div>
     <ul class="legend" id="legend"></ul>
     <div class="split" id="gdpSplit"></div>
@@ -311,7 +318,8 @@
   <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with MMA.</span></span>
 </div></footer>
 
-<script src="assets/site.js?v=20261007a"></script>
+<script src="assets/site.js?v=20261007c"></script>
+<script src="assets/updates.js?v=20261007c"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -342,13 +350,22 @@
   if (location.hash.startsWith("#ch-")) openChapter(location.hash.slice(1), true);
 
   Promise.all([MV.getJSON("data.json"), MV.getJSON("population.json").catch(() => null)])
-    .then(([d, p]) => { try { MV.checkStale(d); } catch (e) { console.error(e); } init(d, p); })
+    .then(([d, p]) => { try { MV.checkStale(d); } catch (e) { console.error(e); } init(d, p); latestUpdates(d); })
     .catch(err => {
       console.error("Debt clock could not start:", err);
       const n = $("notice");
       n.innerHTML = `The latest figures didn't load. Please refresh the page. <button type="button" onclick="location.reload()" style="margin-left:.5rem;font:700 .9rem var(--body);border:0;border-radius:999px;padding:.35rem .8rem;background:#072f40;color:#fff;cursor:pointer">Refresh</button>`;
       n.classList.add("on"); $("sub").textContent = "";
     });
+
+  function latestUpdates(d) {
+    if (!window.MVUpdates) return;
+    Promise.all([MV.getJSON("budget.json").catch(() => null), MV.getJSON("revenue.json").catch(() => null), MV.getJSON("priorities.json").catch(() => null)]).then(([budget, revenue, priorities]) => {
+      const draw = () => { const list = MVUpdates.latestOfEach(MVUpdates.build({ data: d, budget, revenue, priorities })).slice(0, 4);
+        $("latestUpd").innerHTML = list.map(MVUpdates.card).join(""); MV.paintIcons($("latestUpd")); $("latestSec").hidden = !list.length; };
+      draw(); MV.onPrefs(draw);
+    }).catch(e => console.error("Latest updates skipped:", e));
+  }
 
   function init(data, POP) {
     const S = data.series; MV.setData(S); MV.paintPrefs();

@@ -228,3 +228,15 @@ html:is([data-theme="light"],[data-theme="sand"],[data-theme="lagoon"]) .since {
 .q { border: 1px solid rgba(169,205,214,.4); background: transparent; color: var(--mist); width: 1.7rem; height: 1.7rem; border-radius: 50%; font: 700 .85rem var(--body); cursor: pointer; flex: none; }
 .q:hover { color: var(--foam); border-color: var(--foam); }
 .ico svg { overflow: visible; }
+
+/* ---------- updates feed ---------- */
+.upd { display: grid; grid-template-columns: 2.9rem 1fr; gap: 1rem; padding: 1.15rem 1.2rem; border-radius: 12px; background: rgba(255,255,255,.045); border-left: 4px solid var(--c); }
+.upd > .ico { color: var(--c); margin: 0; }
+.upd h3 { margin: .2rem 0 .35rem; color: var(--foam); font-family: var(--display); font-size: clamp(1.1rem, 2.3vw, 1.35rem); line-height: 1.25; }
+.upd p { margin: .2rem 0; color: var(--mist); font-size: .95rem; line-height: 1.5; max-width: 46rem; }
+.upd-tag { display: flex; flex-wrap: wrap; gap: .25rem .75rem; font-size: .8rem; color: var(--mist); }
+.upd-tag b { color: var(--c); text-transform: uppercase; letter-spacing: .06em; font-size: .74rem; }
+.upd-go { display: inline-block; margin-top: .5rem; font-weight: 700; font-size: .9rem; color: var(--sun); text-decoration: none; }
+.upd-go:hover { text-decoration: underline; }
+.upd-list { display: grid; gap: .8rem; }
+html:is([data-theme="light"],[data-theme="sand"],[data-theme="lagoon"]) .upd { background: rgba(7,47,64,.05); }

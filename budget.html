@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261007a">
+<link rel="stylesheet" href="assets/site.css?v=20261007c">
 <title>Budget · Maldives National Debt Clock</title>
 <meta name="description" content="What the government has collected and spent so far this year, updated every week from the Ministry of Finance, with every year since 2019 to compare.">
 <style>
@@ -93,6 +93,7 @@
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock">Debt clock</a>
     <a href="priorities.html" data-page="priorities">Priorities</a>
+    <a href="updates.html" data-page="updates">What's new</a>
     <a href="budget.html" data-page="budget" aria-current="page">Budget</a>
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
@@ -193,7 +194,7 @@
   <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with the Ministry of Finance or MMA.</span></span>
 </div></footer>
 
-<script src="assets/site.js?v=20261007a"></script>
+<script src="assets/site.js?v=20261007c"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -425,9 +426,9 @@
     }
 
     const latestR = R[R.length - 1];
-    const pickOpts = R.filter(r => Number(r.d.slice(0, 4)) >= Ly - 1).slice().reverse().map((r, i) => ({ v: r.d, label: dayLabel(r.d) + (i === 0 ? ", latest" : "") }))
-      .concat(years.filter(y => y < Ly - 1).slice().reverse().map(y => { const e = R.filter(r => r.d.startsWith(String(y))).pop(); return { v: e.d, label: `End of ${y}` }; }));
-    MV.asOf($("asof"), pickOpts, latestR.d, d => { SEL = R.find(r => r.d === d) || latestR; drawLatest(); drawProg(); });
+    const pickOpts = R.slice().reverse().map((r, i) => ({ v: r.d, group: r.d.slice(0, 4), label: `${dayLabel(r.d)}${r.w ? `, week ${r.w}` : ""}${i === 0 ? ", latest" : ""}` }));
+    const wantP = MV.wantedPeriod(); if (wantP && R.some(r => r.d === wantP)) SEL = R.find(r => r.d === wantP);
+    MV.asOf($("asof"), pickOpts, SEL.d, d => { SEL = R.find(r => r.d === d) || latestR; drawLatest(); drawProg(); });
     MV.fresh($("fresh"), { asOf: latestR.d, what: "Ministry of Finance weekly figures", cadence: "weekly" });
     {
       const v = k => val(latestR, k), mon = x => sym() + " " + short(MV.convNow(M(x), latestR.d)), yr = String(Ly);

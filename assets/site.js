@@ -313,13 +313,22 @@ const MV = (() => {
   function asOf(el, options, value, onChange) {
     if (!el || !options.length) return;
     const latest = options[0].v;
+    let html = "", g = null;
+    options.forEach(o => {
+      if (o.group !== g) { if (g !== null) html += "</optgroup>"; g = o.group; if (g != null) html += `<optgroup label="${g}">`; }
+      html += `<option value="${o.v}"${o.v === value ? " selected" : ""}>${o.label}</option>`;
+    });
+    if (g != null) html += "</optgroup>";
     el.className = "period-pick";
-    el.innerHTML = `<label><span>Showing</span> <select aria-label="Period shown">${options.map(o => `<option value="${o.v}"${o.v === value ? " selected" : ""}>${o.label}</option>`).join("")}</select></label>` +
+    el.innerHTML = `<label><span>Showing</span> <select aria-label="Period shown">${html}</select></label>` +
       `<button type="button" class="pill back"${value === latest ? " hidden" : ""}>Back to the latest</button><span class="hint-old"${value === latest ? " hidden" : ""}>You are looking at an earlier period.</span>`;
     const sel = el.querySelector("select");
-    sel.onchange = () => { onChange(sel.value); asOf(el, options, sel.value, onChange); };
-    el.querySelector(".back").onclick = () => { onChange(latest); asOf(el, options, latest, onChange); };
+    const go = v => { onChange(v); asOf(el, options, v, onChange); try { const u = new URL(location.href); v === latest ? u.searchParams.delete("p") : u.searchParams.set("p", v); history.replaceState(null, "", u); } catch (e) {} };
+    sel.onchange = () => go(sel.value);
+    el.querySelector(".back").onclick = () => go(latest);
   }
+  /** the period asked for in the page address (?p=...), if any */
+  const wantedPeriod = () => { try { return new URLSearchParams(location.search).get("p"); } catch (e) { return null; } };
 
   // ---------- short explanations in a pop-up, instead of sending readers to another page ----------
   const EXPLAIN = {
@@ -331,7 +340,8 @@ const MV = (() => {
     revenue: ["Revenue collected by MIRA", "MIRA, the tax office, publishes how much it collects each month and how much of it is paid in US dollars. The figures cover the taxes, fees and rents MIRA handles. They don't include everything the government receives, such as grants from abroad."],
     clock: ["How the clock works", "Official debt figures come out once every three months. Between releases, the clock starts from the latest official figure and adds debt at the average pace of the last year, so the number is an estimate. When a new official figure is published, the clock resets to it."],
     gdp: ["Debt compared with the economy", "GDP is the value of everything the country produces in a year. Comparing debt with GDP shows how big the debt is next to the size of the economy. Above 100% means the debt is bigger than a whole year of the country's output."],
-    owed: ["Who the debt is owed to", "Domestic debt is owed to lenders inside Maldives, mostly banks, MMA and the pension fund. External debt is owed abroad, to other governments, development banks and investors, and has to be paid in foreign currency. Guaranteed debt is borrowed by state companies, with the government promising to pay if they can't."],
+    owed: ["Who the debt is owed to", "Domestic debt is owed to lenders inside Maldives, mostly banks, MMA and the pension fund. External debt is owed abroad, to other governments, development banks and investors, and has to be paid back in foreign currency."],
+    guaranteed: ["Guaranteed debt", "Guaranteed debt is money borrowed by someone other than the government, mostly state-owned companies such as the housing, electricity and trading companies, where the government has promised to pay if the borrower can't. The lenders include foreign and local banks and some private companies. It counts towards public debt because, if things go wrong, the government is on the hook."],
     interest: ["Interest", "Interest is the extra paid to lenders for using their money, on top of paying back what was borrowed. It builds up every day on everything owed. It is a cost that pays for no school, road or salary."],
     deficit: ["Deficit", "A deficit is when the government spends more than it collects. The gap is filled by borrowing, so each year's deficit adds to the debt."],
     real: ["Nominal and real", "Nominal shows amounts as they were at the time. Real adjusts older amounts for price rises, so a rufiyaa from ten years ago can be compared fairly with a rufiyaa today."],
@@ -349,7 +359,7 @@ const MV = (() => {
       document.addEventListener("keydown", ev => { if (ev.key === "Escape" && !dlg.hidden) close(); });
     }
     dlg.querySelector("h3").textContent = e[0]; dlg.querySelector("p").textContent = e[1];
-    dlg.querySelector(".more").href = "methodology.html#" + (anchor || key);
+    dlg.querySelector(".more").href = "methodology.html#" + (anchor || { deficit: "fiscal", guaranteed: "debt" }[key] || key);
     dlg._from = document.activeElement; dlg.hidden = false; dlg.querySelector(".x").focus();
     return true;
   }
@@ -409,7 +419,7 @@ const MV = (() => {
   const boot = () => { themeButton(); realHelp(); ticker(); paintIcons(); };
   document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", boot) : boot();
 
-  return { SEC_YEAR, mini, setTheme, explain, icon, paintIcons, fresh, since, asOf, ago, daysAgo, MONTHS, state, setData, rateAt, cpiAt, realFactor, conv, convNow, isReal, baseLabel, checkStale, fromUSD, fmt, sym, short, money, moneyNow, moneyFull,
+  return { SEC_YEAR, mini, setTheme, explain, wantedPeriod, icon, paintIcons, fresh, since, asOf, ago, daysAgo, MONTHS, state, setData, rateAt, cpiAt, realFactor, conv, convNow, isReal, baseLabel, checkStale, fromUSD, fmt, sym, short, money, moneyNow, moneyFull,
     ts, mLabel, mShort, qLabel, dayLabel, last, getJSON, fetched, onPrefs, paintPrefs, lineChart, barChart, row, onResize,
     get USD() { return USD; }, get cpiLast() { return cpiLast; } };
 })();

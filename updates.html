@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#072f40">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css?v=20261007c">
+<title>What's new · Maldives National Debt Clock</title>
+<meta name="description" content="Every new official figure on Maldives public finances, summed up in plain words as it comes out.">
+<style>
+  .lede { font-size: clamp(1.05rem, 2.2vw, 1.25rem); max-width: 44rem; }
+  .filters { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.75rem 0 .5rem; }
+  .filters button { font: 700 .88rem var(--body); border: 1px solid rgba(169,205,214,.35); background: transparent; color: var(--mist); padding: .4rem .85rem; border-radius: 999px; cursor: pointer; min-height: 2.2rem; }
+  .filters button[aria-pressed="true"] { background: var(--foam); color: var(--abyss); border-color: var(--foam); }
+  .month { margin: 2.5rem 0 1rem; font-family: var(--display); font-size: 1.3rem; color: var(--foam); display: flex; align-items: baseline; gap: .75rem; }
+  .month small { font: 400 .9rem var(--body); color: var(--mist); }
+  .more-btn { margin-top: 2rem; font: 700 .95rem var(--body); border: 1px solid rgba(169,205,214,.4); background: transparent; color: var(--foam); padding: .65rem 1.2rem; border-radius: 999px; cursor: pointer; }
+  .jump { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; margin-top: 1rem; }
+  .jump label { font-weight: 700; display: inline-flex; gap: .5rem; align-items: center; }
+  .jump select { font: 700 .9rem var(--body); background: rgba(255,255,255,.08); color: var(--foam); border: 1px solid rgba(169,205,214,.3); border-radius: 6px; padding: .35rem .45rem; min-height: 2.2rem; }
+  .jump select option { color: #072f40; background: #fff; }
+</style>
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="./">MV <span>Debt Clock</span></a>
+  <nav class="site-nav" aria-label="Main">
+    <a href="./" data-page="clock">Debt clock</a>
+    <a href="priorities.html" data-page="priorities">Priorities</a>
+    <a href="updates.html" data-page="updates" aria-current="page">What's new</a>
+    <a href="budget.html" data-page="budget">Budget</a>
+    <a href="revenue.html" data-page="revenue">Taxes</a>
+    <a href="fuel.html" data-page="fuel">Fuel imports</a>
+    <a href="methodology.html" data-page="method">Methodology</a>
+    <a href="about.html" data-page="about">About</a>
+  </nav>
+  <div class="prefs">
+    <div class="toggle" data-pref="cur" role="group" aria-label="Currency"><button type="button" data-v="MVR" aria-pressed="true">MVR</button><button type="button" data-v="USD" aria-pressed="false">US$</button></div>
+    <div class="toggle" data-pref="real" role="group" aria-label="Inflation adjustment" title="Real shows past amounts in today's prices, adjusted for inflation"><button type="button" data-v="0" aria-pressed="true">Nominal</button><button type="button" data-v="1" aria-pressed="false">Real</button></div>
+  </div>
+  <div class="real-note" role="status"></div>
+</header>
+
+
+<main class="dark">
+<div class="wrap">
+  <section>
+    <div id="since"></div>
+    <h1>What's new</h1>
+    <p class="lede">Every time new official figures come out, a short summary appears here in plain words. Budget figures come every week, taxes and fuel every month, and official debt every three months. Come back to see what has changed, or go back in time to any earlier update.</p>
+    <div class="filters" id="filters" role="group" aria-label="Show updates about"></div>
+    <div class="jump"><label>Go to <select id="jump" aria-label="Go to a month"></select></label></div>
+    <div id="feed"></div>
+    <button type="button" class="more-btn" id="more">Show earlier updates</button>
+  </section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <span id="fetched">Summaries are written automatically from the same official figures used across the site.</span>
+  <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with the Ministry of Finance, MIRA, the Maldives Police Service or MMA.</span></span>
+</div></footer>
+
+<script src="assets/site.js?v=20261007c"></script>
+<script src="assets/updates.js?v=20261007c"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const T = MVUpdates.TYPES;
+  Promise.all([MV.getJSON("data.json"), MV.getJSON("budget.json").catch(() => null), MV.getJSON("revenue.json").catch(() => null), MV.getJSON("priorities.json").catch(() => null)])
+  .then(([data, budget, revenue, priorities]) => {
+    MV.setData(data.series); MV.paintPrefs();
+    let all = MVUpdates.build({ data, budget, revenue, priorities });
+    let type = "all", months = 3, start = null;
+    const kinds = Object.keys(T).filter(k => all.some(e => e.type === k));
+    $("filters").innerHTML = `<button type="button" data-t="all" aria-pressed="true">Everything</button>` + kinds.map(k => `<button type="button" data-t="${k}" aria-pressed="false">${T[k].label}</button>`).join("");
+    $("filters").addEventListener("click", e => { const b = e.target.closest("[data-t]"); if (!b) return; type = b.dataset.t; $("filters").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); draw(); });
+    const monthKey = d => d.slice(0, 7), monthName = k => MV.mLabel(k + "-15");
+    const allMonths = [...new Set(all.map(e => monthKey(e.d)))];
+    $("jump").innerHTML = `<option value="">The latest</option>` + allMonths.map(k => `<option value="${k}">${monthName(k)}</option>`).join("");
+    $("jump").onchange = () => { start = $("jump").value || null; months = 3; draw(); };
+    function draw() {
+      const list = all.filter(e => type === "all" || e.type === type).filter(e => !start || monthKey(e.d) <= start);
+      const ms = [...new Set(list.map(e => monthKey(e.d)))], show = ms.slice(0, months);
+      $("feed").innerHTML = show.map(k => { const items = list.filter(e => monthKey(e.d) === k);
+        return `<h2 class="month">${monthName(k)} <small>${items.length} update${items.length === 1 ? "" : "s"}</small></h2><div class="upd-list">${items.map(MVUpdates.card).join("")}</div>`; }).join("") || "<p>No updates of this kind yet.</p>";
+      MV.paintIcons($("feed"));
+      $("more").hidden = ms.length <= months;
+    }
+    $("more").onclick = () => { months += 3; draw(); };
+    draw(); MV.onPrefs(draw);
+    const newest = all[0];
+    if (newest) MV.since("updates", [{ id: "n", value: newest.d + newest.type, say: () => `There are new updates since you last looked. The newest is <b>${newest.title}</b>.` }], $("since"));
+  }).catch(err => { console.error(err); $("feed").innerHTML = "<p>Updates couldn't load. Please refresh the page.</p>"; });
+})();
+</script>
+</body>
+</html>

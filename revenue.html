@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261007a">
+<link rel="stylesheet" href="assets/site.css?v=20261007c">
 <title>Taxes · Maldives National Debt Clock</title>
 <meta name="description" content="Taxes, fees and rents collected by the Maldives Inland Revenue Authority since 2010, and how much of it is paid in US dollars.">
 <style>
@@ -70,6 +70,7 @@
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock">Debt clock</a>
     <a href="priorities.html" data-page="priorities">Priorities</a>
+    <a href="updates.html" data-page="updates">What's new</a>
     <a href="budget.html" data-page="budget">Budget</a>
     <a href="revenue.html" data-page="revenue" aria-current="page">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
@@ -168,7 +169,7 @@
   <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with MIRA or MMA.</span></span>
 </div></footer>
 
-<script src="assets/site.js?v=20261007a"></script>
+<script src="assets/site.js?v=20261007c"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -282,7 +283,8 @@
     }
 
     const LM = months[N - 1];
-    MV.asOf($("asof"), months.slice(-36).reverse().map((m, k) => ({ v: String(N - 1 - k), label: mLabel(m.date) + (k === 0 ? ", latest" : "") })), String(N - 1), v => { selI = Number(v); drawLatest(); });
+    { const w = MV.wantedPeriod(); if (w && IDX[w] != null) selI = IDX[w]; }
+    MV.asOf($("asof"), months.slice().reverse().map((m, k) => ({ v: m.ym, group: m.y, label: mLabel(m.date) + (k === 0 ? ", latest" : "") })), months[selI].ym, v => { selI = IDX[v] ?? N - 1; drawLatest(); });
     MV.fresh($("fresh"), { asOf: LM.date.slice(0, 10), what: "MIRA's monthly collection figures", cadence: "monthly" });
     $("fresh").querySelector("b").textContent = mLabel(LM.date);
     MV.since("revenue", [{ id: "m", value: LM.ym, say: p => `MIRA's figures for <b>${mLabel(LM.date)}</b> are out. The last month you saw was ${mLabel(p + "-15")}.` }], $("since"));

@@ -9,6 +9,7 @@ A live estimate of Maldives public and publicly guaranteed debt, built from the
 - `fuel.html`: monthly fuel imports, with crisis periods
 - `budget.html`: weekly budget figures from the Ministry of Finance, with every year since 2019 to compare
 - `revenue.html`: taxes, fees and rents collected by MIRA since 2010, and the part paid in US dollars
+- `updates.html` and `assets/updates.js`: the What's new page, a plain-words summary of every new release, written from the data. The home page shows the newest few
 - `priorities.html`: interest costs set against spending on policing, justice and the offices that protect families, children and human rights, and other big services, with cases reported to the police
 - `methodology.html`: how every figure is calculated
 - `about.html`: about and contact form, which sends messages to a Google Form (see below)
@@ -66,6 +67,6 @@ If you add a new page or data file, add it to the `PUBLIC` list in that file.
 
 ## After changing the shared files
 
-Every page loads `assets/site.css` and `assets/site.js` with a version tag, for example `site.js?v=20261006b`.
+Every page loads `assets/site.css`, `assets/site.js` (and some `assets/updates.js`) with a version tag, for example `site.js?v=20261006b`.
 Whenever you change either file, change the tag on every page (find and replace across the `.html` files),
 so visitors never get a new page with an old script. `_headers` tells Cloudflare not to keep old copies for long.

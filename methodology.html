@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261007a">
+<link rel="stylesheet" href="assets/site.css?v=20261007c">
 <title>Methodology · Maldives National Debt Clock</title>
 <meta name="description" content="Where every number on Maldives National Debt Clock comes from, how it is calculated, and what it leaves out.">
 <style>
@@ -81,6 +81,7 @@
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock">Debt clock</a>
     <a href="priorities.html" data-page="priorities">Priorities</a>
+    <a href="updates.html" data-page="updates">What's new</a>
     <a href="budget.html" data-page="budget">Budget</a>
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
@@ -140,7 +141,7 @@
 <ul>
   <li><b>Domestic debt</b> is money the government has borrowed inside Maldives, such as treasury bills, treasury bonds and loans from local banks and MMA.</li>
   <li><b>External debt</b> is money borrowed from abroad, including loans from other governments, development banks and commercial lenders, and international bonds and sukuk.</li>
-  <li><b>Guaranteed debt</b> is loans taken by state-owned companies where the government has promised to repay if the company can't. These are counted in full, even though the companies are expected to repay them themselves.</li>
+  <li><b>Guaranteed debt</b> is loans taken mostly by state-owned companies, from foreign and local banks and some private lenders, where the government has promised to repay if the borrower can't. The Ministry of Finance publishes the list of active guarantees. These are counted in full, even though the companies are expected to repay them themselves.</li>
 </ul>
 <p>It does <b>not</b> include borrowing by state-owned companies that the government has not guaranteed, or the debts of private businesses and households.</p>
 
@@ -373,6 +374,7 @@
 
 <h2 id="time">15. Time and updates</h2>
 <p>The time shown on the clock is Malé time (UTC+5), whatever time zone the visitor is in.</p>
+<p>The <a href="updates.html">What's new</a> page writes a short summary of every new release, one for each weekly budget report, each month of fuel imports, MIRA collections and police cases, and each quarter of official debt. The summaries are worked out automatically from the same figures used across the site, and every one links to the page showing that period in full.</p>
 <p>The site checks MMA and the Ministry of Finance for new data every morning at 08:00 Malé time. MMA publishes debt figures quarterly and government finance figures monthly, and the Ministry publishes its budget report weekly, so most days nothing changes. MIRA's revenue files are checked every morning too, and replaced when MIRA publishes a new version. The footer of each page shows when its data was last updated.</p>
 <h3>If the data stops updating</h3>
 <p>The latest data is saved alongside the website, so the site keeps working even if MMA's data service is unavailable. The clock keeps estimating from the last official figure. To make sure that isn't misleading, the site shows a warning at the top of every page in any of these cases.</p>
@@ -431,7 +433,7 @@
   <span id="fetched">Figures from Maldives Monetary Authority Statistics Database.</span>
   <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with MMA.</span></span>
 </div></footer>
-<script src="assets/site.js?v=20261007a"></script>
+<script src="assets/site.js?v=20261007c"></script>
 <script>
 (() => {
   const SEC_YEAR = 365.25 * 86400;

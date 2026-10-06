@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261007a">
+<link rel="stylesheet" href="assets/site.css?v=20261007c">
 <title>Priorities · Maldives National Debt Clock</title>
 <meta name="description" content="What the government pays in interest, set against what it spends on the police, justice, and protecting families, children and human rights.">
 <style>
@@ -66,7 +66,9 @@
 
   .often { display: grid; grid-template-columns: repeat(auto-fit, minmax(13.5rem, 1fr)); gap: 1rem; margin-top: 1rem; max-width: 62rem; }
   .often .c { background: rgba(255,255,255,.05); border-radius: 10px; padding: 1rem 1.1rem; display: grid; grid-template-columns: 2.6rem 1fr; gap: .2rem .8rem; align-items: center; }
-  .often .ico { width: 2.6rem; height: 2.6rem; margin: 0; grid-row: span 2; }
+  .often .ico { width: 2.6rem; height: 2.6rem; margin: 0; grid-row: span 3; }
+  .often .c.all .ico { grid-row: span 2; }
+  .often .sm.k { color: var(--foam); font-weight: 700; font-size: .92rem; }
   .often .ico svg { width: 1.35rem; height: 1.35rem; }
   .often .big { font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 75; font-size: 1.45rem; line-height: 1.1; color: var(--foam); }
   .often .sm { font-size: .88rem; color: var(--mist); line-height: 1.35; }
@@ -92,6 +94,7 @@
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock">Debt clock</a>
     <a href="priorities.html" data-page="priorities" aria-current="page">Priorities</a>
+    <a href="updates.html" data-page="updates">What's new</a>
     <a href="budget.html" data-page="budget">Budget</a>
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
@@ -183,7 +186,7 @@
   <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with the Ministry of Finance, the Maldives Police Service or MMA.</span></span>
 </div></footer>
 
-<script src="assets/site.js?v=20261007a"></script>
+<script src="assets/site.js?v=20261007c"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -203,10 +206,10 @@
     // ---------- choosing a period ----------
     const ly = Number(LR.d.slice(0, 4));
     const yearEnd = {}; RP.forEach(r => { yearEnd[r.d.slice(0, 4)] = r; });
-    const opts = RP.filter(r => Number(r.d.slice(0, 4)) >= ly - 1).reverse().map((r, i) => ({ v: r.d, label: dayLabel(r.d) + (i === 0 ? ", latest" : "") }))
-      .concat(Object.values(yearEnd).filter(r => Number(r.d.slice(0, 4)) < ly - 1).reverse().map(r => ({ v: r.d, label: `End of ${r.d.slice(0, 4)}` })));
+    const opts = RP.slice().reverse().map((r, i) => ({ v: r.d, group: r.d.slice(0, 4), label: dayLabel(r.d) + (i === 0 ? ", latest" : "") }));
     const setPeriod = d => { R = RP.find(r => r.d === d) || LR; render(); };
-    MV.asOf($("asof"), opts, LR.d, setPeriod);
+    const wantP = MV.wantedPeriod(); if (wantP && RP.some(r => r.d === wantP)) R = RP.find(r => r.d === wantP);
+    MV.asOf($("asof"), opts, R.d, setPeriod);
     MV.fresh($("fresh"), { asOf: LR.d, what: "Ministry of Finance weekly figures", cadence: "weekly" });
 
     const val = (r, k) => r.a[k]?.[2] ?? null;
@@ -361,12 +364,12 @@
       $("casesNote").textContent = `${fmt(total)} cases were reported to the Maldives Police Service ${when}. Figures as of ${dayLabel(C.retrieved)}. Pick a year or month to compare.`;
       // which office each kind of case sits closest to. Everything else is the police's alone
       const owner = c => O.find(o => o.cases.includes(c))?.key || "police";
-      const every = n => { const mins = days * 1440 / n; if (mins < 60) return `${Math.max(1, Math.round(mins))} minutes`; const h = mins / 60; if (h < 10) { const hh = Math.floor(h), mm = Math.round((h - hh) * 60); return (mm ? `${hh} hours ${mm} minutes` : `${hh} hours`).replace(/^1 hours/, "1 hour"); } if (h < 48) return `${Math.round(h)} hours`; const d = h / 24; return d < 14 ? `${Math.round(d)} days` : `${Math.round(d / 7)} weeks`; };
+      const every = n => { const mins = days * 1440 / n; if (mins < 60) return `${Math.max(1, Math.round(mins))} minutes`; const h = mins / 60; if (h < 10) { const hh = Math.floor(h), mm = Math.round((h - hh) * 60); return mm ? `${hh} hr${hh > 1 ? "s" : ""} ${mm} min` : `${hh} hour${hh > 1 ? "s" : ""}`; } if (h < 48) return `${Math.round(h)} hours`; const d = h / 24; return d < 14 ? `${Math.round(d)} days` : `${Math.round(d / 7)} weeks`; };
       const perDay = n => n / days;
       const ICON = { "Theft": "lock", "Traffic Accidents": "car", "Drugs": "pill", "Lost items": "search", "Vandalism": "hammer", "Assault": "alert", "Domestic violence": "family", "Embezzlement": "coins", "Sexual Offences": "child", "Robbery": "lock", "Counterfeit and forgery": "dollar", "Cheque Bounce": "dollar" };
       const pick = list.filter(([c, n]) => n > 0).slice(0, 5).concat(list.filter(([c]) => owner(c) !== "police" && !list.slice(0, 5).some(x => x[0] === c)));
       $("often").innerHTML = total ? `<div class="c all">${MV.icon("cases")}<span class="big">A case every ${every(total)}</span><span class="sm">About ${fmt(perDay(total), perDay(total) < 10 ? 1 : 0)} reports a day to the police, ${when}.</span></div>` +
-        pick.map(([c, n]) => `<div class="c" style="color:${SEG[owner(c)]}">${MV.icon(ICON[c] || "cases")}<span class="big">${perDay(n) >= 1 ? `${fmt(perDay(n), perDay(n) < 10 ? 1 : 0)} a day` : `One every ${every(n)}`}</span><span class="sm">${c}${perDay(n) >= 1 ? `, about one every ${every(n)}` : ""}</span></div>`).join("") : "";
+        pick.map(([c, n]) => `<div class="c" style="color:${SEG[owner(c)]}">${MV.icon(ICON[c] || "cases")}<span class="sm k">${c}</span><span class="big">One every ${every(n)}</span><span class="sm">${perDay(n) >= 1 ? `About ${fmt(perDay(n), perDay(n) < 10 ? 1 : 0)} a day` : `About ${fmt(perDay(n) * 7, perDay(n) * 7 < 10 ? 1 : 0)} a week`}</span></div>`).join("") : "";
       $("casesList").innerHTML = list.map(([c, n]) => `<div class="row"><span>${c}</span><div class="bar"><i style="width:${n / max * 100}%;background:${SEG[owner(c)]}"></i></div><span>${fmt(n)}</span></div>`).join("");
       const owners = ["police", ...new Set(list.map(([c]) => owner(c)).filter(k => k !== "police"))];
       $("casesKey").innerHTML = owners.map(k => `<span class="chip" style="color:${SEG[k]}">${MV.icon(office(k).icon)}<span>${k === "police" ? "Handled by the police" : `Closest to the ${office(k).name}`}</span></span>`).join("");
