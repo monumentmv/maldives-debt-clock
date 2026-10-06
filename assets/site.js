@@ -345,6 +345,7 @@ const MV = (() => {
     interest: ["Interest", "Interest is the extra paid to lenders for using their money, on top of paying back what was borrowed. It builds up every day on everything owed. It is a cost that pays for no school, road or salary."],
     deficit: ["Deficit", "A deficit is when the government spends more than it collects. The gap is filled by borrowing, so each year's deficit adds to the debt."],
     real: ["Nominal and real", "Nominal shows amounts as they were at the time. Real adjusts older amounts for price rises, so a rufiyaa from ten years ago can be compared fairly with a rufiyaa today."],
+    taxrev: ["Taxes are not all of the government's income", "MIRA's figures cover the taxes, fees and rents MIRA collects. Total government revenue is bigger. It also includes import duties collected by Customs, dividends from state-owned companies, airport and other fees, rents, and grants from abroad. So MIRA's total will always be less than the revenue shown on the budget page."],
     usd: ["US dollar figures", "Amounts can be shown in US dollars using MMA's official exchange rate. Past amounts use the rate of the time, so changes in the exchange rate don't distort the history."],
   };
   function explain(key, anchor) {
@@ -374,6 +375,32 @@ const MV = (() => {
     const t = document.querySelector('.toggle[data-pref="real"]');
     if (!t || t.nextElementSibling?.classList.contains("q")) return;
     t.insertAdjacentHTML("afterend", `<button type="button" class="q" data-term="real" aria-label="What do nominal and real mean?">?</button>`);
+  }
+
+  // ---------- the header's height, so pickers can stick just below it ----------
+  function headHeight() { const h = document.querySelector(".site-head"); if (h) document.documentElement.style.setProperty("--headH", h.offsetHeight + "px"); }
+  addEventListener("resize", headHeight);
+
+  // ---------- a way back, when someone followed a link from another page ----------
+  const FROM = { updates: "Back to Updates", home: "Back to the home page", priorities: "Back to Priorities" };
+  function backLink() {
+    let from = null; try { from = new URLSearchParams(location.search).get("from"); } catch (e) {}
+    if (!from || !FROM[from] || document.querySelector(".back-to")) return;
+    const a = document.createElement("a");
+    a.className = "back-to"; a.href = from === "home" ? "./" : `${from}.html`; a.textContent = "← " + FROM[from];
+    a.addEventListener("click", ev => { if (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) { ev.preventDefault(); history.back(); } });
+    document.body.appendChild(a);
+  }
+
+  // ---------- "Updates" in the menu gets a badge when there is something new since the last look ----------
+  function updatesBadge() {
+    const link = document.querySelector('.site-nav a[data-page="updates"]'); if (!link) return;
+    getJSON("priorities.json").then(P => {
+      const newest = P?.latest?.d; if (!newest) return;
+      let seen = null; try { seen = localStorage.getItem("updatesSeen"); } catch (e) {}
+      if (/updates\.html$/.test(location.pathname)) { try { localStorage.setItem("updatesSeen", newest); } catch (e) {} return; }
+      if (!seen || seen < newest) link.insertAdjacentHTML("beforeend", `<span class="badge">New</span>`);
+    }).catch(() => {});
   }
 
   // ---------- colour themes ----------
@@ -416,7 +443,7 @@ const MV = (() => {
       el.querySelector("button").addEventListener("click", () => { el.remove(); try { sessionStorage.setItem("tickerOff", "1"); } catch (e) {} });
     }).catch(() => {});
   }
-  const boot = () => { themeButton(); realHelp(); ticker(); paintIcons(); };
+  const boot = () => { headHeight(); themeButton(); realHelp(); ticker(); paintIcons(); backLink(); updatesBadge(); };
   document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", boot) : boot();
 
   return { SEC_YEAR, mini, setTheme, explain, wantedPeriod, icon, paintIcons, fresh, since, asOf, ago, daysAgo, MONTHS, state, setData, rateAt, cpiAt, realFactor, conv, convNow, isReal, baseLabel, checkStale, fromUSD, fmt, sym, short, money, moneyNow, moneyFull,

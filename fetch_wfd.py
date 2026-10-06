@@ -30,6 +30,7 @@ HERE = Path(__file__).resolve().parent
 DATA = HERE / "data" / "wfd"
 CACHE = HERE / ".wfd_cache"          # downloaded PDFs, not kept in the repo
 OUT_JSON = HERE / "budget.json"
+DETAIL_DIR = HERE / "budget-detail"
 PROCESSED = DATA / "processed.csv"
 HEADLINE = DATA / "wfd_headline.csv"
 LONG = DATA / "wfd_long.csv"
@@ -118,6 +119,18 @@ def build_json(headline, long_rows):
             "source": W.PAGE, "latest": latest, "reports": reports, "detail": detail}
     OUT_JSON.write_text(json.dumps(data, separators=(",", ":")), encoding="utf-8")
     print(f"Wrote {OUT_JSON.name}: {len(reports)} reports, latest {latest}.")
+
+    # every line of every report, one file per year, so the budget page can show any earlier week line by line
+    by_year = {}
+    for row in long_rows:
+        if row["table"] not in ("revenue", "expenditure", "agencies", "psip"):
+            continue
+        t = by_year.setdefault(row["as_at"][:4], {}).setdefault(row["as_at"], {}).setdefault(row["table"], [])
+        t.append([row["label"], num(row["approved"]), num(row["last_year"]), num(row["this_year"]), 1 if row.get("memo") == "1" else 0])
+    DETAIL_DIR.mkdir(exist_ok=True)
+    for y, reps in by_year.items():
+        (DETAIL_DIR / f"{y}.json").write_text(json.dumps(reps, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    print(f"Wrote {len(by_year)} yearly files of line-by-line figures to {DETAIL_DIR.name}/.")
 
 
 def main():

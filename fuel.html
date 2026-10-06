@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261007c">
+<link rel="stylesheet" href="assets/site.css?v=20261007e">
 <title>Fuel imports · Maldives National Debt Clock</title>
 <meta name="description" content="How much Maldives spends on imported fuel each month, and how wars and crises have moved the bill.">
 <style>
@@ -48,7 +48,7 @@
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock">Debt clock</a>
     <a href="priorities.html" data-page="priorities">Priorities</a>
-    <a href="updates.html" data-page="updates">What's new</a>
+    <a href="updates.html" data-page="updates" class="nav-hot"><span class="dot" aria-hidden="true"></span>Updates</a>
     <a href="budget.html" data-page="budget">Budget</a>
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel" aria-current="page">Fuel imports</a>
@@ -70,11 +70,13 @@
     <h1>What Maldives spends on imported fuel</h1>
     <p class="lede">Maldives imports almost all of its energy as petroleum products. Diesel accounts for a large share of fuel use, generating most of the country's electricity and powering many road vehicles, boats and fishing vessels. Petrol is also widely used in cars, motorcycles and smaller boats, while aviation fuel, cooking gas and other petroleum products make up the remainder. When wars or other global crises push up oil prices, the country's fuel import bill rises with them, and the foreign currency spent on these imports flows out of the economy.</p>
     <div id="fresh"></div>
+    <div class="period-zone">
     <div id="asof"></div>
     <div class="stats" style="margin-top:2.5rem">
       <div class="stat hot" data-icon="fuel"><div class="n num" id="sLatest">…</div><div class="l" id="sLatestL">latest month</div><div class="d" id="sLatestD"></div></div>
       <div class="stat red" data-icon="ship"><div class="n num" id="s12">…</div><div class="l" id="s12L">spent on fuel imports in the last 12 months</div><div id="s12M"></div></div>
       <div class="stat" data-icon="globe"><div class="n num" id="sShare">…</div><div class="l" id="sShareL">of everything Maldives imports</div><div id="sShareM"></div></div>
+    </div>
     </div>
   </section>
 
@@ -121,7 +123,7 @@
   <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with MMA.</span></span>
 </div></footer>
 
-<script src="assets/site.js?v=20261007c"></script>
+<script src="assets/site.js?v=20261007e"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);

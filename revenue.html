@@ -10,10 +10,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261007c">
+<link rel="stylesheet" href="assets/site.css?v=20261007e">
 <title>Taxes · Maldives National Debt Clock</title>
 <meta name="description" content="Taxes, fees and rents collected by the Maldives Inland Revenue Authority since 2010, and how much of it is paid in US dollars.">
 <style>
+  .goodtoknow { margin-top: 1.25rem; padding: .8rem 1rem; border-radius: 10px; background: rgba(244,201,93,.12); border: 1px solid rgba(244,201,93,.35); max-width: 46rem; color: var(--foam); }
+  .goodtoknow .term { color: var(--sun); font-weight: 700; }
   .lede { font-size: clamp(1.05rem, 2.2vw, 1.25rem); max-width: 44rem; }
   .controls { display: flex; flex-wrap: wrap; gap: .75rem 1rem; align-items: center; margin-top: 1rem; }
   .stat .d { font-size: .9rem; margin-top: .4rem; font-weight: 700; color: var(--mist); line-height: 1.45; }
@@ -70,7 +72,7 @@
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock">Debt clock</a>
     <a href="priorities.html" data-page="priorities">Priorities</a>
-    <a href="updates.html" data-page="updates">What's new</a>
+    <a href="updates.html" data-page="updates" class="nav-hot"><span class="dot" aria-hidden="true"></span>Updates</a>
     <a href="budget.html" data-page="budget">Budget</a>
     <a href="revenue.html" data-page="revenue" aria-current="page">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
@@ -91,17 +93,20 @@
     <div id="since"></div>
     <h1>What MIRA collects, and how much is paid in dollars</h1>
     <p class="lede">Maldives Inland Revenue Authority (MIRA) collects most of the government's taxes, along with fees and rents such as resort land rent. A large part is paid in US dollars, mainly by resorts and other tourism businesses. Those dollars matter for the debt, because loans from abroad have to be repaid in foreign currency.</p>
+    <p class="goodtoknow"><b>Good to know.</b> Tax collected by MIRA isn't the same as all of the government's income. <span class="term" role="button" tabindex="0" data-term="taxrev">Why not?</span></p>
   </section>
 
   <section>
     <h2>Latest figures</h2>
     <p id="latestNote"></p>
     <div id="fresh"></div>
+    <div class="period-zone">
     <div id="asof"></div>
     <div class="stats" style="margin-top:2rem">
       <div class="stat hot" data-icon="calendar"><div class="n num" id="sMonth">…</div><div class="l" id="sMonthL">collected in the latest month</div><div class="d" id="sMonthD"></div></div>
       <div class="stat hot" data-icon="coins"><div class="n num" id="s12">…</div><div class="l" id="s12L">collected in the last 12 months</div><div class="d" id="s12D"></div></div>
       <div class="stat" data-icon="dollar"><div class="n num" id="sYtd">…</div><div class="l" id="sYtdL">collected this year so far</div><div class="d" id="sYtdD"></div></div>
+    </div>
     </div>
   </section>
 
@@ -169,7 +174,7 @@
   <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with MIRA or MMA.</span></span>
 </div></footer>
 
-<script src="assets/site.js?v=20261007c"></script>
+<script src="assets/site.js?v=20261007e"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);

@@ -23,6 +23,7 @@ A live estimate of Maldives public and publicly guaranteed debt, built from the
 - `build_master.py`: combines MMA, MIRA, Ministry of Finance and police data into one clean dataset in `data/master/`, and builds the Excel and CSV downloads into `downloads/` whenever the data changes
 - `fetch_police.py`: reads the Maldives Police Service crime statistics page every morning (with a headless browser) into `data/police/crime_monthly.csv`. If the page can't be read, the existing figures stay
 - `build_priorities.py`: builds `priorities.json` for the priorities page from every weekly budget report since 2019 and the police figures
+- `budget-detail/`: every line of every weekly report, one file per year, so the budget page can show any earlier week line by line. Written by `fetch_wfd.py`
 - `downloads/`: the Excel and CSV downloads linked from the data page
 - `fetch_mira.py`: checks MIRA's website every morning and downloads new versions of its revenue files into `inputs/mira/`
 - `build_revenue.py`: reads the MIRA spreadsheets in `inputs/mira/` and writes `revenue.json`

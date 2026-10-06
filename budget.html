@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261007c">
+<link rel="stylesheet" href="assets/site.css?v=20261007e">
 <title>Budget · Maldives National Debt Clock</title>
 <meta name="description" content="What the government has collected and spent so far this year, updated every week from the Ministry of Finance, with every year since 2019 to compare.">
 <style>
@@ -93,7 +93,7 @@
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock">Debt clock</a>
     <a href="priorities.html" data-page="priorities">Priorities</a>
-    <a href="updates.html" data-page="updates">What's new</a>
+    <a href="updates.html" data-page="updates" class="nav-hot"><span class="dot" aria-hidden="true"></span>Updates</a>
     <a href="budget.html" data-page="budget" aria-current="page">Budget</a>
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
@@ -117,10 +117,13 @@
     <div id="fresh"></div>
   </section>
 
-  <section>
-    <h2>Latest figures</h2>
-    <p id="latestNote"></p>
+
+
+  <div class="period-zone">
     <div id="asof"></div>
+  <section>
+    <h2>The week's figures</h2>
+    <p id="latestNote"></p>
     <div class="stats" style="margin-top:2rem">
       <div class="stat hot" data-icon="moneyIn"><div class="n num" id="sRev">…</div><div class="l" id="sRevL">collected so far this year</div><div class="d" id="sRevD"></div></div>
       <div class="stat" data-icon="moneyOut"><div class="n num" id="sExp">…</div><div class="l" id="sExpL">spent so far this year</div><div class="d" id="sExpD"></div></div>
@@ -132,11 +135,20 @@
   </section>
 
   <section>
-    <h2>How far through this year's budget</h2>
+    <h2>How far through the year's budget</h2>
     <p id="progNote"></p>
     <div class="prog" id="prog"></div>
     <div class="prog-key"><span><i style="background:var(--lagoon)"></i>Used or collected so far</span><span><i style="background:var(--sun);width:3px"></i>Share of the year gone</span><span><i style="background:var(--coral)"></i>Already past the full-year budget</span></div>
   </section>
+
+  <section>
+    <div class="chart-head">
+      <div><h2>Line by line</h2><p id="detailNote" style="margin:0"></p></div>
+      <div class="controls"><div class="subtoggle" role="group" aria-label="Table"><button type="button" data-tab="expenditure" aria-pressed="true">Spending</button><button type="button" data-tab="revenue" aria-pressed="false">Revenue</button><button type="button" data-tab="agencies" aria-pressed="false">By office</button></div></div>
+    </div>
+    <div class="tbl-wrap"><table class="rev-table" id="detail"></table></div>
+  </section>
+  </div>
 
   <section>
     <div class="chart-head">
@@ -172,13 +184,6 @@
     <div class="callout-line num" id="yearLine"></div>
   </section>
 
-  <section>
-    <div class="chart-head">
-      <div><h2>Line by line, this year</h2><p id="detailNote" style="margin:0"></p></div>
-      <div class="controls"><div class="subtoggle" role="group" aria-label="Table"><button type="button" data-tab="expenditure" aria-pressed="true">Spending</button><button type="button" data-tab="revenue" aria-pressed="false">Revenue</button><button type="button" data-tab="agencies" aria-pressed="false">By office</button></div></div>
-    </div>
-    <div class="tbl-wrap"><table class="rev-table" id="detail"></table></div>
-  </section>
 
   <section class="caveat">
     <h2>Reading these figures</h2>
@@ -194,7 +199,7 @@
   <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with the Ministry of Finance or MMA.</span></span>
 </div></footer>
 
-<script src="assets/site.js?v=20261007c"></script>
+<script src="assets/site.js?v=20261007e"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -257,7 +262,8 @@
       if (P("revenue_and_grants") != null) $("sRevD").innerHTML += mm.meter(P("revenue_and_grants"), yr, "var(--sun)");
       if (P("total_expenditure") != null) $("sExpD").innerHTML += mm.meter(P("total_expenditure"), yr, "var(--lagoon)");
       const rv = val(L, "revenue_and_grants"), ex = val(L, "total_expenditure");
-      $("sBalD").innerHTML += mm.duo([["Collected", rv, "var(--sun)", now(rv, L.d)], ["Spent", ex, "var(--red)", now(ex, L.d)]]);
+      { const bal = val(L, "overall_balance"), plan = val(L, "overall_balance", 1);
+        if (bal != null && plan != null && plan < 0 && bal < 0) $("sBalD").innerHTML += mm.meter(-bal / -plan, yr, "var(--red)", `${fmt(100 * bal / plan)}% of the gap planned for the whole year`); }
       if (P("interest_costs") != null) $("sIntD").innerHTML += mm.meter(P("interest_costs"), yr, "var(--coral)");
       $("miniKey").hidden = false;
       drawFlow();
@@ -279,7 +285,7 @@
       if (gap > 0) IN.push(["Not covered, borrowed", gap, "gap"]); else if (gap < 0) OUT.push(["Left over, a surplus", -gap, "spare"]);
       const amt = v => sym() + " " + short(MV.convNow(M(v), L.d));
       const per = v => fmt(v / exp * 100, 1);
-      const bar = (title, total, segs) => `<div class="fbar"><div class="cap"><span>${title}</span><b>${amt(total)}</b></div><div class="segs">` +
+      const bar = (title, total, segs) => `<div class="fbar"><div class="cap"><span>${title}</span></div><div class="segs">` +
         segs.filter(s => s[1] > 0).map(([n, v, c]) => `<div class="seg${c === "gap" ? " gap" : c === "spare" ? " spare" : ""}" style="flex:${v / top} 1 0;${c.startsWith("#") ? `background:${c}` : ""}" title="${n}, ${amt(v)}">${v / top > .09 ? fmt(v / top * 100, 0) + "%" : ""}</div>`).join("") +
         `</div><div class="fkey">` + segs.filter(s => s[1] > 0).map(([n, v, c]) => `<div><i style="background:${c === "gap" ? "#ff5f56" : c === "spare" ? "#3fb8b0" : c}"></i><span><b>${amt(v)}</b>${n}</span></div>`).join("") + `</div></div>`;
       const unit = sym() + " 100";
@@ -403,8 +409,18 @@
       if (L3.has(k)) return 3;
       return 2;
     }
+    const DETAIL = {};   // line-by-line figures for earlier weeks, loaded a year at a time when asked for
+    function detailFor(r) {
+      if (r === R[R.length - 1]) return B.detail;
+      const y = r.d.slice(0, 4);
+      if (!DETAIL[y]) { DETAIL[y] = "loading"; MV.getJSON(`budget-detail/${y}.json`).then(j => { DETAIL[y] = j; drawDetail(); }).catch(() => { DETAIL[y] = null; }); }
+      const yr = DETAIL[y]; if (!yr || yr === "loading" || !yr[r.d]) return null;
+      return Object.fromEntries(Object.entries(yr[r.d]).map(([t, rows]) => [t, rows.map(([label, approved, last, now, memo]) => ({ label, approved, last, now, memo: !!memo }))]));
+    }
     function drawDetail() {
-      const rows = B.detail?.[tab] || [];
+      const L = SEL, Ly = Number(SEL.d.slice(0, 4)), D = detailFor(SEL);
+      if (!D) { $("detailNote").textContent = `Loading the line-by-line figures for ${dayLabel(L.d)}.`; $("detail").innerHTML = ""; return; }
+      const rows = D[tab] || [];
       const v = x => x == null ? "–" : sgn(x) + short(Math.abs(MV.convNow(M(x), L.d)));
       const used = (n, a) => { if (!a || n == null) return "–"; const p = pct(n, a); return `${fmt(p, 0)}%<span class="used"><i class="${p > 100 ? "over" : ""}" style="width:${Math.min(100, p)}%"></i></span>`; };
       const ch = (n, l) => { if (n == null || !l) return ""; const p = (n / l - 1) * 100; return (p >= 0 ? "+" : "−") + fmt(Math.abs(p), 0) + "%"; };
@@ -428,7 +444,7 @@
     const latestR = R[R.length - 1];
     const pickOpts = R.slice().reverse().map((r, i) => ({ v: r.d, group: r.d.slice(0, 4), label: `${dayLabel(r.d)}${r.w ? `, week ${r.w}` : ""}${i === 0 ? ", latest" : ""}` }));
     const wantP = MV.wantedPeriod(); if (wantP && R.some(r => r.d === wantP)) SEL = R.find(r => r.d === wantP);
-    MV.asOf($("asof"), pickOpts, SEL.d, d => { SEL = R.find(r => r.d === d) || latestR; drawLatest(); drawProg(); });
+    MV.asOf($("asof"), pickOpts, SEL.d, d => { SEL = R.find(r => r.d === d) || latestR; drawLatest(); drawProg(); drawDetail(); });
     MV.fresh($("fresh"), { asOf: latestR.d, what: "Ministry of Finance weekly figures", cadence: "weekly" });
     {
       const v = k => val(latestR, k), mon = x => sym() + " " + short(MV.convNow(M(x), latestR.d)), yr = String(Ly);

@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261007c">
+<link rel="stylesheet" href="assets/site.css?v=20261007e">
 <title>Priorities · Maldives National Debt Clock</title>
 <meta name="description" content="What the government pays in interest, set against what it spends on the police, justice, and protecting families, children and human rights.">
 <style>
@@ -94,7 +94,7 @@
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock">Debt clock</a>
     <a href="priorities.html" data-page="priorities" aria-current="page">Priorities</a>
-    <a href="updates.html" data-page="updates">What's new</a>
+    <a href="updates.html" data-page="updates" class="nav-hot"><span class="dot" aria-hidden="true"></span>Updates</a>
     <a href="budget.html" data-page="budget">Budget</a>
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
@@ -116,10 +116,13 @@
     <div id="since"></div>
     <h1 id="headline">What interest costs, next to what keeps people safe</h1>
     <p class="lede" id="lede">Interest pays lenders for borrowing that has already been done. It doesn't build a school, run a hospital or pay a police officer. This page sets it beside what the government spends on policing, justice and protecting people's rights.</p>
-    <div id="asof"></div>
     <div id="fresh"></div>
+  </section>
 
-    <div class="vs" id="vs"></div>
+  <div class="period-zone">
+    <div id="asof"></div>
+  <section>
+    <div class="vs" id="vs" style="margin-top:0"></div>
     <p class="verdict" id="verdict"></p>
   </section>
 
@@ -134,6 +137,7 @@
     <p id="ctxNote"></p>
     <div class="ctx" id="ctx"></div>
   </section>
+  </div>
 
   <section>
     <div class="chart-head">
@@ -186,7 +190,7 @@
   <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with the Ministry of Finance, the Maldives Police Service or MMA.</span></span>
 </div></footer>
 
-<script src="assets/site.js?v=20261007c"></script>
+<script src="assets/site.js?v=20261007e"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);

@@ -21,6 +21,7 @@ const PUBLIC = [
   /^\/(data|budget|revenue|priorities|population)\.json$/,       // data the pages read
   /^\/assets\/[\w.-]+$/,
   /^\/downloads\/[\w.-]+$/,
+  /^\/budget-detail\/\d{4}\.json$/,                               // line-by-line figures for earlier weeks
   /^\/robots\.txt$/,
   /^\/__unlock$/,
 ];

@@ -9,8 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261007c">
-<title>What's new · Maldives National Debt Clock</title>
+<link rel="stylesheet" href="assets/site.css?v=20261007e">
+<title>Updates · Maldives National Debt Clock</title>
 <meta name="description" content="Every new official figure on Maldives public finances, summed up in plain words as it comes out.">
 <style>
   .lede { font-size: clamp(1.05rem, 2.2vw, 1.25rem); max-width: 44rem; }
@@ -32,7 +32,7 @@
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock">Debt clock</a>
     <a href="priorities.html" data-page="priorities">Priorities</a>
-    <a href="updates.html" data-page="updates" aria-current="page">What's new</a>
+    <a href="updates.html" data-page="updates" class="nav-hot" aria-current="page"><span class="dot" aria-hidden="true"></span>Updates</a>
     <a href="budget.html" data-page="budget">Budget</a>
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
@@ -51,8 +51,8 @@
 <div class="wrap">
   <section>
     <div id="since"></div>
-    <h1>What's new</h1>
-    <p class="lede">Every time new official figures come out, a short summary appears here in plain words. Budget figures come every week, taxes and fuel every month, and official debt every three months. Come back to see what has changed, or go back in time to any earlier update.</p>
+    <h1>Updates</h1>
+    <p class="lede">New official figures come out every week. Each time they do, the change is summed up here in plain words, with a small chart of how it got there. Check back to see what moved, or go back to any week or month since 2004.</p>
     <div class="filters" id="filters" role="group" aria-label="Show updates about"></div>
     <div class="jump"><label>Go to <select id="jump" aria-label="Go to a month"></select></label></div>
     <div id="feed"></div>
@@ -65,8 +65,8 @@
   <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with the Ministry of Finance, MIRA, the Maldives Police Service or MMA.</span></span>
 </div></footer>
 
-<script src="assets/site.js?v=20261007c"></script>
-<script src="assets/updates.js?v=20261007c"></script>
+<script src="assets/site.js?v=20261007e"></script>
+<script src="assets/updates.js?v=20261007e"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -87,7 +87,7 @@
       const list = all.filter(e => type === "all" || e.type === type).filter(e => !start || monthKey(e.d) <= start);
       const ms = [...new Set(list.map(e => monthKey(e.d)))], show = ms.slice(0, months);
       $("feed").innerHTML = show.map(k => { const items = list.filter(e => monthKey(e.d) === k);
-        return `<h2 class="month">${monthName(k)} <small>${items.length} update${items.length === 1 ? "" : "s"}</small></h2><div class="upd-list">${items.map(MVUpdates.card).join("")}</div>`; }).join("") || "<p>No updates of this kind yet.</p>";
+        return `<h2 class="month">${monthName(k)} <small>${items.length} update${items.length === 1 ? "" : "s"}</small></h2><div class="upd-list">${items.map(e => MVUpdates.card(e, "updates")).join("")}</div>`; }).join("") || "<p>No updates of this kind yet.</p>";
       MV.paintIcons($("feed"));
       $("more").hidden = ms.length <= months;
     }

@@ -230,7 +230,7 @@ html:is([data-theme="light"],[data-theme="sand"],[data-theme="lagoon"]) .since {
 .ico svg { overflow: visible; }
 
 /* ---------- updates feed ---------- */
-.upd { display: grid; grid-template-columns: 2.9rem 1fr; gap: 1rem; padding: 1.15rem 1.2rem; border-radius: 12px; background: rgba(255,255,255,.045); border-left: 4px solid var(--c); }
+.upd { display: grid; grid-template-columns: 2.9rem 1fr minmax(9rem, 13rem); gap: 1rem 1.25rem; padding: 1.15rem 1.2rem; border-radius: 12px; background: rgba(255,255,255,.045); border-left: 4px solid var(--c); }
 .upd > .ico { color: var(--c); margin: 0; }
 .upd h3 { margin: .2rem 0 .35rem; color: var(--foam); font-family: var(--display); font-size: clamp(1.1rem, 2.3vw, 1.35rem); line-height: 1.25; }
 .upd p { margin: .2rem 0; color: var(--mist); font-size: .95rem; line-height: 1.5; max-width: 46rem; }
@@ -240,3 +240,28 @@ html:is([data-theme="light"],[data-theme="sand"],[data-theme="lagoon"]) .since {
 .upd-go:hover { text-decoration: underline; }
 .upd-list { display: grid; gap: .8rem; }
 html:is([data-theme="light"],[data-theme="sand"],[data-theme="lagoon"]) .upd { background: rgba(7,47,64,.05); }
+
+/* ---------- pickers that stay in view while the charts below them change ---------- */
+.period-zone > .period-pick { position: sticky; top: var(--headH, 60px); z-index: 25; margin: 0 -1.25rem 2rem; padding: .7rem 1.25rem; background: color-mix(in srgb, var(--abyss) 92%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid rgba(169,205,214,.18); }
+.period-zone > .period-pick label span { color: var(--sun); }
+.period-pick.sticky-only { position: sticky; top: var(--headH, 60px); z-index: 25; }
+
+/* ---------- way back to the page the reader came from ---------- */
+.back-to { position: fixed; left: max(1rem, env(safe-area-inset-left)); bottom: max(1rem, env(safe-area-inset-bottom)); z-index: 55; background: var(--sun); color: #072f40; font: 700 .9rem var(--body); padding: .5rem .9rem; border-radius: 999px; text-decoration: none; box-shadow: 0 6px 20px rgba(0,0,0,.3); }
+
+/* ---------- the Updates link stands out ---------- */
+.site-nav a.nav-hot { color: #072f40; background: var(--sun); border-radius: 999px; padding-left: .8rem; padding-right: .8rem; display: inline-flex; align-items: center; gap: .4rem; box-shadow: none; }
+.site-nav a.nav-hot:hover { background: #ffd97a; color: #072f40; }
+.site-nav a.nav-hot[aria-current="page"] { box-shadow: 0 0 0 2px var(--foam); }
+.nav-hot .dot { width: .45rem; height: .45rem; border-radius: 50%; background: #c2361f; animation: pulse 2s infinite; }
+.nav-hot .badge { font-size: .65rem; font-weight: 800; background: #c2361f; color: #fff; border-radius: 999px; padding: .1rem .4rem; text-transform: uppercase; letter-spacing: .04em; }
+
+.upd-viz { align-self: center; text-align: right; color: var(--c); }
+.upd-big { font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 72; font-size: clamp(1.5rem, 3vw, 2.1rem); line-height: 1; color: var(--c); white-space: nowrap; }
+.upd-bl { font-size: .8rem; color: var(--mist); margin: .25rem 0 .5rem; }
+.upd-viz .mini { max-width: none; margin-top: .3rem; }
+.upd-viz .spark svg { height: 2.6rem; }
+.upd .term { color: var(--foam); font-size: .88rem; }
+@media (max-width: 640px) { .upd { grid-template-columns: 2.6rem 1fr; } .upd-viz { grid-column: 2; text-align: left; } }
+
+@media (max-width: 520px) { .back-to { bottom: calc(max(.75rem, env(safe-area-inset-bottom)) + 4.2rem); } }

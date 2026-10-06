@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261007c">
+<link rel="stylesheet" href="assets/site.css?v=20261007e">
 <title>Maldives National Debt Clock</title>
 <meta name="description" content="A live estimate of Maldives' public and publicly guaranteed debt, built from Maldives Monetary Authority statistics.">
 <meta property="og:title" content="Maldives National Debt Clock">
@@ -74,7 +74,7 @@
   .sub { font-size: clamp(.95rem, 2vw, 1.1rem); margin: .35rem 0 0; max-width: 40rem; opacity: .85; }
 
   /* the short version */
-  .plain-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); gap: 1.1rem; margin-top: 1.75rem; }
+  .plain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 1.1rem; margin-top: 1.75rem; }
   .pcard { display: flex; flex-direction: column; gap: .35rem; padding: 1.35rem 1.35rem 1.15rem; border-radius: 14px; background: rgba(255,255,255,.05); border: 1px solid rgba(169,205,214,.12); color: var(--mist); }
   .pcard .ico, .pcard .big { color: var(--c); }
   .pcard .x { flex: 1; }
@@ -156,7 +156,7 @@
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock" aria-current="page">Debt clock</a>
     <a href="priorities.html" data-page="priorities">Priorities</a>
-    <a href="updates.html" data-page="updates">What's new</a>
+    <a href="updates.html" data-page="updates" class="nav-hot"><span class="dot" aria-hidden="true"></span>Updates</a>
     <a href="budget.html" data-page="budget">Budget</a>
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
@@ -207,7 +207,7 @@
 
   <section class="plain">
     <h2>The short version</h2>
-    <p>Five things to know, in plain words. Tap any of them to see the details behind it.</p>
+    <p>Four things to know, in plain words. Tap any of them to see the details behind it.</p>
     <div class="plain-grid" id="plain"></div>
   </section>
 
@@ -318,8 +318,8 @@
   <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with MMA.</span></span>
 </div></footer>
 
-<script src="assets/site.js?v=20261007c"></script>
-<script src="assets/updates.js?v=20261007c"></script>
+<script src="assets/site.js?v=20261007e"></script>
+<script src="assets/updates.js?v=20261007e"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -361,8 +361,9 @@
   function latestUpdates(d) {
     if (!window.MVUpdates) return;
     Promise.all([MV.getJSON("budget.json").catch(() => null), MV.getJSON("revenue.json").catch(() => null), MV.getJSON("priorities.json").catch(() => null)]).then(([budget, revenue, priorities]) => {
+      if (priorities) { window.MV_PRI = priorities; dispatchEvent(new Event("mv:pri")); }
       const draw = () => { const list = MVUpdates.latestOfEach(MVUpdates.build({ data: d, budget, revenue, priorities })).slice(0, 4);
-        $("latestUpd").innerHTML = list.map(MVUpdates.card).join(""); MV.paintIcons($("latestUpd")); $("latestSec").hidden = !list.length; };
+        $("latestUpd").innerHTML = list.map(e => MVUpdates.card(e, "home")).join(""); MV.paintIcons($("latestUpd")); $("latestSec").hidden = !list.length; };
       draw(); MV.onPrefs(draw);
     }).catch(e => console.error("Latest updates skipped:", e));
   }
@@ -507,7 +508,9 @@
       $("perSecondLbl").textContent = rate >= 0 ? "added to the debt each second, on the pace of the last year" : "paid down each second, on the pace of the last year";
 
       const int12 = fiscalOK ? last12("interest_costs") : null;
-      if (int12) { $("interest").textContent = disp(int12 / 365.25); $("interestLbl").textContent = `spent on interest and financing costs every day, over the 12 months to ${mLabel(fEnd)}`; }
+      const PL = window.MV_PRI?.latest;
+      if (PL?.interest?.[2] && PL.days) { $("interest").textContent = sym() + " " + short(MV.convNow(PL.interest[2] * 1e6 / PL.days, PL.d)); $("interestLbl").textContent = `spent on interest and financing costs every day in ${PL.d.slice(0, 4)} so far`; $("interestStat").hidden = false; }
+      else if (int12) { $("interest").textContent = disp(int12 / 365.25); $("interestLbl").textContent = `spent on interest and financing costs every day, over the 12 months to ${mLabel(fEnd)}`; }
       else $("interestStat").hidden = true;
 
       // growth story
@@ -542,7 +545,7 @@
         $("gapLbl").textContent = gap >= 0 ? "more spent than collected per citizen, covered by borrowing" : "more collected than spent per citizen";
         $("revSec").textContent = dispFull(rev12 / SEC_YEAR, MV.state.cur === "USD" ? 2 : 0);
         $("expSec").textContent = dispFull(exp12 / SEC_YEAR, MV.state.cur === "USD" ? 2 : 0);
-        $("interestShare").innerHTML = int12 ? `For every <b>${sym()} 100</b> the government collects, <b class="red">${sym()} ${fmt(100 * int12 / rev12, 0)}</b> goes on interest and financing costs.` : "";
+        $("interestShare").hidden = true; if (false) $("interestShare").innerHTML = int12 ? `For every <b>${sym()} 100</b> the government collects, <b class="red">${sym()} ${fmt(100 * int12 / rev12, 0)}</b> goes on interest and financing costs.` : "";
         const items = [["Salaries, wages and pensions", last12("salaries_pensions"), "#3fb8b0"], ["Grants, contributions and subsidies", last12("subsidies"), "#9fe0d6"],
           ["Interest and financing costs", int12, "#ff8a6b"], ["Capital spending (building and equipment)", last12("capital_exp"), "#f4c95d"]].filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
         $("hbars").innerHTML = items.map(([l, v, c]) => `<div class="hbar"><div class="top"><span>${l}</span><span class="num">${disp(v)}, ${fmt(100 * v / exp12, 0)}%</span></div><div class="track"><div class="fill" style="width:${100 * v / exp12}%;background:${c}"></div></div></div>`).join("");
@@ -556,16 +559,15 @@
       try {
         const popN = popNow(), dvv = last(S.domestic)?.value, evv = last(S.external)?.value, dsh = dvv && evv ? 100 * dvv / (dvv + evv) : null;
         const cards = [];
-        if (popN) cards.push(["people", "var(--sun)", disp(debtNow() / popN), "Every Maldivian's share", "If the whole debt were shared out equally, every citizen, children included, would owe about this much.", "ch-how", "How this is worked out"]);
-        if (rate > 0) cards.push(["trend", "var(--foam)", disp(rate * 86400) + " a day", "The debt keeps growing", `On the pace of the last year it grows by about this much every day. That is ${disp(rate * 3600)} every hour.`, "ch-history", "See how it grew"]);
-        if (rev12 && exp12 && exp12 > rev12) cards.push(["gap", "var(--red)", disp(exp12 - rev12), "Borrowed in a year to fill the gap", `Over the last 12 months the government spent ${disp(exp12)} but collected ${disp(rev12)}. The difference, called the <span class="term" role="button" tabindex="0" data-term="deficit">deficit</span>, was borrowed.`, "ch-fiscal", "Why it borrows"]);
-        if (int12 && rev12) cards.push(["interest", "var(--coral)", `${fmt(100 * int12 / rev12, 0)} in every 100`, "Rufiyaa collected that go on interest", `Of every 100 rufiyaa the government collects, this much goes to lenders as <span class="term" role="button" tabindex="0" data-term="interest">interest</span>. That money pays for no school, hospital or salary.`, "priorities.html", "Compare it with policing and rights"]);
+        if (mult > 1) cards.push(["trend", "var(--foam)", `${fmt(mult, 1)} times bigger`, `than in ${first.date.slice(0, 4)}`, `The debt was ${money(first.value, first.date)} at the end of ${mLabel(first.date)}. It has grown almost every year since.`, "ch-history", "See how it grew"]);
+        if (rev12 && exp12 && exp12 > rev12) cards.push(["gap", "var(--red)", disp(exp12 - rev12), "Borrowed in a year to fill the gap", `Over the last 12 months the government spent more than it collected. The difference, called the <span class="term" role="button" tabindex="0" data-term="deficit">deficit</span>, was borrowed.`, "ch-fiscal", "Why it borrows"]);
+        if (int12 && rev12) cards.push(["interest", "var(--coral)", `${fmt(100 * int12 / rev12, 0)} in every 100`, "Rufiyaa collected that go on interest", `Over the last 12 months, this much of every 100 rufiyaa the government collected went to lenders as <span class="term" role="button" tabindex="0" data-term="interest">interest</span>. That money pays for no school, hospital or salary.`, "priorities.html?from=home", "Compare it with policing and rights"]);
         if (dsh) cards.push(["globe", "var(--lagoon)", `${fmt(dsh, 0)}% at home`, "Who it's owed to", `Most is owed to banks and funds inside Maldives. The other ${fmt(100 - dsh, 0)}% is owed abroad and has to be paid back in foreign currency.`, "ch-owed", "See who the lenders are"]);
         $("plain").innerHTML = cards.map(([ic, col, big, t, x, to, go]) => `<div class="pcard" style="--c:${col}">${MV.icon(ic)}<span class="big">${big}</span><span class="t">${t}</span><span class="x">${x}</span><a class="go" href="${to.endsWith(".html") ? to : "#" + to}"${to.endsWith(".html") ? "" : ` data-open="${to}"`}>${go} →</a></div>`).join("");
-        if (dsh) $("aOwed").innerHTML = `About <b>${fmt(dsh, 0)}%</b> is owed to lenders inside Maldives and <b>${fmt(100 - dsh, 0)}%</b> abroad.`;
-        $("aHist").innerHTML = `It has grown <b>${fmt(mult, 1)} times</b> since ${first.date.slice(0, 4)}, from ${money(first.value, first.date)} to ${money(latest.value, latest.date)}.`;
-        if (rev12 && exp12) $("aFisc").innerHTML = exp12 > rev12 ? `Because it spends more than it collects. In the last 12 months it spent <b>${disp(exp12)}</b> and collected <b>${disp(rev12)}</b>.` : `In the last 12 months it collected more than it spent.`;
-        $("aHow").innerHTML = `It starts from the latest official figure, for ${mLabel(latest.date)}, and adds debt at the pace of the last year. So the number is a careful <b>estimate</b> until the next official figure comes out.`;
+        $("aOwed").textContent = "Banks, MMA and the pension fund at home, and governments, development banks and investors abroad.";
+        $("aHist").textContent = "Quarter by quarter since 2015, in rufiyaa or against the size of the economy.";
+        $("aFisc").textContent = "What comes in, what goes out, and why the debt grows faster than the yearly gap.";
+        $("aHow").textContent = "Where the number comes from, and why it is an estimate between official releases.";
       } catch (e) { console.error("Short version skipped:", e); }
 
       $("methodDetail").innerHTML = `Right now that pace is <b>${moneyNow(rate * SEC_YEAR)} a year</b>, from the change between ${mLabel(back.date)} and ${mLabel(latest.date)}. Dollar figures use MMA reference rate (MVR ${fmt(MV.USD, 2)} per US dollar today).`;
@@ -634,7 +636,7 @@
       });
     }
     document.querySelectorAll("[data-view]").forEach(b => b.addEventListener("click", () => { view = b.dataset.view; document.querySelectorAll("[data-view]").forEach(x => x.setAttribute("aria-pressed", x === b)); drawChart(); }));
-    MV.onPrefs(render);
+    MV.onPrefs(render); addEventListener("mv:pri", render);
     MV.onResize(() => { layout(); drawChart(); if (!$("fiscalSec").hidden) drawAnnual(); });
     render(); requestAnimationFrame(layout); document.fonts?.ready.then(layout);
   }
