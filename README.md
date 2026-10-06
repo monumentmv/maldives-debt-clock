@@ -21,7 +21,6 @@ A live estimate of Maldives public and publicly guaranteed debt, built from the
 - `wfd_extract.py`: reads the tables in a Weekly Fiscal Developments PDF. Also works on its own to download and extract every report to your computer
 - `data/wfd/`: the weekly dataset, one row per report (`wfd_headline.csv`), every table row (`wfd_long.csv`), and which reports were read (`processed.csv`)
 - `build_master.py`: combines MMA, MIRA, Ministry of Finance and police data into one clean dataset in `data/master/`, and builds the Excel and CSV downloads into `downloads/` whenever the data changes
-- `data/police/yearbook_by_type.csv` and `yearbook_by_month.csv`: earlier police figures from the Statistical Yearbook of Maldives (types 2019 to 2024, monthly totals 2016 to 2024), typed in once and checked against the published totals
 - `fetch_police.py`: reads the Maldives Police Service crime statistics page every morning (with a headless browser) into `data/police/crime_monthly.csv`. If the page can't be read, the existing figures stay
 - `build_priorities.py`: builds `priorities.json` for the priorities page from every weekly budget report since 2019 and the police figures
 - `budget-detail/`: every line of every weekly report, one file per year, so the budget page can show any earlier week line by line. Written by `fetch_wfd.py`

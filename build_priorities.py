@@ -99,27 +99,6 @@ def main():
                      "monthly": {str(y): {str(m): c for m, c in sorted(v.items())} for y, v in sorted(months.items())},
                      "yearly": {str(y): v for y, v in sorted(years.items())}}
 
-    # longer history from the Statistical Yearbook, kept in the repo, so it never has to be fetched again
-    BOOK_T, BOOK_M = HERE / "data" / "police" / "yearbook_by_type.csv", HERE / "data" / "police" / "yearbook_by_month.csv"
-    if BOOK_T.exists():
-        yearly, others, monthly = {}, {}, {}
-        for r in csv.DictReader(open(BOOK_T, encoding="utf-8")):
-            if r["category"] == "Others":
-                others[r["year"]] = int(r["cases"])
-            else:
-                yearly.setdefault(r["year"], {})[r["category"]] = int(r["cases"])
-        if BOOK_M.exists():
-            for r in csv.DictReader(open(BOOK_M, encoding="utf-8")):
-                monthly.setdefault(r["year"], {})[r["month"]] = int(r["cases"])
-        crime = crime or {"retrieved": None, "monthly": {}, "yearly": {}}
-        # the police website comes first: the yearbook only fills years the website hasn't given yet
-        site_years = set(crime["yearly"]) | set(crime["monthly"])
-        yearly = {y: v for y, v in yearly.items() if y not in site_years}
-        others = {y: v for y, v in others.items() if y not in site_years}
-        monthly = {y: v for y, v in monthly.items() if y not in site_years}
-        if yearly or monthly:
-            crime["book"] = {"yearly": yearly, "others": others, "monthly": monthly}
-
     data = {
         "built_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "latest": {"d": reports[-1]["d"], "days": reports[-1]["days"], "interest": reports[-1]["i"]},
