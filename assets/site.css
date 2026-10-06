@@ -10,6 +10,7 @@
   --head-h: 3.6rem;
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html, body { margin: 0; }
 html { scroll-padding-top: calc(var(--head-h) + 1rem); }
 body { font-family: var(--body); color: var(--ink); background: var(--abyss); line-height: 1.5; -webkit-font-smoothing: antialiased; }
@@ -185,3 +186,31 @@ html[data-theme="contrast"] {
 html[data-theme="contrast"] .site-head { background: rgba(0, 0, 0, .96); border-bottom-color: rgba(255,255,255,.35); }
 html[data-theme="contrast"] .chart-box text { fill: #e6f3f5; }
 html[data-theme="contrast"] :is(.hero, .masthead) { --abyss: #072f40; }
+
+/* ---------- icons on headline figures ---------- */
+.ico { display: inline-grid; place-items: center; width: 2.9rem; height: 2.9rem; border-radius: 50%; background: rgba(255,255,255,.07); color: var(--mist); margin-bottom: .85rem; }
+.ico svg { width: 1.55rem; height: 1.55rem; }
+.stat.hot > .ico { color: var(--sun); } .stat.red > .ico { color: var(--red); } .stat.warn > .ico { color: var(--coral); } .stat.teal > .ico { color: var(--lagoon); }
+html:is([data-theme="light"],[data-theme="sand"],[data-theme="lagoon"]) .ico { background: rgba(7,47,64,.07); }
+
+/* ---------- freshness, last visit, period picker ---------- */
+.fresh { display: flex; align-items: flex-start; gap: .6rem; flex-wrap: wrap; margin: 1.25rem 0 0; padding: .7rem .95rem; border-radius: 8px; background: rgba(255,255,255,.05); color: var(--mist); font-size: .9rem; line-height: 1.45; max-width: 52rem; }
+.fresh b { color: var(--foam); }
+.fresh .dot { width: .55rem; height: .55rem; border-radius: 50%; background: var(--mist); margin-top: .45rem; flex: none; }
+.fresh.is-new .dot { background: var(--lagoon); box-shadow: 0 0 0 0 rgba(63,184,176,.6); animation: pulse 2s infinite; }
+.fresh .badge { font-size: .72rem; font-weight: 700; color: var(--abyss); background: var(--lagoon); border-radius: 999px; padding: .15rem .5rem; margin-top: .1rem; }
+.fresh span:last-child { flex: 1; min-width: 14rem; }
+.since { position: relative; margin: 0 0 2.5rem; padding: 1rem 3rem 1rem 1.2rem; border-radius: 10px; background: rgba(244,201,93,.12); border: 1px solid rgba(244,201,93,.35); color: var(--foam); max-width: 52rem; }
+.since b { display: block; margin-bottom: .35rem; }
+.since ul { margin: 0; padding-left: 1.1rem; color: var(--mist); }
+.since li { margin: .15rem 0; }
+.since li b { display: inline; margin: 0; color: var(--foam); }
+.since button { position: absolute; top: .5rem; right: .5rem; border: 0; background: transparent; color: var(--mist); font-size: 1.2rem; width: 2rem; height: 2rem; border-radius: 50%; cursor: pointer; }
+.period-pick { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin-top: 1.25rem; }
+.period-pick label { display: inline-flex; align-items: center; gap: .55rem; font-weight: 700; color: var(--foam); }
+.period-pick select { font: 700 .9rem var(--body); background: rgba(255,255,255,.08); color: var(--foam); border: 1px solid rgba(169,205,214,.3); border-radius: 6px; padding: .35rem .45rem; min-height: 2.2rem; max-width: 100%; }
+.period-pick select option { color: #072f40; background: #fff; }
+.period-pick .pill { font: 700 .85rem var(--body); border: 1px solid rgba(169,205,214,.35); background: transparent; color: var(--foam); padding: .35rem .75rem; border-radius: 999px; cursor: pointer; min-height: 2.1rem; }
+.period-pick .hint-old { color: var(--sun); font-size: .9rem; font-weight: 700; }
+html:is([data-theme="light"],[data-theme="sand"],[data-theme="lagoon"]) :is(.fresh, .period-pick select) { background-color: rgba(7,47,64,.06); }
+html:is([data-theme="light"],[data-theme="sand"],[data-theme="lagoon"]) .since { background: rgba(166,108,0,.08); border-color: rgba(166,108,0,.3); }

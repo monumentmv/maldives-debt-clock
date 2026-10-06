@@ -9,7 +9,7 @@ A live estimate of Maldives public and publicly guaranteed debt, built from the
 - `fuel.html`: monthly fuel imports, with crisis periods
 - `budget.html`: weekly budget figures from the Ministry of Finance, with every year since 2019 to compare
 - `revenue.html`: taxes, fees and rents collected by MIRA since 2010, and the part paid in US dollars
-- `protection.html`: interest costs set against spending by the police and the offices that protect families, children and human rights, with cases reported to the police
+- `priorities.html`: interest costs set against spending on policing, justice and the offices that protect families, children and human rights, and other big services, with cases reported to the police
 - `methodology.html`: how every figure is calculated
 - `about.html`: about and contact form, which sends messages to a Google Form (see below)
 - `assets/site.css`, `assets/site.js`: shared styles, header toggles and charts
@@ -21,7 +21,7 @@ A live estimate of Maldives public and publicly guaranteed debt, built from the
 - `data/wfd/`: the weekly dataset, one row per report (`wfd_headline.csv`), every table row (`wfd_long.csv`), and which reports were read (`processed.csv`)
 - `build_master.py`: combines MMA, MIRA, Ministry of Finance and police data into one clean dataset in `data/master/`, and builds the Excel and CSV downloads into `downloads/` whenever the data changes
 - `fetch_police.py`: reads the Maldives Police Service crime statistics page every morning (with a headless browser) into `data/police/crime_monthly.csv`. If the page can't be read, the existing figures stay
-- `build_protection.py`: builds `protection.json` for the protection page from the weekly budget tables and the police figures
+- `build_priorities.py`: builds `priorities.json` for the priorities page from every weekly budget report since 2019 and the police figures
 - `downloads/`: the Excel and CSV downloads linked from the data page
 - `fetch_mira.py`: checks MIRA's website every morning and downloads new versions of its revenue files into `inputs/mira/`
 - `build_revenue.py`: reads the MIRA spreadsheets in `inputs/mira/` and writes `revenue.json`
@@ -40,7 +40,7 @@ python fetch_data.py
 python build_revenue.py
 python fetch_wfd.py
 python fetch_police.py
-python build_protection.py
+python build_priorities.py
 python build_master.py
 python -m http.server
 ```

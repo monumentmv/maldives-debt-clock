@@ -69,6 +69,7 @@
   .fbar .cap b { color: var(--foam); }
   .fbar .segs { display: flex; height: 3rem; border-radius: 6px; overflow: hidden; gap: 2px; }
   .fbar .seg { position: relative; display: flex; align-items: center; justify-content: center; min-width: 2px; color: var(--abyss); font-weight: 700; font-size: .85rem; white-space: nowrap; overflow: hidden; }
+  html[data-theme] .fbar .seg:not(.gap):not(.spare) { color: #072f40; }
   .fbar .seg.gap { background: repeating-linear-gradient(135deg, rgba(255,95,86,.85) 0 6px, rgba(255,95,86,.35) 6px 12px); color: var(--foam); }
   .fbar .seg.spare { background: repeating-linear-gradient(135deg, rgba(63,184,176,.85) 0 6px, rgba(63,184,176,.35) 6px 12px); color: var(--foam); }
   .fkey { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: .6rem 1.5rem; margin-top: .8rem; font-size: .875rem; color: var(--mist); }
@@ -94,7 +95,7 @@
     <a href="budget.html" data-page="budget" aria-current="page">Budget</a>
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
-    <a href="protection.html" data-page="protection">Protection</a>
+    <a href="priorities.html" data-page="priorities">Priorities</a>
     <a href="methodology.html" data-page="method">Methodology</a>
     <a href="about.html" data-page="about">About</a>
   </nav>
@@ -109,18 +110,21 @@
 <div class="wrap">
 
   <section>
+    <div id="since"></div>
     <h1>What the government has collected and spent this year</h1>
-    <p class="lede">Every week the Ministry of Finance publishes running totals for the year so far. They show how much has come in, how much has gone out, and how big the gap is that has to be borrowed. These are the most up-to-date official figures on the budget, usually about a week behind.</p>
+    <p class="lede" id="lede0">Every week the Ministry of Finance publishes running totals for the year so far. They show how much has come in, how much has gone out, and how big the gap is that has to be borrowed. These are the most up-to-date official figures on the budget, usually about a week behind.</p>
+    <div id="fresh"></div>
   </section>
 
   <section>
     <h2>Latest figures</h2>
     <p id="latestNote"></p>
+    <div id="asof"></div>
     <div class="stats" style="margin-top:2rem">
-      <div class="stat hot"><div class="n num" id="sRev">…</div><div class="l" id="sRevL">collected so far this year</div><div class="d" id="sRevD"></div></div>
-      <div class="stat"><div class="n num" id="sExp">…</div><div class="l" id="sExpL">spent so far this year</div><div class="d" id="sExpD"></div></div>
-      <div class="stat red"><div class="n num" id="sBal">…</div><div class="l" id="sBalL">gap between the two</div><div class="d" id="sBalD"></div></div>
-      <div class="stat warn"><div class="n num" id="sInt">…</div><div class="l" id="sIntL">paid in interest so far this year</div><div class="d" id="sIntD"></div></div>
+      <div class="stat hot" data-icon="moneyIn"><div class="n num" id="sRev">…</div><div class="l" id="sRevL">collected so far this year</div><div class="d" id="sRevD"></div></div>
+      <div class="stat" data-icon="moneyOut"><div class="n num" id="sExp">…</div><div class="l" id="sExpL">spent so far this year</div><div class="d" id="sExpD"></div></div>
+      <div class="stat red" data-icon="gap"><div class="n num" id="sBal">…</div><div class="l" id="sBalL">gap between the two</div><div class="d" id="sBalD"></div></div>
+      <div class="stat warn" data-icon="interest"><div class="n num" id="sInt">…</div><div class="l" id="sIntL">paid in interest so far this year</div><div class="d" id="sIntD"></div></div>
     </div>
     <p class="mini-key" id="miniKey" hidden><b></b>Bars show how much of the full-year budget has been used or collected. The thin line marks how much of the year has passed.</p>
     <div class="flow" id="flow" role="figure" aria-label="Where the money came from and where it went"></div>
@@ -214,6 +218,7 @@
     const R = (B.reports || []).filter(r => r.v?.revenue_and_grants?.[0] != null);
     if (!R.length) { $("latestNote").textContent = "The weekly figures haven't been fetched yet. They appear after the next automatic update."; return; }
     const L = R[R.length - 1], Ly = Number(L.d.slice(0, 4));
+    let SEL = L;   // the report shown in "Latest figures", which visitors can change
     const val = (r, k, i = 0) => r?.v?.[k]?.[i] ?? null;
     const M = v => v == null ? null : v * 1e6;
     const now = (v, d) => v == null ? "n/a" : sym() + " " + short(MV.convNow(M(v), d));           // figures of the time
@@ -226,8 +231,9 @@
 
     // ---------- latest ----------
     function drawLatest() {
-      const age = (Date.now() - new Date(L.d + "T00:00:00Z")) / 86400000;
-      $("latestNote").innerHTML = `Totals from 1 January to <b>${dayLabel(L.d)}</b>${L.w ? `, week ${L.w}` : ""}, the latest report published. Changes are against the same date a year earlier, as given in the report.` + (age > 21 ? ` <b style="color:var(--coral)">No new report for ${Math.floor(age)} days.</b>` : "");
+      const L = SEL, Ly = Number(SEL.d.slice(0, 4)), isLatest = SEL === R[R.length - 1];
+      const age = isLatest ? (Date.now() - new Date(L.d + "T00:00:00Z")) / 86400000 : 0;
+      $("latestNote").innerHTML = `Totals from 1 January to <b>${dayLabel(L.d)}</b>${L.w ? `, week ${L.w}` : ""}, ${isLatest ? "the latest report published" : "an earlier report"}. Changes are against the same date a year earlier, as given in the report.` + (age > 21 ? ` <b style="color:var(--coral)">No new report for ${Math.floor(age)} days.</b>` : "");
       const line = (k, better) => { const a = val(L, k, 2), b = val(L, k); if (a == null || b == null || !a) return ""; const c = (b / a - 1) * 100;
         const good = better === "up" ? c >= 0 : c <= 0; return `<span class="${good ? "up" : "down"}">${c >= 0 ? "+" : "−"}${fmt(Math.abs(c), 1)}% on a year earlier</span>`; };
       const ofB = (k, w) => { const a = val(L, k, 1), b = val(L, k); return a ? `<br><span class="neutral">${fmt(pct(b, a), 0)}% of the ${w}</span>` : ""; };
@@ -258,12 +264,13 @@
 
     // ---------- where the money came from and where it went ----------
     function drawFlow() {
+      const L = SEL, isLatest = SEL === R[R.length - 1];
       const det = k => (B.detail?.expenditure || []).find(x => new RegExp(k, "i").test(x.label))?.now ?? null;
       const rev = val(L, "revenue_and_grants"), exp = val(L, "total_expenditure");
       if (rev == null || exp == null) { $("flow").innerHTML = ""; return; }
       const tax = val(L, "tax_revenue") ?? 0, grants = val(L, "grants") ?? 0, nontax = Math.max(0, rev - tax - grants);
       const sal = val(L, "salaries_wages_pensions") ?? 0, intr = val(L, "interest_costs") ?? 0, cap = val(L, "capital_expenditure") ?? 0;
-      const subs = det("^grants, contributions and subsidies") ?? 0;
+      const subs = (isLatest ? det("^grants, contributions and subsidies") : null) ?? val(L, "grants_subsidies") ?? 0;
       const other = Math.max(0, exp - sal - intr - cap - subs);
       const gap = exp - rev, top = Math.max(rev, exp);
       const IN = [["Taxes", tax, "#f4c95d"], ["Fees, rents and dividends", nontax, "#f7e2a6"], ["Grants from abroad", grants, "#9fe0d6"]];
@@ -276,13 +283,14 @@
         `</div><div class="fkey">` + segs.filter(s => s[1] > 0).map(([n, v, c]) => `<div><i style="background:${c === "gap" ? "#ff5f56" : c === "spare" ? "#3fb8b0" : c}"></i><span><b>${amt(v)}</b>${n}</span></div>`).join("") + `</div></div>`;
       const unit = sym() + " 100";
       $("flow").innerHTML = `<h3>Where the money came from and where it went</h3>` +
-        `<p class="lead">Of every ${unit} spent this year, <b>${sym()} ${per(intr)}</b> went on interest` + (gap > 0 ? ` and <b class="red">${sym()} ${per(gap)}</b> wasn't covered by revenue, so had to be borrowed.` : ".") + `</p>` +
+        `<p class="lead">Of every ${unit} spent ${isLatest ? "this year" : `from 1 January to ${dayLabel(L.d)}`}, <b>${sym()} ${per(intr)}</b> went on interest` + (gap > 0 ? ` and <b class="red">${sym()} ${per(gap)}</b> wasn't covered by revenue, so had to be borrowed.` : ".") + `</p>` +
         bar("Came in", rev, IN) + bar("Went out", exp, OUT) +
         `<p class="hint">Both bars are drawn to the same scale. Loan repayments aren't included, so total borrowing in the year is larger than the gap shown.</p>`;
     }
 
     // ---------- progress ----------
     function drawProg() {
+      const L = SEL, Ly = Number(SEL.d.slice(0, 4));
       const share = 100 * doy(L.d) / yearLen(Ly);
       $("progNote").textContent = `By ${dayLabel(L.d)}, ${fmt(share, 0)}% of the year had passed. Each bar shows how much of the full-year budget had been used or collected by then.`;
       const items = [["revenue_and_grants", "Revenue and grants", "against the projection"], ["tax_revenue", "Tax revenue", "against the projection"],
@@ -416,6 +424,20 @@
       $("detail").innerHTML = h;
     }
 
+    const latestR = R[R.length - 1];
+    const pickOpts = R.filter(r => Number(r.d.slice(0, 4)) >= Ly - 1).slice().reverse().map((r, i) => ({ v: r.d, label: dayLabel(r.d) + (i === 0 ? ", latest" : "") }))
+      .concat(years.filter(y => y < Ly - 1).slice().reverse().map(y => { const e = R.filter(r => r.d.startsWith(String(y))).pop(); return { v: e.d, label: `End of ${y}` }; }));
+    MV.asOf($("asof"), pickOpts, latestR.d, d => { SEL = R.find(r => r.d === d) || latestR; drawLatest(); drawProg(); });
+    MV.fresh($("fresh"), { asOf: latestR.d, what: "Ministry of Finance weekly figures", cadence: "weekly" });
+    {
+      const v = k => val(latestR, k), mon = x => sym() + " " + short(MV.convNow(M(x), latestR.d)), yr = String(Ly);
+      MV.since("budget", [
+        { id: "report", value: latestR.d, say: p => `New weekly figures, now to <b>${dayLabel(latestR.d)}</b>. The last ones you saw ran to ${dayLabel(p)}.` },
+        { id: "rev", value: v("revenue_and_grants"), tag: yr, say: (p, t) => t === yr && v("revenue_and_grants") > p ? `Revenue collected this year went up by <b>${mon(v("revenue_and_grants") - p)}</b>.` : null },
+        { id: "exp", value: v("total_expenditure"), tag: yr, say: (p, t) => t === yr && v("total_expenditure") > p ? `Spending went up by <b>${mon(v("total_expenditure") - p)}</b>.` : null },
+        { id: "int", value: v("interest_costs"), tag: yr, say: (p, t) => t === yr && v("interest_costs") > p ? `Interest paid went up by <b>${mon(v("interest_costs") - p)}</b>.` : null },
+      ], $("since"));
+    }
     function render() { drawLatest(); drawProg(); yearPills(); drawPath(); drawCmp(); drawYears(); drawDetail(); }
     document.addEventListener("change", e => {
       if (e.target.id === "measure") { measure = e.target.value; drawPath(); }

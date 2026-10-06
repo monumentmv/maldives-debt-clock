@@ -18,7 +18,7 @@
 const PUBLIC = [
   /^\/$/,
   /^\/[a-z0-9_-]+(\.html)?$/i,                                   // pages, with or without .html
-  /^\/(data|budget|revenue|protection|population)\.json$/,       // data the pages read
+  /^\/(data|budget|revenue|priorities|population)\.json$/,       // data the pages read
   /^\/assets\/[\w.-]+$/,
   /^\/downloads\/[\w.-]+$/,
   /^\/robots\.txt$/,

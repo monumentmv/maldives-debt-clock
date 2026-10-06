@@ -242,6 +242,79 @@ const MV = (() => {
       return `<div class="mini duo">${rows.map(([l, v, c, t]) => `<div><span>${l}<b>${t}</b></span><div class="t"><i style="width:${clamp01(v / max) * 100}%;background:${c}"></i></div></div>`).join("")}</div>`; },
   };
 
+  // ---------- icons for headline figures ----------
+  const ICONS = {
+    interest: '<path d="M19 5L5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/>',
+    coins: '<ellipse cx="12" cy="6.5" rx="7.5" ry="2.8"/><path d="M4.5 6.5v5c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8v-5M4.5 11.5v5c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8v-5"/>',
+    moneyIn: '<path d="M12 3v11M7.5 9.5L12 14l4.5-4.5"/><path d="M4 16v4h16v-4"/>',
+    moneyOut: '<path d="M12 14V3M7.5 7.5L12 3l4.5 4.5"/><path d="M4 16v4h16v-4"/>',
+    gap: '<path d="M3 8h18M3 16h18"/><path d="M9 8l-2 8M15 8l2 8"/>',
+    police: '<path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><path d="M12 8.2l1.2 2.4 2.6.4-1.9 1.8.5 2.6-2.4-1.3-2.4 1.3.5-2.6-1.9-1.8 2.6-.4z"/>',
+    prison: '<rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M8.5 4v16M12 4v16M15.5 4v16"/>',
+    gavel: '<path d="M14.5 3.5l6 6M11 7l6 6M12.8 5.2l-5.6 5.6 6 6 5.6-5.6"/><path d="M9.5 13.5L3.5 19.5"/><path d="M3 21h9"/>',
+    search: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/>',
+    family: '<path d="M3.5 11L12 4l8.5 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M12 17.5s-3.2-1.9-3.2-3.8a1.7 1.7 0 0 1 3.2-.8 1.7 1.7 0 0 1 3.2.8c0 1.9-3.2 3.8-3.2 3.8z"/>',
+    child: '<circle cx="12" cy="5.5" r="2.5"/><path d="M7.5 10.5l4.5 1.5 4.5-1.5M12 12v4M9.5 21l2.5-5 2.5 5"/>',
+    scales: '<path d="M12 4v16M8 20h8M5 7.5h14"/><path d="M5 7.5L2.5 13a2.6 2.6 0 0 0 5 0zM19 7.5L16.5 13a2.6 2.6 0 0 0 5 0z"/>',
+    pill: '<path d="M10.5 20.5a4.95 4.95 0 0 1-7-7l6-6a4.95 4.95 0 0 1 7 7z"/><path d="M8.5 8.5l7 7"/>',
+    school: '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.6 2.7 3 6 3s6-1.4 6-3v-5M22 9v6"/>',
+    hospital: '<rect x="4" y="4" width="16" height="16" rx="2.5"/><path d="M12 8v8M8 12h8"/>',
+    shield: '<path d="M12 3l8 3v5.5c0 4.6-3.4 8-8 9.5-4.6-1.5-8-4.9-8-9.5V6z"/>',
+    fuel: '<rect x="6" y="3" width="12" height="18" rx="2"/><path d="M6 8h12M6 16h12"/>',
+    ship: '<path d="M3 15l2.5 5h13L21 15z"/><path d="M6 15V10h12v5M9.5 10V6h5v4"/>',
+    person: '<circle cx="12" cy="7.5" r="3.5"/><path d="M5 21c0-4 3.1-7 7-7s7 3 7 7"/>',
+    clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/>',
+    calendar: '<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
+    cases: '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/>',
+    dollar: '<path d="M12 3v18M16.5 7.5c0-1.6-2-3-4.5-3s-4.5 1.4-4.5 3 2 2.4 4.5 3 4.5 1.4 4.5 3-2 3-4.5 3-4.5-1.4-4.5-3"/>',
+    chart: '<path d="M4 20V4M4 20h16M7.5 15l4-4 3 3 5-6"/>',
+    globe: '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.4 3.5 5.3 3.5 8.5s-1 6.1-3.5 8.5c-2.5-2.4-3.5-5.3-3.5-8.5s1-6.1 3.5-8.5z"/>',
+  };
+  const icon = (name, cls = "ico") => ICONS[name] ? `<span class="${cls}" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ICONS[name]}</svg></span>` : "";
+  function paintIcons(root = document) {
+    root.querySelectorAll(".stat[data-icon]").forEach(s => { if (!s.querySelector(":scope > .ico")) s.insertAdjacentHTML("afterbegin", icon(s.dataset.icon)); });
+  }
+
+  // ---------- how recent the figures are, so visitors know when to come back ----------
+  const daysAgo = d => Math.floor((Date.now() - new Date(String(d).length <= 10 ? d + "T12:00:00+05:00" : d)) / 86400000);
+  const ago = d => { const n = daysAgo(d); return n <= 0 ? "today" : n === 1 ? "yesterday" : n < 14 ? `${n} days ago` : n < 60 ? `${Math.round(n / 7)} weeks ago` : `${Math.round(n / 30.4)} months ago`; };
+  const CADENCE = { weekly: ["every week", 10], monthly: ["every month", 45], quarterly: ["every three months", 120], daily: ["every day", 3] };
+  /** el: where to write. asOf: date the figures run to. what: plain description. cadence: weekly, monthly, quarterly or daily */
+  function fresh(el, { asOf, what, cadence = "weekly", next = "" }) {
+    if (!el || !asOf) return;
+    const [every, newDays] = CADENCE[cadence] || CADENCE.weekly, isNew = daysAgo(asOf) <= newDays;
+    el.className = "fresh" + (isNew ? " is-new" : "");
+    el.innerHTML = `<span class="dot" aria-hidden="true"></span>${isNew ? `<span class="badge">Recent</span>` : ""}<span>${what} to <b>${dayLabel(asOf)}</b>, ${ago(asOf)}. New figures come out ${every}${next ? `, ${next}` : ""}, so check back for the latest.</span>`;
+  }
+
+  /** remembers a few headline figures and, on a later visit, says what has changed */
+  function since(key, items, el) {
+    let prev = null; const nowT = Date.now();
+    try { prev = JSON.parse(localStorage.getItem("seen:" + key) || "null"); } catch (e) {}
+    const store = () => { try { localStorage.setItem("seen:" + key, JSON.stringify({ t: nowT, v: Object.fromEntries(items.map(i => [i.id, i.value])), tag: Object.fromEntries(items.map(i => [i.id, i.tag || ""])) })); } catch (e) {} };
+    if (!prev) { store(); return; }
+    if (nowT - prev.t < 3 * 3600e3) return;
+    const changes = items.filter(i => prev.v[i.id] != null && i.value != null && (i.value !== prev.v[i.id] || (i.tag || "") !== (prev.tag?.[i.id] || ""))).map(i => i.say(prev.v[i.id], prev.tag?.[i.id])).filter(Boolean);
+    store();
+    if (!changes.length) return;
+    const box = el || (() => { const b = document.createElement("div"); document.querySelector("main .wrap")?.prepend(b); return b; })();
+    box.className = "since";
+    box.innerHTML = `<b>Since your last visit ${ago(new Date(prev.t).toISOString())}</b><ul>${changes.map(c => `<li>${c}</li>`).join("")}</ul><button type="button" aria-label="Close">×</button>`;
+    box.querySelector("button").onclick = () => box.remove();
+  }
+
+  /** a "showing" picker so visitors can look at an earlier period. options: [{v, label}] newest first */
+  function asOf(el, options, value, onChange) {
+    if (!el || !options.length) return;
+    const latest = options[0].v;
+    el.className = "period-pick";
+    el.innerHTML = `<label><span>Showing</span> <select aria-label="Period shown">${options.map(o => `<option value="${o.v}"${o.v === value ? " selected" : ""}>${o.label}</option>`).join("")}</select></label>` +
+      `<button type="button" class="pill back"${value === latest ? " hidden" : ""}>Back to the latest</button><span class="hint-old"${value === latest ? " hidden" : ""}>You are looking at an earlier period.</span>`;
+    const sel = el.querySelector("select");
+    sel.onchange = () => { onChange(sel.value); asOf(el, options, sel.value, onChange); };
+    el.querySelector(".back").onclick = () => { onChange(latest); asOf(el, options, latest, onChange); };
+  }
+
   // ---------- colour themes ----------
   const THEMES = [["", "Ocean"], ["light", "Daylight"], ["contrast", "High contrast"]];
   function setTheme(t) {
@@ -266,14 +339,14 @@ const MV = (() => {
   function ticker() {
     let off = false; try { off = sessionStorage.getItem("tickerOff") === "1"; } catch (e) {}
     if (off || document.querySelector(".ticker")) return;
-    getJSON("protection.json").then(P => {
+    getJSON("priorities.json").then(P => {
       const it = P?.latest?.interest?.[2], days = P?.latest?.days;
       if (!it || !days) return;
       const perSec = it * 1e6 / days / 86400;
       let start = Date.now(); try { start = Number(sessionStorage.getItem("arrived")) || start; sessionStorage.setItem("arrived", start); } catch (e) {}
       const el = document.createElement("div");
       el.className = "ticker";
-      el.innerHTML = `<span class="dot" aria-hidden="true"></span><a href="protection.html" title="What interest pays for"><span>Interest paid since you arrived</span><span class="v">…</span></a><button type="button" aria-label="Hide the interest counter">×</button>`;
+      el.innerHTML = `<span class="dot" aria-hidden="true"></span><a href="priorities.html" title="What interest is compared with"><span>Interest paid since you arrived</span><span class="v">…</span></a><button type="button" aria-label="Hide the interest counter">×</button>`;
       document.body.appendChild(el);
       const v = el.querySelector(".v");
       let last = 0;
@@ -282,10 +355,10 @@ const MV = (() => {
       el.querySelector("button").addEventListener("click", () => { el.remove(); try { sessionStorage.setItem("tickerOff", "1"); } catch (e) {} });
     }).catch(() => {});
   }
-  const boot = () => { themeButton(); ticker(); };
+  const boot = () => { themeButton(); ticker(); paintIcons(); };
   document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", boot) : boot();
 
-  return { SEC_YEAR, mini, setTheme, MONTHS, state, setData, rateAt, cpiAt, realFactor, conv, convNow, isReal, baseLabel, checkStale, fromUSD, fmt, sym, short, money, moneyNow, moneyFull,
+  return { SEC_YEAR, mini, setTheme, icon, paintIcons, fresh, since, asOf, ago, daysAgo, MONTHS, state, setData, rateAt, cpiAt, realFactor, conv, convNow, isReal, baseLabel, checkStale, fromUSD, fmt, sym, short, money, moneyNow, moneyFull,
     ts, mLabel, mShort, qLabel, dayLabel, last, getJSON, fetched, onPrefs, paintPrefs, lineChart, barChart, row, onResize,
     get USD() { return USD; }, get cpiLast() { return cpiLast; } };
 })();

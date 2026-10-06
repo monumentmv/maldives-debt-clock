@@ -72,7 +72,7 @@
     <a href="budget.html" data-page="budget">Budget</a>
     <a href="revenue.html" data-page="revenue" aria-current="page">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
-    <a href="protection.html" data-page="protection">Protection</a>
+    <a href="priorities.html" data-page="priorities">Priorities</a>
     <a href="methodology.html" data-page="method">Methodology</a>
     <a href="about.html" data-page="about">About</a>
   </nav>
@@ -87,6 +87,7 @@
 <div class="wrap">
 
   <section>
+    <div id="since"></div>
     <h1>What MIRA collects, and how much is paid in dollars</h1>
     <p class="lede">Maldives Inland Revenue Authority (MIRA) collects most of the government's taxes, along with fees and rents such as resort land rent. A large part is paid in US dollars, mainly by resorts and other tourism businesses. Those dollars matter for the debt, because loans from abroad have to be repaid in foreign currency.</p>
   </section>
@@ -94,10 +95,12 @@
   <section>
     <h2>Latest figures</h2>
     <p id="latestNote"></p>
+    <div id="fresh"></div>
+    <div id="asof"></div>
     <div class="stats" style="margin-top:2rem">
-      <div class="stat hot"><div class="n num" id="sMonth">…</div><div class="l" id="sMonthL">collected in the latest month</div><div class="d" id="sMonthD"></div></div>
-      <div class="stat hot"><div class="n num" id="s12">…</div><div class="l" id="s12L">collected in the last 12 months</div><div class="d" id="s12D"></div></div>
-      <div class="stat"><div class="n num" id="sYtd">…</div><div class="l" id="sYtdL">collected this year so far</div><div class="d" id="sYtdD"></div></div>
+      <div class="stat hot" data-icon="calendar"><div class="n num" id="sMonth">…</div><div class="l" id="sMonthL">collected in the latest month</div><div class="d" id="sMonthD"></div></div>
+      <div class="stat hot" data-icon="coins"><div class="n num" id="s12">…</div><div class="l" id="s12L">collected in the last 12 months</div><div class="d" id="s12D"></div></div>
+      <div class="stat" data-icon="dollar"><div class="n num" id="sYtd">…</div><div class="l" id="sYtdL">collected this year so far</div><div class="d" id="sYtdD"></div></div>
     </div>
   </section>
 
@@ -257,11 +260,13 @@
     const mmaShare = y => (mmaRev[y]?.length === 12 && !partial(y)) ? pct(raw(allM, idxOf(y)), mmaRev[y].reduce((a, v) => a + v, 0)) : null;
 
     // ---------- latest figures ----------
+    let selI = N - 1;
     function drawLatest() {
+      const lastI = selI, lastM = months[lastI];
       const yAgo = IDX[`${Number(lastM.y) - 1}-${String(lastM.mo).padStart(2, "0")}`];
       const share = idx => hasUSD(idx) ? `<span class="gold">${fmt(pct(raw(dolM, idx), raw(allM, idx)), 0)}% paid in US dollars</span>` : "";
       const line = (now, before, label) => { const c = chg(raw(allM, now), raw(allM, before)); return `<span class="${chgCls(c)}">${chgTxt(c)} on ${label}</span>`; };
-      $("latestNote").textContent = `The latest month MIRA has published is ${mLabel(lastM.date)}. Changes are against the same period a year earlier, in the money of the time.`;
+      $("latestNote").textContent = (selI === N - 1 ? `The latest month MIRA has published is ${mLabel(lastM.date)}.` : `Showing ${mLabel(lastM.date)}, an earlier month.`) + ` Changes are against the same period a year earlier, in the money of the time.`;
       const m = [lastI];
       $("sMonth").textContent = money(sumN(allM, m));
       $("sMonthL").textContent = `collected in ${mLabel(lastM.date)}`;
@@ -275,6 +280,12 @@
       $("sYtdL").textContent = `collected from January to ${MV.MONTHS[lastM.mo - 1]} ${lastM.y}`;
       $("sYtdD").innerHTML = line(ytd, prev, `the same months of ${Number(lastM.y) - 1}`) + "<br>" + share(ytd);
     }
+
+    const LM = months[N - 1];
+    MV.asOf($("asof"), months.slice(-36).reverse().map((m, k) => ({ v: String(N - 1 - k), label: mLabel(m.date) + (k === 0 ? ", latest" : "") })), String(N - 1), v => { selI = Number(v); drawLatest(); });
+    MV.fresh($("fresh"), { asOf: LM.date.slice(0, 10), what: "MIRA's monthly collection figures", cadence: "monthly" });
+    $("fresh").querySelector("b").textContent = mLabel(LM.date);
+    MV.since("revenue", [{ id: "m", value: LM.ym, say: p => `MIRA's figures for <b>${mLabel(LM.date)}</b> are out. The last month you saw was ${mLabel(p + "-15")}.` }], $("since"));
 
     // ---------- compare tool ----------
     const P = { A: [0, 0], B: [0, 0] }; let avg = false, preset = null;

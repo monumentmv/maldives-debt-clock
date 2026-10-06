@@ -74,6 +74,8 @@
   .sub { font-size: clamp(.95rem, 2vw, 1.1rem); margin: .35rem 0 0; max-width: 40rem; opacity: .85; }
   .hero-stats { margin-top: 2.25rem; }
   .hero-stats .l { color: #cfe6ea; }
+  .readout .fresh { background: rgba(5,34,47,.45); }
+  .readout .since { margin: 1.25rem 0 0; background: rgba(5,34,47,.55); }
   .pop { font-size: .82rem; color: #a9cdd6; margin-top: .6rem; max-width: 22rem; line-height: 1.4; }
   .pop a { color: var(--sun); }
   .why { margin: 2.25rem 0 .5rem; padding: 1.4rem 1.5rem; border-radius: 8px; background: rgba(244,201,93,.07); border: 1px solid rgba(244,201,93,.35); max-width: 52rem; }
@@ -125,7 +127,7 @@
     <a href="budget.html" data-page="budget">Budget</a>
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
-    <a href="protection.html" data-page="protection">Protection</a>
+    <a href="priorities.html" data-page="priorities">Priorities</a>
     <a href="methodology.html" data-page="method">Methodology</a>
     <a href="about.html" data-page="about">About</a>
   </nav>
@@ -157,10 +159,12 @@
     <p class="clock num"><span class="cur" id="clockCur">MVR</span><span id="clock">…</span></p>
     <p class="asof">As of <time id="mvTime">…</time> in Malé</p>
     <p class="sub" id="sub">Loading the latest figures from Maldives Monetary Authority.</p>
+    <div id="fresh"></div>
+    <div id="since"></div>
     <div class="stats hero-stats">
-      <div class="stat hot"><div class="n num" id="perPerson">…</div><div class="l">owed for every Maldivian citizen, rising every second</div><div class="pop" id="popLine"></div></div>
-      <div class="stat"><div class="n num" id="perSecond">…</div><div class="l" id="perSecondLbl">added to the debt each second, on the pace of the last year</div></div>
-      <div class="stat warn" id="interestStat"><div class="n num" id="interest">…</div><div class="l" id="interestLbl">spent on interest and financing costs every day</div></div>
+      <div class="stat hot" data-icon="person"><div class="n num" id="perPerson">…</div><div class="l">owed for every Maldivian citizen, rising every second</div><div class="pop" id="popLine"></div></div>
+      <div class="stat" data-icon="clock"><div class="n num" id="perSecond">…</div><div class="l" id="perSecondLbl">added to the debt each second, on the pace of the last year</div></div>
+      <div class="stat warn" id="interestStat" data-icon="interest"><div class="n num" id="interest">…</div><div class="l" id="interestLbl">spent on interest and financing costs every day</div></div>
     </div>
   </div>
   <div class="notice" id="notice" role="status"></div>
@@ -198,9 +202,9 @@
     <h2>What the government collects and spends</h2>
     <p id="fiscalNote"></p>
     <div class="stats">
-      <div class="stat"><div class="n num" id="revPP">…</div><div class="l">collected per citizen in a year, in taxes, fees and grants</div></div>
-      <div class="stat red"><div class="n num" id="expPP">…</div><div class="l">spent per citizen in a year</div></div>
-      <div class="stat red"><div class="n num" id="gapPP">…</div><div class="l" id="gapLbl">gap per citizen, covered by borrowing</div></div>
+      <div class="stat" data-icon="moneyIn"><div class="n num" id="revPP">…</div><div class="l">collected per citizen in a year, in taxes, fees and grants</div></div>
+      <div class="stat red" data-icon="moneyOut"><div class="n num" id="expPP">…</div><div class="l">spent per citizen in a year</div></div>
+      <div class="stat red" data-icon="gap"><div class="n num" id="gapPP">…</div><div class="l" id="gapLbl">gap per citizen, covered by borrowing</div></div>
     </div>
     <div class="why" id="why" hidden></div>
     <h3>Every second, the government</h3>
@@ -259,6 +263,11 @@
     const latest = tot[tot.length - 1], back = tot[Math.max(0, tot.length - 5)];
     const rate = (latest.value - back.value) / ((ts(latest.date) - ts(back.date)) / 1000 || 1);
     const debtNow = () => latest.value + rate * (Date.now() - ts(latest.date)) / 1000;
+    MV.fresh($("fresh"), { asOf: latest.date.slice(0, 10), what: "Official quarterly debt figures", cadence: "quarterly" });
+    MV.since("clock", [
+      { id: "q", value: latest.date.slice(0, 10), say: p => `A new official debt figure is out, for the end of <b>${MV.mLabel(latest.date)}</b>. The last one you saw was for ${MV.mLabel(p)}.` },
+      { id: "debt", value: Math.round(debtNow()), say: p => debtNow() > p ? `The clock has added about <b>${MV.moneyNow(debtNow() - p)}</b> to the debt since then.` : null },
+    ], $("since"));
     const popNow = POP ? () => POP.base * Math.exp(POP.annual_growth * (Date.now() - ts(POP.base_date)) / 1000 / SEC_YEAR) : () => null;
     const ratioPts = (S.debt_to_gdp?.points || []).map(p => ({ date: p.date, value: pct(p.value) }));
     const ratio = ratioPts.length ? ratioPts[ratioPts.length - 1].value : null;

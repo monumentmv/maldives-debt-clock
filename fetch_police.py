@@ -1,5 +1,5 @@
 """
-Keeps the Maldives Police Service case counts up to date, for the protection page.
+Keeps the Maldives Police Service case counts up to date, for the priorities page.
 
 Runs every morning in GitHub Actions. It opens https://www.police.gov.mv/crime-statistics
 in a headless browser, clicks each year and month, and reads the "Detailed breakdown" table.
@@ -121,7 +121,9 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     existing = read_existing()
     now_year = datetime.now(timezone.utc).year
-    wanted = None if ("--all" in sys.argv or not existing) else {now_year, now_year - 1}
+    have_years = {int(r["year"]) for r in existing}
+    full = "--all" in sys.argv or not have_years or min(have_years) >= now_year - 1   # older years not read yet
+    wanted = None if full else {now_year, now_year - 1}
     try:
         found, seen, problems = asyncio.run(scrape(wanted))
     except Exception as e:

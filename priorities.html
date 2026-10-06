@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#072f40">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<title>Priorities · Maldives National Debt Clock</title>
+<meta name="description" content="What the government pays in interest, set against what it spends on the police, justice, and protecting families, children and human rights.">
+<style>
+  .lede { font-size: clamp(1.05rem, 2.2vw, 1.25rem); max-width: 46rem; }
+  .controls { display: flex; flex-wrap: wrap; gap: .75rem 1rem; align-items: center; margin-top: 1rem; }
+  .controls label { font-weight: 700; display: inline-flex; gap: .5rem; align-items: center; }
+  select { font: 700 .9rem var(--body); background: rgba(255,255,255,.08); color: var(--foam); border: 1px solid rgba(169,205,214,.3); border-radius: 6px; padding: .35rem .45rem; min-height: 2.2rem; max-width: 100%; }
+  select option { color: #072f40; background: #fff; }
+  main .stats { grid-template-columns: repeat(auto-fit, minmax(16.5rem, 1fr)); gap: 2.25rem 2.5rem; }
+  #offices .stat .n { font-size: clamp(1.9rem, 3.8vw, 2.6rem); }
+  .stat.teal .n { color: var(--lagoon); }
+
+  /* the main comparison */
+  .vs { margin-top: 2.25rem; max-width: 62rem; }
+  .vs .row { display: grid; grid-template-columns: 3.6rem 1fr; gap: .2rem 1.1rem; align-items: start; margin-top: 1.75rem; }
+  .vs .row > span:first-child .ico { width: 3.6rem; height: 3.6rem; margin: 0; }
+  .vs .row > span:first-child .ico svg { width: 1.9rem; height: 1.9rem; }
+  .vs .head { display: flex; justify-content: space-between; align-items: baseline; gap: .25rem 1rem; flex-wrap: wrap; }
+  .vs .name { color: var(--foam); font-weight: 700; font-size: 1.05rem; }
+  .vs .name small { display: block; color: var(--mist); font-weight: 400; font-size: .9rem; }
+  .vs .amt { font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 72; font-size: clamp(1.7rem, 3.6vw, 2.5rem); line-height: 1; white-space: nowrap; }
+  .vs .bar { display: flex; gap: 2px; height: 2.2rem; margin-top: .6rem; border-radius: 6px; overflow: hidden; }
+  .vs .bar i { height: 100%; min-width: 3px; }
+  .chips { display: flex; flex-wrap: wrap; gap: .5rem .6rem; margin-top: .75rem; }
+  .chip { display: inline-flex; align-items: center; gap: .45rem; font-size: .85rem; color: var(--mist); background: rgba(255,255,255,.05); border-radius: 999px; padding: .25rem .7rem .25rem .3rem; }
+  .chip .ico { width: 1.6rem; height: 1.6rem; margin: 0; background: transparent; }
+  .chip .ico svg { width: 1rem; height: 1rem; }
+  .chip b { color: var(--foam); }
+  .verdict { font-family: var(--display); font-variation-settings: "wdth" 85; font-weight: 500; font-size: clamp(1.3rem, 3vw, 1.85rem); line-height: 1.3; color: var(--foam); max-width: 48rem; margin: 2.25rem 0 0; }
+  .verdict b { color: var(--coral); font-weight: 800; }
+
+  /* office cards */
+  .stat .share { margin-top: .4rem; font-size: .9rem; font-weight: 700; color: var(--mist); line-height: 1.45; }
+
+  /* other services */
+  .ctx { margin-top: 1.5rem; display: grid; gap: 1rem; max-width: 62rem; }
+  .ctx .row { display: grid; grid-template-columns: 2.6rem minmax(9rem, 15rem) 1fr 7rem; gap: 1rem; align-items: center; }
+  .ctx .ico { width: 2.6rem; height: 2.6rem; margin: 0; }
+  .ctx .ico svg { width: 1.35rem; height: 1.35rem; }
+  .ctx .nm { color: var(--foam); font-weight: 700; font-size: .95rem; line-height: 1.3; }
+  .ctx .t { height: 1.1rem; background: rgba(255,255,255,.06); border-radius: 4px; position: relative; }
+  .ctx .t i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; }
+  .ctx .v { text-align: right; color: var(--foam); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .ctx .row.int .nm, .ctx .row.int .v { color: var(--coral); }
+
+  /* cases */
+  .cases-list { margin-top: 1.25rem; display: grid; gap: .55rem; max-width: 52rem; }
+  .cases-list .row { display: grid; grid-template-columns: minmax(8rem, 12rem) 1fr 4.5rem; gap: 1rem; align-items: center; }
+  .cases-list .row span:first-child { color: var(--foam); font-weight: 700; font-size: .95rem; }
+  .cases-list .bar { height: .9rem; background: rgba(255,255,255,.06); border-radius: 3px; position: relative; }
+  .cases-list .bar i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--mist); border-radius: 3px; }
+  .cases-list .row.linked .bar i { background: var(--lagoon); }
+  .cases-list .row span:last-child { text-align: right; font-variant-numeric: tabular-nums; color: var(--foam); font-weight: 700; }
+
+  .where { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 2rem 2.5rem; margin-top: 1.5rem; }
+  .where h3 { margin: 0 0 .5rem; color: var(--foam); }
+  .caveat { border-top: 1px solid rgba(169,205,214,.25); padding-top: 2rem; }
+  .callout-line { margin-top: 1.25rem; padding: .9rem 1.1rem; background: rgba(255,255,255,.05); border-radius: 6px; font-size: .95rem; color: var(--mist); max-width: 52rem; }
+  .callout-line b { color: var(--foam); }
+  html:is([data-theme="light"],[data-theme="sand"],[data-theme="lagoon"]) :is(.chip, .ctx .t, .cases-list .bar) { background-color: rgba(7,47,64,.07); }
+  @media (max-width: 640px) {
+    .vs .row { grid-template-columns: 2.8rem 1fr; } .vs .row > span:first-child .ico { width: 2.8rem; height: 2.8rem; } .vs .row > span:first-child .ico svg { width: 1.5rem; height: 1.5rem; }
+    .ctx .row { grid-template-columns: 2.4rem 1fr 5.5rem; } .ctx .row .t { grid-column: 2 / -1; grid-row: 2; }
+    .cases-list .row { grid-template-columns: 1fr 3.5rem; } .cases-list .row .bar { grid-column: 1 / -1; grid-row: 2; }
+  }
+</style>
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="./">MV <span>Debt Clock</span></a>
+  <nav class="site-nav" aria-label="Main">
+    <a href="./" data-page="clock">Debt clock</a>
+    <a href="budget.html" data-page="budget">Budget</a>
+    <a href="revenue.html" data-page="revenue">Taxes</a>
+    <a href="fuel.html" data-page="fuel">Fuel imports</a>
+    <a href="priorities.html" data-page="priorities" aria-current="page">Priorities</a>
+    <a href="methodology.html" data-page="method">Methodology</a>
+    <a href="about.html" data-page="about">About</a>
+  </nav>
+  <div class="prefs">
+    <div class="toggle" data-pref="cur" role="group" aria-label="Currency"><button type="button" data-v="MVR" aria-pressed="true">MVR</button><button type="button" data-v="USD" aria-pressed="false">US$</button></div>
+    <div class="toggle" data-pref="real" role="group" aria-label="Inflation adjustment" title="Real shows past amounts in today's prices, adjusted for inflation"><button type="button" data-v="0" aria-pressed="true">Nominal</button><button type="button" data-v="1" aria-pressed="false">Real</button></div>
+  </div>
+  <div class="real-note" role="status"></div>
+</header>
+
+
+<main class="dark">
+<div class="wrap">
+
+  <section>
+    <div id="since"></div>
+    <h1 id="headline">What interest costs, next to what keeps people safe</h1>
+    <p class="lede" id="lede">Interest pays lenders for borrowing that has already been done. It doesn't build a school, run a hospital or pay a police officer. This page sets it beside what the government spends on policing, justice and protecting people's rights.</p>
+    <div id="asof"></div>
+    <div id="fresh"></div>
+
+    <div class="vs" id="vs"></div>
+    <p class="verdict" id="verdict"></p>
+  </section>
+
+  <section>
+    <h2>Office by office</h2>
+    <p id="officeNote"></p>
+    <div class="stats" id="offices" style="margin-top:2rem"></div>
+  </section>
+
+  <section>
+    <h2>Next to other big services</h2>
+    <p id="ctxNote"></p>
+    <div class="ctx" id="ctx"></div>
+  </section>
+
+  <section>
+    <div class="chart-head">
+      <div><h2>Year by year</h2><p id="yearNote" style="margin:0"></p></div>
+      <div class="controls">
+        <label>Compare interest with <select id="gSel" aria-label="Compare interest with"></select></label>
+        <div class="subtoggle" role="group" aria-label="View" id="viewPick"><button type="button" data-v="amount" aria-pressed="true">Amounts</button><button type="button" data-v="growth" aria-pressed="false">Growth</button><button type="button" data-v="ratio" aria-pressed="false">Times as much</button></div>
+      </div>
+    </div>
+    <div class="chart-box" id="yearChart"></div>
+    <div class="key" id="yearKey"></div>
+    <div class="callout-line num" id="yearLine"></div>
+  </section>
+
+  <section id="casesSec" hidden>
+    <h2>Cases reported to the police</h2>
+    <p id="casesNote"></p>
+    <div class="controls">
+      <label>Year <select id="cYear" aria-label="Year"></select></label>
+      <label>Period <select id="cMonth" aria-label="Period"></select></label>
+    </div>
+    <div class="cases-list" id="casesList"></div>
+    <div class="key"><span><i style="background:#3fb8b0"></i>Linked to an office above</span><span><i style="background:#a9cdd6"></i>Other cases</span></div>
+  </section>
+
+  <section>
+    <h2>Where interest goes</h2>
+    <p>Interest is income for whoever lent to the government. That makes it different from almost everything else in the budget.</p>
+    <div class="where">
+      <div><h3>Lenders in Maldives</h3><p>Commercial banks, MMA, the pension fund and other financial institutions hold most Treasury bills and bonds. Their interest stays in the economy, but it goes to lenders rather than public services.</p></div>
+      <div><h3>Lenders abroad</h3><p>Interest on external loans, sukuk and international bonds leaves the country in foreign currency and draws on reserves.</p></div>
+      <div><h3>What it crowds out</h3><p>Every rufiyaa paid in interest is a rufiyaa the budget can't spend on policing, schools, hospitals or anything else that year.</p></div>
+    </div>
+  </section>
+
+  <section class="caveat">
+    <h2>Reading these figures</h2>
+    <p>Spending and interest come from the Ministry of Finance's weekly fiscal reports. Each figure is the total from 1 January to the date of the report. Interest is what the Ministry reports as financing and interest costs, and doesn't include loan repayments. Weekly figures are early and change as accounts are reconciled.</p>
+    <p>Case counts are cases reported to the Maldives Police Service. They count reports, not convictions, and include traffic accidents and lost items. Placing an office next to a type of case shows scale only.</p>
+    <p>Office names change as ministries are merged or split, so the same office can appear under different names in different years. Courts aren't shown because judiciary spending moved into the Special Budget in April 2026. <a href="methodology.html#priorities">More in the methodology</a>.</p>
+  </section>
+
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <span id="fetched">Figures from the Ministry of Finance, Weekly Fiscal Developments, and the Maldives Police Service.</span>
+  <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with the Ministry of Finance, the Maldives Police Service or MMA.</span></span>
+</div></footer>
+
+<script src="assets/site.js"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const { fmt, sym, short, row, dayLabel, MONTHS } = MV;
+  const M = 1e6, INT = "#ff8a6b", GRP = "#3fb8b0";
+  const SEG = { police: "#f4c95d", corr: "#e0a95a", pg: "#c98f4a", acc: "#b07a3d", fpa: "#3fb8b0", coo: "#9fe0d6", hrc: "#6fb3c2", nda: "#a98bd6" };
+
+  Promise.all([MV.getJSON("data.json"), MV.getJSON("priorities.json")]).then(([data, P]) => {
+    MV.setData(data.series); MV.paintPrefs(); MV.checkStale(data);
+    const RP = P.reports, O = P.offices, C = P.crime, LR = RP[RP.length - 1];
+    const office = k => O.find(o => o.key === k);
+    const inGroup = g => O.filter(o => o.group === g);
+    const cur = (v, d) => sym() + " " + short(MV.convNow(v * M, d));
+    const times = r => fmt(r, r < 10 ? 1 : 0);
+    let R = LR;
+
+    // ---------- choosing a period ----------
+    const ly = Number(LR.d.slice(0, 4));
+    const yearEnd = {}; RP.forEach(r => { yearEnd[r.d.slice(0, 4)] = r; });
+    const opts = RP.filter(r => Number(r.d.slice(0, 4)) >= ly - 1).reverse().map((r, i) => ({ v: r.d, label: dayLabel(r.d) + (i === 0 ? ", latest" : "") }))
+      .concat(Object.values(yearEnd).filter(r => Number(r.d.slice(0, 4)) < ly - 1).reverse().map(r => ({ v: r.d, label: `End of ${r.d.slice(0, 4)}` })));
+    const setPeriod = d => { R = RP.find(r => r.d === d) || LR; render(); };
+    MV.asOf($("asof"), opts, LR.d, setPeriod);
+    MV.fresh($("fresh"), { asOf: LR.d, what: "Ministry of Finance weekly figures", cadence: "weekly" });
+
+    const val = (r, k) => r.a[k]?.[2] ?? null;
+    const sumKeys = (r, keys) => keys.reduce((s, k) => s + (val(r, k) || 0), 0);
+    const SAFE = inGroup("safety").map(o => o.key), RIGHTS = inGroup("rights").map(o => o.key);
+
+    // cases for the same months as the report shown
+    function casesFor(r) {
+      if (!C) return null;
+      const y = r.d.slice(0, 4), m = Number(r.d.slice(5, 7)), have = C.monthly[y] || {};
+      if ([...Array(m)].every((_, i) => have[i + 1])) { const o = {}; for (let i = 1; i <= m; i++) Object.entries(have[i]).forEach(([c, n]) => o[c] = (o[c] || 0) + n); return { cases: o, label: m === 1 ? `January ${y}` : `January to ${MONTHS[m - 1]} ${y}` }; }
+      if (r === LR && C.yearly[y]) return { cases: C.yearly[y], label: `so far in ${y}` };
+      return null;
+    }
+
+    function render() {
+      const it = R.i[2], d = R.d, safe = sumKeys(R, SAFE), rights = sumKeys(R, RIGHTS), both = safe + rights, ratio = it / both;
+      const cs = casesFor(R);
+      const W = ["no", "one", "two", "three", "four", "five", "six", "seven", "eight"], nAll = [...SAFE, ...RIGHTS].filter(k => val(R, k) != null).length, nR = RIGHTS.filter(k => val(R, k) != null).length;
+
+      // headline
+      $("headline").textContent = ratio >= 1.02 ? "Interest cost more than policing, justice and rights put together"
+        : ratio >= .9 ? "Interest cost about as much as policing, justice and rights put together"
+        : `Interest cost ${fmt(ratio * 100)}% as much as policing, justice and rights put together`;
+      $("lede").innerHTML = `From 1 January to ${dayLabel(d)}, the government paid <b>${cur(it, d)}</b> in interest and financing costs. That money pays lenders for borrowing already done. It doesn't build a school, run a hospital or pay a police officer. Over the same period the police, prisons, prosecutors, the Anti-Corruption Commission and the ${nR === 4 ? "four offices that protect families, children, human rights and people affected by drugs" : `${W[nR]} protection and rights offices then listed`} spent <b>${cur(both, d)}</b> between them.`;
+
+      // the comparison
+      const max = Math.max(it, both);
+      const seg = keys => keys.filter(k => val(R, k)).map(k => `<i style="width:${val(R, k) / max * 100}%;background:${SEG[k]}" title="${office(k).name}, ${cur(val(R, k), d)}"></i>`).join("");
+      const chips = keys => keys.filter(k => val(R, k) != null).map(k => `<span class="chip" style="color:${SEG[k]}">${MV.icon(office(k).icon)}<span>${office(k).name} <b>${cur(val(R, k), d)}</b></span></span>`).join("");
+      $("vs").innerHTML =
+        `<div class="row"><span style="color:${INT}">${MV.icon("interest")}</span><div><div class="head"><span class="name">Interest and financing costs<small>paid to lenders</small></span><span class="amt" style="color:${INT}">${cur(it, d)}</span></div><div class="bar"><i style="width:${it / max * 100}%;background:${INT}"></i></div></div></div>` +
+        `<div class="row"><span style="color:${SEG.police}">${MV.icon("police")}</span><div><div class="head"><span class="name">Policing and justice<small>police, prisons, prosecution and anti-corruption</small></span><span class="amt" style="color:${SEG.police}">${cur(safe, d)}</span></div><div class="bar">${seg(SAFE)}</div><div class="chips">${chips(SAFE)}</div></div></div>` +
+        `<div class="row"><span style="color:${SEG.fpa}">${MV.icon("scales")}</span><div><div class="head"><span class="name">Protection and rights<small>families, children, human rights and drug rehabilitation</small></span><span class="amt" style="color:${SEG.fpa}">${cur(rights, d)}</span></div><div class="bar">${seg(RIGHTS)}</div><div class="chips">${chips(RIGHTS)}</div></div></div>`;
+      $("verdict").innerHTML = it >= both
+        ? `Interest was <b>${cur(it - both, d)} more</b> than all ${W[nAll]} offices together, <b>${times(ratio)} times</b> as much. It was <b>${times(it / rights)} times</b> what went on protection and rights.`
+        : `Interest was <b>${fmt(ratio * 100)}%</b> of what all ${W[nAll]} offices spent together, and <b>${times(it / rights)} times</b> what went on protection and rights.`;
+
+      // office cards
+      $("officeNote").textContent = `Spending by each office from 1 January to ${dayLabel(d)}, and how it compares with interest over the same period.`;
+      $("offices").innerHTML = [...SAFE, ...RIGHTS].filter(k => val(R, k) != null).map(k => {
+        const o = office(k), v = val(R, k), n = cs && o.cases.length ? o.cases.reduce((s, c) => s + (cs.cases[c] || 0), 0) : null, pol = k === "police" && cs ? Object.values(cs.cases).reduce((s, x) => s + x, 0) : null;
+        return `<div class="stat ${o.group === "rights" ? "teal" : "hot"}" data-icon="${o.icon}"><div class="n num">${cur(v, d)}</div><div class="l">${o.name}</div>
+          <div class="share">Interest was ${times(it / v)} times as much${n != null ? `<br>${fmt(n)} ${o.case_noun} cases reported, ${cs.label}` : ""}${pol != null ? `<br>${fmt(pol)} cases reported, ${cs.label}` : ""}</div>
+          ${MV.mini.meter(v / it, null, o.group === "rights" ? "var(--lagoon)" : "var(--sun)", `${fmt(v / it * 100, v / it < .1 ? 1 : 0)}% of what interest cost`)}</div>`;
+      }).join("");
+      MV.paintIcons($("offices"));
+
+      // other services
+      const ctx = [["interest", "Interest and financing costs", it, INT, true], ["school", office("edu").name, val(R, "edu"), "#6fa8dc"], ["hospital", office("health").name, val(R, "health"), "#9fe0d6"],
+        ["shield", office("mndf").name, val(R, "mndf"), "#a98bd6"], ["police", "Policing, justice and rights", both, "#f4c95d"]].filter(x => x[2] != null);
+      const cmax = Math.max(...ctx.map(x => x[2]));
+      $("ctx").innerHTML = ctx.map(([ic, nm, v, c, isI]) => `<div class="row${isI ? " int" : ""}"><span style="color:${c}">${MV.icon(ic)}</span><span class="nm">${nm}</span><span class="t"><i style="width:${v / cmax * 100}%;background:${c}"></i></span><span class="v">${cur(v, d)}</span></div>`).join("");
+      const near = ctx.filter(x => !x[4]).map(x => ({ nm: x[1], r: it / x[2] })).sort((a, b) => Math.abs(1 - a.r) - Math.abs(1 - b.r))[0];
+      $("ctxNote").innerHTML = `To see the size of interest, here it is beside some of the biggest parts of government, over the same period.` + (near && Math.abs(1 - near.r) < .15 ? ` Interest was about the same as the whole of the <b>${near.nm}</b>'s spending.` : "");
+
+      drawYears();
+      MV.paintPrefs();
+    }
+
+    // ---------- year by year ----------
+    const H = Object.values(yearEnd).map(r => ({ year: Number(r.d.slice(0, 4)), d: r.d, full: r.d.slice(5) >= "12-24", r }));
+    const GROUPS = [
+      { id: "all", name: "Policing, justice and rights", short: "Policing, justice and rights", noun: "policing, justice and rights", keys: [...SAFE, ...RIGHTS] },
+      { id: "safety", name: "Policing and justice", short: "Policing and justice", noun: "policing and justice", keys: SAFE },
+      { id: "rights", name: "Protection and rights", short: "Protection and rights", noun: "protection and rights", keys: RIGHTS },
+      ...O.map(o => ({ id: o.key, name: o.name, short: o.name, noun: "the " + o.name, keys: [o.key] })),
+    ];
+    let gid = "all", view = "amount";
+    $("gSel").innerHTML = GROUPS.map(g => `<option value="${g.id}">${g.name}</option>`).join("");
+    $("gSel").onchange = () => { gid = $("gSel").value; drawYears(); };
+    $("viewPick").addEventListener("click", e => { const b = e.target.closest("[data-v]"); if (!b) return; view = b.dataset.v;
+      $("viewPick").querySelectorAll("[data-v]").forEach(x => x.setAttribute("aria-pressed", x.dataset.v === view)); drawYears(); });
+    // a group is counted only where each of its offices appears, except the combined groups, which add what is there
+    const gsum = (h, g) => { const vs = g.keys.map(k => val(h.r, k)); if (g.keys.length > 1) return vs.some(v => v != null) ? vs.reduce((s, v) => s + (v || 0), 0) : null; return vs[0]; };
+
+    function growthChart(box, rows, g) {
+      const tip = box.querySelector(".tip") || box.appendChild(Object.assign(document.createElement("div"), { className: "tip" }));
+      const W = Math.max(300, box.clientWidth), small = W < 560, Hc = Math.round(Math.min(380, Math.max(250, W * .42)));
+      const pad = { l: 44, r: small ? 64 : 150, t: 18, b: 30 };
+      const a = rows[0], ix = rows.map(h => ({ y: h.year, i: h.r.i[2] / a.r.i[2], g: gsum(h, g) / gsum(a, g), h }));
+      const hi = Math.max(...ix.flatMap(p => [p.i, p.g])) * 1.08, lo = Math.min(1, ...ix.flatMap(p => [p.i, p.g])) * .92;
+      const X = k => pad.l + (rows.length === 1 ? .5 : k / (rows.length - 1)) * (W - pad.l - pad.r), Y = v => Hc - pad.b - (v - lo) / (hi - lo) * (Hc - pad.t - pad.b);
+      let gr = ""; const step = hi - lo > 3 ? 1 : .5;
+      for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) gr += `<line x1="${pad.l}" x2="${W - pad.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="rgba(169,205,214,${v === 1 ? .45 : .15})"${v === 1 ? ' stroke-dasharray="3 3"' : ""}/><text x="${pad.l - 8}" y="${Y(v) + 4}" text-anchor="end">×${fmt(v, v % 1 ? 1 : 0)}</text>`;
+      ix.forEach((p, k) => { if (!small || k % 2 === 0 || k === ix.length - 1) gr += `<text x="${X(k)}" y="${Hc - 8}" text-anchor="middle">${p.y}</text>`; });
+      const line = (key, c) => `<path d="${ix.map((p, k) => (k ? "L" : "M") + X(k).toFixed(1) + " " + Y(p[key]).toFixed(1)).join(" ")}" fill="none" stroke="${c}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>` + ix.map((p, k) => `<circle cx="${X(k)}" cy="${Y(p[key])}" r="${k === ix.length - 1 ? 5 : 3}" fill="${c}"/>`).join("");
+      const z = ix[ix.length - 1]; let yI = Y(z.i), yG = Y(z.g); if (Math.abs(yI - yG) < 34) { if (yI < yG) yG = yI + 34; else yI = yG + 34; }
+      const end = (y, c, big, sm) => `<text x="${X(ix.length - 1) + 10}" y="${y}" style="fill:${c};font-weight:800;font-size:${small ? 13 : 18}px">×${fmt(big, 1)}</text>` + (small ? "" : `<text x="${X(ix.length - 1) + 10}" y="${y + 16}" style="fill:${c};font-size:12px">${sm}</text>`);
+      gr += line("g", GRP) + line("i", INT) + end(yI, INT, z.i, "Interest") + end(yG, GRP, z.g, g.short.length > 18 ? g.short.slice(0, 17) + "…" : g.short);
+      gr += `<line class="hl" y1="${pad.t}" y2="${Hc - pad.b}" stroke="#a9cdd6" stroke-opacity="0"/><rect class="hit" x="${pad.l}" y="0" width="${W - pad.l - pad.r}" height="${Hc}" fill="transparent"/>`;
+      box.querySelector("svg")?.remove();
+      box.insertAdjacentHTML("afterbegin", `<svg viewBox="0 0 ${W} ${Hc}" width="${W}" height="${Hc}" role="img" aria-label="Growth of interest and ${g.name} since ${a.year}">${gr}</svg>`);
+      const svg = box.querySelector("svg"), hl = svg.querySelector(".hl"), hit = svg.querySelector(".hit");
+      const show = e => { const rc = svg.getBoundingClientRect(), mx = (e.clientX - rc.left) * W / rc.width;
+        let k = 0, best = Infinity; ix.forEach((_, j) => { const dd = Math.abs(X(j) - mx); if (dd < best) { best = dd; k = j; } });
+        const p = ix[k]; hl.setAttribute("x1", X(k)); hl.setAttribute("x2", X(k)); hl.setAttribute("stroke-opacity", ".5");
+        tip.innerHTML = `<b>${p.y}</b>` + row("Interest", MV.money(p.h.r.i[2] * M, p.h.d) + `, ×${fmt(p.i, 1)}`) + row(g.short, MV.money(gsum(p.h, g) * M, p.h.d) + `, ×${fmt(p.g, 1)}`);
+        tip.classList.add("on"); const px = X(k) * rc.width / W, tw = tip.offsetWidth; tip.style.left = Math.min(Math.max(0, px + 14 + tw > rc.width ? px - tw - 14 : px + 14), rc.width - tw) + "px"; };
+      const hide = () => { hl.setAttribute("stroke-opacity", "0"); tip.classList.remove("on"); };
+      hit.addEventListener("pointermove", show); hit.addEventListener("pointerdown", show); hit.addEventListener("pointerleave", hide);
+    }
+
+    function drawYears() {
+      const g = GROUPS.find(x => x.id === gid), all = H.filter(h => gsum(h, g) != null);
+      const key = items => $("yearKey").innerHTML = items.map(([c, t]) => `<span><i style="background:${c}"></i>${t}</span>`).join("");
+      if (!all.length) { $("yearChart").innerHTML = ""; $("yearNote").textContent = "No figures for this office yet."; return; }
+      const full = all.filter(h => h.full), a = full[0], z = full[full.length - 1], partNote = all.some(h => !h.full) ? ` ${ly}* is the year so far.` : "";
+      if (view === "growth" && full.length >= 2) {
+        growthChart($("yearChart"), full, g);
+        $("yearNote").textContent = `How much each has grown since ${a.year}, in the money of each year. ×2 means it doubled. Full years only.`;
+        key([[INT, "Interest and financing costs"], [GRP, g.name]]);
+      } else if (view === "ratio") {
+        MV.barChart($("yearChart"), { cats: all.map(h => ({ label: h.full ? String(h.year) : h.year + "*", partial: !h.full })), label: `Interest as a multiple of ${g.name}`,
+          groups: [{ color: INT, vals: all.map(h => h.r.i[2] / gsum(h, g)) }], yFmt: v => "×" + fmt(v, v < 10 && v % 1 ? 1 : 0),
+          tip: i => { const h = all[i]; return `<b>${h.full ? h.year : `${h.year}, to ${dayLabel(h.d)}`}</b>` + row("Interest", MV.money(h.r.i[2] * M, h.d)) + row(g.short, MV.money(gsum(h, g) * M, h.d)) + row("Interest is", times(h.r.i[2] / gsum(h, g)) + " times as much"); } });
+        $("yearNote").textContent = `For every rufiyaa spent on ${g.noun}, how many were paid in interest.` + partNote;
+        key([[INT, `Interest, as a multiple of ${g.noun}`]]);
+      } else {
+        const big = all.some(h => MV.conv(h.r.i[2] * M, h.d) >= 1e9), unit = big ? 1e9 : 1e6;
+        MV.barChart($("yearChart"), { cats: all.map(h => ({ label: h.full ? String(h.year) : h.year + "*", partial: !h.full })), label: `Interest and ${g.name} by year`,
+          groups: [{ color: INT, vals: all.map(h => MV.conv(h.r.i[2] * M, h.d) / unit) }, { color: GRP, vals: all.map(h => MV.conv(gsum(h, g) * M, h.d) / unit) }], yFmt: v => fmt(v, v % 1 ? 1 : 0),
+          tip: i => { const h = all[i]; return `<b>${h.full ? h.year : `${h.year}, to ${dayLabel(h.d)}`}</b>` + row("Interest", MV.money(h.r.i[2] * M, h.d)) + row(g.short, MV.money(gsum(h, g) * M, h.d)); } });
+        $("yearNote").textContent = `Totals for each year in ${big ? "billions" : "millions"} of ${MV.state.cur === "USD" ? "US dollars" : "rufiyaa"}${MV.isReal() ? `, in ${MV.baseLabel()}` : ""}.` + partNote;
+        key([[INT, "Interest and financing costs"], [GRP, g.name]]);
+      }
+      $("yearLine").innerHTML = a && z && a !== z ? `From ${a.year} to ${z.year}, interest grew <b>${fmt(z.r.i[2] / a.r.i[2], 1)} times</b> while spending on ${g.noun} grew <b>${fmt(gsum(z, g) / gsum(a, g), 1)} times</b>. In ${z.year} interest was <b>${times(z.r.i[2] / gsum(z, g))} times</b> what was spent on ${g.noun}.` : "";
+    }
+
+    // ---------- cases ----------
+    const linked = new Set(O.flatMap(o => o.cases));
+    if (C) {
+      $("casesSec").hidden = false;
+      const cy = [...new Set([...Object.keys(C.yearly), ...Object.keys(C.monthly)])].sort();
+      $("cYear").innerHTML = cy.slice().reverse().map(y => `<option>${y}</option>`).join("");
+      const months = () => Object.keys(C.monthly[$("cYear").value] || {}).map(Number).sort((a, b) => a - b);
+      const fill = () => { const ms = months(), y = $("cYear").value; $("cMonth").innerHTML = (C.yearly[y] ? `<option value="0">Whole year${y == ly ? " so far" : ""}</option>` : "") + (ms.length > 1 ? `<option value="ytd">January to ${MONTHS[ms[ms.length - 1] - 1]}</option>` : "") + ms.slice().reverse().map(m => `<option value="${m}">${MONTHS[m - 1]}</option>`).join(""); };
+      fill(); $("cYear").onchange = () => { fill(); drawCases(); }; $("cMonth").onchange = drawCases;
+      drawCases();
+    }
+    function drawCases() {
+      const y = $("cYear").value, m = $("cMonth").value; let cats = {};
+      if (m === "0") cats = C.yearly[y] || {};
+      else if (m === "ytd") Object.values(C.monthly[y] || {}).forEach(o => Object.entries(o).forEach(([c, n]) => cats[c] = (cats[c] || 0) + n));
+      else cats = C.monthly[y]?.[m] || {};
+      const list = Object.entries(cats).sort((a, b) => b[1] - a[1]), max = list[0]?.[1] || 1, total = list.reduce((s, [, n]) => s + n, 0);
+      $("casesNote").textContent = `${fmt(total)} cases reported to the Maldives Police Service, ${m === "0" ? (y == ly ? `so far in ${y}` : `in ${y}`) : m === "ytd" ? `${$("cMonth").selectedOptions[0].text} ${y}` : `in ${MONTHS[m - 1]} ${y}`}. Figures as of ${dayLabel(C.retrieved)}. Pick a year or month to compare.`;
+      $("casesList").innerHTML = list.map(([c, n]) => `<div class="row${linked.has(c) ? " linked" : ""}"><span>${c}</span><div class="bar"><i style="width:${n / max * 100}%"></i></div><span>${fmt(n)}</span></div>`).join("");
+    }
+
+    render();
+    MV.onPrefs(render); MV.onResize(drawYears);
+    const both = r => sumKeys(r, [...SAFE, ...RIGHTS]);
+    MV.since("priorities", [
+      { id: "report", value: LR.d, say: p => `New weekly figures, now to <b>${dayLabel(LR.d)}</b>. The last ones you saw ran to ${dayLabel(p)}.` },
+      { id: "interest", value: LR.i[2], tag: String(ly), say: (p, t) => t === String(ly) && LR.i[2] > p ? `Interest paid this year went up by <b>${cur(LR.i[2] - p, LR.d)}</b>, to ${cur(LR.i[2], LR.d)}.` : null },
+      { id: "both", value: both(LR), tag: String(ly), say: (p, t) => t === String(ly) && both(LR) > p ? `Policing, justice and rights spending went up by <b>${cur(both(LR) - p, LR.d)}</b>.` : null },
+    ], $("since"));
+    $("fetched").textContent = `Ministry of Finance, Weekly Fiscal Developments, report of ${dayLabel(LR.d)}` + (C ? ". Maldives Police Service" : "") + `. Exchange rates and prices from MMA Statistics Database, last fetched ${MV.fetched(data.fetched_at)}, Malé time.`;
+  }).catch(err => { console.error(err); $("lede").textContent = "These figures haven't been built yet. They appear after the next automatic update."; });
+})();
+</script>
+</body>
+</html>

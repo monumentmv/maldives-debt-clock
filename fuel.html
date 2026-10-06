@@ -50,7 +50,7 @@
     <a href="budget.html" data-page="budget">Budget</a>
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel" aria-current="page">Fuel imports</a>
-    <a href="protection.html" data-page="protection">Protection</a>
+    <a href="priorities.html" data-page="priorities">Priorities</a>
     <a href="methodology.html" data-page="method">Methodology</a>
     <a href="about.html" data-page="about">About</a>
   </nav>
@@ -65,12 +65,15 @@
 <div class="wrap">
 
   <section>
+    <div id="since"></div>
     <h1>What Maldives spends on imported fuel</h1>
     <p class="lede">Maldives imports almost all of its energy as petroleum products. Diesel accounts for a large share of fuel use, generating most of the country's electricity and powering many road vehicles, boats and fishing vessels. Petrol is also widely used in cars, motorcycles and smaller boats, while aviation fuel, cooking gas and other petroleum products make up the remainder. When wars or other global crises push up oil prices, the country's fuel import bill rises with them, and the foreign currency spent on these imports flows out of the economy.</p>
+    <div id="fresh"></div>
+    <div id="asof"></div>
     <div class="stats" style="margin-top:2.5rem">
-      <div class="stat hot"><div class="n num" id="sLatest">…</div><div class="l" id="sLatestL">latest month</div><div class="d" id="sLatestD"></div></div>
-      <div class="stat red"><div class="n num" id="s12">…</div><div class="l" id="s12L">spent on fuel imports in the last 12 months</div><div id="s12M"></div></div>
-      <div class="stat"><div class="n num" id="sShare">…</div><div class="l" id="sShareL">of everything Maldives imports</div><div id="sShareM"></div></div>
+      <div class="stat hot" data-icon="fuel"><div class="n num" id="sLatest">…</div><div class="l" id="sLatestL">latest month</div><div class="d" id="sLatestD"></div></div>
+      <div class="stat red" data-icon="ship"><div class="n num" id="s12">…</div><div class="l" id="s12L">spent on fuel imports in the last 12 months</div><div id="s12M"></div></div>
+      <div class="stat" data-icon="globe"><div class="n num" id="sShare">…</div><div class="l" id="sShareL">of everything Maldives imports</div><div id="sShareM"></div></div>
     </div>
   </section>
 
@@ -146,23 +149,23 @@
     const crisisAt = d => CRISES.find(c => d >= c.from && d <= c.to);
     const disp = (usd, date) => sym() + " " + short(fromUSD(usd, date));   // headline figures follow the currency switch
     const usd = v => "US$ " + short(v);                                      // charts and history always in US dollars
-    let range = "all", split = false, showCrude = true;
+    let range = "all", split = false, showCrude = true, sel = all.length - 1;
 
     function render() {
-      const L = all[all.length - 1], P = all[all.length - 2], Y = all.find(r => r.date.slice(0, 7) === (Number(L.date.slice(0, 4)) - 1) + L.date.slice(4, 7));
+      const L = all[sel], P = all[sel - 1], Y = all.find(r => r.date.slice(0, 7) === (Number(L.date.slice(0, 4)) - 1) + L.date.slice(4, 7));
       $("sLatest").textContent = disp(L.v, L.date);
-      $("sLatestL").textContent = `spent on fuel imports in ${mLabel(L.date)}, the latest month published`;
+      $("sLatestL").textContent = `spent on fuel imports in ${mLabel(L.date)}${sel === all.length - 1 ? ", the latest month published" : ""}`;
       const pc = (a, b) => (a / b - 1) * 100;
       const parts = [];
       if (P) parts.push(`<span class="${L.v >= P.v ? "up" : "down"}">${pc(L.v, P.v) >= 0 ? "+" : ""}${fmt(pc(L.v, P.v), 0)}% on ${mShort(P.date)}</span>`);
       if (Y) parts.push(`<span class="${L.v >= Y.v ? "up" : "down"}">${pc(L.v, Y.v) >= 0 ? "+" : ""}${fmt(pc(L.v, Y.v), 0)}% on ${mShort(Y.date)}</span>`);
       $("sLatestD").innerHTML = parts.join("<br>");
-      const l12 = all.slice(-12), s12 = l12.reduce((a, r) => a + fromUSD(r.v, r.date), 0), i12 = l12.every(r => r.imp) ? l12.reduce((a, r) => a + r.imp, 0) : null;
+      const l12 = all.slice(Math.max(0, sel - 11), sel + 1), s12 = l12.reduce((a, r) => a + fromUSD(r.v, r.date), 0), i12 = l12.every(r => r.imp) ? l12.reduce((a, r) => a + r.imp, 0) : null;
       $("s12").textContent = sym() + " " + short(s12);
       $("s12L").textContent = `spent on fuel imports in the 12 months to ${mLabel(L.date)}`;
       if (i12) { $("sShare").textContent = fmt(100 * l12.reduce((a, r) => a + r.v, 0) / i12, 1) + "%"; $("sShareL").textContent = `of all goods imported over the same 12 months was fuel`; }
       else $("sShare").closest(".stat").hidden = true;
-      const l13 = all.slice(-13), p12 = all.slice(-24, -12);
+      const l13 = all.slice(Math.max(0, sel - 12), sel + 1), p12 = all.slice(Math.max(0, sel - 23), Math.max(0, sel - 11));
       $("sLatestD").innerHTML += MV.mini.spark(l13.map(r => r.v), "var(--sun)", { ref: l13.length === 13 ? 0 : null, left: mShort(l13[0].date), right: mShort(L.date) });
       if (p12.length === 12) { const sp = p12.reduce((a, r) => a + fromUSD(r.v, r.date), 0);
         $("s12M").innerHTML = MV.mini.duo([[`12 months to ${mShort(L.date)}`, s12, "var(--red)", sym() + " " + short(s12)], [`12 months before`, sp, "var(--mist)", sym() + " " + short(sp)]]); }
@@ -253,6 +256,11 @@
     });
     MV.onPrefs(render); MV.onResize(() => { drawChart(); drawAnnual(); });
     $("fetched").textContent = "Data last fetched " + MV.fetched(data.fetched_at) + ", Malé time. Figures from Maldives Customs Service and the World Bank, via MMA Statistics Database.";
+    const LA = all[all.length - 1];
+    MV.asOf($("asof"), all.slice(-36).reverse().map((r, k) => ({ v: String(all.length - 1 - k), label: mLabel(r.date) + (k === 0 ? ", latest" : "") })), String(sel), v => { sel = Number(v); render(); });
+    MV.fresh($("fresh"), { asOf: LA.date.slice(0, 10), what: "Monthly fuel import figures", cadence: "monthly" });
+    $("fresh").querySelector("b").textContent = mLabel(LA.date);
+    MV.since("fuel", [{ id: "m", value: LA.date.slice(0, 7), say: p => `Fuel import figures for <b>${mLabel(LA.date)}</b> are out. The last month you saw was ${mLabel(p + "-15")}.` }], $("since"));
     render();
   }).catch(err => { console.error(err); $("chartNote").textContent = "Couldn't load the data."; });
 })();

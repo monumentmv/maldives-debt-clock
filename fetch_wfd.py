@@ -89,6 +89,11 @@ def num(v):
 
 
 def build_json(headline, long_rows):
+    # "Grants, Contributions and Subsidies" for every report, used by the budget page's spending picture
+    gcs = {}
+    for row in long_rows:
+        if row["table"] == "expenditure" and row["label"].strip().lower().startswith("grants, contributions and subsidies"):
+            gcs.setdefault(row["as_at"], [num(row["this_year"]), num(row["approved"]), num(row["last_year"])])
     reports = []
     for h in sorted(headline, key=lambda r: r["as_at"]):
         v = {}
@@ -96,6 +101,8 @@ def build_json(headline, long_rows):
             trip = [num(h.get(col)), num(h.get(col + "_approved")), num(h.get(col + "_last_year"))]
             if any(x is not None for x in trip):
                 v[col] = trip
+        if h["as_at"] in gcs:
+            v["grants_subsidies"] = gcs[h["as_at"]]
         reports.append({"d": h["as_at"], "w": int(float(h["week"])) if h.get("week") else None, "v": v,
                         "sec": [num(h.get("securities_total")), num(h.get("securities_domestic")), num(h.get("securities_external"))],
                         "sec_d": h.get("securities_as_of") or None})
