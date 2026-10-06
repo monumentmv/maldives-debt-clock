@@ -1,7 +1,8 @@
 """
 Builds one clean master dataset from every source the site uses:
   MMA Statistics Database (data.json), MIRA revenue files (inputs/mira/) and
-  the Ministry of Finance Weekly Fiscal Developments (data/wfd/).
+  the Ministry of Finance Weekly Fiscal Developments (data/wfd/) and
+  Maldives Police Service case counts (data/police/).
 
 Runs every morning in GitHub Actions, after the other scripts. Writes:
   data/master/series_catalogue.csv     one row per series: clean name, unit, source, dates covered
@@ -9,7 +10,7 @@ Runs every morning in GitHub Actions, after the other scripts. Writes:
   data/master/weekly_budget_tables.csv every row of every weekly budget table, cleaned
   dist/maldives_public_finance.xlsx    the same, in one Excel workbook with a sheet per frequency
   dist/maldives_public_finance_csv.zip the CSV files in one download
-The dist/ files are published as a GitHub release ("data-latest"), not kept in the repo.
+When the data has changed, the dist/ files are also copied to downloads/, which the data page links to.
 
 To run it yourself:
     pip install openpyxl
@@ -34,7 +35,8 @@ HERE = Path(__file__).resolve().parent
 OUT = HERE / "data" / "master"
 DIST = HERE / "dist"
 SITE = "https://mvdebtclock.org"
-RELEASE = "https://github.com/monumentmv/maldives-debt-clock/releases/download/data-latest/"
+RELEASE = SITE + "/downloads/"
+DOWNLOADS = HERE / "downloads"
 
 # ---------------------------------------------------------------- MMA series, with clean names
 # key in data.json: (series id, name, category, unit, how to convert)
@@ -211,6 +213,27 @@ def collect():
             if v is not None:
                 obs.append((sid, h["as_at"], round(v, 4)))
 
+    # Maldives Police Service, monthly case counts
+    pol = HERE / "data" / "police" / "crime_monthly.csv"
+    if pol.exists():
+        prow = [r for r in csv.DictReader(open(pol, encoding="utf-8")) if r["month"] != "0"]
+        totals = defaultdict(int)
+        for r in prow:
+            totals[(int(r["year"]), int(r["month"]))] += int(r["cases"])
+        add_series("mps.cases.total", "Cases reported to the police, all categories", "Cases reported to the police (monthly)",
+                   "Maldives Police Service, crime statistics", "police.gov.mv/crime-statistics, total of all categories", "cases", "monthly",
+                   "Reported cases, not convictions. Includes traffic accidents and lost items.")
+        for (y, m), n in sorted(totals.items()):
+            obs.append(("mps.cases.total", iso_month_end(f"{y}-{m:02d}"), n))
+        for c in sorted({r["category"] for r in prow}):
+            sid = f"mps.cases.{slug(c)}"
+            add_series(sid, f"Cases reported to the police, {c.lower()}", "Cases reported to the police (monthly)",
+                       "Maldives Police Service, crime statistics", f"police.gov.mv/crime-statistics, category '{c}'", "cases", "monthly",
+                       "Reported cases, not convictions.")
+            for r in prow:
+                if r["category"] == c:
+                    obs.append((sid, iso_month_end(f"{int(r['year'])}-{int(r['month']):02d}"), int(r["cases"])))
+
     # drop series with no data, add coverage
     by = defaultdict(list)
     for sid, d, v in obs:
@@ -315,6 +338,7 @@ def write_xlsx(series, obs, tables, built):
         ("Maldives Monetary Authority (MMA) Statistics Database, https://database.mma.gov.mv", False),
         ("Maldives Inland Revenue Authority (MIRA), revenue series, https://www.mira.gov.mv/Publications/Categories/310", False),
         ("Ministry of Finance, Weekly Fiscal Developments, https://www.finance.gov.mv/publications/statistical-releases/weekly-fiscal-developments", False),
+        ("Maldives Police Service, crime statistics, https://www.police.gov.mv/crime-statistics", False),
         ("", False),
         ("Units and conventions", True),
         ("Money is in millions of rufiyaa (MVR million) or millions of US dollars (US$ million), as shown for each series. Ratios to GDP are in percent.", False),
@@ -323,7 +347,7 @@ def write_xlsx(series, obs, tables, built):
         ("Figures are as published by each source and can be revised. They are not adjusted for inflation.", False),
         ("", False),
         ("Using this data", True),
-        ("Please credit the original publishers (MMA, MIRA and the Ministry of Finance) and the Maldives National Debt Clock. "
+        ("Please credit the original publishers (MMA, MIRA, the Ministry of Finance and the Maldives Police Service) and the Maldives National Debt Clock. "
          "Errors can be reported through the contact form on the site's About page.", False),
         (f"Latest version: {RELEASE}maldives_public_finance.xlsx", False),
     ]
@@ -363,11 +387,15 @@ def main():
     with zipfile.ZipFile(DIST / "maldives_public_finance_csv.zip", "w", zipfile.ZIP_DEFLATED) as z:
         for name, text in files.items():
             z.writestr(name, text)
-        z.writestr("README.txt", "Maldives public finance data, compiled by the Maldives National Debt Clock from MMA, MIRA and Ministry of Finance publications.\n"
+        z.writestr("README.txt", "Maldives public finance data, compiled by the Maldives National Debt Clock from MMA, MIRA, Ministry of Finance and Maldives Police Service publications.\n"
                    f"Built {built} UTC. See series_catalogue.csv for names, units and sources. Money is in millions of MVR or US$ as stated.\n")
     meta = {"built_at": built, "series": len(series), "observations": len(obs), "weekly_table_rows": len(tables),
             "first_date": min(m["first_date"] for m in series.values()), "last_date": max(m["last_date"] for m in series.values()),
             "xlsx": RELEASE + "maldives_public_finance.xlsx", "zip": RELEASE + "maldives_public_finance_csv.zip"}
+    if changed or not (DOWNLOADS / "maldives_public_finance.xlsx").exists():
+        DOWNLOADS.mkdir(exist_ok=True)
+        for f in ("maldives_public_finance.xlsx", "maldives_public_finance_csv.zip"):
+            (DOWNLOADS / f).write_bytes((DIST / f).read_bytes())
     (OUT / "about.json").write_text(json.dumps(meta, indent=1), encoding="utf-8") if changed or not (OUT / "about.json").exists() else None
     print(f"Master data: {len(series)} series, {len(obs):,} observations, {len(tables):,} weekly table rows. "
           f"{'Changed' if changed else 'No change'} since the last build.")

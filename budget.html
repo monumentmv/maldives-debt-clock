@@ -56,6 +56,24 @@
   .callout-line { margin-top: 1.25rem; padding: .9rem 1.1rem; background: rgba(255,255,255,.05); border-radius: 6px; font-size: .95rem; color: var(--mist); max-width: 52rem; }
   .callout-line b { color: var(--foam); }
   main .stats { grid-template-columns: repeat(auto-fit, minmax(13.5rem, 1fr)); }
+  /* where the money came from and went */
+  .flow { margin-top: 3rem; max-width: 60rem; }
+  .flow h3 { color: var(--foam); margin: 0 0 .4rem; }
+  .flow .lead { font-family: var(--display); font-variation-settings: "wdth" 85; font-size: clamp(1.15rem, 2.6vw, 1.5rem); line-height: 1.3; color: var(--foam); max-width: 46rem; margin: 0 0 1.5rem; }
+  .flow .lead b { color: var(--coral); }
+  .flow .lead b.red { color: var(--red); }
+  .fbar { margin-top: 1.25rem; }
+  .fbar .cap { display: flex; justify-content: space-between; gap: 1rem; color: var(--mist); font-size: .9rem; margin-bottom: .4rem; }
+  .fbar .cap b { color: var(--foam); }
+  .fbar .segs { display: flex; height: 3rem; border-radius: 6px; overflow: hidden; gap: 2px; }
+  .fbar .seg { position: relative; display: flex; align-items: center; justify-content: center; min-width: 2px; color: var(--abyss); font-weight: 700; font-size: .85rem; white-space: nowrap; overflow: hidden; }
+  .fbar .seg.gap { background: repeating-linear-gradient(135deg, rgba(255,95,86,.85) 0 6px, rgba(255,95,86,.35) 6px 12px); color: var(--foam); }
+  .fbar .seg.spare { background: repeating-linear-gradient(135deg, rgba(63,184,176,.85) 0 6px, rgba(63,184,176,.35) 6px 12px); color: var(--foam); }
+  .fkey { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: .6rem 1.5rem; margin-top: .8rem; font-size: .875rem; color: var(--mist); }
+  .fkey div { display: grid; grid-template-columns: .8rem 1fr; gap: .5rem; align-items: start; }
+  .fkey i { width: .8rem; height: .8rem; border-radius: 2px; margin-top: .2rem; }
+  .fkey b { color: var(--foam); display: block; }
+  @media (max-width: 560px) { .fbar .segs { height: 2.2rem; } .fbar .seg { font-size: 0; } }
   .caveat { border-top: 1px solid rgba(169,205,214,.25); padding-top: 2rem; }
   .subtoggle[hidden] { display: none; }
   @media (max-width: 560px) {
@@ -74,6 +92,7 @@
     <a href="budget.html" data-page="budget" aria-current="page">Budget</a>
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
+    <a href="protection.html" data-page="protection">Protection</a>
     <a href="data.html" data-page="data">Data</a>
     <a href="methodology.html" data-page="method">Methodology</a>
     <a href="about.html" data-page="about">About</a>
@@ -102,6 +121,7 @@
       <div class="stat red"><div class="n num" id="sBal">…</div><div class="l" id="sBalL">gap between the two</div><div class="d" id="sBalD"></div></div>
       <div class="stat warn"><div class="n num" id="sInt">…</div><div class="l" id="sIntL">paid in interest so far this year</div><div class="d" id="sIntD"></div></div>
     </div>
+    <div class="flow" id="flow" role="figure" aria-label="Where the money came from and where it went"></div>
   </section>
 
   <section>
@@ -163,8 +183,8 @@
 </div>
 </main>
 <footer class="site-foot"><div class="wrap">
-  <span id="fetched">Source: Ministry of Finance, Weekly Fiscal Developments.</span>
-  <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent; not affiliated with the Ministry of Finance or the MMA.</span></span>
+  <span id="fetched">Figures from Ministry of Finance, Weekly Fiscal Developments.</span>
+  <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with the Ministry of Finance or MMA.</span></span>
 </div></footer>
 
 <script src="assets/site.js"></script>
@@ -224,6 +244,32 @@
       $("sInt").textContent = now(it, L.d);
       $("sIntL").textContent = `paid in interest and other financing costs since 1 January`;
       $("sIntD").innerHTML = line("interest_costs", "down") + `<br><span class="neutral">about ${sym()} ${short(MV.convNow(M(it) / days, L.d))} a day</span>`;
+      drawFlow();
+    }
+
+    // ---------- where the money came from and where it went ----------
+    function drawFlow() {
+      const det = k => (B.detail?.expenditure || []).find(x => new RegExp(k, "i").test(x.label))?.now ?? null;
+      const rev = val(L, "revenue_and_grants"), exp = val(L, "total_expenditure");
+      if (rev == null || exp == null) { $("flow").innerHTML = ""; return; }
+      const tax = val(L, "tax_revenue") ?? 0, grants = val(L, "grants") ?? 0, nontax = Math.max(0, rev - tax - grants);
+      const sal = val(L, "salaries_wages_pensions") ?? 0, intr = val(L, "interest_costs") ?? 0, cap = val(L, "capital_expenditure") ?? 0;
+      const subs = det("^grants, contributions and subsidies") ?? 0;
+      const other = Math.max(0, exp - sal - intr - cap - subs);
+      const gap = exp - rev, top = Math.max(rev, exp);
+      const IN = [["Taxes", tax, "#f4c95d"], ["Fees, rents and dividends", nontax, "#f7e2a6"], ["Grants from abroad", grants, "#9fe0d6"]];
+      const OUT = [["Salaries, wages and pensions", sal, "#6fa8dc"], ["Subsidies, welfare and grants", subs, "#a98bd6"], ["Other running costs", other, "#c7d6db"], ["Interest and financing", intr, "#ff8a6b"], ["Buildings, roads and harbours", cap, "#3fb8b0"]];
+      if (gap > 0) IN.push(["Not covered, borrowed", gap, "gap"]); else if (gap < 0) OUT.push(["Left over, a surplus", -gap, "spare"]);
+      const amt = v => sym() + " " + short(MV.convNow(M(v), L.d));
+      const per = v => fmt(v / exp * 100, 1);
+      const bar = (title, total, segs) => `<div class="fbar"><div class="cap"><span>${title}</span><b>${amt(total)}</b></div><div class="segs">` +
+        segs.filter(s => s[1] > 0).map(([n, v, c]) => `<div class="seg${c === "gap" ? " gap" : c === "spare" ? " spare" : ""}" style="flex:${v / top} 1 0;${c.startsWith("#") ? `background:${c}` : ""}" title="${n}, ${amt(v)}">${v / top > .09 ? fmt(v / top * 100, 0) + "%" : ""}</div>`).join("") +
+        `</div><div class="fkey">` + segs.filter(s => s[1] > 0).map(([n, v, c]) => `<div><i style="background:${c === "gap" ? "#ff5f56" : c === "spare" ? "#3fb8b0" : c}"></i><span><b>${amt(v)}</b>${n}</span></div>`).join("") + `</div></div>`;
+      const unit = sym() + " 100";
+      $("flow").innerHTML = `<h3>Where the money came from and where it went</h3>` +
+        `<p class="lead">Of every ${unit} spent this year, <b>${sym()} ${per(intr)}</b> went on interest` + (gap > 0 ? ` and <b class="red">${sym()} ${per(gap)}</b> wasn't covered by revenue, so had to be borrowed.` : ".") + `</p>` +
+        bar("Came in", rev, IN) + bar("Went out", exp, OUT) +
+        `<p class="hint">Both bars are drawn to the same scale. Loan repayments aren't included, so total borrowing in the year is larger than the gap shown.</p>`;
     }
 
     // ---------- progress ----------

@@ -45,6 +45,7 @@
     <a href="budget.html" data-page="budget">Budget</a>
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
+    <a href="protection.html" data-page="protection">Protection</a>
     <a href="data.html" data-page="data" aria-current="page">Data</a>
     <a href="methodology.html" data-page="method">Methodology</a>
     <a href="about.html" data-page="about">About</a>
@@ -57,10 +58,10 @@
 
   <section>
     <h1>All the data, in one file</h1>
-    <p class="lede">Every figure on this site comes from three official publishers, the Maldives Monetary Authority (MMA), the Maldives Inland Revenue Authority (MIRA) and the Ministry of Finance. They are combined here into one clean dataset, with plain names, consistent units and a note of where each series comes from. It is rebuilt every morning when new figures are published.</p>
+    <p class="lede">Every figure on this site comes from four official publishers, the Maldives Monetary Authority (MMA), the Maldives Inland Revenue Authority (MIRA), the Ministry of Finance and the Maldives Police Service. They are combined here into one clean dataset, with plain names, consistent units and a note of where each series comes from. It is rebuilt every morning when new figures are published.</p>
     <div class="downloads">
-      <a class="dl main" id="dlXlsx" href="https://github.com/monumentmv/maldives-debt-clock/releases/download/data-latest/maldives_public_finance.xlsx"><b>Download everything (Excel)</b><span>One workbook with a catalogue of every series, a sheet for each frequency and the weekly budget tables.</span></a>
-      <a class="dl" id="dlZip" href="https://github.com/monumentmv/maldives-debt-clock/releases/download/data-latest/maldives_public_finance_csv.zip"><b>Download everything (CSV)</b><span>The same data as plain CSV files, for R, Stata, Python or any other software.</span></a>
+      <a class="dl main" id="dlXlsx" href="downloads/maldives_public_finance.xlsx"><b>Download everything (Excel)</b><span>One workbook with a catalogue of every series, a sheet for each frequency and the weekly budget tables.</span></a>
+      <a class="dl" id="dlZip" href="downloads/maldives_public_finance_csv.zip"><b>Download everything (CSV)</b><span>The same data as plain CSV files, for R, Stata, Python or any other software.</span></a>
     </div>
     <div class="facts num" id="facts"></div>
   </section>
@@ -79,14 +80,14 @@
   <section class="caveat">
     <h2>Using this data</h2>
     <p>The data is free to use. Please credit the original publishers, MMA, MIRA and the Ministry of Finance, and the Maldives National Debt Clock. Figures are as published by each source, which can revise them later, and they are not adjusted for inflation. The <a href="methodology.html">methodology</a> explains how each source is read and what it covers.</p>
-    <p>The individual files are also available directly: <a href="data/master/series_catalogue.csv">series catalogue</a>, <a href="data/master/all_series_long.csv">all series in one list</a> and <a href="data/master/weekly_budget_tables.csv">weekly budget tables</a>. Spotted a problem? Send a message through the form on the <a href="about.html">About page</a>.</p>
+    <p>The individual files can also be opened one by one. These are the <a href="data/master/series_catalogue.csv">series catalogue</a>, <a href="data/master/all_series_long.csv">all series in one list</a>, the <a href="data/master/weekly_budget_tables.csv">weekly budget tables</a> and <a href="data/police/crime_monthly.csv">cases reported to the police</a>. Spotted a problem? Send a message through the form on the <a href="about.html">About page</a>.</p>
   </section>
 
 </div>
 </main>
 <footer class="site-foot"><div class="wrap">
   <span id="fetched">Sources: Maldives Monetary Authority, Maldives Inland Revenue Authority and Ministry of Finance.</span>
-  <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent; not affiliated with any of the publishers.</span></span>
+  <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with any of the publishers.</span></span>
 </div></footer>
 
 <script src="assets/site.js"></script>
@@ -115,7 +116,7 @@
   }).catch(() => {});
 
   fetch("data/master/series_catalogue.csv", { cache: "no-store" }).then(r => { if (!r.ok) throw new Error(r.status); return r.text(); }).then(t => {
-    const ORDER = ["Public debt", "Economy", "Government finance (monthly)", "Weekly budget (Ministry of Finance)", "Revenue collected by MIRA (monthly)", "Prices and exchange rate", "Trade and fuel"];
+    const ORDER = ["Public debt", "Economy", "Government finance (monthly)", "Weekly budget (Ministry of Finance)", "Revenue collected by MIRA (monthly)", "Prices and exchange rate", "Trade and fuel", "Cases reported to the police (monthly)"];
     const rank = c => { const i = ORDER.indexOf(c); return i < 0 ? 99 : i; };
     all = parseCSV(t).sort((a, b) => rank(a.category) - rank(b.category) || a.series_id.localeCompare(b.series_id));
     const cats = ["All", ...new Set(all.map(s => s.category))];  // already in display order

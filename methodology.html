@@ -81,6 +81,7 @@
     <a href="budget.html" data-page="budget">Budget</a>
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
+    <a href="protection.html" data-page="protection">Protection</a>
     <a href="data.html" data-page="data">Data</a>
     <a href="methodology.html" data-page="method" aria-current="page">Methodology</a>
     <a href="about.html" data-page="about">About</a>
@@ -117,6 +118,7 @@
     <li><a href="#fuel">Fuel imports and crises</a></li>
     <li><a href="#revenue">Revenue collected by MIRA</a></li>
     <li><a href="#budget">Weekly budget figures</a></li>
+    <li><a href="#protection">Protection, policing and interest</a></li>
     <li><a href="#time">Time and updates</a></li>
     <li><a href="#limits">Limitations</a></li>
     <li><a href="#series">Every data series used</a></li>
@@ -128,6 +130,7 @@
 <p>Every morning at 08:00 Malé time, an automated script downloads the latest figures through MMA's official API and saves them to a file the website reads. Nothing is typed in by hand, with one exception, the population estimate, explained in <a href="#population">section 6</a>.</p>
 <p>The <a href="revenue.html">revenue page</a> also uses the monthly revenue collection files published by the Maldives Inland Revenue Authority (MIRA). Every morning a script checks MIRA's website for new versions, downloads them and reads them, without retyping any figures. See <a href="#revenue">section 12</a>.</p>
 <p>The <a href="budget.html">budget page</a> uses the Ministry of Finance's Weekly Fiscal Developments reports. The same morning script checks the Ministry's website for a new report, downloads it and reads its tables. See <a href="#budget">section 13</a>.</p>
+<p>The <a href="protection.html">protection page</a> also uses the case counts published on the Maldives Police Service's crime statistics page. Every morning a script opens the page, reads the table for each year and month, and saves it. See <a href="#protection">section 14</a>.</p>
 <p>Every series the site uses can be downloaded in one file from the <a href="data.html">data page</a>. The file is rebuilt every morning after the updates above. Money is converted to millions of rufiyaa or US dollars, ratios to GDP to percent, and each series is given a plain name and a note of its original source, such as its MMA series number or MIRA line.</p>
 <p>This site is independent. It is not produced or endorsed by MMA, the Ministry of Finance or any government body.</p>
 
@@ -351,7 +354,19 @@
 <h3>How these figures relate to others on the site</h3>
 <p>Weekly figures are provisional. The Ministry notes that they change as accounts are reconciled, and that spending is counted when it is recorded rather than when cash is paid. MMA's monthly government finance series, used on the main page, is compiled later and can differ by several billion rufiyaa for a full year. Revenue figures also differ from MIRA's collections on the <a href="revenue.html">taxes page</a>, because MIRA records money when it is collected and the Ministry when it reaches the government's accounts, and because some revenue, such as import duty and dividends, isn't collected by MIRA.</p>
 
-<h2 id="time">14. Time and updates</h2>
+<h2 id="protection">14. Protection, policing and interest</h2>
+<p>The <a href="protection.html">protection page</a> sets government interest costs against spending by the Maldives Police Service and by four offices that protect people, the Family Protection Authority, the Children's Ombudsperson's Office, the Human Rights Commission and the National Drug Agency. It also shows Maldives Correctional Services, the Prosecutor General's Office and the Anti-Corruption Commission.</p>
+<h3>Spending and interest</h3>
+<p>Each office's spending is its line in table 5 of the Weekly Fiscal Developments report, budget utilisation by office, from 1 January to the report's date. Interest is the report's "Financing and Interest Costs", which the Ministry counts within recurrent spending. Loan principal repayments are not included. The year-by-year chart and the two-year comparison use the last report of each year, as on the budget page. Offices are matched by name. The National Drug Agency first appears as its own office in 2024, and the Children's Ombudsperson's Office in 2020, so earlier years are shown as not available.</p>
+<h3>Days of interest</h3>
+<p>Interest per day is the year's interest so far divided by the number of days from 1 January to the report's date. An office's spending is then divided by that daily amount. For example, if interest so far is MVR 3,800 million over 267 days, one day of interest is about MVR 14.2 million, and an office that spent MVR 7.1 million has spent the same as about half a day of interest. The live counters at the top of the page carry the same daily rate forward from the latest report, so they are estimates.</p>
+<h3>Cases reported to the police</h3>
+<p>Case counts come from the <a href="https://www.police.gov.mv/crime-statistics" rel="noopener">Maldives Police Service crime statistics page</a>, which takes them from the police case reporting platform. They are cases reported, not crimes proven, and include traffic accidents and lost items. The script reads every month of every year the page offers on its first run, then the current and previous year each morning, and checks that the categories add up to the total shown. Counts for a whole year use the page's own yearly figure. Cases shown beside an office are for 1 January to the end of the month of the latest weekly report, so they can run a few days past the spending figures. Older years may be lower partly because fewer cases were recorded on the platform.</p>
+<p>Placing an office next to a type of case shows scale only. It does not mean the office handles every such case, or that spending and cases are linked.</p>
+<h3>Where interest goes</h3>
+<p>Interest is paid to whoever lent to the government. Interest on domestic debt goes mainly to banks, MMA, the pension fund and other institutions in Maldives, so it stays in the economy but pays lenders rather than for public services. Interest on external debt is paid abroad in foreign currency. Either way, money paid in interest isn't available for other spending that year.</p>
+
+<h2 id="time">15. Time and updates</h2>
 <p>The time shown on the clock is Malé time (UTC+5), whatever time zone the visitor is in.</p>
 <p>The site checks MMA and the Ministry of Finance for new data every morning at 08:00 Malé time. MMA publishes debt figures quarterly and government finance figures monthly, and the Ministry publishes its budget report weekly, so most days nothing changes. MIRA's revenue files are checked every morning too, and replaced when MIRA publishes a new version. The footer of each page shows when its data was last updated.</p>
 <h3>If the data stops updating</h3>
@@ -362,7 +377,7 @@
   <li>some figures couldn't be updated at the last refresh. In that case the previous values are kept rather than dropped, and the warning says so.</li>
 </ul>
 
-<h2 id="limits">15. Limitations</h2>
+<h2 id="limits">16. Limitations</h2>
 <ul>
   <li>The clock between quarterly releases is an estimate based on the past year's pace, not a live record of borrowing.</li>
   <li>The current debt-to-GDP ratio relies on a GDP forecast.</li>
@@ -376,7 +391,7 @@
 </ul>
 <p>Spotted an error? Please send a message using the form on the <a href="about.html">About page</a>.</p>
 
-<h2 id="series">16. Every data series used</h2>
+<h2 id="series">17. Every data series used</h2>
 <div class="tbl"><table>
   <tr><th>MMA ID</th><th>Series</th><th>Frequency</th><th>Used for</th></tr>
   <tr><td>4514</td><td>Total outstanding public and publicly guaranteed debt</td><td>Quarterly</td><td>The clock, chart, growth</td></tr>
@@ -397,6 +412,8 @@
   <tr><td>3486</td><td>Import of goods (total)</td><td>Monthly</td><td>Fuel's share of imports</td></tr>
   <tr><td>3787</td><td>Crude oil prices (World Bank average of Brent, Dubai and WTI)</td><td>Monthly</td><td>Oil price line</td></tr>
   <tr><td>n/a</td><td>Weekly Fiscal Developments (Ministry of Finance), every report since December 2018</td><td>Weekly</td><td>Budget page</td></tr>
+  <tr><td>n/a</td><td>Weekly Fiscal Developments, table 5, budget utilisation by office (Ministry of Finance)</td><td>Weekly</td><td>Protection page</td></tr>
+  <tr><td>n/a</td><td>Crime statistics, cases reported by category (Maldives Police Service)</td><td>Monthly</td><td>Protection page</td></tr>
   <tr><td>n/a</td><td>MIRA monthly revenue collection, all collections in rufiyaa (Maldives Inland Revenue Authority)</td><td>Monthly</td><td>Revenue page</td></tr>
   <tr><td>n/a</td><td>MIRA monthly revenue collection paid in US dollars (Maldives Inland Revenue Authority)</td><td>Monthly</td><td>Dollar share on the revenue page</td></tr>
   <tr><td>n/a</td><td>Registered Maldivian population, end of 2025 (Department of National Registration, via MBS)</td><td>Annual</td><td>Per-citizen figures</td></tr>
@@ -406,8 +423,8 @@
 </div>
 </main>
 <footer class="site-foot"><div class="wrap">
-  <span id="fetched">Source: Maldives Monetary Authority Statistics Database.</span>
-  <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent; not affiliated with the MMA.</span></span>
+  <span id="fetched">Figures from Maldives Monetary Authority Statistics Database.</span>
+  <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with MMA.</span></span>
 </div></footer>
 <script src="assets/site.js"></script>
 <script>

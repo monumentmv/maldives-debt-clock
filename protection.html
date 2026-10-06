@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#072f40">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<title>Protection and interest · Maldives National Debt Clock</title>
+<meta name="description" content="What the government spends on the police and on protecting families, children and human rights, set against what it pays in interest, with cases reported to the police.">
+<style>
+  .lede { font-size: clamp(1.05rem, 2.2vw, 1.25rem); max-width: 44rem; }
+  main .stats { grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+  .controls { display: flex; flex-wrap: wrap; gap: .75rem 1rem; align-items: center; margin-top: 1rem; }
+  select { font: 700 .9rem var(--body); background: rgba(255,255,255,.08); color: var(--foam); border: 1px solid rgba(169,205,214,.3); border-radius: 6px; padding: .35rem .45rem; min-height: 2.2rem; max-width: 100%; }
+  select option { color: var(--ink); background: #fff; }
+  .pill { font: 700 .85rem var(--body); border: 1px solid rgba(169,205,214,.35); background: transparent; color: var(--mist); padding: .35rem .75rem; border-radius: 999px; cursor: pointer; min-height: 2.1rem; }
+  .pill[aria-pressed="true"] { color: var(--abyss); background: var(--foam); border-color: var(--foam); }
+  .pills { display: flex; flex-wrap: wrap; gap: .45rem; }
+
+  /* days of interest */
+  .ruler { margin-top: 1.75rem; max-width: 60rem; }
+  .ruler .row { display: grid; grid-template-columns: minmax(10rem, 15rem) 1fr; gap: .3rem 1.25rem; align-items: center; padding: .85rem 0; border-bottom: 1px solid rgba(169,205,214,.12); }
+  .ruler .name { color: var(--foam); font-weight: 700; font-size: .95rem; line-height: 1.3; }
+  .ruler .name small { display: block; color: var(--mist); font-weight: 400; font-size: .85rem; }
+  .track { position: relative; height: 1.6rem; background: repeating-linear-gradient(90deg, transparent 0, transparent calc(var(--day) - 1px), rgba(169,205,214,.18) calc(var(--day) - 1px), rgba(169,205,214,.18) var(--day)); }
+  .track .fill { position: absolute; left: 0; top: .2rem; bottom: .2rem; background: var(--lagoon); border-radius: 3px; }
+  .track .fill.total { background: var(--sun); }
+  .track .tag { position: absolute; top: 50%; transform: translateY(-50%); padding-left: .5rem; font-weight: 700; color: var(--foam); white-space: nowrap; font-size: .9rem; }
+  .ruler .cases { grid-column: 2; font-size: .85rem; color: var(--mist); }
+  .scale { display: grid; grid-template-columns: minmax(10rem, 15rem) 1fr; gap: 1.25rem; font-size: .8rem; color: var(--mist); }
+  .scale .ticks { position: relative; height: 1.2rem; }
+  .scale .ticks span { position: absolute; transform: translateX(-50%); }
+
+  /* tables */
+  .tbl-wrap { overflow-x: auto; }
+  .tbl { width: 100%; min-width: 34rem; border-collapse: collapse; margin-top: 1.25rem; font-size: .95rem; color: var(--mist); }
+  .tbl th { text-align: right; font-weight: 700; color: var(--foam); padding: .55rem .75rem; border-bottom: 1px solid rgba(169,205,214,.35); vertical-align: bottom; }
+  .tbl td { text-align: right; padding: .5rem .75rem; border-bottom: 1px solid rgba(169,205,214,.1); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .tbl th:first-child, .tbl td:first-child { text-align: left; white-space: normal; }
+  .tbl tr.int td { color: var(--coral); font-weight: 700; }
+  .tbl tr.sec td { color: var(--sun); font-weight: 700; padding-top: 1.1rem; border-bottom: 0; }
+  .tbl tr.low td:first-child { color: var(--foam); font-weight: 700; }
+  .used { display: inline-flex; align-items: center; gap: .5rem; }
+  .used .t { position: relative; width: 5.5rem; height: .5rem; background: rgba(255,255,255,.1); border-radius: 999px; }
+  .used .t i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--lagoon); border-radius: 999px; }
+  .used .t b { position: absolute; top: -.25rem; bottom: -.25rem; width: 2px; background: var(--sun); }
+  tr.low .used .t i { background: var(--coral); }
+  .up { color: var(--coral); } .down { color: var(--lagoon); }
+
+  /* cases */
+  .cases-list { margin-top: 1.25rem; display: grid; gap: .55rem; max-width: 52rem; }
+  .cases-list .row { display: grid; grid-template-columns: minmax(8rem, 12rem) 1fr 4.5rem; gap: 1rem; align-items: center; }
+  .cases-list .row span:first-child { color: var(--foam); font-weight: 700; font-size: .95rem; }
+  .cases-list .bar { height: .9rem; background: rgba(255,255,255,.06); border-radius: 3px; position: relative; }
+  .cases-list .bar i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--mist); border-radius: 3px; }
+  .cases-list .row.linked .bar i { background: var(--lagoon); }
+  .cases-list .row span:last-child { text-align: right; font-variant-numeric: tabular-nums; color: var(--foam); font-weight: 700; }
+
+  .where { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 2rem 2.5rem; margin-top: 1.5rem; }
+  .where h3 { margin: 0 0 .5rem; color: var(--foam); }
+  .caveat { border-top: 1px solid rgba(169,205,214,.25); padding-top: 2rem; }
+  .callout-line { margin-top: 1.25rem; padding: .9rem 1.1rem; background: rgba(255,255,255,.05); border-radius: 6px; font-size: .95rem; color: var(--mist); max-width: 52rem; }
+  .callout-line b { color: var(--foam); }
+  @media (max-width: 600px) {
+    .ruler .row, .scale { grid-template-columns: 1fr; }
+    .scale > span:first-child { display: none; }
+    .ruler .cases { grid-column: 1; }
+    .cases-list .row { grid-template-columns: 1fr 3.5rem; }
+    .cases-list .row .bar { grid-column: 1 / -1; grid-row: 2; }
+  }
+</style>
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="./">MV <span>Debt Clock</span></a>
+  <nav class="site-nav" aria-label="Main">
+    <a href="./" data-page="clock">Debt clock</a>
+    <a href="budget.html" data-page="budget">Budget</a>
+    <a href="revenue.html" data-page="revenue">Taxes</a>
+    <a href="fuel.html" data-page="fuel">Fuel imports</a>
+    <a href="protection.html" data-page="protection" aria-current="page">Protection</a>
+    <a href="data.html" data-page="data">Data</a>
+    <a href="methodology.html" data-page="method">Methodology</a>
+    <a href="about.html" data-page="about">About</a>
+  </nav>
+  <div class="prefs">
+    <div class="toggle" data-pref="cur" role="group" aria-label="Currency"><button type="button" data-v="MVR" aria-pressed="true">MVR</button><button type="button" data-v="USD" aria-pressed="false">US$</button></div>
+    <div class="toggle" data-pref="real" role="group" aria-label="Inflation adjustment" title="Real shows past amounts in today's prices, adjusted for inflation"><button type="button" data-v="0" aria-pressed="true">Nominal</button><button type="button" data-v="1" aria-pressed="false">Real</button></div>
+  </div>
+  <div class="real-note" role="status"></div>
+</header>
+
+<main class="dark">
+<div class="wrap">
+
+  <section>
+    <h1 id="headline">Protection, policing and interest</h1>
+    <p class="lede" id="lede">Interest pays for borrowing that has already happened. It doesn't build a classroom, buy medicine or pay a new salary. This page sets it against what the state spends on the police and on protecting families, children and human rights.</p>
+    <div class="stats" style="margin-top:2rem">
+      <div class="stat warn"><div class="n num" id="sOpen">…</div><div class="l">interest building up since you opened this page</div></div>
+      <div class="stat warn"><div class="n num" id="sHour">…</div><div class="l">interest every hour in <span id="yr1"></span></div></div>
+      <div class="stat warn"><div class="n num" id="sYtd">…</div><div class="l">interest so far this year, estimated from the latest weekly report</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Measured in days of interest</h2>
+    <p id="rulerNote"></p>
+    <div class="ruler" id="ruler"></div>
+  </section>
+
+  <section>
+    <h2>Interest and policing</h2>
+    <p id="polNote"></p>
+    <div class="stats" style="margin-top:1.5rem">
+      <div class="stat warn"><div class="n num" id="pInt">…</div><div class="l">interest and financing costs</div></div>
+      <div class="stat hot"><div class="n num" id="pPol">…</div><div class="l">Maldives Police Service</div></div>
+      <div class="stat"><div class="n num" id="pCases">…</div><div class="l" id="pCasesL">cases reported to the police</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="chart-head">
+      <div><h2>Year by year</h2><p id="yearNote" style="margin:0"></p></div>
+    </div>
+    <div class="pills" id="groupPick" role="group" aria-label="Compare interest with" style="margin-top:1rem"></div>
+    <div class="chart-box" id="yearChart"></div>
+    <div class="key"><span><i style="background:#ff8a6b"></i>Interest and financing costs</span><span><i style="background:#3fb8b0"></i><span id="keyGroup">Maldives Police Service</span></span></div>
+    <div class="callout-line num" id="yearLine"></div>
+  </section>
+
+  <section>
+    <h2>Compare any two years</h2>
+    <p>Each figure is the year's total from the last weekly report of that year. The latest year runs to the latest report.</p>
+    <div class="controls">
+      <label>From <select id="yA" aria-label="First year"></select></label>
+      <label>To <select id="yB" aria-label="Second year"></select></label>
+    </div>
+    <div class="tbl-wrap"><table class="tbl" id="cmpTbl"></table></div>
+  </section>
+
+  <section>
+    <h2>How much of each budget has been used</h2>
+    <p id="utilNote"></p>
+    <div class="tbl-wrap"><table class="tbl" id="utilTbl"></table></div>
+  </section>
+
+  <section id="casesSec">
+    <h2>Cases reported to the police</h2>
+    <p id="casesNote">Case counts appear after the next automatic update.</p>
+    <div class="controls" id="casesCtl" hidden>
+      <label>Year <select id="cYear" aria-label="Year"></select></label>
+      <label>Period <select id="cMonth" aria-label="Period"></select></label>
+    </div>
+    <div class="cases-list" id="casesList"></div>
+    <div class="key" id="casesKey" hidden><span><i style="background:#3fb8b0"></i>Linked to an agency above</span><span><i style="background:#a9cdd6"></i>Other cases</span></div>
+  </section>
+
+  <section>
+    <h2>Where interest goes</h2>
+    <p>Interest is income for whoever lent to the government. That makes it different from almost everything else in the budget.</p>
+    <div class="where">
+      <div><h3>Lenders in Maldives</h3><p>Commercial banks, MMA, the pension fund and other financial institutions hold most Treasury bills and bonds. Their interest stays in the economy, but it goes to lenders rather than public services.</p></div>
+      <div><h3>Lenders abroad</h3><p>Interest on external loans, sukuk and international bonds leaves the country in foreign currency and draws on reserves.</p></div>
+      <div><h3>What it crowds out</h3><p>Every rufiyaa paid in interest is a rufiyaa the budget can't spend on policing, protection or anything else that year.</p></div>
+    </div>
+  </section>
+
+  <section class="caveat">
+    <h2>Reading these figures</h2>
+    <p>Spending comes from the Ministry of Finance's Weekly Fiscal Developments, table 5, budget by office. Interest is the line "Financing and Interest Costs", which the Ministry counts within recurrent spending. Loan repayments are not included. Weekly figures are early and change as accounts are reconciled.</p>
+    <p>Days of interest divide an agency's spending by the average daily interest cost over the same period. Matching an agency with a type of case shows scale only. It doesn't mean the agency handles every such case, or that spending and cases are linked.</p>
+    <p>Case counts are cases reported to the Maldives Police Service, taken from its crime statistics page. They count reports, not convictions, and include traffic accidents and lost items. Older years may be undercounted if fewer cases were recorded on the police reporting platform.</p>
+    <p>Courts aren't shown because judiciary spending moved into the Special Budget in April 2026. Gender and family functions were merged into other ministries in April 2026 and aren't reported separately. The National Drug Agency first appears as its own office in 2024. <a href="methodology.html#protection">More in the methodology</a>.</p>
+  </section>
+
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <span id="fetched">Figures from the Ministry of Finance, Weekly Fiscal Developments, and the Maldives Police Service.</span>
+  <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with the Ministry of Finance, the Maldives Police Service or MMA.</span></span>
+</div></footer>
+
+<script src="assets/site.js"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const { fmt, sym, short, row, dayLabel, MONTHS } = MV;
+  const M = 1e6;
+
+  Promise.all([MV.getJSON("data.json"), MV.getJSON("protection.json")]).then(([data, P]) => {
+    MV.setData(data.series); MV.paintPrefs(); MV.checkStale(data);
+    const L = P.latest, A = P.agencies, LD = L.d, Ly = Number(LD.slice(0, 4));
+    const agency = k => A.find(a => a.key === k);
+    const now = k => L.agencies[k]?.[2];
+    const prot = A.filter(a => a.group === "protection" && now(a.key) != null);
+    const justice = A.filter(a => a.group === "justice" && now(a.key) != null);
+    const perDay = L.interest[2] * M / L.days, perSec = perDay / 86400;
+    const days = v => v * M / perDay;
+    const asTime = d => d < 1 ? `${Math.max(1, Math.round(d * 24))} hours` : d < 10 ? `${fmt(d, 1)} days` : `${fmt(Math.round(d))} days`;
+    const cur = (v, d) => sym() + " " + short(MV.convNow(v, d));
+    const protTotal = prot.reduce((s, a) => s + now(a.key), 0);
+    const C = P.crime, al = C?.aligned;
+    const caseFor = cats => (al && cats.length) ? cats.reduce((s, c) => s + (al.cases[c] || 0), 0) : null;
+    const throughMonth = al ? (al.to_month === 1 ? "January" : `January to ${MONTHS[al.to_month - 1]}`) : "";
+
+    // ---------- live counters ----------
+    const opened = performance.now(), periodEnd = new Date(LD + "T24:00:00+05:00").getTime();
+    (function tick() {
+      $("sOpen").textContent = sym() + " " + fmt(MV.convNow((performance.now() - opened) / 1000 * perSec));
+      $("sYtd").textContent = cur(L.interest[2] * M + Math.max(0, (Date.now() - periodEnd) / 1000) * perSec);
+      requestAnimationFrame(tick);
+    })();
+
+    function render() {
+      const fpa = now("fpa");
+      if (fpa != null) $("headline").textContent = `Family protection spending this year equals about ${asTime(days(fpa))} of interest`;
+      $("lede").textContent = `From 1 January to ${dayLabel(LD)}, the government paid ${cur(L.interest[2] * M, LD)} in interest and financing costs. That is about ${fmt(L.interest[2] / protTotal)} times what it spent on the four agencies that protect families, children, human rights and people affected by drugs. Interest pays for borrowing that has already happened, so it doesn't build a classroom, buy medicine or pay a new salary.`;
+      $("sHour").textContent = cur(perDay / 24); $("yr1").textContent = Ly;
+
+      // ruler
+      const maxD = Math.max(8, Math.ceil(days(protTotal)));
+      $("rulerNote").innerHTML = `Each bar is an agency's spending from 1 January to ${dayLabel(LD)}, shown as the number of days of interest it would pay for. One day of interest is about <b>${cur(perDay, LD)}</b>.`;
+      let h = `<div class="scale"><span></span><div class="ticks">` + Array.from({ length: maxD + 1 }, (_, d) => `<span style="left:${d / maxD * 100}%">${d}${d === 1 ? " day" : ""}</span>`).join("") + `</div></div>`;
+      [...prot.map(a => ({ name: a.name, v: now(a.key), cases: a.cases, noun: a.case_noun })), { name: "All four together", v: protTotal, total: true, cases: [] }].forEach(r => {
+        const d = days(r.v), w = Math.min(d / maxD, 1) * 100, n = caseFor(r.cases);
+        h += `<div class="row" style="--day:${100 / maxD}%"><div class="name">${r.name}<small>${cur(r.v * M, LD)} spent</small></div>
+          <div class="track" style="--day:${100 / maxD}%" role="img" aria-label="${r.name}, ${asTime(d)} of interest"><div class="fill${r.total ? " total" : ""}" style="width:${w}%"></div><span class="tag" style="left:${w}%">${asTime(d)}</span></div>
+          ${n != null ? `<div class="cases">${fmt(n)} ${r.noun} cases reported, ${throughMonth} ${al.year}</div>` : ""}</div>`;
+      });
+      $("ruler").innerHTML = h;
+
+      // police
+      const pol = now("police"), polL = L.agencies.police?.[1];
+      $("pInt").textContent = cur(L.interest[2] * M, LD);
+      $("pPol").textContent = cur(pol * M, LD);
+      const tot = al ? Object.values(al.cases).reduce((s, n) => s + n, 0) : null;
+      $("pCases").textContent = tot != null ? fmt(tot) : "n/a";
+      $("pCasesL").textContent = al ? `cases reported to the police, ${throughMonth} ${al.year}` : "cases reported to the police, appears after the next update";
+      $("polNote").textContent = `Running the police service cost ${cur(pol * M, LD)} from 1 January to ${dayLabel(LD)}, the same as ${asTime(days(pol))} of interest. Interest cost ${fmt(L.interest[2] / pol, 1)} times as much.` +
+        (polL ? ` Police spending is ${pol >= polL ? "up" : "down"} ${fmt(Math.abs(pol / polL - 1) * 100, 1)}% on the same date a year earlier, and interest is ${L.interest[2] >= L.interest[1] ? "up" : "down"} ${fmt(Math.abs(L.interest[2] / L.interest[1] - 1) * 100, 1)}%.` : "");
+
+      drawYears(); drawCmp(); drawUtil(); drawCases();
+    }
+
+    // ---------- year by year ----------
+    const H = P.history;
+    const GROUPS = [
+      { id: "police", label: "Police", name: "Maldives Police Service", noun: "the police", keys: ["police"] },
+      { id: "prot", label: "Protection agencies", name: "Protection agencies together", noun: "the protection agencies", keys: prot.map(a => a.key) },
+      ...prot.map(a => ({ id: a.key, label: a.name, name: a.name, noun: "the " + a.name, keys: [a.key] })),
+      { id: "justice", label: "Prisons, prosecution and anti-corruption", name: "Prisons, prosecution and anti-corruption", noun: "prisons, prosecution and anti-corruption", keys: justice.map(a => a.key) },
+    ];
+    let gid = "police";
+    $("groupPick").innerHTML = GROUPS.map(g => `<button type="button" class="pill" data-g="${g.id}" aria-pressed="${g.id === gid}">${g.label}</button>`).join("");
+    $("groupPick").addEventListener("click", e => { const b = e.target.closest("[data-g]"); if (!b) return; gid = b.dataset.g;
+      $("groupPick").querySelectorAll("[data-g]").forEach(x => x.setAttribute("aria-pressed", x.dataset.g === gid)); drawYears(); });
+    const gsum = (h, g) => { const vs = g.keys.map(k => h.agencies[k]); return vs.some(v => v == null) ? null : vs.reduce((s, v) => s + v, 0); };
+
+    function drawYears() {
+      const g = GROUPS.find(x => x.id === gid), rows = H.filter(h => gsum(h, g) != null);
+      $("keyGroup").textContent = g.name;
+      if (!rows.length) { $("yearChart").innerHTML = ""; return; }
+      const over = (v, d) => MV.conv(v * M, d);
+      const big = rows.some(h => over(h.interest, h.d) >= 1e9);
+      const unit = big ? 1e9 : 1e6;
+      MV.barChart($("yearChart"), {
+        cats: rows.map(h => ({ label: h.full ? String(h.year) : h.year + "*", partial: !h.full })),
+        label: `Interest and ${g.name} by year`,
+        groups: [{ color: "#ff8a6b", vals: rows.map(h => over(h.interest, h.d) / unit) }, { color: "#3fb8b0", vals: rows.map(h => over(gsum(h, g), h.d) / unit) }],
+        yFmt: v => fmt(v, v % 1 ? 1 : 0),
+        tip: i => { const h = rows[i], v = gsum(h, g); return `<b>${h.full ? h.year : `${h.year}, to ${dayLabel(h.d)}`}</b>` + row("Interest", MV.money(h.interest * M, h.d)) + row(g.name, MV.money(v * M, h.d)) + row("Interest is", fmt(h.interest / v, 1) + " times as much"); },
+      });
+      $("yearNote").textContent = `Totals for each year in ${big ? "billions" : "millions"} of ${MV.state.cur === "USD" ? "US dollars" : "rufiyaa"}${MV.isReal() ? `, in ${MV.baseLabel()}` : ""}.` + (rows.some(h => !h.full) ? ` ${Ly}* is the year so far.` : "");
+      const full = rows.filter(h => h.full), a = full[0], z = full[full.length - 1];
+      $("yearLine").innerHTML = a && z && a !== z ? `From ${a.year} to ${z.year}, interest grew <b>${fmt(z.interest / a.interest, 1)} times</b>, while spending on ${g.noun} grew <b>${fmt(gsum(z, g) / gsum(a, g), 1)} times</b>, in the money of each year.` : "";
+    }
+
+    // ---------- compare two years ----------
+    const yrs = H.map(h => h.year);
+    $("yA").innerHTML = $("yB").innerHTML = yrs.slice().reverse().map(y => `<option value="${y}">${y}${H.find(h => h.year === y).full ? "" : " so far"}</option>`).join("");
+    const lastFull = H.filter(h => h.full).map(h => h.year);
+    $("yB").value = lastFull[lastFull.length - 1] ?? yrs[yrs.length - 1];
+    $("yA").value = H.find(h => h.year === 2019) ? 2019 : yrs[0];
+    $("yA").onchange = $("yB").onchange = () => drawCmp();
+    function drawCmp() {
+      const a = H.find(h => h.year == $("yA").value), b = H.find(h => h.year == $("yB").value);
+      const v = (h, k) => k === "interest" ? h.interest : h.agencies[k];
+      const cell = (h, k) => v(h, k) == null ? "n/a" : MV.money(v(h, k) * M, h.d);
+      const ch = k => { const x = v(a, k), y = v(b, k); if (x == null || y == null || !x) return "n/a"; const c = (MV.conv(y * M, b.d) / MV.conv(x * M, a.d) - 1) * 100; return `${c >= 0 ? "+" : "−"}${fmt(Math.abs(c), 0)}%`; };
+      const r = (name, k, cls = "") => `<tr class="${cls}"><td>${name}</td><td>${cell(a, k)}</td><td>${cell(b, k)}</td><td>${ch(k)}</td></tr>`;
+      $("cmpTbl").innerHTML = `<tr><th>Line</th><th>${a.year}${a.full ? "" : " so far"}</th><th>${b.year}${b.full ? "" : " so far"}</th><th>Change</th></tr>` + r("Interest and financing costs", "interest", "int") +
+        A.filter(x => x.group === "police").map(x => r(x.name, x.key)).join("") + `<tr class="sec"><td colspan="4">Protection</td></tr>` + A.filter(x => x.group === "protection").map(x => r(x.name, x.key)).join("") +
+        `<tr class="sec"><td colspan="4">Prisons, prosecution and anti-corruption</td></tr>` + A.filter(x => x.group === "justice").map(x => r(x.name, x.key)).join("");
+    }
+
+    // ---------- budget used ----------
+    function drawUtil() {
+      const share = L.days / (Ly % 4 === 0 ? 366 : 365);
+      $("utilNote").innerHTML = `Spending from 1 January to ${dayLabel(LD)}, against each office's approved budget for ${Ly}. The yellow mark shows how much of the year had passed, ${fmt(share * 100)}%. Offices well behind it are highlighted.`;
+      const lines = [{ name: "Interest and financing costs", t: L.interest, int: true }, ...A.filter(a => L.agencies[a.key]).map(a => ({ name: a.name, t: L.agencies[a.key] }))];
+      $("utilTbl").innerHTML = `<tr><th>Office</th><th>Approved ${Ly}</th><th>Spent so far</th><th>Same date ${Ly - 1}</th><th>Budget used</th></tr>` + lines.map(x => {
+        const [ap, ly, nw] = x.t, u = ap ? nw / ap : null, low = u != null && u < share - .2;
+        return `<tr class="${x.int ? "int" : ""}${low ? " low" : ""}"><td>${x.name}</td><td>${cur(ap * M, LD)}</td><td>${cur(nw * M, LD)}</td><td>${ly != null ? cur(ly * M, LD) : "n/a"}</td>
+          <td>${u == null ? "n/a" : `<span class="used"><span class="t"><i style="width:${Math.min(1, u) * 100}%"></i><b style="left:${share * 100}%"></b></span>${fmt(u * 100)}%</span>`}</td></tr>`;
+      }).join("");
+      const nda = L.agencies.nda;
+      if (nda && nda[0] && nda[2] / nda[0] < share - .2) $("utilNote").innerHTML += ` The National Drug Agency has used ${fmt(nda[2] / nda[0] * 100)}% of its budget${caseFor(["Drugs"]) != null ? `, in a year with ${fmt(caseFor(["Drugs"]))} drug cases reported so far` : ""}.`;
+    }
+
+    // ---------- cases ----------
+    const linked = new Set(A.flatMap(a => a.cases));
+    if (C) {
+      $("casesCtl").hidden = false; $("casesKey").hidden = false;
+      const cy = Object.keys(C.yearly).length ? Object.keys(C.yearly) : Object.keys(C.monthly);
+      $("cYear").innerHTML = cy.slice().reverse().map(y => `<option>${y}</option>`).join("");
+      const months = () => Object.keys(C.monthly[$("cYear").value] || {}).map(Number).sort((a, b) => a - b);
+      const fillMonths = () => { const ms = months(); $("cMonth").innerHTML = `<option value="0">Whole year</option>` + (ms.length > 1 ? `<option value="ytd">January to ${MONTHS[ms[ms.length - 1] - 1]}</option>` : "") + ms.map(m => `<option value="${m}">${MONTHS[m - 1]}</option>`).join(""); };
+      fillMonths();
+      $("cYear").onchange = () => { fillMonths(); drawCases(); }; $("cMonth").onchange = () => drawCases();
+    }
+    function drawCases() {
+      if (!C) return;
+      const y = $("cYear").value, m = $("cMonth").value;
+      let cats = {};
+      if (m === "0") cats = C.yearly[y] || {};
+      else if (m === "ytd") Object.values(C.monthly[y] || {}).forEach(o => Object.entries(o).forEach(([c, n]) => cats[c] = (cats[c] || 0) + n));
+      else cats = C.monthly[y]?.[m] || {};
+      const list = Object.entries(cats).sort((a, b) => b[1] - a[1]), max = list[0]?.[1] || 1, total = list.reduce((s, [, n]) => s + n, 0);
+      $("casesNote").textContent = `${fmt(total)} cases reported to the Maldives Police Service in ${m === "0" ? y : m === "ytd" ? `${$("cMonth").selectedOptions[0].text} ${y}` : `${MONTHS[m - 1]} ${y}`}, by category. Counts taken from the police website on ${dayLabel(C.retrieved)}.`;
+      $("casesList").innerHTML = list.map(([c, n]) => `<div class="row${linked.has(c) ? " linked" : ""}"><span>${c}</span><div class="bar"><i style="width:${n / max * 100}%"></i></div><span>${fmt(n)}</span></div>`).join("");
+    }
+
+    render();
+    MV.onPrefs(render); MV.onResize(drawYears);
+    $("fetched").textContent = `Ministry of Finance, Weekly Fiscal Developments, report of ${dayLabel(LD)}` + (C ? `. Maldives Police Service crime statistics, taken ${dayLabel(C.retrieved)}` : "") + `. Exchange rates and prices from MMA Statistics Database, last fetched ${MV.fetched(data.fetched_at)}, Malé time.`;
+  }).catch(err => { console.error(err); $("rulerNote").textContent = "These figures haven't been built yet. They appear after the next automatic update."; });
+})();
+</script>
+</body>
+</html>

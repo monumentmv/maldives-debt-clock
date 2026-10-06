@@ -9,8 +9,9 @@ A live estimate of Maldives public and publicly guaranteed debt, built from the
 - `fuel.html`: monthly fuel imports, with crisis periods
 - `budget.html`: weekly budget figures from the Ministry of Finance, with every year since 2019 to compare
 - `revenue.html`: taxes, fees and rents collected by MIRA since 2010, and the part paid in US dollars
+- `protection.html`: interest costs set against spending by the police and the offices that protect families, children and human rights, with cases reported to the police
 - `methodology.html`: how every figure is calculated
-- `about.html`: about and contact form (set `WEB3FORMS_KEY` near the bottom of the file)
+- `about.html`: about and contact form, which sends messages to a Google Form (see below)
 - `assets/site.css`, `assets/site.js`: shared styles, header toggles and charts
 - `population.json`: the citizen population estimate. Update it once a year when the
   Department of National Registration publishes a new year-end figure.
@@ -19,11 +20,14 @@ A live estimate of Maldives public and publicly guaranteed debt, built from the
 - `wfd_extract.py`: reads the tables in a Weekly Fiscal Developments PDF. Also works on its own to download and extract every report to your computer
 - `data/wfd/`: the weekly dataset, one row per report (`wfd_headline.csv`), every table row (`wfd_long.csv`), and which reports were read (`processed.csv`)
 - `data.html`: the data page, with downloads of everything in one Excel or CSV file
-- `build_master.py`: combines MMA, MIRA and Ministry of Finance data into one clean dataset in `data/master/`, and builds the Excel and CSV downloads, published as the `data-latest` release
+- `build_master.py`: combines MMA, MIRA, Ministry of Finance and police data into one clean dataset in `data/master/`, and builds the Excel and CSV downloads into `downloads/` whenever the data changes
+- `fetch_police.py`: reads the Maldives Police Service crime statistics page every morning (with a headless browser) into `data/police/crime_monthly.csv`. If the page can't be read, the existing figures stay
+- `build_protection.py`: builds `protection.json` for the protection page from the weekly budget tables and the police figures
+- `downloads/`: the Excel and CSV downloads linked from the data page
 - `fetch_mira.py`: checks MIRA's website every morning and downloads new versions of its revenue files into `inputs/mira/`
 - `build_revenue.py`: reads the MIRA spreadsheets in `inputs/mira/` and writes `revenue.json`
 - `inputs/mira/`: MIRA's monthly revenue files, kept up to date by `fetch_mira.py`
-- `.github/workflows/update-data.yml`: runs both scripts every morning, and whenever a file in `inputs/` changes
+- `.github/workflows/update-data.yml`: runs all the scripts every morning, and whenever a script or a file in `inputs/` changes
 
 The MMA API token lives only in the `MMA_TOKEN` repository secret.
 
@@ -31,10 +35,14 @@ The MMA API token lives only in the `MMA_TOKEN` repository secret.
 
 ```
 export MMA_TOKEN="your-token"
-pip install requests openpyxl pdfplumber
+pip install requests openpyxl pdfplumber playwright
+python -m playwright install chromium
 python fetch_data.py
 python build_revenue.py
 python fetch_wfd.py
+python fetch_police.py
+python build_protection.py
+python build_master.py
 python -m http.server
 ```
 Then open http://localhost:8000
