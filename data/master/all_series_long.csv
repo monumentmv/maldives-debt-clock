@@ -41811,3 +41811,15 @@ mof.weekly.transfers_to_sdf.ytd,"Transfers to the Sovereign Development Fund, ye
 mof.weekly.transfers_to_sdf.ytd,"Transfers to the Sovereign Development Fund, year to date",2026-09-10,1524.9,MVR million
 mof.weekly.transfers_to_sdf.ytd,"Transfers to the Sovereign Development Fund, year to date",2026-09-17,1583.3,MVR million
 mof.weekly.transfers_to_sdf.ytd,"Transfers to the Sovereign Development Fund, year to date",2026-09-24,1655.9,MVR million
+mps.cases.assault,"Cases reported to the police, assault",2026-01-31,60,cases
+mps.cases.counterfeit_and_forgery,"Cases reported to the police, counterfeit and forgery",2026-01-31,9,cases
+mps.cases.domestic_violence,"Cases reported to the police, domestic violence",2026-01-31,40,cases
+mps.cases.drugs,"Cases reported to the police, drugs",2026-01-31,169,cases
+mps.cases.embezzlement,"Cases reported to the police, embezzlement",2026-01-31,20,cases
+mps.cases.lost_items,"Cases reported to the police, lost items",2026-01-31,112,cases
+mps.cases.robbery,"Cases reported to the police, robbery",2026-01-31,14,cases
+mps.cases.sexual_offences,"Cases reported to the police, sexual offences",2026-01-31,14,cases
+mps.cases.theft,"Cases reported to the police, theft",2026-01-31,311,cases
+mps.cases.total,"Cases reported to the police, all categories",2026-01-31,1108,cases
+mps.cases.traffic_accidents,"Cases reported to the police, traffic accidents",2026-01-31,303,cases
+mps.cases.vandalism,"Cases reported to the police, vandalism",2026-01-31,56,cases
