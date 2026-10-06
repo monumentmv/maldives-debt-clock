@@ -214,3 +214,17 @@ html:is([data-theme="light"],[data-theme="sand"],[data-theme="lagoon"]) .ico { b
 .period-pick .hint-old { color: var(--sun); font-size: .9rem; font-weight: 700; }
 html:is([data-theme="light"],[data-theme="sand"],[data-theme="lagoon"]) :is(.fresh, .period-pick select) { background-color: rgba(7,47,64,.06); }
 html:is([data-theme="light"],[data-theme="sand"],[data-theme="lagoon"]) .since { background: rgba(166,108,0,.08); border-color: rgba(166,108,0,.3); }
+
+/* ---------- pop-up explanations ---------- */
+.explain { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 1.25rem; background: rgba(2, 20, 28, .62); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
+.explain[hidden] { display: none !important; }
+.explain-box { position: relative; max-width: 32rem; width: 100%; background: #fff; color: #072f40; border-radius: 14px; padding: 1.6rem 1.6rem 1.4rem; box-shadow: 0 20px 60px rgba(0,0,0,.4); font: 1rem/1.6 var(--body); }
+.explain-box h3 { margin: 0 2rem .6rem 0; font-family: var(--display); font-size: 1.35rem; line-height: 1.2; color: #072f40; }
+.explain-box p { margin: 0 0 1.1rem; color: #2f4f5a; }
+.explain-box .more { color: #0b6f8a; font-weight: 700; }
+.explain-box .x { position: absolute; top: .6rem; right: .6rem; width: 2.2rem; height: 2.2rem; border-radius: 50%; border: 0; background: #eef4f5; color: #072f40; font-size: 1.3rem; cursor: pointer; }
+[data-term] { cursor: help; }
+.term { border-bottom: 2px dotted currentColor; text-decoration: none; color: inherit; }
+.q { border: 1px solid rgba(169,205,214,.4); background: transparent; color: var(--mist); width: 1.7rem; height: 1.7rem; border-radius: 50%; font: 700 .85rem var(--body); cursor: pointer; flex: none; }
+.q:hover { color: var(--foam); border-color: var(--foam); }
+.ico svg { overflow: visible; }

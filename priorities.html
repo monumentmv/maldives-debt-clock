@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261006b">
+<link rel="stylesheet" href="assets/site.css?v=20261007a">
 <title>Priorities · Maldives National Debt Clock</title>
 <meta name="description" content="What the government pays in interest, set against what it spends on the police, justice, and protecting families, children and human rights.">
 <style>
@@ -64,6 +64,15 @@
   .cases-list .row.linked .bar i { background: var(--lagoon); }
   .cases-list .row span:last-child { text-align: right; font-variant-numeric: tabular-nums; color: var(--foam); font-weight: 700; }
 
+  .often { display: grid; grid-template-columns: repeat(auto-fit, minmax(13.5rem, 1fr)); gap: 1rem; margin-top: 1rem; max-width: 62rem; }
+  .often .c { background: rgba(255,255,255,.05); border-radius: 10px; padding: 1rem 1.1rem; display: grid; grid-template-columns: 2.6rem 1fr; gap: .2rem .8rem; align-items: center; }
+  .often .ico { width: 2.6rem; height: 2.6rem; margin: 0; grid-row: span 2; }
+  .often .ico svg { width: 1.35rem; height: 1.35rem; }
+  .often .big { font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 75; font-size: 1.45rem; line-height: 1.1; color: var(--foam); }
+  .often .sm { font-size: .88rem; color: var(--mist); line-height: 1.35; }
+  .often .c.all { grid-column: 1 / -1; background: rgba(244,201,93,.1); }
+  .often .c.all .big { font-size: clamp(1.4rem, 3vw, 1.9rem); }
+  html:is([data-theme="light"],[data-theme="sand"],[data-theme="lagoon"]) .often .c { background: rgba(7,47,64,.06); }
   .where { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 2rem 2.5rem; margin-top: 1.5rem; }
   .where h3 { margin: 0 0 .5rem; color: var(--foam); }
   .caveat { border-top: 1px solid rgba(169,205,214,.25); padding-top: 2rem; }
@@ -82,10 +91,10 @@
   <a class="brand" href="./">MV <span>Debt Clock</span></a>
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock">Debt clock</a>
+    <a href="priorities.html" data-page="priorities" aria-current="page">Priorities</a>
     <a href="budget.html" data-page="budget">Budget</a>
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
-    <a href="priorities.html" data-page="priorities" aria-current="page">Priorities</a>
     <a href="methodology.html" data-page="method">Methodology</a>
     <a href="about.html" data-page="about">About</a>
   </nav>
@@ -143,8 +152,11 @@
       <label>Year <select id="cYear" aria-label="Year"></select></label>
       <label>Period <select id="cMonth" aria-label="Period"></select></label>
     </div>
+    <h3 style="margin-top:2rem">How often, on average</h3>
+    <div class="often" id="often"></div>
+    <h3 style="margin-top:2.5rem">Every type of case</h3>
     <div class="cases-list" id="casesList"></div>
-    <div class="key"><span><i style="background:#3fb8b0"></i>Linked to an office above</span><span><i style="background:#a9cdd6"></i>Other cases</span></div>
+    <div class="chips" id="casesKey" style="margin-top:1rem"></div>
   </section>
 
   <section>
@@ -171,7 +183,7 @@
   <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with the Ministry of Finance, the Maldives Police Service or MMA.</span></span>
 </div></footer>
 
-<script src="assets/site.js?v=20261006b"></script>
+<script src="assets/site.js?v=20261007a"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -325,7 +337,6 @@
     }
 
     // ---------- cases ----------
-    const linked = new Set(O.flatMap(o => o.cases));
     if (C) {
       $("casesSec").hidden = false;
       const cy = [...new Set([...Object.keys(C.yearly), ...Object.keys(C.monthly)])].sort();
@@ -336,13 +347,29 @@
       drawCases();
     }
     function drawCases() {
-      const y = $("cYear").value, m = $("cMonth").value; let cats = {};
-      if (m === "0") cats = C.yearly[y] || {};
-      else if (m === "ytd") Object.values(C.monthly[y] || {}).forEach(o => Object.entries(o).forEach(([c, n]) => cats[c] = (cats[c] || 0) + n));
-      else cats = C.monthly[y]?.[m] || {};
+      const y = $("cYear").value, m = $("cMonth").value; let cats = {}, days;
+      const yearDays = Number(y) % 4 === 0 ? 366 : 365, dim = mm => new Date(Date.UTC(Number(y), Number(mm), 0)).getUTCDate();
+      if (m === "0") {
+        cats = C.yearly[y] || {};
+        if (Number(y) === Number(C.retrieved.slice(0, 4))) { const r = new Date(C.retrieved + "T12:00:00Z"); days = Math.max(1, Math.round((r - Date.UTC(Number(y), 0, 1)) / 864e5)); } else days = yearDays;
+      } else if (m === "ytd") {
+        const ms = Object.keys(C.monthly[y] || {}); ms.forEach(k => Object.entries(C.monthly[y][k]).forEach(([c, n]) => cats[c] = (cats[c] || 0) + n));
+        days = ms.reduce((t, k) => t + dim(k), 0);
+      } else { cats = C.monthly[y]?.[m] || {}; days = dim(m); }
       const list = Object.entries(cats).sort((a, b) => b[1] - a[1]), max = list[0]?.[1] || 1, total = list.reduce((s, [, n]) => s + n, 0);
-      $("casesNote").textContent = `${fmt(total)} cases reported to the Maldives Police Service, ${m === "0" ? (y == ly ? `so far in ${y}` : `in ${y}`) : m === "ytd" ? `${$("cMonth").selectedOptions[0].text} ${y}` : `in ${MONTHS[m - 1]} ${y}`}. Figures as of ${dayLabel(C.retrieved)}. Pick a year or month to compare.`;
-      $("casesList").innerHTML = list.map(([c, n]) => `<div class="row${linked.has(c) ? " linked" : ""}"><span>${c}</span><div class="bar"><i style="width:${n / max * 100}%"></i></div><span>${fmt(n)}</span></div>`).join("");
+      const when = m === "0" ? (y == ly ? `so far in ${y}` : `in ${y}`) : m === "ytd" ? `${$("cMonth").selectedOptions[0].text} ${y}` : `in ${MONTHS[m - 1]} ${y}`;
+      $("casesNote").textContent = `${fmt(total)} cases were reported to the Maldives Police Service ${when}. Figures as of ${dayLabel(C.retrieved)}. Pick a year or month to compare.`;
+      // which office each kind of case sits closest to. Everything else is the police's alone
+      const owner = c => O.find(o => o.cases.includes(c))?.key || "police";
+      const every = n => { const mins = days * 1440 / n; if (mins < 60) return `${Math.max(1, Math.round(mins))} minutes`; const h = mins / 60; if (h < 10) { const hh = Math.floor(h), mm = Math.round((h - hh) * 60); return (mm ? `${hh} hours ${mm} minutes` : `${hh} hours`).replace(/^1 hours/, "1 hour"); } if (h < 48) return `${Math.round(h)} hours`; const d = h / 24; return d < 14 ? `${Math.round(d)} days` : `${Math.round(d / 7)} weeks`; };
+      const perDay = n => n / days;
+      const ICON = { "Theft": "lock", "Traffic Accidents": "car", "Drugs": "pill", "Lost items": "search", "Vandalism": "hammer", "Assault": "alert", "Domestic violence": "family", "Embezzlement": "coins", "Sexual Offences": "child", "Robbery": "lock", "Counterfeit and forgery": "dollar", "Cheque Bounce": "dollar" };
+      const pick = list.filter(([c, n]) => n > 0).slice(0, 5).concat(list.filter(([c]) => owner(c) !== "police" && !list.slice(0, 5).some(x => x[0] === c)));
+      $("often").innerHTML = total ? `<div class="c all">${MV.icon("cases")}<span class="big">A case every ${every(total)}</span><span class="sm">About ${fmt(perDay(total), perDay(total) < 10 ? 1 : 0)} reports a day to the police, ${when}.</span></div>` +
+        pick.map(([c, n]) => `<div class="c" style="color:${SEG[owner(c)]}">${MV.icon(ICON[c] || "cases")}<span class="big">${perDay(n) >= 1 ? `${fmt(perDay(n), perDay(n) < 10 ? 1 : 0)} a day` : `One every ${every(n)}`}</span><span class="sm">${c}${perDay(n) >= 1 ? `, about one every ${every(n)}` : ""}</span></div>`).join("") : "";
+      $("casesList").innerHTML = list.map(([c, n]) => `<div class="row"><span>${c}</span><div class="bar"><i style="width:${n / max * 100}%;background:${SEG[owner(c)]}"></i></div><span>${fmt(n)}</span></div>`).join("");
+      const owners = ["police", ...new Set(list.map(([c]) => owner(c)).filter(k => k !== "police"))];
+      $("casesKey").innerHTML = owners.map(k => `<span class="chip" style="color:${SEG[k]}">${MV.icon(office(k).icon)}<span>${k === "police" ? "Handled by the police" : `Closest to the ${office(k).name}`}</span></span>`).join("");
     }
 
     render();

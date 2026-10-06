@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261006b">
+<link rel="stylesheet" href="assets/site.css?v=20261007a">
 <title>Maldives National Debt Clock</title>
 <meta name="description" content="A live estimate of Maldives' public and publicly guaranteed debt, built from Maldives Monetary Authority statistics.">
 <meta property="og:title" content="Maldives National Debt Clock">
@@ -72,6 +72,37 @@
   .asof { margin: .8rem 0 0; font-size: clamp(.95rem, 2.2vw, 1.15rem); }
   .asof time { font-weight: 700; }
   .sub { font-size: clamp(.95rem, 2vw, 1.1rem); margin: .35rem 0 0; max-width: 40rem; opacity: .85; }
+
+  /* the short version */
+  .plain-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); gap: 1.1rem; margin-top: 1.75rem; }
+  .pcard { display: flex; flex-direction: column; gap: .35rem; padding: 1.35rem 1.35rem 1.15rem; border-radius: 14px; background: rgba(255,255,255,.05); border: 1px solid rgba(169,205,214,.12); color: var(--mist); }
+  .pcard .ico, .pcard .big { color: var(--c); }
+  .pcard .x { flex: 1; }
+  .pcard .ico { margin-bottom: .4rem; }
+  .pcard .big { font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 72; font-size: clamp(1.7rem, 3.4vw, 2.3rem); line-height: 1.05; }
+  .pcard .t { color: var(--foam); font-weight: 700; font-size: 1.02rem; }
+  .pcard .x { font-size: .95rem; line-height: 1.5; }
+  .pcard .go { margin-top: .6rem; font-weight: 700; font-size: .9rem; color: var(--sun); text-decoration: none; }
+  .pcard .go:hover { text-decoration: underline; }
+  .pcard .term { color: var(--foam); }
+  .pcard:hover { border-color: rgba(169,205,214,.35); }
+  /* questions that open up */
+  .chapters h2 { margin-bottom: .4rem; }
+  .chapters .chapter { margin: 0 !important; padding: 0 !important; border: 0 !important; min-height: 0; }
+  .chapter + .chapter { margin-top: 0; }
+  .chap-head { width: 100%; display: grid; grid-template-columns: 3rem 1fr auto; gap: 1rem; align-items: center; text-align: left; background: rgba(255,255,255,.04); border: 1px solid rgba(169,205,214,.14); border-radius: 12px; padding: 1rem 1.1rem; margin-top: .9rem; color: inherit; font: inherit; cursor: pointer; }
+  .chap-head:hover { border-color: rgba(169,205,214,.35); }
+  .chap-head .ico { margin: 0; }
+  .chap-q { display: block; font-family: var(--display); font-weight: 800; font-size: clamp(1.15rem, 2.4vw, 1.45rem); color: var(--foam); line-height: 1.2; }
+  .chap-a { display: block; margin-top: .25rem; color: var(--mist); font-size: .98rem; line-height: 1.45; }
+  .chap-a b { color: var(--foam); }
+  .chap-more { font-weight: 700; font-size: .88rem; color: var(--sun); white-space: nowrap; }
+  .chap-head[aria-expanded="true"] .show, .chap-head[aria-expanded="false"] .hide { display: none; }
+  .chap-head[aria-expanded="true"] { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+  .chap-body { border: 1px solid rgba(169,205,214,.14); border-top: 0; border-radius: 0 0 12px 12px; padding: 1.5rem 1.25rem 2rem; }
+  .chap-body > div > section, .chap-body section { padding: 0; }
+  @media (max-width: 600px) { .chap-head { grid-template-columns: 2.6rem 1fr; } .chap-more { grid-column: 2; } .chap-body { padding: 1.25rem .9rem 1.5rem; } }
+  html:is([data-theme="light"],[data-theme="sand"],[data-theme="lagoon"]) :is(.pcard, .chap-head) { background: rgba(7,47,64,.05); border-color: rgba(7,47,64,.12); }
   .hero-stats { margin-top: 2.25rem; }
   .hero-stats .l { color: #cfe6ea; }
   .readout .fresh { background: rgba(5,34,47,.45); }
@@ -124,10 +155,10 @@
   <a class="brand" href="./">MV <span>Debt Clock</span></a>
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock" aria-current="page">Debt clock</a>
+    <a href="priorities.html" data-page="priorities">Priorities</a>
     <a href="budget.html" data-page="budget">Budget</a>
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
-    <a href="priorities.html" data-page="priorities">Priorities</a>
     <a href="methodology.html" data-page="method">Methodology</a>
     <a href="about.html" data-page="about">About</a>
   </nav>
@@ -173,22 +204,44 @@
 <main class="dark">
 <div class="wrap">
 
-  <section id="growthSec" hidden>
-    <p class="callout" id="growthLine"></p>
-    <p id="quarterLine"></p>
+  <section class="plain">
+    <h2>The short version</h2>
+    <p>Five things to know, in plain words. Tap any of them to see the details behind it.</p>
+    <div class="plain-grid" id="plain"></div>
   </section>
 
-  <section>
-    <h2>Who it's owed to</h2>
-    <p>Domestic debt is owed to lenders inside Maldives, mostly banks, the central bank and the pension fund. External debt is owed abroad, to other governments, development banks and bondholders. Guaranteed debt is borrowed by state companies, with the government promising to pay if they can't.</p>
+  <section class="chapters">
+    <h2>Want to know more?</h2>
+    <p>Each question opens up the charts and figures behind it.</p>
+  <section class="chapter" id="ch-owed">
+    <button type="button" class="chap-head" aria-expanded="false" aria-controls="ch-owed-body">
+      <span class="chap-ico" data-ico="globe"></span>
+      <span class="chap-txt"><span class="chap-q">Who is the money owed to?</span><span class="chap-a" id="aOwed">Lenders at home and abroad.</span></span>
+      <span class="chap-more"><span class="show">Show the details</span><span class="hide">Hide the details</span></span>
+    </button>
+    <div class="chap-body" id="ch-owed-body" hidden>
+
+    
+    <p>Domestic debt is owed to lenders inside Maldives, mostly banks, the central bank and the pension fund. External debt is owed abroad, to other governments, development banks and bondholders. <a href="#" class="term" data-term="owed">Guaranteed debt</a> is borrowed by state companies, with the government promising to pay if they can't.</p>
     <div class="bar" id="bar" role="img" aria-label="Debt breakdown"></div>
     <ul class="legend" id="legend"></ul>
     <div class="split" id="gdpSplit"></div>
+  
+    </div>
   </section>
-
-  <section>
+  <section class="chapter" id="ch-history">
+    <button type="button" class="chap-head" aria-expanded="false" aria-controls="ch-history-body">
+      <span class="chap-ico" data-ico="trend"></span>
+      <span class="chap-txt"><span class="chap-q">How did the debt get this big?</span><span class="chap-a" id="aHist">It has grown year after year.</span></span>
+      <span class="chap-more"><span class="show">Show the details</span><span class="hide">Hide the details</span></span>
+    </button>
+    <div class="chap-body" id="ch-history-body" hidden>
+<div id="growthSec" hidden>
+    <p class="callout" id="growthLine"></p>
+    <p id="quarterLine"></p>
+  </div>
     <div class="chart-head">
-      <div><h2>How it got here</h2><p id="chartNote" style="margin:0"></p></div>
+      <div><p id="chartNote" style="margin:0"></p></div>
       <div class="subtoggle" role="group" aria-label="Chart view">
         <button type="button" data-view="amount" aria-pressed="true">Amount</button>
         <button type="button" data-view="ratio" aria-pressed="false">% of GDP</button>
@@ -196,10 +249,18 @@
     </div>
     <div class="chart-box" id="chart"></div>
     <div class="hint">Hover or tap the chart to see each quarter.</div>
+  
+    </div>
   </section>
-
-  <section id="fiscalSec" hidden>
-    <h2>What the government collects and spends</h2>
+  <section class="chapter" id="ch-fiscal">
+    <button type="button" class="chap-head" aria-expanded="false" aria-controls="ch-fiscal-body">
+      <span class="chap-ico" data-ico="gap"></span>
+      <span class="chap-txt"><span class="chap-q">Why does the government keep borrowing?</span><span class="chap-a" id="aFisc">Most years it spends more than it collects.</span></span>
+      <span class="chap-more"><span class="show">Show the details</span><span class="hide">Hide the details</span></span>
+    </button>
+    <div class="chap-body" id="ch-fiscal-body" hidden>
+<div id="fiscalSec" hidden>
+    
     <p id="fiscalNote"></p>
     <div class="stats">
       <div class="stat" data-icon="moneyIn"><div class="n num" id="revPP">…</div><div class="l">collected per citizen in a year, in taxes, fees and grants</div></div>
@@ -222,14 +283,25 @@
     <p class="callout" id="interestShare" style="margin-top:2.5rem"></p>
     <h3 id="spendHead">Where a year's spending goes</h3>
     <div class="hbars" id="hbars"></div>
+  </div>
+    </div>
   </section>
+  <section class="chapter" id="ch-how">
+    <button type="button" class="chap-head" aria-expanded="false" aria-controls="ch-how-body">
+      <span class="chap-ico" data-ico="clock"></span>
+      <span class="chap-txt"><span class="chap-q">How does the clock work?</span><span class="chap-a" id="aHow">It starts from the latest official figure and adds debt at the recent pace.</span></span>
+      <span class="chap-more"><span class="show">Show the details</span><span class="hide">Hide the details</span></span>
+    </button>
+    <div class="chap-body" id="ch-how-body" hidden>
 
-  <section class="method-teaser">
-    <h2>How the clock works</h2>
+    
     <p>Official debt figures come out once a quarter. The clock starts from the latest published total and adds debt at the average pace of the most recent four quarters, so the number between releases is an <b>estimate</b>. When a new quarter is published, the clock resets to the official figure. The site checks for new data every morning.</p>
     <p id="methodDetail"></p>
     <p id="popNote"></p>
     <p>The <a href="methodology.html">full methodology</a> explains where every number comes from, how it's calculated, and what it leaves out.</p>
+  
+    </div>
+  </section>
   </section>
 
 </div>
@@ -239,7 +311,7 @@
   <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with MMA.</span></span>
 </div></footer>
 
-<script src="assets/site.js?v=20261006b"></script>
+<script src="assets/site.js?v=20261007a"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -252,6 +324,22 @@
   const mvFmt = new Intl.DateTimeFormat("en-GB", { timeZone: "Indian/Maldives", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false, weekday: "long", day: "numeric", month: "long", year: "numeric" });
   const mvTick = () => { const p = Object.fromEntries(mvFmt.formatToParts(new Date()).map(x => [x.type, x.value])); $("mvTime").textContent = `${p.hour}:${p.minute}:${p.second}, ${p.weekday} ${p.day} ${p.month} ${p.year}`; };
   mvTick(); setInterval(mvTick, 1000);
+
+  // ---------- questions that open and close ----------
+  document.querySelectorAll(".chap-ico").forEach(el => { el.outerHTML = MV.icon(el.dataset.ico); });
+  const openChapter = (id, scroll) => {
+    const sec = document.getElementById(id); if (!sec) return;
+    const btn = sec.querySelector(".chap-head"), body = sec.querySelector(".chap-body");
+    btn.setAttribute("aria-expanded", "true"); body.hidden = false;
+    dispatchEvent(new Event("resize"));
+    if (scroll) sec.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  document.querySelectorAll(".chap-head").forEach(btn => btn.addEventListener("click", () => {
+    const open = btn.getAttribute("aria-expanded") === "true";
+    if (open) { btn.setAttribute("aria-expanded", "false"); btn.nextElementSibling.hidden = true; } else openChapter(btn.closest(".chapter").id);
+  }));
+  document.addEventListener("click", ev => { const a = ev.target.closest("[data-open]"); if (!a || ev.target.closest("[data-term]")) return; ev.preventDefault(); openChapter(a.dataset.open, true); });
+  if (location.hash.startsWith("#ch-")) openChapter(location.hash.slice(1), true);
 
   Promise.all([MV.getJSON("data.json"), MV.getJSON("population.json").catch(() => null)])
     .then(([d, p]) => { try { MV.checkStale(d); } catch (e) { console.error(e); } init(d, p); })
@@ -446,6 +534,22 @@
         $("fiscalSec").hidden = false;
         drawAnnual();
       }
+
+      // ---------- the short version, and one-line answers to each question ----------
+      try {
+        const popN = popNow(), dvv = last(S.domestic)?.value, evv = last(S.external)?.value, dsh = dvv && evv ? 100 * dvv / (dvv + evv) : null;
+        const cards = [];
+        if (popN) cards.push(["people", "var(--sun)", disp(debtNow() / popN), "Every Maldivian's share", "If the whole debt were shared out equally, every citizen, children included, would owe about this much.", "ch-how", "How this is worked out"]);
+        if (rate > 0) cards.push(["trend", "var(--foam)", disp(rate * 86400) + " a day", "The debt keeps growing", `On the pace of the last year it grows by about this much every day. That is ${disp(rate * 3600)} every hour.`, "ch-history", "See how it grew"]);
+        if (rev12 && exp12 && exp12 > rev12) cards.push(["gap", "var(--red)", disp(exp12 - rev12), "Borrowed in a year to fill the gap", `Over the last 12 months the government spent ${disp(exp12)} but collected ${disp(rev12)}. The difference, called the <span class="term" role="button" tabindex="0" data-term="deficit">deficit</span>, was borrowed.`, "ch-fiscal", "Why it borrows"]);
+        if (int12 && rev12) cards.push(["interest", "var(--coral)", `${fmt(100 * int12 / rev12, 0)} in every 100`, "Rufiyaa collected that go on interest", `Of every 100 rufiyaa the government collects, this much goes to lenders as <span class="term" role="button" tabindex="0" data-term="interest">interest</span>. That money pays for no school, hospital or salary.`, "priorities.html", "Compare it with policing and rights"]);
+        if (dsh) cards.push(["globe", "var(--lagoon)", `${fmt(dsh, 0)}% at home`, "Who it's owed to", `Most is owed to banks and funds inside Maldives. The other ${fmt(100 - dsh, 0)}% is owed abroad and has to be paid back in foreign currency.`, "ch-owed", "See who the lenders are"]);
+        $("plain").innerHTML = cards.map(([ic, col, big, t, x, to, go]) => `<div class="pcard" style="--c:${col}">${MV.icon(ic)}<span class="big">${big}</span><span class="t">${t}</span><span class="x">${x}</span><a class="go" href="${to.endsWith(".html") ? to : "#" + to}"${to.endsWith(".html") ? "" : ` data-open="${to}"`}>${go} →</a></div>`).join("");
+        if (dsh) $("aOwed").innerHTML = `About <b>${fmt(dsh, 0)}%</b> is owed to lenders inside Maldives and <b>${fmt(100 - dsh, 0)}%</b> abroad.`;
+        $("aHist").innerHTML = `It has grown <b>${fmt(mult, 1)} times</b> since ${first.date.slice(0, 4)}, from ${money(first.value, first.date)} to ${money(latest.value, latest.date)}.`;
+        if (rev12 && exp12) $("aFisc").innerHTML = exp12 > rev12 ? `Because it spends more than it collects. In the last 12 months it spent <b>${disp(exp12)}</b> and collected <b>${disp(rev12)}</b>.` : `In the last 12 months it collected more than it spent.`;
+        $("aHow").innerHTML = `It starts from the latest official figure, for ${mLabel(latest.date)}, and adds debt at the pace of the last year. So the number is a careful <b>estimate</b> until the next official figure comes out.`;
+      } catch (e) { console.error("Short version skipped:", e); }
 
       $("methodDetail").innerHTML = `Right now that pace is <b>${moneyNow(rate * SEC_YEAR)} a year</b>, from the change between ${mLabel(back.date)} and ${mLabel(latest.date)}. Dollar figures use MMA reference rate (MVR ${fmt(MV.USD, 2)} per US dollar today).`;
       if (pop && POP) $("popLine").innerHTML = `Based on an estimated ${fmt(Math.round(pop))} citizens (national register, end of ${POP.base_date.slice(0, 4)}, grown at ${fmt(POP.annual_growth * 100, 2)}% a year). This will be updated when the government publishes new figures. <a href="methodology.html#population">How this is estimated</a>`;
