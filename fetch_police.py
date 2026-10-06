@@ -1,40 +1,44 @@
 """
-Keeps the Maldives Police Service case counts up to date, for the priorities page.
+Collects every year and every month from the Maldives Police Service crime statistics page
+(https://www.police.gov.mv/crime-statistics) and saves it to data/police/crime_monthly.csv.
 
-Runs every morning in GitHub Actions. It opens https://www.police.gov.mv/crime-statistics
-in a headless browser, clicks each year and month, and reads the "Detailed breakdown" table.
-On the first run it reads every year the page offers. After that it reads only the current
-and previous year, because older figures don't change.
+The page shows one period at a time: a year (2017 onwards) and either the whole year or a month.
+This script clicks every combination, waits until the page says it is showing that period,
+reads the "Detailed breakdown" table, and checks the categories add up to the total shown.
 
-Writes:
-  data/police/crime_monthly.csv   year, month (0 = the whole year as shown), category, cases
-  data/police/fetch_log.json      when it last ran, what it found, and any background
-                                  requests the page made (useful if a JSON API appears)
-
-If the page can't be read, the existing data is kept and the run carries on.
-
-To run it yourself:
+First time (collects everything, about 10 to 20 minutes):
     pip install playwright
-    playwright install chromium
-    python fetch_police.py            # current and previous year
-    python fetch_police.py --all      # every year
+    python -m playwright install chromium
+    python fetch_police.py --all
+
+Every day after that (GitHub Actions runs this): only the current and previous year are read
+again, and everything else already saved is kept.
+    python fetch_police.py
+
+Other options:
+    --years 2022 2023   read just these years
+    --show              open a visible browser window, to watch what it does
+
+Output columns: year, month (0 = the whole year), category, cases, retrieved
+Anything it couldn't read is listed in data/police/fetch_log.json, and the old figures are kept.
 """
+import argparse
 import asyncio
 import csv
 import json
+import os
 import re
-import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-URL = "https://www.police.gov.mv/crime-statistics"
+URL = os.environ.get("POLICE_URL", "https://www.police.gov.mv/crime-statistics")
 HERE = Path(__file__).resolve().parent
 OUT = HERE / "data" / "police"
-CSV = OUT / "crime_monthly.csv"
-LOG = OUT / "fetch_log.json"
+CSV_PATH = OUT / "crime_monthly.csv"
+LOG_PATH = OUT / "fetch_log.json"
 COLS = ["year", "month", "category", "cases", "retrieved"]
-MONTHS = ["All", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-PAUSE_MS = 1500
+MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+TIMEOUT_MS = 20000
 
 
 def to_int(text):
@@ -42,107 +46,152 @@ def to_int(text):
     return int(d) if d else 0
 
 
-def read_existing():
-    if not CSV.exists():
+def load_existing():
+    if not CSV_PATH.exists():
         return []
-    with open(CSV, newline="", encoding="utf-8") as f:
+    with open(CSV_PATH, newline="", encoding="utf-8") as f:
         return list(csv.DictReader(f))
 
 
-async def read_breakdown(page):
-    rows = []
-    for tr in await page.locator("table tbody tr").all():
-        cells = await tr.locator("td").all_inner_texts()
-        if len(cells) >= 2:
-            cat = cells[0].strip().split("\n")[0].strip()
-            if cat:
-                rows.append((cat, to_int(cells[-1])))
-    if rows:
-        return rows
-    text = await page.inner_text("body")
-    for m in re.finditer(r"\n([A-Za-z][A-Za-z ]+)\n\s*([\d,]+) cases", text):
-        rows.append((m.group(1).strip(), to_int(m.group(2))))
-    return rows
-
-
-async def total_shown(page):
-    text = await page.inner_text("body")
-    m = re.search(r"TOTAL CASES\s*\n\s*([\d,]+)", text, re.I)
-    return to_int(m.group(1)) if m else None
-
-
-async def click(page, label):
-    btn = page.get_by_role("button", name=re.compile(rf"^\s*{label}\s*$", re.I))
-    if await btn.count() == 0:
-        return False
-    await btn.first.click()
-    try:
-        await page.wait_for_load_state("networkidle", timeout=10000)
-    except Exception:
-        pass
-    await page.wait_for_timeout(PAUSE_MS)
-    return True
-
-
-async def scrape(years_wanted):
-    from playwright.async_api import async_playwright
-    found, requests_seen, problems = [], [], []
-    stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
-        page = await browser.new_page(user_agent="Mozilla/5.0 (compatible; mvdebtclock.org data update)")
-
-        async def on_response(resp):
-            if resp.request.resource_type in ("fetch", "xhr"):
-                requests_seen.append({"url": resp.url, "status": resp.status, "type": resp.headers.get("content-type", "")})
-        page.on("response", on_response)
-
-        await page.goto(URL, wait_until="networkidle", timeout=60000)
-        years = [y.strip() for y in await page.get_by_role("button", name=re.compile(r"^\s*20\d\d\s*$")).all_inner_texts()]
-        if years_wanted:
-            years = [y for y in years if int(y) in years_wanted]
-        for y in years:
-            await click(page, y)
-            for i, m in enumerate(MONTHS):
-                if not await click(page, m):
-                    continue
-                rows = await read_breakdown(page)
-                shown = await total_shown(page)
-                if shown is not None and rows and sum(n for _, n in rows) != shown:
-                    problems.append(f"{y} {m}: categories add to {sum(n for _, n in rows)}, page total {shown}")
-                for cat, n in rows:
-                    found.append({"year": int(y), "month": i, "category": cat, "cases": n, "retrieved": stamp})
-                print(f"  {y} {m:>3}: {len(rows)} categories, {sum(n for _, n in rows):,} cases")
-        await browser.close()
-    return found, requests_seen, problems
-
-
-def main():
+def save(rows):
     OUT.mkdir(parents=True, exist_ok=True)
-    existing = read_existing()
-    now_year = datetime.now(timezone.utc).year
-    have_years = {int(r["year"]) for r in existing}
-    full = "--all" in sys.argv or not have_years or min(have_years) >= now_year - 1   # older years not read yet
-    wanted = None if full else {now_year, now_year - 1}
-    try:
-        found, seen, problems = asyncio.run(scrape(wanted))
-    except Exception as e:
-        print(f"Couldn't read the police statistics page ({e}). Keeping the existing data.")
-        LOG.write_text(json.dumps({"checked_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "ok": False, "error": str(e)}, indent=1))
-        return
-    if not found:
-        print("The police statistics page returned no figures. Keeping the existing data.")
-        return
-    redone = {(r["year"], r["month"]) for r in found}
-    keep = [r for r in existing if (int(r["year"]), int(r["month"])) not in redone]
-    rows = sorted(keep + found, key=lambda r: (int(r["year"]), int(r["month"]), -int(r["cases"])))
-    with open(CSV, "w", newline="", encoding="utf-8") as f:
+    rows = sorted(rows, key=lambda r: (int(r["year"]), int(r["month"]), -int(r["cases"]), r["category"]))
+    with open(CSV_PATH, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=COLS)
         w.writeheader()
         w.writerows(rows)
-    LOG.write_text(json.dumps({"checked_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "ok": True,
-                               "rows": len(rows), "problems": problems, "background_requests": seen[:200]}, indent=1))
-    print(f"Wrote {CSV.relative_to(HERE)}: {len(rows)} rows." + (f" {len(problems)} totals didn't match, see fetch_log.json." if problems else ""))
+
+
+async def page_state(page):
+    """What the page says it is showing, the total, and the rows of the breakdown table."""
+    return await page.evaluate("""() => {
+        const text = document.body.innerText;
+        const label = (text.match(/Period overview\\s*\\n\\s*([^\\n]+)/i) || [])[1] || "";
+        const total = (text.match(/TOTAL CASES\\s*\\n\\s*([\\d,]+)/i) || [])[1] || "";
+        const rows = [];
+        document.querySelectorAll("table tbody tr").forEach(tr => {
+            const td = [...tr.querySelectorAll("td")].map(x => x.innerText.trim());
+            if (td.length >= 2) rows.push([td[0].split("\\n")[0].trim(), td[td.length - 1]]);
+        });
+        return { label: label.trim(), total, rows };
+    }""")
+
+
+async def click_button(page, text):
+    btn = page.get_by_role("button", name=re.compile(rf"^\s*{re.escape(text)}\s*$", re.I))
+    if await btn.count() == 0:
+        return False
+    first = btn.first
+    if await first.is_disabled():
+        return False
+    await first.click()
+    return True
+
+
+async def wait_for_period(page, expected_label):
+    """Wait until the page shows the period asked for and the numbers have stopped changing."""
+    deadline = asyncio.get_event_loop().time() + TIMEOUT_MS / 1000
+    last = None
+    while asyncio.get_event_loop().time() < deadline:
+        st = await page_state(page)
+        if st["label"].lower() == expected_label.lower():
+            key = (st["total"], tuple(map(tuple, st["rows"])))
+            if key == last:
+                return st
+            last = key
+        await page.wait_for_timeout(400)
+    return await page_state(page)
+
+
+async def read_period(page, year, month_index):
+    """month_index 0 = the whole year, 1..12 = a month"""
+    expected = str(year) if month_index == 0 else f"{MONTHS[month_index - 1]} {year}"
+    if not await click_button(page, "All" if month_index == 0 else MONTHS[month_index - 1]):
+        return None, f"{expected}: no button"
+    st = await wait_for_period(page, expected)
+    if st["label"].lower() != expected.lower():
+        return None, f"{expected}: page showed '{st['label']}'"
+    rows = [(c, to_int(n)) for c, n in st["rows"] if c]
+    total = to_int(st["total"])
+    if rows and total and sum(n for _, n in rows) != total:
+        # one more try, the table sometimes redraws a moment after the total
+        await page.wait_for_timeout(1500)
+        st = await page_state(page)
+        rows = [(c, to_int(n)) for c, n in st["rows"] if c]
+        total = to_int(st["total"])
+        if sum(n for _, n in rows) != total:
+            return None, f"{expected}: categories add to {sum(n for _, n in rows)} but total is {total}"
+    return rows, None
+
+
+async def run(years_wanted, show):
+    from playwright.async_api import async_playwright
+    stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    existing = load_existing()
+    found, problems = [], []
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=not show)
+        page = await browser.new_page(user_agent="Mozilla/5.0 (compatible; mvdebtclock.org data update)")
+        await page.goto(URL, wait_until="networkidle", timeout=60000)
+        await page.get_by_text("Detailed breakdown").first.wait_for(timeout=60000)
+        year_btns = page.get_by_role("button", name=re.compile(r"^\s*20\d\d\s*$"))
+        years = sorted({int(t.strip()) for t in await year_btns.all_inner_texts()}, reverse=True)
+        if years_wanted:
+            years = [y for y in years if y in years_wanted]
+        print(f"Years to read: {years}")
+        for year in years:
+            if not await click_button(page, str(year)):
+                problems.append(f"{year}: no year button")
+                continue
+            await wait_for_period(page, str(year))
+            year_rows = []
+            for mi in range(0, 13):
+                rows, err = await read_period(page, year, mi)
+                label = "whole year" if mi == 0 else MONTHS[mi - 1]
+                if err:
+                    if "no button" not in err:
+                        problems.append(err)
+                    print(f"  {year} {label:>10}: skipped ({err})")
+                    continue
+                for c, n in rows:
+                    year_rows.append({"year": year, "month": mi, "category": c, "cases": n, "retrieved": stamp})
+                print(f"  {year} {label:>10}: {sum(n for _, n in rows):>6,} cases in {len(rows)} categories")
+            found += year_rows
+            # save after every year, so a stopped run keeps what it already read
+            done = {(int(r["year"]), int(r["month"])) for r in found}
+            keep = [r for r in existing if (int(r["year"]), int(r["month"])) not in done]
+            save(keep + found)
+        await browser.close()
+    return found, problems
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--all", action="store_true", help="read every year the page offers")
+    ap.add_argument("--years", nargs="*", type=int, help="read only these years")
+    ap.add_argument("--show", action="store_true", help="show the browser window")
+    a = ap.parse_args()
+    existing = load_existing()
+    now_year = datetime.now(timezone.utc).year
+    have = {int(r["year"]) for r in existing}
+    if a.years:
+        wanted = set(a.years)
+    elif a.all or not have or min(have) >= now_year - 1:
+        wanted = None                       # everything
+    else:
+        wanted = {now_year, now_year - 1}   # daily: just the latest two years
+    try:
+        found, problems = asyncio.run(run(wanted, a.show))
+    except Exception as e:
+        print(f"Couldn't read the police statistics page ({e}). The saved figures are unchanged.")
+        OUT.mkdir(parents=True, exist_ok=True)
+        LOG_PATH.write_text(json.dumps({"checked_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "ok": False, "error": str(e)}, indent=1))
+        return
+    LOG_PATH.write_text(json.dumps({"checked_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "ok": True,
+                                    "periods_read": len({(r['year'], r['month']) for r in found}), "problems": problems}, indent=1))
+    total_rows = len(load_existing())
+    print(f"\nDone. {len({(r['year'], r['month']) for r in found})} periods read, {total_rows} rows in {CSV_PATH.relative_to(HERE)}."
+          + (f" {len(problems)} periods couldn't be read, see {LOG_PATH.relative_to(HERE)}." if problems else ""))
 
 
 if __name__ == "__main__":

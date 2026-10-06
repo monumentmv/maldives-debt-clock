@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261007f">
+<link rel="stylesheet" href="assets/site.css?v=20261007g">
 <title>Priorities · Maldives National Debt Clock</title>
 <meta name="description" content="What the government pays in interest, set against what it spends on the police, justice, and protecting families, children and human rights.">
 <style>
@@ -158,8 +158,6 @@
 
   <section id="casesSec" hidden>
     <h2>Cases reported to the police</h2>
-    <p>How many cases were reported each year, and how often each kind happens. Pick a year, then a month if you like.</p>
-    <div class="chart-box" id="casesYears"></div>
     <div class="period-zone">
     <div class="period-pick cases-pick">
       <span class="yr-chip" id="cYearChip"></span>
@@ -168,13 +166,16 @@
       <label><span>Period</span> <select id="cMonth" aria-label="Period"></select></label>
       <button type="button" class="step" id="cNext" aria-label="Later">Later ›</button>
     </div>
+    <h3 style="margin-top:1.5rem">How often, on average</h3>
     <p id="casesNote"></p>
-    <h3 style="margin-top:2rem">How often, on average</h3>
     <div class="often" id="often"></div>
     <h3 style="margin-top:2.5rem">Every type of case</h3>
     <div class="cases-list" id="casesList"></div>
     <div class="chips" id="casesKey" style="margin-top:1rem"></div>
     </div>
+    <h3 style="margin-top:3rem">Year by year</h3>
+    <p class="hint" style="margin-top:.25rem">Cases reported each year. The latest year is the year so far.</p>
+    <div class="chart-box" id="casesYears"></div>
   </section>
 
   <section>
@@ -201,7 +202,7 @@
   <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with the Ministry of Finance, the Maldives Police Service or MMA.</span></span>
 </div></footer>
 
-<script src="assets/site.js?v=20261007f"></script>
+<script src="assets/site.js?v=20261007g"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -258,11 +259,10 @@
       const chips = keys => keys.filter(k => val(R, k) != null).map(k => `<span class="chip" style="color:${SEG[k]}">${MV.icon(office(k).icon)}<span>${office(k).name} <b>${cur(val(R, k), d)}</b></span></span>`).join("");
       $("vs").innerHTML =
         `<div class="row"><span style="color:${INT}">${MV.icon("interest")}</span><div><div class="head"><span class="name">Interest and financing costs<small>paid to lenders</small></span><span class="amt" style="color:${INT}">${cur(it, d)}</span></div><div class="bar"><i style="width:${it / max * 100}%;background:${INT}"></i></div></div></div>` +
-        `<div class="row"><span style="color:${SEG.police}">${MV.icon("police")}</span><div><div class="head"><span class="name">Policing and justice<small>police, prisons, prosecution and anti-corruption</small></span><span class="amt" style="color:${SEG.police}">${cur(safe, d)}</span></div><div class="bar">${seg(SAFE)}</div><div class="chips">${chips(SAFE)}</div></div></div>` +
-        `<div class="row"><span style="color:${SEG.fpa}">${MV.icon("scales")}</span><div><div class="head"><span class="name">Protection and rights<small>families, children, human rights and drug rehabilitation</small></span><span class="amt" style="color:${SEG.fpa}">${cur(rights, d)}</span></div><div class="bar">${seg(RIGHTS)}</div><div class="chips">${chips(RIGHTS)}</div></div></div>`;
+        `<div class="row"><span style="color:${SEG.police}">${MV.icon("police")}</span><div><div class="head"><span class="name">Policing, justice and rights<small>eight offices, from the police to child protection</small></span><span class="amt" style="color:${SEG.police}">${cur(both, d)}</span></div><div class="bar">${seg([...SAFE, ...RIGHTS])}</div><div class="chips">${chips([...SAFE, ...RIGHTS])}</div></div></div>`;
       $("verdict").innerHTML = it >= both
-        ? `Interest was <b>${cur(it - both, d)} more</b> than all ${W[nAll]} offices together, <b>${times(ratio)} times</b> as much. It was <b>${times(it / rights)} times</b> what went on protection and rights.`
-        : `Interest was <b>${fmt(ratio * 100)}%</b> of what all ${W[nAll]} offices spent together, and <b>${times(it / rights)} times</b> what went on protection and rights.`;
+        ? `Interest was <b>${cur(it - both, d)} more</b> than all ${W[nAll]} offices put together. That is <b>${times(ratio)} times</b> as much.`
+        : `Interest was <b>${fmt(ratio * 100)}%</b> of what all ${W[nAll]} offices spent put together.`;
 
       // office cards
       $("officeNote").textContent = `Spending by each office from 1 January to ${dayLabel(d)}, and how it compares with interest over the same period.`;

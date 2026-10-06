@@ -112,7 +112,13 @@ def main():
             for r in csv.DictReader(open(BOOK_M, encoding="utf-8")):
                 monthly.setdefault(r["year"], {})[r["month"]] = int(r["cases"])
         crime = crime or {"retrieved": None, "monthly": {}, "yearly": {}}
-        crime["book"] = {"yearly": yearly, "others": others, "monthly": monthly}
+        # the police website comes first: the yearbook only fills years the website hasn't given yet
+        site_years = set(crime["yearly"]) | set(crime["monthly"])
+        yearly = {y: v for y, v in yearly.items() if y not in site_years}
+        others = {y: v for y, v in others.items() if y not in site_years}
+        monthly = {y: v for y, v in monthly.items() if y not in site_years}
+        if yearly or monthly:
+            crime["book"] = {"yearly": yearly, "others": others, "monthly": monthly}
 
     data = {
         "built_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
