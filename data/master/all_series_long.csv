@@ -41811,3 +41811,29 @@ mof.weekly.transfers_to_sdf.ytd,"Transfers to the Sovereign Development Fund, ye
 mof.weekly.transfers_to_sdf.ytd,"Transfers to the Sovereign Development Fund, year to date",2026-09-10,1524.9,MVR million
 mof.weekly.transfers_to_sdf.ytd,"Transfers to the Sovereign Development Fund, year to date",2026-09-17,1583.3,MVR million
 mof.weekly.transfers_to_sdf.ytd,"Transfers to the Sovereign Development Fund, year to date",2026-09-24,1655.9,MVR million
+mps.cases.assault,"Cases reported to the police, assault",2020-09-30,67,cases
+mps.cases.assault,"Cases reported to the police, assault",2021-03-31,57,cases
+mps.cases.cheque_bounce,"Cases reported to the police, cheque bounce",2020-09-30,5,cases
+mps.cases.cheque_bounce,"Cases reported to the police, cheque bounce",2021-03-31,1,cases
+mps.cases.counterfeit_and_forgery,"Cases reported to the police, counterfeit and forgery",2020-09-30,14,cases
+mps.cases.counterfeit_and_forgery,"Cases reported to the police, counterfeit and forgery",2021-03-31,19,cases
+mps.cases.domestic_violence,"Cases reported to the police, domestic violence",2020-09-30,23,cases
+mps.cases.domestic_violence,"Cases reported to the police, domestic violence",2021-03-31,23,cases
+mps.cases.drugs,"Cases reported to the police, drugs",2020-09-30,134,cases
+mps.cases.drugs,"Cases reported to the police, drugs",2021-03-31,153,cases
+mps.cases.embezzlement,"Cases reported to the police, embezzlement",2020-09-30,89,cases
+mps.cases.embezzlement,"Cases reported to the police, embezzlement",2021-03-31,84,cases
+mps.cases.lost_items,"Cases reported to the police, lost items",2020-09-30,64,cases
+mps.cases.lost_items,"Cases reported to the police, lost items",2021-03-31,55,cases
+mps.cases.robbery,"Cases reported to the police, robbery",2020-09-30,32,cases
+mps.cases.robbery,"Cases reported to the police, robbery",2021-03-31,18,cases
+mps.cases.sexual_offences,"Cases reported to the police, sexual offences",2020-09-30,47,cases
+mps.cases.sexual_offences,"Cases reported to the police, sexual offences",2021-03-31,31,cases
+mps.cases.theft,"Cases reported to the police, theft",2020-09-30,322,cases
+mps.cases.theft,"Cases reported to the police, theft",2021-03-31,426,cases
+mps.cases.total,"Cases reported to the police, all categories",2020-09-30,951,cases
+mps.cases.total,"Cases reported to the police, all categories",2021-03-31,1042,cases
+mps.cases.traffic_accidents,"Cases reported to the police, traffic accidents",2020-09-30,111,cases
+mps.cases.traffic_accidents,"Cases reported to the police, traffic accidents",2021-03-31,133,cases
+mps.cases.vandalism,"Cases reported to the police, vandalism",2020-09-30,43,cases
+mps.cases.vandalism,"Cases reported to the police, vandalism",2021-03-31,42,cases

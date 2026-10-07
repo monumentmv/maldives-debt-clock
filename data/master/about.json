@@ -1,10 +1,10 @@
 {
- "built_at": "2026-10-06 03:09",
- "series": 172,
- "observations": 41812,
+ "built_at": "2026-10-07 03:10",
+ "series": 185,
+ "observations": 41838,
  "weekly_table_rows": 91321,
  "first_date": "1980-01-31",
  "last_date": "2026-12-31",
- "xlsx": "https://github.com/monumentmv/maldives-debt-clock/releases/download/data-latest/maldives_public_finance.xlsx",
- "zip": "https://github.com/monumentmv/maldives-debt-clock/releases/download/data-latest/maldives_public_finance_csv.zip"
+ "xlsx": "https://mvdebtclock.org/downloads/maldives_public_finance.xlsx",
+ "zip": "https://mvdebtclock.org/downloads/maldives_public_finance_csv.zip"
 }
