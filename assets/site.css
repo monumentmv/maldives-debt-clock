@@ -275,3 +275,21 @@ html:is([data-theme="light"],[data-theme="sand"],[data-theme="lagoon"]) .upd { b
 .cases-pick label { display: inline-flex; align-items: center; gap: .5rem; font-weight: 700; color: var(--foam); }
 .cases-pick label span { color: var(--sun); }
 @media (max-width: 600px) { .period-pick .step { padding: .35rem .6rem; } .yr-chip { font-size: 1.15rem; } }
+
+/* ---------- gentle motion (assets/motion.js) ---------- */
+.mo-progress { position: fixed; left: 0; right: 0; top: 0; height: 3px; z-index: 70; background: linear-gradient(90deg, var(--lagoon), var(--sun)); transform: scaleX(0); transform-origin: left; pointer-events: none; }
+.mo-host { position: relative; isolation: isolate; }
+.mo-sea { position: absolute; z-index: -1; left: 0; top: 0; width: 100%; height: min(34rem, 100%); pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 50%, transparent); mask-image: linear-gradient(to bottom, #000 50%, transparent); }
+.masthead.mo-host .mo-sea { height: 100%; -webkit-mask-image: none; mask-image: none; }
+.mo-reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+.mo-reveal.mo-in { opacity: 1; transform: none; }
+:is(.pcard, .upd, .chap-head) { transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease, opacity .7s ease; }
+:is(.pcard, .upd):hover, .chap-head:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(0, 0, 0, .22); }
+html[data-theme="light"] :is(.pcard, .upd):hover, html[data-theme="light"] .chap-head:hover { box-shadow: 0 14px 34px rgba(7, 47, 64, .12); }
+.stat > .ico, .pcard .ico, .upd > .ico { transition: transform .35s cubic-bezier(.2,.7,.2,1.4); }
+.stat:hover > .ico, .pcard:hover .ico, .upd:hover > .ico { transform: scale(1.12) rotate(-6deg); }
+main.dark h1 { animation: mo-rise .9s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes mo-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes mo-pop { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .mo-reveal { opacity: 1; transform: none; } .mo-progress { display: none; } }
