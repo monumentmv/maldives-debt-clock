@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: [fetch_data.py, fetch_mira.py, build_revenue.py, fetch_wfd.py, wfd_extract.py, build_master.py, "inputs/**", .github/workflows/update-data.yml]
+    paths: [fetch_data.py, fetch_mira.py, build_revenue.py, fetch_wfd.py, wfd_extract.py, fetch_police.py, build_priorities.py, build_protection.py, build_master.py, "inputs/**", .github/workflows/update-data.yml]
 
 permissions:
   contents: write
@@ -24,7 +24,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install requests openpyxl pdfplumber
+      - run: pip install requests openpyxl pdfplumber playwright
+      - run: python -m playwright install --with-deps chromium
       - run: python fetch_data.py
         env:
           MMA_TOKEN: ${{ secrets.MMA_TOKEN }}
@@ -37,6 +38,15 @@ jobs:
       - name: Weekly budget figures from the Ministry of Finance
         if: always()
         run: python fetch_wfd.py
+      - name: Crime statistics from the Maldives Police Service
+        if: always()
+        timeout-minutes: 45
+        run: python fetch_police.py
+      - name: Priorities and protection pages
+        if: always()
+        run: |
+          python build_priorities.py
+          python build_protection.py
       - name: Master dataset and downloads
         if: always()
         run: python build_master.py
@@ -45,7 +55,7 @@ jobs:
         run: |
           git config user.name "debt-clock-bot"
           git config user.email "actions@users.noreply.github.com"
-          for p in data.json revenue.json budget.json budget-detail data/wfd data/master inputs/mira; do if [ -e "$p" ]; then git add -A "$p"; fi; done
+          for p in data.json revenue.json budget.json budget-detail priorities.json protection.json data/police data/wfd data/master inputs/mira; do if [ -e "$p" ]; then git add -A "$p"; fi; done
           git diff --cached --quiet || (git commit -m "Update data $(date -u +%F)" && git pull --rebase --autostash && git push)
       - name: Publish the downloads
         if: always()
