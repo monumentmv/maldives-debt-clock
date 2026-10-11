@@ -91320,3 +91320,261 @@ report_date,table,line,approved_budget,same_date_last_year,year_to_date,listed_s
 2026-09-24,Government securities outstanding,External instruments,,,1542.0,,0.0 0.0 0.0 0.0 0.0 0.0 1542.0 0.0 0.0 1542.0
 2026-09-24,Government securities outstanding,Bonds,,,1542.0,,0.0 0.0 0.0 0.0 0.0 0.0 1542.0 0.0 0.0 1542.0
 2026-09-24,Government securities outstanding,Sukuk,,,0.0,,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0
+2026-10-01,Summary of government finances,Total revenues and grants,40374.5,30342.0,30878.6,,40374.5 30342.0 30878.6
+2026-10-01,Summary of government finances,Tax revenues,31297.1,22527.5,23834.7,,31297.1 22527.5 23834.7
+2026-10-01,Summary of government finances,Non-tax revenues,8702.3,7535.1,6528.8,,8702.3 7535.1 6528.8
+2026-10-01,Summary of government finances,Capital receipts,1.6,1.6,1.8,,1.6 1.6 1.8
+2026-10-01,Summary of government finances,Grants,373.6,277.9,513.3,,373.6 277.9 513.3
+2026-10-01,Summary of government finances,Less: subsidiary loan repayment,0.0,-0.1,0.0,,0.0 -0.1 0.0
+2026-10-01,Summary of government finances,Total budget,64202.6,38330.6,47869.5,,64202.6 38330.6 47869.5
+2026-10-01,Summary of government finances,Total expenditure,49214.4,30008.0,35456.1,,49214.4 30008.0 35456.1
+2026-10-01,Summary of government finances,Recurrent expenditure,39930.1,25862.9,30652.6,,39930.1 25862.9 30652.6
+2026-10-01,Summary of government finances,"Salaries, wages and pensions",17088.4,10873.2,12042.2,,17088.4 10873.2 12042.2
+2026-10-01,Summary of government finances,Administrative and operational expenses,22810.5,14969.2,18538.8,,22810.5 14969.2 18538.8
+2026-10-01,Summary of government finances,Losses and write-offs,31.1,20.5,71.5,,31.1 20.5 71.5
+2026-10-01,Summary of government finances,Capital expenditure,9284.4,4145.1,4803.5,,9284.4 4145.1 4803.5
+2026-10-01,Summary of government finances,Capital equipments,780.7,467.5,558.9,,780.7 467.5 558.9
+2026-10-01,Summary of government finances,Land and buildings,3850.7,1083.6,1452.8,,3850.7 1083.6 1452.8
+2026-10-01,Summary of government finances,Infrastructure assets,4253.0,2580.0,2775.0,,4253.0 2580.0 2775.0
+2026-10-01,Summary of government finances,Development projects and capital transfers,0.0,14.1,16.7,,0.0 14.1 16.7
+2026-10-01,Summary of government finances,Budget contingency,400.0,0.0,0.0,,400.0 0.0 0.0
+2026-10-01,Summary of government finances,Primary balance - surplus / (deficit),-3282.6,4312.0,-777.9,,-3282.6 4312.0 -777.9
+2026-10-01,Summary of government finances,Overall balance - surplus / (deficit),-8839.9,334.0,-4577.5,,-8839.9 334.0 -4577.5
+2026-10-01,Summary of government finances,Financing and interest costs,5557.3,3978.1,3799.6,,5557.3 3978.1 3799.6
+2026-10-01,Summary of government finances,Loan repayment,12914.3,4508.6,10091.7,yes,12914.3 4508.6 10091.7
+2026-10-01,Summary of government finances,Investments,929.9,1435.4,903.3,yes,929.9 1435.4 903.3
+2026-10-01,Summary of government finances,Transfers to Sovereign Development Fund,2429.4,2085.1,1695.3,yes,2429.4 2085.1 1695.3
+2026-10-01,Summary of government finances,Public Sector Investment Program,8312.1,6093.0,4787.6,yes,8312.1 6093.0 4787.6
+2026-10-01,Summary of government finances,Council block grant disbursements,2475.5,1616.1,1885.2,yes,2475.5 1616.1 1885.2
+2026-10-01,Summary of government finances,Lendings,1144.0,2378.7,1418.4,yes,1144.0 2378.7 1418.4
+2026-10-01,Summary of government finances,Student loan scheme,776.6,408.1,121.8,yes,776.6 408.1 121.8
+2026-10-01,Revenue,Total revenue and grants,40374.5,30342.0,30878.6,,40374.5 30342.0 30878.6
+2026-10-01,Revenue,Tax revenues,31297.1,22527.5,23834.7,,31297.1 22527.5 23834.7
+2026-10-01,Revenue,Import duties,3127.7,2255.3,2513.1,,3127.7 2255.3 2513.1
+2026-10-01,Revenue,Business and property tax,6144.2,4770.1,5782.3,,6144.2 4770.1 5782.3
+2026-10-01,Revenue,Corporate income tax,3201.7,2744.4,2984.8,,3201.7 2744.4 2984.8
+2026-10-01,Revenue,Non-resident withholding tax,1224.4,909.7,1010.5,,1224.4 909.7 1010.5
+2026-10-01,Revenue,Individual income tax,472.2,377.9,400.2,,472.2 377.9 400.2
+2026-10-01,Revenue,Other business and property taxes,1245.9,738.1,1386.8,,1245.9 738.1 1386.8
+2026-10-01,Revenue,Goods and services tax,17095.4,12191.7,12193.6,,17095.4 12191.7 12193.6
+2026-10-01,Revenue,General goods and services tax,5622.2,4019.3,4131.7,,5622.2 4019.3 4131.7
+2026-10-01,Revenue,Tourism goods and services tax,11473.2,8172.4,8061.9,,11473.2 8172.4 8061.9
+2026-10-01,Revenue,Royalties,259.2,224.7,209.3,,259.2 224.7 209.3
+2026-10-01,Revenue,Green tax,2395.4,1673.4,1607.6,,2395.4 1673.4 1607.6
+2026-10-01,Revenue,Airport service charges / departure tax,2275.3,1412.4,1528.8,,2275.3 1412.4 1528.8
+2026-10-01,Revenue,Non-tax revenues,8702.3,7535.1,6528.8,,8702.3 7535.1 6528.8
+2026-10-01,Revenue,Fees and charges,4294.4,3616.4,2724.4,,4294.4 3616.4 2724.4
+2026-10-01,Revenue,Airport development fee,2298.2,1435.3,1551.9,,2298.2 1435.3 1551.9
+2026-10-01,Revenue,Expatriate quota fee,465.7,287.2,238.1,,465.7 287.2 238.1
+2026-10-01,Revenue,Revenue fee,536.7,400.9,452.5,,536.7 400.9 452.5
+2026-10-01,Revenue,Other fees and charges,993.8,1493.0,481.8,,993.8 1493.0 481.8
+2026-10-01,Revenue,Registration and licence fees,1165.6,880.0,886.7,,1165.6 880.0 886.7
+2026-10-01,Revenue,Property income,2177.2,1717.3,1948.3,,2177.2 1717.3 1948.3
+2026-10-01,Revenue,Rent from resorts,2034.6,1477.3,1358.8,,2034.6 1477.3 1358.8
+2026-10-01,Revenue,Land acquisition and conversion fee,0.0,130.5,485.4,,0.0 130.5 485.4
+2026-10-01,Revenue,Other rent and property income,142.6,109.5,104.1,,142.6 109.5 104.1
+2026-10-01,Revenue,Fines and penalties,139.2,156.6,188.4,,139.2 156.6 188.4
+2026-10-01,Revenue,"Interest, profit and dividends",768.5,930.6,630.8,,768.5 930.6 630.8
+2026-10-01,Revenue,SOE dividends,552.3,649.2,483.2,,552.3 649.2 483.2
+2026-10-01,Revenue,Interest and profits,216.2,281.4,147.7,,216.2 281.4 147.7
+2026-10-01,Revenue,Other non-tax revenues,157.4,234.1,150.3,,157.4 234.1 150.3
+2026-10-01,Revenue,Capital receipts,1.6,1.6,1.8,,1.6 1.6 1.8
+2026-10-01,Revenue,Grants,373.6,277.9,513.3,,373.6 277.9 513.3
+2026-10-01,Revenue,Less: subsidiary loan repayment,0.0,-0.1,0.0,,0.0 -0.1 0.0
+2026-10-01,Spending,Total budget,64202.6,38330.6,47869.5,,64202.6 38330.6 47869.5
+2026-10-01,Spending,Total recurrent and capital expenditure,49214.4,30008.0,35456.1,,49214.4 30008.0 35456.1
+2026-10-01,Spending,Recurrent expenditure,39930.1,25862.9,30652.6,,39930.1 25862.9 30652.6
+2026-10-01,Spending,"Salaries, wages and pensions",17088.4,10873.2,12042.2,,17088.4 10873.2 12042.2
+2026-10-01,Spending,Salaries and wages,8686.1,4869.1,5555.0,,8686.1 4869.1 5555.0
+2026-10-01,Spending,Allowances to employees,6106.3,4376.8,4723.5,,6106.3 4376.8 4723.5
+2026-10-01,Spending,"Pensions, retirement benefits and gratuities",2296.0,1627.3,1763.8,,2296.0 1627.3 1763.8
+2026-10-01,Spending,Basic pensions,1557.5,1098.4,1173.5,,1557.5 1098.4 1173.5
+2026-10-01,Spending,Retirement benefits and gratuities,738.5,528.9,590.3,,738.5 528.9 590.3
+2026-10-01,Spending,Administrative and operational expenses,22810.5,14969.2,18538.8,,22810.5 14969.2 18538.8
+2026-10-01,Spending,Travelling expenses,273.6,199.3,179.9,,273.6 199.3 179.9
+2026-10-01,Spending,Administrative supplies,923.7,486.8,570.0,,923.7 486.8 570.0
+2026-10-01,Spending,Administrative services,2833.0,1796.7,1873.9,,2833.0 1796.7 1873.9
+2026-10-01,Spending,Operational consumables,1561.0,940.8,1088.8,,1561.0 940.8 1088.8
+2026-10-01,Spending,Training expenses,619.9,295.9,548.8,,619.9 295.9 548.8
+2026-10-01,Spending,Repairs and maintenance,479.6,224.5,309.2,,479.6 224.5 309.2
+2026-10-01,Spending,Financing and interest costs,5557.3,3978.1,3799.6,,5557.3 3978.1 3799.6
+2026-10-01,Spending,"Grants, contributions and subsidies",10562.3,7047.2,10168.6,,10562.3 7047.2 10168.6
+2026-10-01,Spending,Aasandha,2022.6,1490.7,1864.3,,2022.6 1490.7 1864.3
+2026-10-01,Spending,Medical welfare,409.0,227.3,208.4,,409.0 227.3 208.4
+2026-10-01,Spending,Subsidies,2890.0,2400.7,4202.7,,2890.0 2400.7 4202.7
+2026-10-01,Spending,Council grants,2475.5,1616.1,1885.2,,2475.5 1616.1 1885.2
+2026-10-01,Spending,Other grants and contributions,2765.1,1312.5,2008.0,,2765.1 1312.5 2008.0
+2026-10-01,Spending,Losses and write-offs,31.1,20.5,71.5,,31.1 20.5 71.5
+2026-10-01,Spending,Capital expenditure,9284.4,4145.1,4803.5,,9284.4 4145.1 4803.5
+2026-10-01,Spending,Capital equipments,780.7,467.5,558.9,,780.7 467.5 558.9
+2026-10-01,Spending,"Furniture, machinery and equipment",619.7,298.7,462.4,,619.7 298.7 462.4
+2026-10-01,Spending,Vehicles,104.7,164.2,81.2,,104.7 164.2 81.2
+2026-10-01,Spending,Minor extensions,56.3,4.5,15.4,,56.3 4.5 15.4
+2026-10-01,Spending,Infrastructure assets,8103.6,3663.6,4227.8,,8103.6 3663.6 4227.8
+2026-10-01,Spending,Land and buildings,3850.7,1083.6,1452.8,,3850.7 1083.6 1452.8
+2026-10-01,Spending,"Roads, bridges and airports",1878.7,1652.2,1497.1,,1878.7 1652.2 1497.1
+2026-10-01,Spending,"Wharves, ports and harbours",390.2,240.5,332.9,,390.2 240.5 332.9
+2026-10-01,Spending,Other infrastructure assets,1984.0,687.3,945.0,,1984.0 687.3 945.0
+2026-10-01,Spending,Development projects and capital transfers,0.0,14.1,16.7,,0.0 14.1 16.7
+2026-10-01,Spending,Development projects,0.0,14.1,16.7,,0.0 14.1 16.7
+2026-10-01,Spending,Capital transfers,0.0,0.0,0.0,,0.0 0.0 0.0
+2026-10-01,Spending,Budget contingency,400.0,0.0,0.0,,400.0 0.0 0.0
+2026-10-01,Spending,Public Sector Investment Program,8312.1,6093.0,4787.6,yes,8312.1 6093.0 4787.6
+2026-10-01,Spending,Loan repayment,12914.3,4508.6,10091.7,yes,12914.3 4508.6 10091.7
+2026-10-01,Spending,Investments,929.9,1435.4,903.3,yes,929.9 1435.4 903.3
+2026-10-01,Spending,Transfers to Sovereign Development Fund,2429.4,2085.1,1695.3,yes,2429.4 2085.1 1695.3
+2026-10-01,Spending,Council block grant disbursements,2475.5,1616.1,1885.2,yes,2475.5 1616.1 1885.2
+2026-10-01,Spending,Lendings,1144.0,2378.7,1418.4,yes,1144.0 2378.7 1418.4
+2026-10-01,Spending,Student loan scheme,776.6,408.1,121.8,yes,776.6 408.1 121.8
+2026-10-01,Public sector investment by function,Total PSIP,8312.1,6093.0,4787.6,,8312.1 6093.0 4787.6
+2026-10-01,Public sector investment by function,General public services,532.3,412.8,646.7,,532.3 412.8 646.7
+2026-10-01,Public sector investment by function,Government administration,0.0,20.8,0.6,,0.0 20.8 0.6
+2026-10-01,Public sector investment by function,Land management,429.7,386.4,641.6,,429.7 386.4 641.6
+2026-10-01,Public sector investment by function,Public infrastructure construction,97.4,5.6,4.6,,97.4 5.6 4.6
+2026-10-01,Public sector investment by function,Research and development,5.2,0.0,0.0,,5.2 0.0 0.0
+2026-10-01,Public sector investment by function,Defense,247.5,17.2,8.6,,247.5 17.2 8.6
+2026-10-01,Public sector investment by function,National defense,247.5,16.3,8.2,,247.5 16.3 8.2
+2026-10-01,Public sector investment by function,Border security,0.0,0.9,0.0,,0.0 0.9 0.0
+2026-10-01,Public sector investment by function,Emergency preparedness,0.0,0.0,0.5,,0.0 0.0 0.5
+2026-10-01,Public sector investment by function,Public order and safety,175.4,52.8,43.1,,175.4 52.8 43.1
+2026-10-01,Public sector investment by function,Correctional services,45.0,0.1,0.0,,45.0 0.1 0.0
+2026-10-01,Public sector investment by function,Disaster response and relief,51.3,0.5,0.0,,51.3 0.5 0.0
+2026-10-01,Public sector investment by function,Judicial services,19.5,14.4,0.0,,19.5 14.4 0.0
+2026-10-01,Public sector investment by function,Law enforcement,59.6,37.9,43.1,,59.6 37.9 43.1
+2026-10-01,Public sector investment by function,Economic affairs,2853.3,4204.6,2252.4,,2853.3 4204.6 2252.4
+2026-10-01,Public sector investment by function,Agriculture and fisheries,226.0,148.3,62.8,,226.0 148.3 62.8
+2026-10-01,Public sector investment by function,Economic regulation,0.0,0.0,0.0,,0.0 0.0 0.0
+2026-10-01,Public sector investment by function,Energy and utilities,209.4,42.5,260.2,,209.4 42.5 260.2
+2026-10-01,Public sector investment by function,Tourism and hospitality,21.8,0.0,0.0,,21.8 0.0 0.0
+2026-10-01,Public sector investment by function,Trade and industry development,17.8,0.0,8.0,,17.8 0.0 8.0
+2026-10-01,Public sector investment by function,Transport infrastructure,2378.4,4013.7,1921.5,,2378.4 4013.7 1921.5
+2026-10-01,Public sector investment by function,Environmental protection,941.6,505.2,175.9,,941.6 505.2 175.9
+2026-10-01,Public sector investment by function,Climate mitigation and adaptation,221.8,233.4,56.0,,221.8 233.4 56.0
+2026-10-01,Public sector investment by function,Environmental conservation,2.8,0.6,0.7,,2.8 0.6 0.7
+2026-10-01,Public sector investment by function,Pollution control,369.6,191.6,97.1,,369.6 191.6 97.1
+2026-10-01,Public sector investment by function,Water resource management,347.4,79.6,22.1,,347.4 79.6 22.1
+2026-10-01,Public sector investment by function,Housing and community amenities,1285.8,454.1,645.2,,1285.8 454.1 645.2
+2026-10-01,Public sector investment by function,Community facilities,23.3,0.5,0.9,,23.3 0.5 0.9
+2026-10-01,Public sector investment by function,Public housing,1083.8,269.4,338.0,,1083.8 269.4 338.0
+2026-10-01,Public sector investment by function,Public spaces,21.3,0.9,9.9,,21.3 0.9 9.9
+2026-10-01,Public sector investment by function,Urban development,91.0,65.3,41.2,,91.0 65.3 41.2
+2026-10-01,Public sector investment by function,Water and sanitation,66.3,118.1,255.2,,66.3 118.1 255.2
+2026-10-01,Public sector investment by function,Health,917.7,238.5,298.9,,917.7 238.5 298.9
+2026-10-01,Public sector investment by function,Healthcare infrastructure,814.7,238.5,296.1,,814.7 238.5 296.1
+2026-10-01,Public sector investment by function,Mental health and rehabilitation,103.0,0.0,0.0,,103.0 0.0 0.0
+2026-10-01,Public sector investment by function,Public health programs,0.0,0.0,2.7,,0.0 0.0 2.7
+2026-10-01,Public sector investment by function,"Recreation, culture, and religion",531.0,99.5,296.2,,531.0 99.5 296.2
+2026-10-01,Public sector investment by function,Cultural preservation,23.9,0.4,40.8,,23.9 0.4 40.8
+2026-10-01,Public sector investment by function,Entertainment and events,4.9,0.0,0.0,,4.9 0.0 0.0
+2026-10-01,Public sector investment by function,Religious services,99.1,41.1,101.8,,99.1 41.1 101.8
+2026-10-01,Public sector investment by function,Sports and recreation,403.1,58.0,153.6,,403.1 58.0 153.6
+2026-10-01,Public sector investment by function,Education,779.7,100.2,420.5,,779.7 100.2 420.5
+2026-10-01,Public sector investment by function,Higher education,124.2,7.1,24.3,,124.2 7.1 24.3
+2026-10-01,Public sector investment by function,Primary and secondary education,655.5,89.6,386.8,,655.5 89.6 386.8
+2026-10-01,Public sector investment by function,Vocational training,0.0,3.4,9.4,,0.0 3.4 9.4
+2026-10-01,Public sector investment by function,Social protection,48.0,8.1,0.0,,48.0 8.1 0.0
+2026-10-01,Public sector investment by function,Child and youth support,10.4,8.1,0.0,,10.4 8.1 0.0
+2026-10-01,Public sector investment by function,Disability and rehabilitation,0.0,0.0,0.0,,0.0 0.0 0.0
+2026-10-01,Public sector investment by function,Elderly care,37.6,0.0,0.0,,37.6 0.0 0.0
+2026-10-01,Public sector investment by function,Social welfare programs,0.0,0.0,0.0,,0.0 0.0 0.0
+2026-10-01,Budget by government office,Presidents Office,240.5,167.8,155.9,,240.5 167.8 155.9
+2026-10-01,Budget by government office,People's Majlis,228.3,155.0,153.6,,228.3 155.0 153.6
+2026-10-01,Budget by government office,Judicial Service Commission,17.2,11.6,13.9,,17.2 11.6 13.9
+2026-10-01,Budget by government office,Department of Judicial Administration,0.0,408.4,0.0,,0.0 408.4 0.0
+2026-10-01,Budget by government office,Elections Commission,163.0,48.8,155.9,,163.0 48.8 155.9
+2026-10-01,Budget by government office,Civil Service Commission,31.3,22.2,27.5,,31.3 22.2 27.5
+2026-10-01,Budget by government office,Human Rights Commission,29.2,22.0,23.7,,29.2 22.0 23.7
+2026-10-01,Budget by government office,Anti-Corruption Commission,47.9,41.5,36.0,,47.9 41.5 36.0
+2026-10-01,Budget by government office,Auditor Generals Office,134.3,69.8,56.0,,134.3 69.8 56.0
+2026-10-01,Budget by government office,Prosecutor Generals Office,72.2,52.4,59.9,,72.2 52.4 59.9
+2026-10-01,Budget by government office,Maldives Inland revenue Authority,116.8,78.6,94.9,,116.8 78.6 94.9
+2026-10-01,Budget by government office,Employment Tribunal,16.4,10.3,11.9,,16.4 10.3 11.9
+2026-10-01,Budget by government office,Maldives Media Council,0.0,3.1,0.0,,0.0 3.1 0.0
+2026-10-01,Budget by government office,Maldives Broadcasting Commission,0.0,7.3,0.0,,0.0 7.3 0.0
+2026-10-01,Budget by government office,Tax Appeal Tribunal,13.4,9.0,9.8,,13.4 9.0 9.8
+2026-10-01,Budget by government office,Local Government Authority,38.1,26.9,61.3,,38.1 26.9 61.3
+2026-10-01,Budget by government office,Information Commisioners Office,7.5,5.0,4.7,,7.5 5.0 4.7
+2026-10-01,Budget by government office,National Integrity Commission,14.8,11.5,10.1,,14.8 11.5 10.1
+2026-10-01,Budget by government office,Ministry of Finance & Public Enterprises,244.9,2259.1,239.6,,244.9 2259.1 239.6
+2026-10-01,Budget by government office,Ministry of Defence & National Service,145.0,35.7,61.3,,145.0 35.7 61.3
+2026-10-01,Budget by government office,"Ministry of Homeland Security, Labour & Technology",414.2,205.6,189.8,,414.2 205.6 189.8
+2026-10-01,Budget by government office,"Ministry of Education, Higher Education & Skills Development",4701.8,2886.4,4119.3,,4701.8 2886.4 4119.3
+2026-10-01,Budget by government office,Maldives Islamic University,98.5,61.6,74.4,,98.5 61.6 74.4
+2026-10-01,Budget by government office,Maldives National University,335.5,179.6,198.3,,335.5 179.6 198.3
+2026-10-01,Budget by government office,Ministry of Foreign Affairs,349.1,305.9,212.7,,349.1 305.9 212.7
+2026-10-01,Budget by government office,"Ministry of Health, Family & Welfare",2769.7,1568.0,2005.5,,2769.7 1568.0 2005.5
+2026-10-01,Budget by government office,"Ministry of Economic Development, Transport & Trade",177.0,100.8,124.7,,177.0 100.8 124.7
+2026-10-01,Budget by government office,Ministry of Tourism and Civil Aviation,806.3,356.8,401.4,,806.3 356.8 401.4
+2026-10-01,Budget by government office,"Ministry of Youth Empowerment, Sports & Fitness",623.0,259.6,391.1,,623.0 259.6 391.1
+2026-10-01,Budget by government office,"Ministry of Infrastructure, Housing & Urban Development",4631.7,3031.8,3306.3,,4631.7 3031.8 3306.3
+2026-10-01,Budget by government office,"Ministry of Fisheries, Agriculture & Ocean Resources",325.5,235.9,290.9,,325.5 235.9 290.9
+2026-10-01,Budget by government office,Ministry of Islamic Affairs & Endowments,473.1,278.3,402.4,,473.1 278.3 402.4
+2026-10-01,Budget by government office,"Ministry of Climate Change, Environment & Energy",81.2,55.8,270.5,,81.2 55.8 270.5
+2026-10-01,Budget by government office,Attorney Generals Office,30.7,20.9,28.2,,30.7 20.9 28.2
+2026-10-01,Budget by government office,Ministry of Social & Family Development,130.6,56.2,29.7,,130.6 56.2 29.7
+2026-10-01,Budget by government office,Special Budget,27969.7,13896.1,22147.3,,27969.7 13896.1 22147.3
+2026-10-01,Budget by government office,Pension Budget,1914.1,1357.1,1435.2,,1914.1 1357.1 1435.2
+2026-10-01,Budget by government office,Maldives Police Services,2828.6,1874.7,2115.0,,2828.6 1874.7 2115.0
+2026-10-01,Budget by government office,Maldives Customs Services,299.4,178.7,244.2,,299.4 178.7 244.2
+2026-10-01,Budget by government office,National Social Protection Agency,3485.5,2316.2,2844.5,,3485.5 2316.2 2844.5
+2026-10-01,Budget by government office,Indira Gandhi Memorial Hospital,2256.9,1188.5,1483.3,,2256.9 1188.5 1483.3
+2026-10-01,Budget by government office,Family Protection Authority,9.4,7.5,7.6,,9.4 7.5 7.6
+2026-10-01,Budget by government office,Maldives National Defense Force,2824.0,1541.6,1742.0,,2824.0 1541.6 1742.0
+2026-10-01,Budget by government office,Maldives Correctional Services,413.8,279.3,318.9,,413.8 279.3 318.9
+2026-10-01,Budget by government office,Maldives Immigration,281.8,199.4,203.5,,281.8 199.4 203.5
+2026-10-01,Budget by government office,"Ministry of Higher Education, Labour & Skills Development",1288.4,738.8,325.4,,1288.4 738.8 325.4
+2026-10-01,Budget by government office,"Ministry of Housing, Land & Urban Development",0.0,0.0,0.0,,0.0 0.0 0.0
+2026-10-01,Budget by government office,Ministry of Transport & Civil Aviation,137.2,34.3,39.0,,137.2 34.3 39.0
+2026-10-01,Budget by government office,"Ministry of Arts, Culture & Heritage",150.2,65.9,115.7,,150.2 65.9 115.7
+2026-10-01,Budget by government office,National Disaster Management Authority,21.9,12.8,11.7,,21.9 12.8 11.7
+2026-10-01,Budget by government office,Aviation and Port Security Command,213.7,140.5,212.6,,213.7 140.5 212.6
+2026-10-01,Budget by government office,Maldives International Arbitration Centre,3.7,2.3,2.7,,3.7 2.3 2.7
+2026-10-01,Budget by government office,Children’s Ombudsperson’s Office,8.9,6.2,7.2,,8.9 6.2 7.2
+2026-10-01,Budget by government office,Kulhudhuffushi Regional Hospital,300.9,200.8,164.4,,300.9 200.8 164.4
+2026-10-01,Budget by government office,Addu Equitorial Hospital,323.8,183.6,174.9,,323.8 183.6 174.9
+2026-10-01,Budget by government office,Gan Regional Hospital,187.9,130.9,100.2,,187.9 130.9 100.2
+2026-10-01,Budget by government office,Hulhumale Hospital,665.9,366.4,485.2,,665.9 366.4 485.2
+2026-10-01,Budget by government office,Ungoofaaru Regional Hospital,237.3,165.9,101.8,,237.3 165.9 101.8
+2026-10-01,Budget by government office,Abdul Samad Memorial Hospital,257.5,154.8,128.6,,257.5 154.8 128.6
+2026-10-01,Budget by government office,National Drug Agency,179.1,74.8,77.4,,179.1 74.8 77.4
+2026-10-01,Budget by government office,Ministry of Agriculture & Animal Welfare,81.3,33.4,21.1,,81.3 33.4 21.1
+2026-10-01,Budget by government office,"Ministry of Youth Empowerment, Information & Arts",157.8,32.0,44.7,,157.8 32.0 44.7
+2026-10-01,Budget by government office,"Ministry of Cities, Local Government & Public Works",157.6,85.6,67.7,,157.6 85.6 67.7
+2026-10-01,Budget by government office,Labor Relations Authority,20.9,13.4,14.8,,20.9 13.4 14.8
+2026-10-01,Budget by government office,Maldives Media and Broadcasting Commission,16.3,0.0,11.7,,16.3 0.0 11.7
+2026-10-01,Budget by government office,Total,64202.6,38330.6,47869.5,,64202.6 38330.6 47869.5
+2026-10-01,Government securities outstanding,Total securities outstanding,,,98556.2,,0.0 4972.5 3964.5 3205.6 38198.2 10938.5 15944.4 0.0 21332.5 98556.2
+2026-10-01,Government securities outstanding,Domestic instruments,,,97014.2,,0.0 4972.5 3964.5 3205.6 38198.2 10938.5 14402.4 0.0 21332.5 97014.2
+2026-10-01,Government securities outstanding,MVR treasury bills,,,41167.3,,0.0 3641.5 2988.4 2525.4 32012.1 0.0 0.0 0.0 0.0 41167.3
+2026-10-01,Government securities outstanding,Central bank,,,59.9,,0.0 0.0 0.0 0.0 59.9 0.0 0.0 0.0 0.0 59.9
+2026-10-01,Government securities outstanding,Commercial banks,,,25066.6,,0.0 3236.5 2030.0 1672.0 18128.1 0.0 0.0 0.0 0.0 25066.6
+2026-10-01,Government securities outstanding,Other financial corporations,,,13648.6,,0.0 0.0 50.8 146.4 13451.5 0.0 0.0 0.0 0.0 13648.6
+2026-10-01,Government securities outstanding,Private sector,,,281.2,,0.0 40.0 14.2 187.0 40.0 0.0 0.0 0.0 0.0 281.2
+2026-10-01,Government securities outstanding,Public non-financial corporations,,,2111.0,,0.0 365.0 893.4 520.0 332.6 0.0 0.0 0.0 0.0 2111.0
+2026-10-01,Government securities outstanding,RDC / USD treasury bills,,,3171.1,,0.0 308.4 358.1 5.3 2499.3 0.0 0.0 0.0 0.0 3171.1
+2026-10-01,Government securities outstanding,Central bank,,,50.9,,0.0 0.0 0.0 0.0 50.9 0.0 0.0 0.0 0.0 50.9
+2026-10-01,Government securities outstanding,Commercial banks,,,1296.1,,0.0 308.4 49.3 0.0 938.3 0.0 0.0 0.0 0.0 1296.1
+2026-10-01,Government securities outstanding,Other financial corporations,,,1638.1,,0.0 0.0 123.4 4.6 1510.1 0.0 0.0 0.0 0.0 1638.1
+2026-10-01,Government securities outstanding,Private sector,,,1.0,,0.0 0.0 0.4 0.6 0.0 0.0 0.0 0.0 0.0 1.0
+2026-10-01,Government securities outstanding,Public non-financial corporations,,,85.0,,0.0 0.0 1.0 85.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0 85.0
+2026-10-01,Government securities outstanding,Islamic instruments (MVR),,,6002.4,,0.0 1022.6 618.0 675.0 3686.8 0.0 0.0 0.0 0.0 6002.4
+2026-10-01,Government securities outstanding,Commercial banks,,,3658.7,,0.0 875.0 470.0 660.0 1653.7 0.0 0.0 0.0 0.0 3658.7
+2026-10-01,Government securities outstanding,Other financial corporations,,,2258.9,,0.0 127.9 83.0 15.0 2033.0 0.0 0.0 0.0 0.0 2258.9
+2026-10-01,Government securities outstanding,Private sector,,,0.1,,0.0 0.0 0.0 0.0 0.1 0.0 0.0 0.0 0.0 0.1
+2026-10-01,Government securities outstanding,Public non-financial corp.,,,84.7,,0.0 19.7 65.0 0.0 0.0 0.0 0.0 0.0 0.0 84.7
+2026-10-01,Government securities outstanding,Islamic instruments (USD),,,0.0,,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0
+2026-10-01,Government securities outstanding,Commercial banks,,,0.0,,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0
+2026-10-01,Government securities outstanding,Other financial corporations,,,0.0,,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0
+2026-10-01,Government securities outstanding,MVR treasury bonds,,,33584.0,,0.0 0.0 0.0 0.0 0.0 3554.5 8697.0 0.0 21332.5 33584.0
+2026-10-01,Government securities outstanding,Other financial corporations,,,13576.3,,0.0 0.0 0.0 0.0 0.0 707.0 5424.0 0.0 7445.3 13576.3
+2026-10-01,Government securities outstanding,Commercial banks,,,3970.0,,0.0 0.0 0.0 0.0 0.0 2265.0 1705.0 0.0 0.0 3970.0
+2026-10-01,Government securities outstanding,Public non-financial corp.,,,282.5,,0.0 0.0 0.0 0.0 0.0 282.5 0.0 0.0 0.0 282.5
+2026-10-01,Government securities outstanding,Central bank,,,3887.2,,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0 3887.2 1.0 3887.2
+2026-10-01,Government securities outstanding,Listed bonds,,,1868.0,,0.0 0.0 0.0 0.0 0.0 300.0 1568.0 0.0 0.0 1868.0
+2026-10-01,Government securities outstanding,USD treasury bonds,,,13089.4,,0.0 0.0 0.0 0.0 0.0 7384.0 5705.4 0.0 0.0 13089.4
+2026-10-01,Government securities outstanding,Commercial banks,,,9817.3,,0.0 0.0 0.0 0.0 0.0 4111.9 5705.4 0.0 0.0 9817.3
+2026-10-01,Government securities outstanding,Public non-financial corp.,,,3272.1,,0.0 0.0 0.0 0.0 0.0 3272.1 0.0 0.0 0.0 3272.1
+2026-10-01,Government securities outstanding,Private sector,,,0.0,,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0
+2026-10-01,Government securities outstanding,External instruments,,,1542.0,,0.0 0.0 0.0 0.0 0.0 0.0 1542.0 0.0 0.0 1542.0
+2026-10-01,Government securities outstanding,Bonds,,,1542.0,,0.0 0.0 0.0 0.0 0.0 0.0 1542.0 0.0 0.0 1542.0
+2026-10-01,Government securities outstanding,Sukuk,,,0.0,,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0

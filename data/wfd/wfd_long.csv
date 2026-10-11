@@ -91062,261 +91062,519 @@ as_at,table,page,row,label,approved,last_year,this_year,memo,all_values,file
 2026-09-17,securities,8,256,External Instruments,,,1542.0,0,0.0 0.0 0.0 0.0 0.0 0.0 1542.0 0.0 0.0 1542.0,https://www.finance.gov.mv/public/attachments/mNU4qI9qWfS9QfmTxmskkUfoE06CoOsqNMKNkh5K.pdf
 2026-09-17,securities,8,257,Bonds,,,1542.0,0,0.0 0.0 0.0 0.0 0.0 0.0 1542.0 0.0 0.0 1542.0,https://www.finance.gov.mv/public/attachments/mNU4qI9qWfS9QfmTxmskkUfoE06CoOsqNMKNkh5K.pdf
 2026-09-17,securities,8,258,Sukuk,,,0.0,0,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/mNU4qI9qWfS9QfmTxmskkUfoE06CoOsqNMKNkh5K.pdf
-2026-09-24,summary,2,1,A TOTAL REVENUES AND GRANTS,40374.5,28750.1,30205.0,0,40374.5 28750.1 30205.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,2,Tax Revenues,31297.1,21366.2,23388.3,0,31297.1 21366.2 23388.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,3,Non-Tax Revenues,8702.3,7145.1,6319.1,0,8702.3 7145.1 6319.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,4,Capital Receipts,1.6,1.6,1.7,0,1.6 1.6 1.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,5,Grants,373.6,237.3,495.9,0,373.6 237.3 495.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,6,less: Subsidiary Loan Repayment,0.0,-0.1,0.0,0,0.0 -0.1 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,7,TOTAL BUDGET,64202.6,36471.8,45952.1,0,64202.6 36471.8 45952.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,8,B TOTAL EXPENDITURE (C+D),49214.4,28250.9,33562.3,0,49214.4 28250.9 33562.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,9,C RECURRENT EXPENDITURE,39930.1,24320.7,28896.6,0,39930.1 24320.7 28896.6,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,10,"Salaries, Wages and Pensions",17088.4,9718.2,10702.3,0,17088.4 9718.2 10702.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,11,Administrative and Operational Expenses,22810.5,14582.0,18122.9,0,22810.5 14582.0 18122.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,12,Losses and Write-offs,31.1,20.5,71.5,0,31.1 20.5 71.5,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,13,D CAPITAL EXPENDITURE,9284.4,3930.2,4665.7,0,9284.4 3930.2 4665.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,14,Capital Equipments,780.7,455.3,540.0,0,780.7 455.3 540.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,15,Land and Buildings,3850.7,1042.7,1409.9,0,3850.7 1042.7 1409.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,16,Infrastructure Assets,4253.0,2418.1,2699.0,0,4253.0 2418.1 2699.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,17,Development Projects and Capital Transfers,0.0,14.1,16.7,0,0.0 14.1 16.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,18,Budget Contingency,400.0,0.0,0.0,0,400.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,19,E PRIMARY BALANCE - SURPLUS / (DEFICIT) (F+G),-3282.6,4445.1,442.3,0,-3282.6 4445.1 442.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,20,F OVERALL BALANCE - SURPLUS / (DEFICIT) (A-B),-8839.9,499.3,-3357.4,0,-8839.9 499.3 -3357.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,21,G Financing and Interest Costs,5557.3,3945.9,3799.6,0,5557.3 3945.9 3799.6,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,22,Loan Repayment,12914.3,4495.7,10091.7,1,12914.3 4495.7 10091.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,23,Investments,929.9,1364.4,889.2,1,929.9 1364.4 889.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,24,Transfers to Sovereign Development Fund,2429.4,1616.9,1655.9,1,2429.4 1616.9 1655.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,25,Public Sector Investment Program,8312.1,5135.2,4487.3,1,8312.1 5135.2 4487.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,26,Council Block Grant Disbursements,2475.5,1616.1,1884.3,1,2475.5 1616.1 1884.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,27,Lendings,1144.0,2360.9,1408.9,1,1144.0 2360.9 1408.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,summary,2,28,Student Loan Scheme,776.6,390.3,121.8,1,776.6 390.3 121.8,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,29,TOTAL REVENUE AND GRANTS,40374.5,28750.1,30205.0,0,40374.5 28750.1 30205.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,30,Tax Revenues,31297.1,21366.2,23388.3,0,31297.1 21366.2 23388.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,31,Import Duties,3127.7,2196.1,2483.6,0,3127.7 2196.1 2483.6,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,32,Business and Property Tax,6144.2,4760.2,5777.8,0,6144.2 4760.2 5777.8,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,33,Corporate Income Tax,3201.7,2737.2,2980.3,0,3201.7 2737.2 2980.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,34,Non-resident Withholding Tax,1224.4,908.2,1010.5,0,1224.4 908.2 1010.5,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,35,Individual Income Tax,472.2,376.7,400.2,0,472.2 376.7 400.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,36,Other Business and Property Taxes,1245.9,738.1,1386.8,0,1245.9 738.1 1386.8,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,37,Goods and Services Tax,17095.4,11325.8,11930.3,0,17095.4 11325.8 11930.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,38,General Goods and Services Tax,5622.2,3656.9,4050.5,0,5622.2 3656.9 4050.5,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,39,Tourism Goods and Services Tax,11473.2,7668.9,7879.7,0,11473.2 7668.9 7879.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,40,Royalties,259.2,224.5,209.3,0,259.2 224.5 209.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,41,Green Tax,2395.4,1544.6,1556.0,0,2395.4 1544.6 1556.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,42,Airport Service Charges / Departure Tax,2275.3,1315.0,1431.2,0,2275.3 1315.0 1431.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,43,Non-Tax Revenues,8702.3,7145.1,6319.1,0,8702.3 7145.1 6319.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,44,Fees and Charges,4294.4,3494.9,2616.4,0,4294.4 3494.9 2616.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,45,Airport Development Fee,2298.2,1344.9,1458.1,0,2298.2 1344.9 1458.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,46,Expatriate Quota Fee,465.7,277.6,237.8,0,465.7 277.6 237.8,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,47,Revenue Fee,536.7,389.4,446.6,0,536.7 389.4 446.6,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,48,Other Fees and Charges,993.8,1483.1,474.0,0,993.8 1483.1 474.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,49,Registration and Licence Fees,1165.6,859.4,882.1,0,1165.6 859.4 882.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,50,Property Income,2177.2,1480.6,1855.9,0,2177.2 1480.6 1855.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,51,Rent from Resorts,2034.6,1245.4,1266.8,0,2034.6 1245.4 1266.8,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,52,Land Acquisition and Conversion Fee,0.0,127.6,485.4,0,0.0 127.6 485.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,53,Other Rent and Property Income,142.6,107.6,103.7,0,142.6 107.6 103.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,54,Fines and Penalties,139.2,148.7,183.9,0,139.2 148.7 183.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,55,"Interest, Profit and Dividends",768.5,930.2,630.8,0,768.5 930.2 630.8,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,56,SOE Dividends,552.3,648.9,483.2,0,552.3 648.9 483.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,57,Interest and Profits,216.2,281.2,147.7,0,216.2 281.2 147.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,58,Other Non-Tax Revenues,157.4,231.3,149.9,0,157.4 231.3 149.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,59,Capital Receipts,1.6,1.6,1.7,0,1.6 1.6 1.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,60,Grants,373.6,237.3,495.9,0,373.6 237.3 495.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,revenue,3,61,Less: Subsidiary Loan Repayment,0.0,-0.1,0.0,0,0.0 -0.1 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,62,TOTAL BUDGET,64202.6,36471.8,45952.1,0,64202.6 36471.8 45952.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,63,TOTAL RECURRENT AND CAPITAL EXPENDITURE,49214.4,28250.9,33562.3,0,49214.4 28250.9 33562.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,64,RECURRENT EXPENDITURE,39930.1,24320.7,28896.6,0,39930.1 24320.7 28896.6,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,65,"Salaries, Wages and Pensions",17088.4,9718.2,10702.3,0,17088.4 9718.2 10702.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,66,Salaries and Wages,8686.1,4348.1,4922.1,0,8686.1 4348.1 4922.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,67,Allowances to Employees,6106.3,3924.1,4213.8,0,6106.3 3924.1 4213.8,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,68,"Pensions, Retirement Benefits and Gratuities",2296.0,1446.0,1566.3,0,2296.0 1446.0 1566.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,69,Basic Pensions,1557.5,974.2,1040.8,0,1557.5 974.2 1040.8,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,70,Retirement Benefits and Gratuities,738.5,471.8,525.5,0,738.5 471.8 525.5,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,71,Administrative and Operational Expenses,22810.5,14582.0,18122.9,0,22810.5 14582.0 18122.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,72,Travelling Expenses,273.6,194.1,176.3,0,273.6 194.1 176.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,73,Administrative Supplies,923.7,478.6,555.6,0,923.7 478.6 555.6,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,74,Administrative Services,2833.0,1728.5,1836.2,0,2833.0 1728.5 1836.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,75,Operational Consumables,1561.0,902.6,1056.2,0,1561.0 902.6 1056.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,76,Training Expenses,619.9,288.9,525.2,0,619.9 288.9 525.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,77,Repairs and Maintenance,479.6,214.0,303.5,0,479.6 214.0 303.5,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,78,Financing and Interest Costs,5557.3,3945.9,3799.6,0,5557.3 3945.9 3799.6,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,79,"Grants, Contributions and Subsidies",10562.3,6829.4,9870.2,0,10562.3 6829.4 9870.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,80,Aasandha,2022.6,1418.0,1747.9,0,2022.6 1418.0 1747.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,81,Medical Welfare,409.0,214.6,190.9,0,409.0 214.6 190.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,82,Subsidies,2890.0,2342.3,4148.3,0,2890.0 2342.3 4148.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,83,Council Grants2/,2475.5,1616.1,1884.3,0,2475.5 1616.1 1884.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,84,Other Grants and Contributions,2765.1,1238.4,1898.9,0,2765.1 1238.4 1898.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,85,Losses and Write-offs,31.1,20.5,71.5,0,31.1 20.5 71.5,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,86,CAPITAL EXPENDITURE,9284.4,3930.2,4665.7,0,9284.4 3930.2 4665.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,87,Capital Equipments,780.7,455.3,540.0,0,780.7 455.3 540.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,88,"Furniture, Machinery and Equipment",619.7,286.5,446.4,0,619.7 286.5 446.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,89,Vehicles,104.7,164.2,78.3,0,104.7 164.2 78.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,90,Minor extensions,56.3,4.5,15.4,0,56.3 4.5 15.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,91,Infrastructure Assets,8103.6,3460.8,4108.9,0,8103.6 3460.8 4108.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,92,Land and Buildings,3850.7,1042.7,1409.9,0,3850.7 1042.7 1409.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,93,"Roads, Bridges and Airports",1878.7,1589.7,1445.4,0,1878.7 1589.7 1445.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,94,"Wharves, Ports and Harbours",390.2,211.6,332.9,0,390.2 211.6 332.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,95,Other Infrastructure Assets,1984.0,616.7,920.6,0,1984.0 616.7 920.6,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,96,Development Projects and Capital Transfers,0.0,14.1,16.7,0,0.0 14.1 16.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,97,Development Projects,0.0,14.1,16.7,0,0.0 14.1 16.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,98,Capital Transfers,0.0,0.0,0.0,0,0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,99,Budget Contingency,400.0,0.0,0.0,0,400.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,100,Public Sector Investment Program,8312.1,5135.2,4487.3,1,8312.1 5135.2 4487.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,101,Loan Repayment,12914.3,4495.7,10091.7,1,12914.3 4495.7 10091.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,102,Investments,929.9,1364.4,889.2,1,929.9 1364.4 889.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,103,Transfers to Sovereign Development Fund,2429.4,1616.9,1655.9,1,2429.4 1616.9 1655.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,104,Council Block Grant Disbursements,2475.5,1616.1,1884.3,1,2475.5 1616.1 1884.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,105,Lendings,1144.0,2360.9,1408.9,1,1144.0 2360.9 1408.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,expenditure,4,106,Student Loan Scheme,776.6,390.3,121.8,1,776.6 390.3 121.8,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,107,TOTAL PSIP,8312.1,5135.2,4487.3,0,8312.1 5135.2 4487.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,108,General Public Services,532.3,360.9,646.7,0,532.3 360.9 646.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,109,Government Administration,0.0,17.9,0.6,0,0.0 17.9 0.6,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,110,Land Management,429.7,339.1,641.6,0,429.7 339.1 641.6,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,111,Public Infrastructure Construction,97.4,3.9,4.6,0,97.4 3.9 4.6,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,112,Research and Development,5.2,0.0,0.0,0,5.2 0.0 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,113,Defense,247.5,17.2,0.9,0,247.5 17.2 0.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,114,National Defense,247.5,16.3,0.4,0,247.5 16.3 0.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,115,Border Security,0.0,0.9,0.0,0,0.0 0.9 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,116,Emergency Preparedness,0.0,0.0,0.5,0,0.0 0.0 0.5,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,117,Public Order and Safety,175.4,16.7,42.2,0,175.4 16.7 42.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,118,Correctional Services,45.0,0.1,0.0,0,45.0 0.1 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,119,Disaster Response and Relief,51.3,0.5,0.0,0,51.3 0.5 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,120,Judicial Services,19.5,0.0,0.0,0,19.5 0.0 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,121,Law Enforcement,59.6,16.1,42.2,0,59.6 16.1 42.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,122,Economic Affairs,2853.3,3600.3,2152.0,0,2853.3 3600.3 2152.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,123,Agriculture and Fisheries,226.0,136.9,62.1,0,226.0 136.9 62.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,124,Economic Regulation,0.0,0.0,0.0,0,0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,125,Energy and Utilities,209.4,39.3,259.7,0,209.4 39.3 259.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,126,Tourism and Hospitality,21.8,0.0,0.0,0,21.8 0.0 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,127,Trade and Industry Development,17.8,0.0,0.0,0,17.8 0.0 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,128,Transport Infrastructure,2378.4,3424.1,1830.1,0,2378.4 3424.1 1830.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,129,Environmental Protection,941.6,480.5,173.3,0,941.6 480.5 173.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,130,Climate Mitigation and Adaptation,221.8,211.6,55.9,0,221.8 211.6 55.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,131,Environmental Conservation,2.8,0.5,0.7,0,2.8 0.5 0.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,132,Pollution Control,369.6,189.8,94.6,0,369.6 189.8 94.6,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,133,Water Resource Management,347.4,78.6,22.1,0,347.4 78.6 22.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,134,Housing and Community Amenities,1285.8,264.9,508.1,0,1285.8 264.9 508.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,135,Community Facilities,23.3,0.5,0.9,0,23.3 0.5 0.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,136,Public Housing,1083.8,126.8,203.7,0,1083.8 126.8 203.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,137,Public Spaces,21.3,0.9,7.6,0,21.3 0.9 7.6,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,138,Urban Development,91.0,59.8,41.0,0,91.0 59.8 41.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,139,Water and Sanitation,66.3,77.0,254.9,0,66.3 77.0 254.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,140,Health,917.7,223.5,293.1,0,917.7 223.5 293.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,141,Healthcare Infrastructure,814.7,223.5,290.4,0,814.7 223.5 290.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,142,Mental Health and Rehabilitation,103.0,0.0,0.0,0,103.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,143,Public Health Programs,0.0,0.0,2.7,0,0.0 0.0 2.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,144,"Recreation, Culture, and Religion",531.0,88.7,258.8,0,531.0 88.7 258.8,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,145,Cultural Preservation,23.9,0.4,17.6,0,23.9 0.4 17.6,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,146,Entertainment and Events,4.9,0.0,0.0,0,4.9 0.0 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,147,Religious Services,99.1,38.6,99.1,0,99.1 38.6 99.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,148,Sports and Recreation,403.1,49.7,142.1,0,403.1 49.7 142.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,149,Education,779.7,75.3,412.1,0,779.7 75.3 412.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,150,Higher Education,124.2,5.2,20.7,0,124.2 5.2 20.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,151,Primary and Secondary Education,655.5,66.9,382.0,0,655.5 66.9 382.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,152,Vocational Training,0.0,3.2,9.4,0,0.0 3.2 9.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,153,Social Protection,48.0,7.3,0.0,0,48.0 7.3 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,154,Child and Youth Support,10.4,7.3,0.0,0,10.4 7.3 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,155,Disability and Rehabilitation,0.0,0.0,0.0,0,0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,156,Elderly Care,37.6,0.0,0.0,0,37.6 0.0 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,psip,5,157,Social Welfare Programs,0.0,0.0,0.0,0,0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,158,1 Presidents Office,240.5,155.6,143.4,0,240.5 155.6 143.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,159,2 People's Majlis,228.3,152.4,140.3,0,228.3 152.4 140.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,160,3 Judicial Service Commission,17.2,10.4,12.1,0,17.2 10.4 12.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,161,4 Department of Judicial Administration,0.0,371.4,0.0,0,0.0 371.4 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,162,5 Elections Commission,163.0,48.6,154.2,0,163.0 48.6 154.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,163,6 Civil Service Commission,31.3,20.1,24.4,0,31.3 20.1 24.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,164,7 Human Rights Commission,29.2,20.2,21.8,0,29.2 20.2 21.8,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,165,8 Anti-Corruption Commission,47.9,38.7,33.0,0,47.9 38.7 33.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,166,9 Auditor Generals Office,134.3,65.0,51.3,0,134.3 65.0 51.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,167,10 Prosecutor Generals Office,72.2,47.1,53.2,0,72.2 47.1 53.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,168,11 Maldives Inland revenue Authority,116.8,71.2,81.5,0,116.8 71.2 81.5,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,169,12 Employment Tribunal,16.4,9.4,10.8,0,16.4 9.4 10.8,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,170,13 Maldives Media Council,0.0,2.8,0.0,0,0.0 2.8 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,171,14 Maldives Broadcasting Commission,0.0,6.7,0.0,0,0.0 6.7 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,172,15 Tax Appeal Tribunal,13.4,8.4,9.2,0,13.4 8.4 9.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,173,16 Local Government Authority,38.1,24.8,50.7,0,38.1 24.8 50.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,174,17 Information Commisioners Office,7.5,5.0,4.4,0,7.5 5.0 4.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,175,18 National Integrity Commission,14.8,10.7,9.2,0,14.8 10.7 9.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,176,20 Ministry of Finance & Public Enterprises,244.9,2251.9,231.5,0,244.9 2251.9 231.5,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,177,21 Ministry of Defence & National Service,145.0,33.7,59.4,0,145.0 33.7 59.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,178,"22 Ministry of Homeland Security, Labour & Technology",414.2,191.2,174.9,0,414.2 191.2 174.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,179,"23 Ministry of Education, Higher Education & Skills Development",4701.8,2627.8,3792.6,0,4701.8 2627.8 3792.6,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,180,24 Maldives Islamic University,98.5,57.1,65.5,0,98.5 57.1 65.5,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,181,25 Maldives National University,335.5,160.2,180.4,0,335.5 160.2 180.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,182,26 Ministry of Foreign Affairs,349.1,280.5,204.4,0,349.1 280.5 204.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,183,"27 Ministry of Health, Family & Welfare",2769.7,1465.9,1837.6,0,2769.7 1465.9 1837.6,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,184,"28 Ministry of Economic Development, Transport & Trade",177.0,97.6,110.1,0,177.0 97.6 110.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,185,29 Ministry of Tourism and Civil Aviation,806.3,347.3,398.3,0,806.3 347.3 398.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,186,"30 Ministry of Youth Empowerment, Sports & Fitness",623.0,250.5,360.9,0,623.0 250.5 360.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,187,"31 Ministry of Infrastructure, Housing & Urban Development",4631.7,2853.3,3229.9,0,4631.7 2853.3 3229.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,188,"32 Ministry of Fisheries, Agriculture & Ocean Resources",325.5,219.2,282.4,0,325.5 219.2 282.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,189,33 Ministry of Islamic Affairs & Endowments,473.1,260.6,376.8,0,473.1 260.6 376.8,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,190,"34 Ministry of Climate Change, Environment & Energy",81.2,52.0,251.9,0,81.2 52.0 251.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,191,35 Attorney Generals Office,30.7,19.1,24.9,0,30.7 19.1 24.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,192,36 Ministry of Social & Family Development,130.6,51.7,29.7,0,130.6 51.7 29.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,193,37 Special Budget,27969.7,13696.3,22070.4,0,27969.7 13696.3 22070.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,194,38 Pension Budget,1914.1,1204.5,1275.0,0,1914.1 1204.5 1275.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,195,39 Maldives Police Services,2828.6,1692.8,1925.4,0,2828.6 1692.8 1925.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,196,40 Maldives Customs Services,299.4,158.6,217.2,0,299.4 158.6 217.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,197,41 National Social Protection Agency,3485.5,2168.6,2631.3,0,3485.5 2168.6 2631.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,198,42 Indira Gandhi Memorial Hospital,2256.9,1112.0,1392.9,0,2256.9 1112.0 1392.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,199,44 Family Protection Authority,9.4,7.1,7.1,0,9.4 7.1 7.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,200,45 Maldives National Defense Force,2824.0,1417.8,1602.8,0,2824.0 1417.8 1602.8,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,201,46 Maldives Correctional Services,413.8,262.7,294.6,0,413.8 262.7 294.6,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,202,47 Maldives Immigration,281.8,184.8,187.8,0,281.8 184.8 187.8,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,203,"48 Ministry of Higher Education, Labour & Skills Development",1288.4,712.5,325.4,0,1288.4 712.5 325.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,204,"49 Ministry of Housing, Land & Urban Development",0.0,0.0,0.0,0,0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,205,50 Ministry of Transport & Civil Aviation,137.2,30.9,39.0,0,137.2 30.9 39.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,206,"52 Ministry of Arts, Culture & Heritage",150.2,64.5,85.0,0,150.2 64.5 85.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,207,53 National Disaster Management Authority,21.9,12.3,10.2,0,21.9 12.3 10.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,6,208,55 Aviation and Port Security Command,213.7,123.9,189.4,0,213.7 123.9 189.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,7,209,56 Maldives International Arbitration Centre,3.7,2.1,2.5,0,3.7 2.1 2.5,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,7,210,57 Children’s Ombudsperson’s Office,8.9,5.6,6.5,0,8.9 5.6 6.5,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,7,211,58 Kulhudhuffushi Regional Hospital,300.9,183.7,149.1,0,300.9 183.7 149.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,7,212,59 Addu Equitorial Hospital,323.8,169.6,158.9,0,323.8 169.6 158.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,7,213,61 Gan Regional Hospital,187.9,116.3,88.8,0,187.9 116.3 88.8,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,7,214,62 Hulhumale Hospital,665.9,336.8,447.3,0,665.9 336.8 447.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,7,215,63 Ungoofaaru Regional Hospital,237.3,150.7,91.8,0,237.3 150.7 91.8,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,7,216,64 Abdul Samad Memorial Hospital,257.5,143.2,116.0,0,257.5 143.2 116.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,7,217,65 National Drug Agency,179.1,68.8,69.1,0,179.1 68.8 69.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,7,218,66 Ministry of Agriculture & Animal Welfare,81.3,33.0,21.1,0,81.3 33.0 21.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,7,219,"67 Ministry of Youth Empowerment, Information & Arts",157.8,31.1,44.7,0,157.8 31.1 44.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,7,220,"68 Ministry of Cities, Local Government & Public Works",157.6,80.8,67.7,0,157.6 80.8 67.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,7,221,69 Labor Relations Authority,20.9,12.5,13.7,0,20.9 12.5 13.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,7,222,70 Maldives Media and Broadcasting Commission,16.3,0.0,10.6,0,16.3 0.0 10.6,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,agencies,7,223,TOTAL,64202.6,36471.8,45952.1,0,64202.6 36471.8 45952.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,224,Total Securities Outstanding,,,98556.2,0,0.0 4972.5 3964.5 3205.6 38198.2 10938.5 15944.4 0.0 21332.5 98556.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,225,Domestic Instruments,,,97014.2,0,0.0 4972.5 3964.5 3205.6 38198.2 10938.5 14402.4 0.0 21332.5 97014.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,226,MVR Treasury Bills,,,41167.3,0,0.0 3641.5 2988.4 2525.4 32012.1 0.0 0.0 0.0 0.0 41167.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,227,Central Bank,,,59.9,0,0.0 0.0 0.0 0.0 59.9 0.0 0.0 0.0 0.0 59.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,228,Commercial Banks,,,25066.6,0,0.0 3236.5 2030.0 1672.0 18128.1 0.0 0.0 0.0 0.0 25066.6,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,229,Other Financial Corporations,,,13648.6,0,0.0 0.0 50.8 146.4 13451.5 0.0 0.0 0.0 0.0 13648.6,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,230,Private sector,,,281.2,0,0.0 40.0 14.2 187.0 40.0 0.0 0.0 0.0 0.0 281.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,231,Public Non-financial Corporations,,,2111.0,0,0.0 365.0 893.4 520.0 332.6 0.0 0.0 0.0 0.0 2111.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,232,RDC / USD Treasury Bills,,,3171.1,0,0.0 308.4 358.1 5.3 2499.3 0.0 0.0 0.0 0.0 3171.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,233,Central Bank,,,50.9,0,0.0 0.0 0.0 0.0 50.9 0.0 0.0 0.0 0.0 50.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,234,Commercial Banks,,,1296.1,0,0.0 308.4 49.3 0.0 938.3 0.0 0.0 0.0 0.0 1296.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,235,Other Financial Corporations,,,1638.1,0,0.0 0.0 123.4 4.6 1510.1 0.0 0.0 0.0 0.0 1638.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,236,Private sector,,,1.0,0,0.0 0.0 0.4 0.6 0.0 0.0 0.0 0.0 0.0 1.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,237,Public Non-financial Corporations,,,85.0,0,0.0 0.0 1.0 85.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0 85.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,238,Islamic Instruments (MVR),,,6002.4,0,0.0 1022.6 618.0 675.0 3686.8 0.0 0.0 0.0 0.0 6002.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,239,Commercial banks,,,3658.7,0,0.0 875.0 470.0 660.0 1653.7 0.0 0.0 0.0 0.0 3658.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,240,Other Financial Corporations,,,2258.9,0,0.0 127.9 83.0 15.0 2033.0 0.0 0.0 0.0 0.0 2258.9,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,241,Private Sector,,,0.1,0,0.0 0.0 0.0 0.0 0.1 0.0 0.0 0.0 0.0 0.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,242,Public non-financial Corp.,,,84.7,0,0.0 19.7 65.0 0.0 0.0 0.0 0.0 0.0 0.0 84.7,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,243,Islamic Instruments (USD),,,0.0,0,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,244,Commercial banks,,,0.0,0,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,245,Other Financial Corporations,,,0.0,0,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,246,MVR Treasury Bonds,,,33584.0,0,0.0 0.0 0.0 0.0 0.0 3554.5 8697.0 0.0 21332.5 33584.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,247,Other Financial Corporations,,,13576.3,0,0.0 0.0 0.0 0.0 0.0 707.0 5424.0 0.0 7445.3 13576.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,248,Commercial banks,,,3970.0,0,0.0 0.0 0.0 0.0 0.0 2265.0 1705.0 0.0 0.0 3970.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,249,Public non-financial Corp.,,,282.5,0,0.0 0.0 0.0 0.0 0.0 282.5 0.0 0.0 0.0 282.5,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,250,Central Bank,,,3887.2,0,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0 3887.2 1.0 3887.2,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,251,Listed Bonds,,,1868.0,0,0.0 0.0 0.0 0.0 0.0 300.0 1568.0 0.0 0.0 1868.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,252,USD Treasury Bonds,,,13089.4,0,0.0 0.0 0.0 0.0 0.0 7384.0 5705.4 0.0 0.0 13089.4,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,253,Commercial banks,,,9817.3,0,0.0 0.0 0.0 0.0 0.0 4111.9 5705.4 0.0 0.0 9817.3,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,254,Public Non-Financial Corp.,,,3272.1,0,0.0 0.0 0.0 0.0 0.0 3272.1 0.0 0.0 0.0 3272.1,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,255,Private Sector,,,0.0,0,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,256,External Instruments,,,1542.0,0,0.0 0.0 0.0 0.0 0.0 0.0 1542.0 0.0 0.0 1542.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,257,Bonds,,,1542.0,0,0.0 0.0 0.0 0.0 0.0 0.0 1542.0 0.0 0.0 1542.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
-2026-09-24,securities,8,258,Sukuk,,,0.0,0,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/MWovmuaHDZ5hP4T2x0mgXak3RO2f03wwIu4RFgSs.pdf
+2026-09-24,summary,2,1,A TOTAL REVENUES AND GRANTS,40374.5,28750.1,30205.0,0,40374.5 28750.1 30205.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,2,Tax Revenues,31297.1,21366.2,23388.3,0,31297.1 21366.2 23388.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,3,Non-Tax Revenues,8702.3,7145.1,6319.1,0,8702.3 7145.1 6319.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,4,Capital Receipts,1.6,1.6,1.7,0,1.6 1.6 1.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,5,Grants,373.6,237.3,495.9,0,373.6 237.3 495.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,6,less: Subsidiary Loan Repayment,0.0,-0.1,0.0,0,0.0 -0.1 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,7,TOTAL BUDGET,64202.6,36471.8,45952.1,0,64202.6 36471.8 45952.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,8,B TOTAL EXPENDITURE (C+D),49214.4,28250.9,33562.3,0,49214.4 28250.9 33562.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,9,C RECURRENT EXPENDITURE,39930.1,24320.7,28896.6,0,39930.1 24320.7 28896.6,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,10,"Salaries, Wages and Pensions",17088.4,9718.2,10702.3,0,17088.4 9718.2 10702.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,11,Administrative and Operational Expenses,22810.5,14582.0,18122.9,0,22810.5 14582.0 18122.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,12,Losses and Write-offs,31.1,20.5,71.5,0,31.1 20.5 71.5,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,13,D CAPITAL EXPENDITURE,9284.4,3930.2,4665.7,0,9284.4 3930.2 4665.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,14,Capital Equipments,780.7,455.3,540.0,0,780.7 455.3 540.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,15,Land and Buildings,3850.7,1042.7,1409.9,0,3850.7 1042.7 1409.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,16,Infrastructure Assets,4253.0,2418.1,2699.0,0,4253.0 2418.1 2699.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,17,Development Projects and Capital Transfers,0.0,14.1,16.7,0,0.0 14.1 16.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,18,Budget Contingency,400.0,0.0,0.0,0,400.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,19,E PRIMARY BALANCE - SURPLUS / (DEFICIT) (F+G),-3282.6,4445.1,442.3,0,-3282.6 4445.1 442.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,20,F OVERALL BALANCE - SURPLUS / (DEFICIT) (A-B),-8839.9,499.3,-3357.4,0,-8839.9 499.3 -3357.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,21,G Financing and Interest Costs,5557.3,3945.9,3799.6,0,5557.3 3945.9 3799.6,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,22,Loan Repayment,12914.3,4495.7,10091.7,1,12914.3 4495.7 10091.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,23,Investments,929.9,1364.4,889.2,1,929.9 1364.4 889.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,24,Transfers to Sovereign Development Fund,2429.4,1616.9,1655.9,1,2429.4 1616.9 1655.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,25,Public Sector Investment Program,8312.1,5135.2,4487.3,1,8312.1 5135.2 4487.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,26,Council Block Grant Disbursements,2475.5,1616.1,1884.3,1,2475.5 1616.1 1884.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,27,Lendings,1144.0,2360.9,1408.9,1,1144.0 2360.9 1408.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,summary,2,28,Student Loan Scheme,776.6,390.3,121.8,1,776.6 390.3 121.8,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,29,TOTAL REVENUE AND GRANTS,40374.5,28750.1,30205.0,0,40374.5 28750.1 30205.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,30,Tax Revenues,31297.1,21366.2,23388.3,0,31297.1 21366.2 23388.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,31,Import Duties,3127.7,2196.1,2483.6,0,3127.7 2196.1 2483.6,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,32,Business and Property Tax,6144.2,4760.2,5777.8,0,6144.2 4760.2 5777.8,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,33,Corporate Income Tax,3201.7,2737.2,2980.3,0,3201.7 2737.2 2980.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,34,Non-resident Withholding Tax,1224.4,908.2,1010.5,0,1224.4 908.2 1010.5,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,35,Individual Income Tax,472.2,376.7,400.2,0,472.2 376.7 400.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,36,Other Business and Property Taxes,1245.9,738.1,1386.8,0,1245.9 738.1 1386.8,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,37,Goods and Services Tax,17095.4,11325.8,11930.3,0,17095.4 11325.8 11930.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,38,General Goods and Services Tax,5622.2,3656.9,4050.5,0,5622.2 3656.9 4050.5,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,39,Tourism Goods and Services Tax,11473.2,7668.9,7879.7,0,11473.2 7668.9 7879.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,40,Royalties,259.2,224.5,209.3,0,259.2 224.5 209.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,41,Green Tax,2395.4,1544.6,1556.0,0,2395.4 1544.6 1556.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,42,Airport Service Charges / Departure Tax,2275.3,1315.0,1431.2,0,2275.3 1315.0 1431.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,43,Non-Tax Revenues,8702.3,7145.1,6319.1,0,8702.3 7145.1 6319.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,44,Fees and Charges,4294.4,3494.9,2616.4,0,4294.4 3494.9 2616.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,45,Airport Development Fee,2298.2,1344.9,1458.1,0,2298.2 1344.9 1458.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,46,Expatriate Quota Fee,465.7,277.6,237.8,0,465.7 277.6 237.8,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,47,Revenue Fee,536.7,389.4,446.6,0,536.7 389.4 446.6,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,48,Other Fees and Charges,993.8,1483.1,474.0,0,993.8 1483.1 474.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,49,Registration and Licence Fees,1165.6,859.4,882.1,0,1165.6 859.4 882.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,50,Property Income,2177.2,1480.6,1855.9,0,2177.2 1480.6 1855.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,51,Rent from Resorts,2034.6,1245.4,1266.8,0,2034.6 1245.4 1266.8,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,52,Land Acquisition and Conversion Fee,0.0,127.6,485.4,0,0.0 127.6 485.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,53,Other Rent and Property Income,142.6,107.6,103.7,0,142.6 107.6 103.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,54,Fines and Penalties,139.2,148.7,183.9,0,139.2 148.7 183.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,55,"Interest, Profit and Dividends",768.5,930.2,630.8,0,768.5 930.2 630.8,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,56,SOE Dividends,552.3,648.9,483.2,0,552.3 648.9 483.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,57,Interest and Profits,216.2,281.2,147.7,0,216.2 281.2 147.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,58,Other Non-Tax Revenues,157.4,231.3,149.9,0,157.4 231.3 149.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,59,Capital Receipts,1.6,1.6,1.7,0,1.6 1.6 1.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,60,Grants,373.6,237.3,495.9,0,373.6 237.3 495.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,revenue,3,61,Less: Subsidiary Loan Repayment,0.0,-0.1,0.0,0,0.0 -0.1 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,62,TOTAL BUDGET,64202.6,36471.8,45952.1,0,64202.6 36471.8 45952.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,63,TOTAL RECURRENT AND CAPITAL EXPENDITURE,49214.4,28250.9,33562.3,0,49214.4 28250.9 33562.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,64,RECURRENT EXPENDITURE,39930.1,24320.7,28896.6,0,39930.1 24320.7 28896.6,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,65,"Salaries, Wages and Pensions",17088.4,9718.2,10702.3,0,17088.4 9718.2 10702.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,66,Salaries and Wages,8686.1,4348.1,4922.1,0,8686.1 4348.1 4922.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,67,Allowances to Employees,6106.3,3924.1,4213.8,0,6106.3 3924.1 4213.8,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,68,"Pensions, Retirement Benefits and Gratuities",2296.0,1446.0,1566.3,0,2296.0 1446.0 1566.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,69,Basic Pensions,1557.5,974.2,1040.8,0,1557.5 974.2 1040.8,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,70,Retirement Benefits and Gratuities,738.5,471.8,525.5,0,738.5 471.8 525.5,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,71,Administrative and Operational Expenses,22810.5,14582.0,18122.9,0,22810.5 14582.0 18122.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,72,Travelling Expenses,273.6,194.1,176.3,0,273.6 194.1 176.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,73,Administrative Supplies,923.7,478.6,555.6,0,923.7 478.6 555.6,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,74,Administrative Services,2833.0,1728.5,1836.2,0,2833.0 1728.5 1836.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,75,Operational Consumables,1561.0,902.6,1056.2,0,1561.0 902.6 1056.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,76,Training Expenses,619.9,288.9,525.2,0,619.9 288.9 525.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,77,Repairs and Maintenance,479.6,214.0,303.5,0,479.6 214.0 303.5,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,78,Financing and Interest Costs,5557.3,3945.9,3799.6,0,5557.3 3945.9 3799.6,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,79,"Grants, Contributions and Subsidies",10562.3,6829.4,9870.2,0,10562.3 6829.4 9870.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,80,Aasandha,2022.6,1418.0,1747.9,0,2022.6 1418.0 1747.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,81,Medical Welfare,409.0,214.6,190.9,0,409.0 214.6 190.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,82,Subsidies,2890.0,2342.3,4148.3,0,2890.0 2342.3 4148.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,83,Council Grants2/,2475.5,1616.1,1884.3,0,2475.5 1616.1 1884.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,84,Other Grants and Contributions,2765.1,1238.4,1898.9,0,2765.1 1238.4 1898.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,85,Losses and Write-offs,31.1,20.5,71.5,0,31.1 20.5 71.5,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,86,CAPITAL EXPENDITURE,9284.4,3930.2,4665.7,0,9284.4 3930.2 4665.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,87,Capital Equipments,780.7,455.3,540.0,0,780.7 455.3 540.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,88,"Furniture, Machinery and Equipment",619.7,286.5,446.4,0,619.7 286.5 446.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,89,Vehicles,104.7,164.2,78.3,0,104.7 164.2 78.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,90,Minor extensions,56.3,4.5,15.4,0,56.3 4.5 15.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,91,Infrastructure Assets,8103.6,3460.8,4108.9,0,8103.6 3460.8 4108.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,92,Land and Buildings,3850.7,1042.7,1409.9,0,3850.7 1042.7 1409.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,93,"Roads, Bridges and Airports",1878.7,1589.7,1445.4,0,1878.7 1589.7 1445.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,94,"Wharves, Ports and Harbours",390.2,211.6,332.9,0,390.2 211.6 332.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,95,Other Infrastructure Assets,1984.0,616.7,920.6,0,1984.0 616.7 920.6,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,96,Development Projects and Capital Transfers,0.0,14.1,16.7,0,0.0 14.1 16.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,97,Development Projects,0.0,14.1,16.7,0,0.0 14.1 16.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,98,Capital Transfers,0.0,0.0,0.0,0,0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,99,Budget Contingency,400.0,0.0,0.0,0,400.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,100,Public Sector Investment Program,8312.1,5135.2,4487.3,1,8312.1 5135.2 4487.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,101,Loan Repayment,12914.3,4495.7,10091.7,1,12914.3 4495.7 10091.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,102,Investments,929.9,1364.4,889.2,1,929.9 1364.4 889.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,103,Transfers to Sovereign Development Fund,2429.4,1616.9,1655.9,1,2429.4 1616.9 1655.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,104,Council Block Grant Disbursements,2475.5,1616.1,1884.3,1,2475.5 1616.1 1884.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,105,Lendings,1144.0,2360.9,1408.9,1,1144.0 2360.9 1408.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,expenditure,4,106,Student Loan Scheme,776.6,390.3,121.8,1,776.6 390.3 121.8,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,107,TOTAL PSIP,8312.1,5135.2,4487.3,0,8312.1 5135.2 4487.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,108,General Public Services,532.3,360.9,646.7,0,532.3 360.9 646.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,109,Government Administration,0.0,17.9,0.6,0,0.0 17.9 0.6,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,110,Land Management,429.7,339.1,641.6,0,429.7 339.1 641.6,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,111,Public Infrastructure Construction,97.4,3.9,4.6,0,97.4 3.9 4.6,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,112,Research and Development,5.2,0.0,0.0,0,5.2 0.0 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,113,Defense,247.5,17.2,0.9,0,247.5 17.2 0.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,114,National Defense,247.5,16.3,0.4,0,247.5 16.3 0.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,115,Border Security,0.0,0.9,0.0,0,0.0 0.9 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,116,Emergency Preparedness,0.0,0.0,0.5,0,0.0 0.0 0.5,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,117,Public Order and Safety,175.4,16.7,42.2,0,175.4 16.7 42.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,118,Correctional Services,45.0,0.1,0.0,0,45.0 0.1 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,119,Disaster Response and Relief,51.3,0.5,0.0,0,51.3 0.5 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,120,Judicial Services,19.5,0.0,0.0,0,19.5 0.0 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,121,Law Enforcement,59.6,16.1,42.2,0,59.6 16.1 42.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,122,Economic Affairs,2853.3,3600.3,2152.0,0,2853.3 3600.3 2152.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,123,Agriculture and Fisheries,226.0,136.9,62.1,0,226.0 136.9 62.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,124,Economic Regulation,0.0,0.0,0.0,0,0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,125,Energy and Utilities,209.4,39.3,259.7,0,209.4 39.3 259.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,126,Tourism and Hospitality,21.8,0.0,0.0,0,21.8 0.0 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,127,Trade and Industry Development,17.8,0.0,0.0,0,17.8 0.0 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,128,Transport Infrastructure,2378.4,3424.1,1830.1,0,2378.4 3424.1 1830.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,129,Environmental Protection,941.6,480.5,173.3,0,941.6 480.5 173.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,130,Climate Mitigation and Adaptation,221.8,211.6,55.9,0,221.8 211.6 55.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,131,Environmental Conservation,2.8,0.5,0.7,0,2.8 0.5 0.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,132,Pollution Control,369.6,189.8,94.6,0,369.6 189.8 94.6,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,133,Water Resource Management,347.4,78.6,22.1,0,347.4 78.6 22.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,134,Housing and Community Amenities,1285.8,264.9,508.1,0,1285.8 264.9 508.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,135,Community Facilities,23.3,0.5,0.9,0,23.3 0.5 0.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,136,Public Housing,1083.8,126.8,203.7,0,1083.8 126.8 203.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,137,Public Spaces,21.3,0.9,7.6,0,21.3 0.9 7.6,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,138,Urban Development,91.0,59.8,41.0,0,91.0 59.8 41.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,139,Water and Sanitation,66.3,77.0,254.9,0,66.3 77.0 254.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,140,Health,917.7,223.5,293.1,0,917.7 223.5 293.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,141,Healthcare Infrastructure,814.7,223.5,290.4,0,814.7 223.5 290.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,142,Mental Health and Rehabilitation,103.0,0.0,0.0,0,103.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,143,Public Health Programs,0.0,0.0,2.7,0,0.0 0.0 2.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,144,"Recreation, Culture, and Religion",531.0,88.7,258.8,0,531.0 88.7 258.8,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,145,Cultural Preservation,23.9,0.4,17.6,0,23.9 0.4 17.6,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,146,Entertainment and Events,4.9,0.0,0.0,0,4.9 0.0 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,147,Religious Services,99.1,38.6,99.1,0,99.1 38.6 99.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,148,Sports and Recreation,403.1,49.7,142.1,0,403.1 49.7 142.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,149,Education,779.7,75.3,412.1,0,779.7 75.3 412.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,150,Higher Education,124.2,5.2,20.7,0,124.2 5.2 20.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,151,Primary and Secondary Education,655.5,66.9,382.0,0,655.5 66.9 382.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,152,Vocational Training,0.0,3.2,9.4,0,0.0 3.2 9.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,153,Social Protection,48.0,7.3,0.0,0,48.0 7.3 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,154,Child and Youth Support,10.4,7.3,0.0,0,10.4 7.3 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,155,Disability and Rehabilitation,0.0,0.0,0.0,0,0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,156,Elderly Care,37.6,0.0,0.0,0,37.6 0.0 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,psip,5,157,Social Welfare Programs,0.0,0.0,0.0,0,0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,158,1 Presidents Office,240.5,155.6,143.4,0,240.5 155.6 143.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,159,2 People's Majlis,228.3,152.4,140.3,0,228.3 152.4 140.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,160,3 Judicial Service Commission,17.2,10.4,12.1,0,17.2 10.4 12.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,161,4 Department of Judicial Administration,0.0,371.4,0.0,0,0.0 371.4 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,162,5 Elections Commission,163.0,48.6,154.2,0,163.0 48.6 154.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,163,6 Civil Service Commission,31.3,20.1,24.4,0,31.3 20.1 24.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,164,7 Human Rights Commission,29.2,20.2,21.8,0,29.2 20.2 21.8,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,165,8 Anti-Corruption Commission,47.9,38.7,33.0,0,47.9 38.7 33.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,166,9 Auditor Generals Office,134.3,65.0,51.3,0,134.3 65.0 51.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,167,10 Prosecutor Generals Office,72.2,47.1,53.2,0,72.2 47.1 53.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,168,11 Maldives Inland revenue Authority,116.8,71.2,81.5,0,116.8 71.2 81.5,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,169,12 Employment Tribunal,16.4,9.4,10.8,0,16.4 9.4 10.8,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,170,13 Maldives Media Council,0.0,2.8,0.0,0,0.0 2.8 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,171,14 Maldives Broadcasting Commission,0.0,6.7,0.0,0,0.0 6.7 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,172,15 Tax Appeal Tribunal,13.4,8.4,9.2,0,13.4 8.4 9.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,173,16 Local Government Authority,38.1,24.8,50.7,0,38.1 24.8 50.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,174,17 Information Commisioners Office,7.5,5.0,4.4,0,7.5 5.0 4.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,175,18 National Integrity Commission,14.8,10.7,9.2,0,14.8 10.7 9.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,176,20 Ministry of Finance & Public Enterprises,244.9,2251.9,231.5,0,244.9 2251.9 231.5,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,177,21 Ministry of Defence & National Service,145.0,33.7,59.4,0,145.0 33.7 59.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,178,"22 Ministry of Homeland Security, Labour & Technology",414.2,191.2,174.9,0,414.2 191.2 174.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,179,"23 Ministry of Education, Higher Education & Skills Development",4701.8,2627.8,3792.6,0,4701.8 2627.8 3792.6,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,180,24 Maldives Islamic University,98.5,57.1,65.5,0,98.5 57.1 65.5,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,181,25 Maldives National University,335.5,160.2,180.4,0,335.5 160.2 180.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,182,26 Ministry of Foreign Affairs,349.1,280.5,204.4,0,349.1 280.5 204.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,183,"27 Ministry of Health, Family & Welfare",2769.7,1465.9,1837.6,0,2769.7 1465.9 1837.6,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,184,"28 Ministry of Economic Development, Transport & Trade",177.0,97.6,110.1,0,177.0 97.6 110.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,185,29 Ministry of Tourism and Civil Aviation,806.3,347.3,398.3,0,806.3 347.3 398.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,186,"30 Ministry of Youth Empowerment, Sports & Fitness",623.0,250.5,360.9,0,623.0 250.5 360.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,187,"31 Ministry of Infrastructure, Housing & Urban Development",4631.7,2853.3,3229.9,0,4631.7 2853.3 3229.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,188,"32 Ministry of Fisheries, Agriculture & Ocean Resources",325.5,219.2,282.4,0,325.5 219.2 282.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,189,33 Ministry of Islamic Affairs & Endowments,473.1,260.6,376.8,0,473.1 260.6 376.8,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,190,"34 Ministry of Climate Change, Environment & Energy",81.2,52.0,251.9,0,81.2 52.0 251.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,191,35 Attorney Generals Office,30.7,19.1,24.9,0,30.7 19.1 24.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,192,36 Ministry of Social & Family Development,130.6,51.7,29.7,0,130.6 51.7 29.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,193,37 Special Budget,27969.7,13696.3,22070.4,0,27969.7 13696.3 22070.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,194,38 Pension Budget,1914.1,1204.5,1275.0,0,1914.1 1204.5 1275.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,195,39 Maldives Police Services,2828.6,1692.8,1925.4,0,2828.6 1692.8 1925.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,196,40 Maldives Customs Services,299.4,158.6,217.2,0,299.4 158.6 217.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,197,41 National Social Protection Agency,3485.5,2168.6,2631.3,0,3485.5 2168.6 2631.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,198,42 Indira Gandhi Memorial Hospital,2256.9,1112.0,1392.9,0,2256.9 1112.0 1392.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,199,44 Family Protection Authority,9.4,7.1,7.1,0,9.4 7.1 7.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,200,45 Maldives National Defense Force,2824.0,1417.8,1602.8,0,2824.0 1417.8 1602.8,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,201,46 Maldives Correctional Services,413.8,262.7,294.6,0,413.8 262.7 294.6,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,202,47 Maldives Immigration,281.8,184.8,187.8,0,281.8 184.8 187.8,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,203,"48 Ministry of Higher Education, Labour & Skills Development",1288.4,712.5,325.4,0,1288.4 712.5 325.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,204,"49 Ministry of Housing, Land & Urban Development",0.0,0.0,0.0,0,0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,205,50 Ministry of Transport & Civil Aviation,137.2,30.9,39.0,0,137.2 30.9 39.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,206,"52 Ministry of Arts, Culture & Heritage",150.2,64.5,85.0,0,150.2 64.5 85.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,207,53 National Disaster Management Authority,21.9,12.3,10.2,0,21.9 12.3 10.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,6,208,55 Aviation and Port Security Command,213.7,123.9,189.4,0,213.7 123.9 189.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,7,209,56 Maldives International Arbitration Centre,3.7,2.1,2.5,0,3.7 2.1 2.5,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,7,210,57 Children’s Ombudsperson’s Office,8.9,5.6,6.5,0,8.9 5.6 6.5,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,7,211,58 Kulhudhuffushi Regional Hospital,300.9,183.7,149.1,0,300.9 183.7 149.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,7,212,59 Addu Equitorial Hospital,323.8,169.6,158.9,0,323.8 169.6 158.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,7,213,61 Gan Regional Hospital,187.9,116.3,88.8,0,187.9 116.3 88.8,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,7,214,62 Hulhumale Hospital,665.9,336.8,447.3,0,665.9 336.8 447.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,7,215,63 Ungoofaaru Regional Hospital,237.3,150.7,91.8,0,237.3 150.7 91.8,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,7,216,64 Abdul Samad Memorial Hospital,257.5,143.2,116.0,0,257.5 143.2 116.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,7,217,65 National Drug Agency,179.1,68.8,69.1,0,179.1 68.8 69.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,7,218,66 Ministry of Agriculture & Animal Welfare,81.3,33.0,21.1,0,81.3 33.0 21.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,7,219,"67 Ministry of Youth Empowerment, Information & Arts",157.8,31.1,44.7,0,157.8 31.1 44.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,7,220,"68 Ministry of Cities, Local Government & Public Works",157.6,80.8,67.7,0,157.6 80.8 67.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,7,221,69 Labor Relations Authority,20.9,12.5,13.7,0,20.9 12.5 13.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,7,222,70 Maldives Media and Broadcasting Commission,16.3,0.0,10.6,0,16.3 0.0 10.6,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,agencies,7,223,TOTAL,64202.6,36471.8,45952.1,0,64202.6 36471.8 45952.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,224,Total Securities Outstanding,,,98556.2,0,0.0 4972.5 3964.5 3205.6 38198.2 10938.5 15944.4 0.0 21332.5 98556.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,225,Domestic Instruments,,,97014.2,0,0.0 4972.5 3964.5 3205.6 38198.2 10938.5 14402.4 0.0 21332.5 97014.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,226,MVR Treasury Bills,,,41167.3,0,0.0 3641.5 2988.4 2525.4 32012.1 0.0 0.0 0.0 0.0 41167.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,227,Central Bank,,,59.9,0,0.0 0.0 0.0 0.0 59.9 0.0 0.0 0.0 0.0 59.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,228,Commercial Banks,,,25066.6,0,0.0 3236.5 2030.0 1672.0 18128.1 0.0 0.0 0.0 0.0 25066.6,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,229,Other Financial Corporations,,,13648.6,0,0.0 0.0 50.8 146.4 13451.5 0.0 0.0 0.0 0.0 13648.6,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,230,Private sector,,,281.2,0,0.0 40.0 14.2 187.0 40.0 0.0 0.0 0.0 0.0 281.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,231,Public Non-financial Corporations,,,2111.0,0,0.0 365.0 893.4 520.0 332.6 0.0 0.0 0.0 0.0 2111.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,232,RDC / USD Treasury Bills,,,3171.1,0,0.0 308.4 358.1 5.3 2499.3 0.0 0.0 0.0 0.0 3171.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,233,Central Bank,,,50.9,0,0.0 0.0 0.0 0.0 50.9 0.0 0.0 0.0 0.0 50.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,234,Commercial Banks,,,1296.1,0,0.0 308.4 49.3 0.0 938.3 0.0 0.0 0.0 0.0 1296.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,235,Other Financial Corporations,,,1638.1,0,0.0 0.0 123.4 4.6 1510.1 0.0 0.0 0.0 0.0 1638.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,236,Private sector,,,1.0,0,0.0 0.0 0.4 0.6 0.0 0.0 0.0 0.0 0.0 1.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,237,Public Non-financial Corporations,,,85.0,0,0.0 0.0 1.0 85.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0 85.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,238,Islamic Instruments (MVR),,,6002.4,0,0.0 1022.6 618.0 675.0 3686.8 0.0 0.0 0.0 0.0 6002.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,239,Commercial banks,,,3658.7,0,0.0 875.0 470.0 660.0 1653.7 0.0 0.0 0.0 0.0 3658.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,240,Other Financial Corporations,,,2258.9,0,0.0 127.9 83.0 15.0 2033.0 0.0 0.0 0.0 0.0 2258.9,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,241,Private Sector,,,0.1,0,0.0 0.0 0.0 0.0 0.1 0.0 0.0 0.0 0.0 0.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,242,Public non-financial Corp.,,,84.7,0,0.0 19.7 65.0 0.0 0.0 0.0 0.0 0.0 0.0 84.7,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,243,Islamic Instruments (USD),,,0.0,0,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,244,Commercial banks,,,0.0,0,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,245,Other Financial Corporations,,,0.0,0,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,246,MVR Treasury Bonds,,,33584.0,0,0.0 0.0 0.0 0.0 0.0 3554.5 8697.0 0.0 21332.5 33584.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,247,Other Financial Corporations,,,13576.3,0,0.0 0.0 0.0 0.0 0.0 707.0 5424.0 0.0 7445.3 13576.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,248,Commercial banks,,,3970.0,0,0.0 0.0 0.0 0.0 0.0 2265.0 1705.0 0.0 0.0 3970.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,249,Public non-financial Corp.,,,282.5,0,0.0 0.0 0.0 0.0 0.0 282.5 0.0 0.0 0.0 282.5,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,250,Central Bank,,,3887.2,0,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0 3887.2 1.0 3887.2,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,251,Listed Bonds,,,1868.0,0,0.0 0.0 0.0 0.0 0.0 300.0 1568.0 0.0 0.0 1868.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,252,USD Treasury Bonds,,,13089.4,0,0.0 0.0 0.0 0.0 0.0 7384.0 5705.4 0.0 0.0 13089.4,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,253,Commercial banks,,,9817.3,0,0.0 0.0 0.0 0.0 0.0 4111.9 5705.4 0.0 0.0 9817.3,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,254,Public Non-Financial Corp.,,,3272.1,0,0.0 0.0 0.0 0.0 0.0 3272.1 0.0 0.0 0.0 3272.1,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,255,Private Sector,,,0.0,0,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,256,External Instruments,,,1542.0,0,0.0 0.0 0.0 0.0 0.0 0.0 1542.0 0.0 0.0 1542.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,257,Bonds,,,1542.0,0,0.0 0.0 0.0 0.0 0.0 0.0 1542.0 0.0 0.0 1542.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-09-24,securities,8,258,Sukuk,,,0.0,0,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/YJRE2sYU3senCbpuzgLcAM2RBAwFUR9juBUN70dO.pdf
+2026-10-01,summary,2,1,A TOTAL REVENUES AND GRANTS,40374.5,30342.0,30878.6,0,40374.5 30342.0 30878.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,2,Tax Revenues,31297.1,22527.5,23834.7,0,31297.1 22527.5 23834.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,3,Non-Tax Revenues,8702.3,7535.1,6528.8,0,8702.3 7535.1 6528.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,4,Capital Receipts,1.6,1.6,1.8,0,1.6 1.6 1.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,5,Grants,373.6,277.9,513.3,0,373.6 277.9 513.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,6,less: Subsidiary Loan Repayment,0.0,-0.1,0.0,0,0.0 -0.1 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,7,TOTAL BUDGET,64202.6,38330.6,47869.5,0,64202.6 38330.6 47869.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,8,B TOTAL EXPENDITURE (C+D),49214.4,30008.0,35456.1,0,49214.4 30008.0 35456.1,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,9,C RECURRENT EXPENDITURE,39930.1,25862.9,30652.6,0,39930.1 25862.9 30652.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,10,"Salaries, Wages and Pensions",17088.4,10873.2,12042.2,0,17088.4 10873.2 12042.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,11,Administrative and Operational Expenses,22810.5,14969.2,18538.8,0,22810.5 14969.2 18538.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,12,Losses and Write-offs,31.1,20.5,71.5,0,31.1 20.5 71.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,13,D CAPITAL EXPENDITURE,9284.4,4145.1,4803.5,0,9284.4 4145.1 4803.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,14,Capital Equipments,780.7,467.5,558.9,0,780.7 467.5 558.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,15,Land and Buildings,3850.7,1083.6,1452.8,0,3850.7 1083.6 1452.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,16,Infrastructure Assets,4253.0,2580.0,2775.0,0,4253.0 2580.0 2775.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,17,Development Projects and Capital Transfers,0.0,14.1,16.7,0,0.0 14.1 16.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,18,Budget Contingency,400.0,0.0,0.0,0,400.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,19,E PRIMARY BALANCE - SURPLUS / (DEFICIT) (F+G),-3282.6,4312.0,-777.9,0,-3282.6 4312.0 -777.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,20,F OVERALL BALANCE - SURPLUS / (DEFICIT) (A-B),-8839.9,334.0,-4577.5,0,-8839.9 334.0 -4577.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,21,G Financing and Interest Costs,5557.3,3978.1,3799.6,0,5557.3 3978.1 3799.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,22,Loan Repayment,12914.3,4508.6,10091.7,1,12914.3 4508.6 10091.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,23,Investments,929.9,1435.4,903.3,1,929.9 1435.4 903.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,24,Transfers to Sovereign Development Fund,2429.4,2085.1,1695.3,1,2429.4 2085.1 1695.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,25,Public Sector Investment Program,8312.1,6093.0,4787.6,1,8312.1 6093.0 4787.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,26,Council Block Grant Disbursements,2475.5,1616.1,1885.2,1,2475.5 1616.1 1885.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,27,Lendings,1144.0,2378.7,1418.4,1,1144.0 2378.7 1418.4,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,summary,2,28,Student Loan Scheme,776.6,408.1,121.8,1,776.6 408.1 121.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,29,TOTAL REVENUE AND GRANTS,40374.5,30342.0,30878.6,0,40374.5 30342.0 30878.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,30,Tax Revenues,31297.1,22527.5,23834.7,0,31297.1 22527.5 23834.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,31,Import Duties,3127.7,2255.3,2513.1,0,3127.7 2255.3 2513.1,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,32,Business and Property Tax,6144.2,4770.1,5782.3,0,6144.2 4770.1 5782.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,33,Corporate Income Tax,3201.7,2744.4,2984.8,0,3201.7 2744.4 2984.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,34,Non-resident Withholding Tax,1224.4,909.7,1010.5,0,1224.4 909.7 1010.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,35,Individual Income Tax,472.2,377.9,400.2,0,472.2 377.9 400.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,36,Other Business and Property Taxes,1245.9,738.1,1386.8,0,1245.9 738.1 1386.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,37,Goods and Services Tax,17095.4,12191.7,12193.6,0,17095.4 12191.7 12193.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,38,General Goods and Services Tax,5622.2,4019.3,4131.7,0,5622.2 4019.3 4131.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,39,Tourism Goods and Services Tax,11473.2,8172.4,8061.9,0,11473.2 8172.4 8061.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,40,Royalties,259.2,224.7,209.3,0,259.2 224.7 209.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,41,Green Tax,2395.4,1673.4,1607.6,0,2395.4 1673.4 1607.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,42,Airport Service Charges / Departure Tax,2275.3,1412.4,1528.8,0,2275.3 1412.4 1528.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,43,Non-Tax Revenues,8702.3,7535.1,6528.8,0,8702.3 7535.1 6528.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,44,Fees and Charges,4294.4,3616.4,2724.4,0,4294.4 3616.4 2724.4,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,45,Airport Development Fee,2298.2,1435.3,1551.9,0,2298.2 1435.3 1551.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,46,Expatriate Quota Fee,465.7,287.2,238.1,0,465.7 287.2 238.1,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,47,Revenue Fee,536.7,400.9,452.5,0,536.7 400.9 452.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,48,Other Fees and Charges,993.8,1493.0,481.8,0,993.8 1493.0 481.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,49,Registration and Licence Fees,1165.6,880.0,886.7,0,1165.6 880.0 886.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,50,Property Income,2177.2,1717.3,1948.3,0,2177.2 1717.3 1948.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,51,Rent from Resorts,2034.6,1477.3,1358.8,0,2034.6 1477.3 1358.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,52,Land Acquisition and Conversion Fee,0.0,130.5,485.4,0,0.0 130.5 485.4,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,53,Other Rent and Property Income,142.6,109.5,104.1,0,142.6 109.5 104.1,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,54,Fines and Penalties,139.2,156.6,188.4,0,139.2 156.6 188.4,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,55,"Interest, Profit and Dividends",768.5,930.6,630.8,0,768.5 930.6 630.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,56,SOE Dividends,552.3,649.2,483.2,0,552.3 649.2 483.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,57,Interest and Profits,216.2,281.4,147.7,0,216.2 281.4 147.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,58,Other Non-Tax Revenues,157.4,234.1,150.3,0,157.4 234.1 150.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,59,Capital Receipts,1.6,1.6,1.8,0,1.6 1.6 1.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,60,Grants,373.6,277.9,513.3,0,373.6 277.9 513.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,revenue,3,61,Less: Subsidiary Loan Repayment,0.0,-0.1,0.0,0,0.0 -0.1 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,62,TOTAL BUDGET,64202.6,38330.6,47869.5,0,64202.6 38330.6 47869.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,63,TOTAL RECURRENT AND CAPITAL EXPENDITURE,49214.4,30008.0,35456.1,0,49214.4 30008.0 35456.1,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,64,RECURRENT EXPENDITURE,39930.1,25862.9,30652.6,0,39930.1 25862.9 30652.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,65,"Salaries, Wages and Pensions",17088.4,10873.2,12042.2,0,17088.4 10873.2 12042.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,66,Salaries and Wages,8686.1,4869.1,5555.0,0,8686.1 4869.1 5555.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,67,Allowances to Employees,6106.3,4376.8,4723.5,0,6106.3 4376.8 4723.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,68,"Pensions, Retirement Benefits and Gratuities",2296.0,1627.3,1763.8,0,2296.0 1627.3 1763.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,69,Basic Pensions,1557.5,1098.4,1173.5,0,1557.5 1098.4 1173.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,70,Retirement Benefits and Gratuities,738.5,528.9,590.3,0,738.5 528.9 590.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,71,Administrative and Operational Expenses,22810.5,14969.2,18538.8,0,22810.5 14969.2 18538.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,72,Travelling Expenses,273.6,199.3,179.9,0,273.6 199.3 179.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,73,Administrative Supplies,923.7,486.8,570.0,0,923.7 486.8 570.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,74,Administrative Services,2833.0,1796.7,1873.9,0,2833.0 1796.7 1873.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,75,Operational Consumables,1561.0,940.8,1088.8,0,1561.0 940.8 1088.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,76,Training Expenses,619.9,295.9,548.8,0,619.9 295.9 548.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,77,Repairs and Maintenance,479.6,224.5,309.2,0,479.6 224.5 309.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,78,Financing and Interest Costs,5557.3,3978.1,3799.6,0,5557.3 3978.1 3799.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,79,"Grants, Contributions and Subsidies",10562.3,7047.2,10168.6,0,10562.3 7047.2 10168.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,80,Aasandha,2022.6,1490.7,1864.3,0,2022.6 1490.7 1864.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,81,Medical Welfare,409.0,227.3,208.4,0,409.0 227.3 208.4,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,82,Subsidies,2890.0,2400.7,4202.7,0,2890.0 2400.7 4202.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,83,Council Grants2/,2475.5,1616.1,1885.2,0,2475.5 1616.1 1885.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,84,Other Grants and Contributions,2765.1,1312.5,2008.0,0,2765.1 1312.5 2008.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,85,Losses and Write-offs,31.1,20.5,71.5,0,31.1 20.5 71.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,86,CAPITAL EXPENDITURE,9284.4,4145.1,4803.5,0,9284.4 4145.1 4803.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,87,Capital Equipments,780.7,467.5,558.9,0,780.7 467.5 558.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,88,"Furniture, Machinery and Equipment",619.7,298.7,462.4,0,619.7 298.7 462.4,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,89,Vehicles,104.7,164.2,81.2,0,104.7 164.2 81.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,90,Minor extensions,56.3,4.5,15.4,0,56.3 4.5 15.4,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,91,Infrastructure Assets,8103.6,3663.6,4227.8,0,8103.6 3663.6 4227.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,92,Land and Buildings,3850.7,1083.6,1452.8,0,3850.7 1083.6 1452.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,93,"Roads, Bridges and Airports",1878.7,1652.2,1497.1,0,1878.7 1652.2 1497.1,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,94,"Wharves, Ports and Harbours",390.2,240.5,332.9,0,390.2 240.5 332.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,95,Other Infrastructure Assets,1984.0,687.3,945.0,0,1984.0 687.3 945.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,96,Development Projects and Capital Transfers,0.0,14.1,16.7,0,0.0 14.1 16.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,97,Development Projects,0.0,14.1,16.7,0,0.0 14.1 16.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,98,Capital Transfers,0.0,0.0,0.0,0,0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,99,Budget Contingency,400.0,0.0,0.0,0,400.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,100,Public Sector Investment Program,8312.1,6093.0,4787.6,1,8312.1 6093.0 4787.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,101,Loan Repayment,12914.3,4508.6,10091.7,1,12914.3 4508.6 10091.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,102,Investments,929.9,1435.4,903.3,1,929.9 1435.4 903.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,103,Transfers to Sovereign Development Fund,2429.4,2085.1,1695.3,1,2429.4 2085.1 1695.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,104,Council Block Grant Disbursements,2475.5,1616.1,1885.2,1,2475.5 1616.1 1885.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,105,Lendings,1144.0,2378.7,1418.4,1,1144.0 2378.7 1418.4,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,expenditure,4,106,Student Loan Scheme,776.6,408.1,121.8,1,776.6 408.1 121.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,107,TOTAL PSIP,8312.1,6093.0,4787.6,0,8312.1 6093.0 4787.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,108,General Public Services,532.3,412.8,646.7,0,532.3 412.8 646.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,109,Government Administration,0.0,20.8,0.6,0,0.0 20.8 0.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,110,Land Management,429.7,386.4,641.6,0,429.7 386.4 641.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,111,Public Infrastructure Construction,97.4,5.6,4.6,0,97.4 5.6 4.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,112,Research and Development,5.2,0.0,0.0,0,5.2 0.0 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,113,Defense,247.5,17.2,8.6,0,247.5 17.2 8.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,114,National Defense,247.5,16.3,8.2,0,247.5 16.3 8.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,115,Border Security,0.0,0.9,0.0,0,0.0 0.9 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,116,Emergency Preparedness,0.0,0.0,0.5,0,0.0 0.0 0.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,117,Public Order and Safety,175.4,52.8,43.1,0,175.4 52.8 43.1,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,118,Correctional Services,45.0,0.1,0.0,0,45.0 0.1 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,119,Disaster Response and Relief,51.3,0.5,0.0,0,51.3 0.5 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,120,Judicial Services,19.5,14.4,0.0,0,19.5 14.4 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,121,Law Enforcement,59.6,37.9,43.1,0,59.6 37.9 43.1,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,122,Economic Affairs,2853.3,4204.6,2252.4,0,2853.3 4204.6 2252.4,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,123,Agriculture and Fisheries,226.0,148.3,62.8,0,226.0 148.3 62.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,124,Economic Regulation,0.0,0.0,0.0,0,0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,125,Energy and Utilities,209.4,42.5,260.2,0,209.4 42.5 260.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,126,Tourism and Hospitality,21.8,0.0,0.0,0,21.8 0.0 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,127,Trade and Industry Development,17.8,0.0,8.0,0,17.8 0.0 8.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,128,Transport Infrastructure,2378.4,4013.7,1921.5,0,2378.4 4013.7 1921.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,129,Environmental Protection,941.6,505.2,175.9,0,941.6 505.2 175.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,130,Climate Mitigation and Adaptation,221.8,233.4,56.0,0,221.8 233.4 56.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,131,Environmental Conservation,2.8,0.6,0.7,0,2.8 0.6 0.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,132,Pollution Control,369.6,191.6,97.1,0,369.6 191.6 97.1,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,133,Water Resource Management,347.4,79.6,22.1,0,347.4 79.6 22.1,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,134,Housing and Community Amenities,1285.8,454.1,645.2,0,1285.8 454.1 645.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,135,Community Facilities,23.3,0.5,0.9,0,23.3 0.5 0.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,136,Public Housing,1083.8,269.4,338.0,0,1083.8 269.4 338.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,137,Public Spaces,21.3,0.9,9.9,0,21.3 0.9 9.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,138,Urban Development,91.0,65.3,41.2,0,91.0 65.3 41.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,139,Water and Sanitation,66.3,118.1,255.2,0,66.3 118.1 255.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,140,Health,917.7,238.5,298.9,0,917.7 238.5 298.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,141,Healthcare Infrastructure,814.7,238.5,296.1,0,814.7 238.5 296.1,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,142,Mental Health and Rehabilitation,103.0,0.0,0.0,0,103.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,143,Public Health Programs,0.0,0.0,2.7,0,0.0 0.0 2.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,144,"Recreation, Culture, and Religion",531.0,99.5,296.2,0,531.0 99.5 296.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,145,Cultural Preservation,23.9,0.4,40.8,0,23.9 0.4 40.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,146,Entertainment and Events,4.9,0.0,0.0,0,4.9 0.0 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,147,Religious Services,99.1,41.1,101.8,0,99.1 41.1 101.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,148,Sports and Recreation,403.1,58.0,153.6,0,403.1 58.0 153.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,149,Education,779.7,100.2,420.5,0,779.7 100.2 420.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,150,Higher Education,124.2,7.1,24.3,0,124.2 7.1 24.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,151,Primary and Secondary Education,655.5,89.6,386.8,0,655.5 89.6 386.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,152,Vocational Training,0.0,3.4,9.4,0,0.0 3.4 9.4,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,153,Social Protection,48.0,8.1,0.0,0,48.0 8.1 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,154,Child and Youth Support,10.4,8.1,0.0,0,10.4 8.1 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,155,Disability and Rehabilitation,0.0,0.0,0.0,0,0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,156,Elderly Care,37.6,0.0,0.0,0,37.6 0.0 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,psip,5,157,Social Welfare Programs,0.0,0.0,0.0,0,0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,158,1 Presidents Office,240.5,167.8,155.9,0,240.5 167.8 155.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,159,2 People's Majlis,228.3,155.0,153.6,0,228.3 155.0 153.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,160,3 Judicial Service Commission,17.2,11.6,13.9,0,17.2 11.6 13.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,161,4 Department of Judicial Administration,0.0,408.4,0.0,0,0.0 408.4 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,162,5 Elections Commission,163.0,48.8,155.9,0,163.0 48.8 155.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,163,6 Civil Service Commission,31.3,22.2,27.5,0,31.3 22.2 27.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,164,7 Human Rights Commission,29.2,22.0,23.7,0,29.2 22.0 23.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,165,8 Anti-Corruption Commission,47.9,41.5,36.0,0,47.9 41.5 36.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,166,9 Auditor Generals Office,134.3,69.8,56.0,0,134.3 69.8 56.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,167,10 Prosecutor Generals Office,72.2,52.4,59.9,0,72.2 52.4 59.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,168,11 Maldives Inland revenue Authority,116.8,78.6,94.9,0,116.8 78.6 94.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,169,12 Employment Tribunal,16.4,10.3,11.9,0,16.4 10.3 11.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,170,13 Maldives Media Council,0.0,3.1,0.0,0,0.0 3.1 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,171,14 Maldives Broadcasting Commission,0.0,7.3,0.0,0,0.0 7.3 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,172,15 Tax Appeal Tribunal,13.4,9.0,9.8,0,13.4 9.0 9.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,173,16 Local Government Authority,38.1,26.9,61.3,0,38.1 26.9 61.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,174,17 Information Commisioners Office,7.5,5.0,4.7,0,7.5 5.0 4.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,175,18 National Integrity Commission,14.8,11.5,10.1,0,14.8 11.5 10.1,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,176,20 Ministry of Finance & Public Enterprises,244.9,2259.1,239.6,0,244.9 2259.1 239.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,177,21 Ministry of Defence & National Service,145.0,35.7,61.3,0,145.0 35.7 61.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,178,"22 Ministry of Homeland Security, Labour & Technology",414.2,205.6,189.8,0,414.2 205.6 189.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,179,"23 Ministry of Education, Higher Education & Skills Development",4701.8,2886.4,4119.3,0,4701.8 2886.4 4119.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,180,24 Maldives Islamic University,98.5,61.6,74.4,0,98.5 61.6 74.4,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,181,25 Maldives National University,335.5,179.6,198.3,0,335.5 179.6 198.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,182,26 Ministry of Foreign Affairs,349.1,305.9,212.7,0,349.1 305.9 212.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,183,"27 Ministry of Health, Family & Welfare",2769.7,1568.0,2005.5,0,2769.7 1568.0 2005.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,184,"28 Ministry of Economic Development, Transport & Trade",177.0,100.8,124.7,0,177.0 100.8 124.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,185,29 Ministry of Tourism and Civil Aviation,806.3,356.8,401.4,0,806.3 356.8 401.4,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,186,"30 Ministry of Youth Empowerment, Sports & Fitness",623.0,259.6,391.1,0,623.0 259.6 391.1,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,187,"31 Ministry of Infrastructure, Housing & Urban Development",4631.7,3031.8,3306.3,0,4631.7 3031.8 3306.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,188,"32 Ministry of Fisheries, Agriculture & Ocean Resources",325.5,235.9,290.9,0,325.5 235.9 290.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,189,33 Ministry of Islamic Affairs & Endowments,473.1,278.3,402.4,0,473.1 278.3 402.4,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,190,"34 Ministry of Climate Change, Environment & Energy",81.2,55.8,270.5,0,81.2 55.8 270.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,191,35 Attorney Generals Office,30.7,20.9,28.2,0,30.7 20.9 28.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,192,36 Ministry of Social & Family Development,130.6,56.2,29.7,0,130.6 56.2 29.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,193,37 Special Budget,27969.7,13896.1,22147.3,0,27969.7 13896.1 22147.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,194,38 Pension Budget,1914.1,1357.1,1435.2,0,1914.1 1357.1 1435.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,195,39 Maldives Police Services,2828.6,1874.7,2115.0,0,2828.6 1874.7 2115.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,196,40 Maldives Customs Services,299.4,178.7,244.2,0,299.4 178.7 244.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,197,41 National Social Protection Agency,3485.5,2316.2,2844.5,0,3485.5 2316.2 2844.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,198,42 Indira Gandhi Memorial Hospital,2256.9,1188.5,1483.3,0,2256.9 1188.5 1483.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,199,44 Family Protection Authority,9.4,7.5,7.6,0,9.4 7.5 7.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,200,45 Maldives National Defense Force,2824.0,1541.6,1742.0,0,2824.0 1541.6 1742.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,201,46 Maldives Correctional Services,413.8,279.3,318.9,0,413.8 279.3 318.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,202,47 Maldives Immigration,281.8,199.4,203.5,0,281.8 199.4 203.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,203,"48 Ministry of Higher Education, Labour & Skills Development",1288.4,738.8,325.4,0,1288.4 738.8 325.4,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,204,"49 Ministry of Housing, Land & Urban Development",0.0,0.0,0.0,0,0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,205,50 Ministry of Transport & Civil Aviation,137.2,34.3,39.0,0,137.2 34.3 39.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,206,"52 Ministry of Arts, Culture & Heritage",150.2,65.9,115.7,0,150.2 65.9 115.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,207,53 National Disaster Management Authority,21.9,12.8,11.7,0,21.9 12.8 11.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,6,208,55 Aviation and Port Security Command,213.7,140.5,212.6,0,213.7 140.5 212.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,7,209,56 Maldives International Arbitration Centre,3.7,2.3,2.7,0,3.7 2.3 2.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,7,210,57 Children’s Ombudsperson’s Office,8.9,6.2,7.2,0,8.9 6.2 7.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,7,211,58 Kulhudhuffushi Regional Hospital,300.9,200.8,164.4,0,300.9 200.8 164.4,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,7,212,59 Addu Equitorial Hospital,323.8,183.6,174.9,0,323.8 183.6 174.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,7,213,61 Gan Regional Hospital,187.9,130.9,100.2,0,187.9 130.9 100.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,7,214,62 Hulhumale Hospital,665.9,366.4,485.2,0,665.9 366.4 485.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,7,215,63 Ungoofaaru Regional Hospital,237.3,165.9,101.8,0,237.3 165.9 101.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,7,216,64 Abdul Samad Memorial Hospital,257.5,154.8,128.6,0,257.5 154.8 128.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,7,217,65 National Drug Agency,179.1,74.8,77.4,0,179.1 74.8 77.4,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,7,218,66 Ministry of Agriculture & Animal Welfare,81.3,33.4,21.1,0,81.3 33.4 21.1,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,7,219,"67 Ministry of Youth Empowerment, Information & Arts",157.8,32.0,44.7,0,157.8 32.0 44.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,7,220,"68 Ministry of Cities, Local Government & Public Works",157.6,85.6,67.7,0,157.6 85.6 67.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,7,221,69 Labor Relations Authority,20.9,13.4,14.8,0,20.9 13.4 14.8,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,7,222,70 Maldives Media and Broadcasting Commission,16.3,0.0,11.7,0,16.3 0.0 11.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,agencies,7,223,TOTAL,64202.6,38330.6,47869.5,0,64202.6 38330.6 47869.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,224,Total Securities Outstanding,,,98556.2,0,0.0 4972.5 3964.5 3205.6 38198.2 10938.5 15944.4 0.0 21332.5 98556.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,225,Domestic Instruments,,,97014.2,0,0.0 4972.5 3964.5 3205.6 38198.2 10938.5 14402.4 0.0 21332.5 97014.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,226,MVR Treasury Bills,,,41167.3,0,0.0 3641.5 2988.4 2525.4 32012.1 0.0 0.0 0.0 0.0 41167.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,227,Central Bank,,,59.9,0,0.0 0.0 0.0 0.0 59.9 0.0 0.0 0.0 0.0 59.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,228,Commercial Banks,,,25066.6,0,0.0 3236.5 2030.0 1672.0 18128.1 0.0 0.0 0.0 0.0 25066.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,229,Other Financial Corporations,,,13648.6,0,0.0 0.0 50.8 146.4 13451.5 0.0 0.0 0.0 0.0 13648.6,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,230,Private sector,,,281.2,0,0.0 40.0 14.2 187.0 40.0 0.0 0.0 0.0 0.0 281.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,231,Public Non-financial Corporations,,,2111.0,0,0.0 365.0 893.4 520.0 332.6 0.0 0.0 0.0 0.0 2111.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,232,RDC / USD Treasury Bills,,,3171.1,0,0.0 308.4 358.1 5.3 2499.3 0.0 0.0 0.0 0.0 3171.1,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,233,Central Bank,,,50.9,0,0.0 0.0 0.0 0.0 50.9 0.0 0.0 0.0 0.0 50.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,234,Commercial Banks,,,1296.1,0,0.0 308.4 49.3 0.0 938.3 0.0 0.0 0.0 0.0 1296.1,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,235,Other Financial Corporations,,,1638.1,0,0.0 0.0 123.4 4.6 1510.1 0.0 0.0 0.0 0.0 1638.1,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,236,Private sector,,,1.0,0,0.0 0.0 0.4 0.6 0.0 0.0 0.0 0.0 0.0 1.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,237,Public Non-financial Corporations,,,85.0,0,0.0 0.0 1.0 85.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0 85.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,238,Islamic Instruments (MVR),,,6002.4,0,0.0 1022.6 618.0 675.0 3686.8 0.0 0.0 0.0 0.0 6002.4,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,239,Commercial banks,,,3658.7,0,0.0 875.0 470.0 660.0 1653.7 0.0 0.0 0.0 0.0 3658.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,240,Other Financial Corporations,,,2258.9,0,0.0 127.9 83.0 15.0 2033.0 0.0 0.0 0.0 0.0 2258.9,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,241,Private Sector,,,0.1,0,0.0 0.0 0.0 0.0 0.1 0.0 0.0 0.0 0.0 0.1,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,242,Public non-financial Corp.,,,84.7,0,0.0 19.7 65.0 0.0 0.0 0.0 0.0 0.0 0.0 84.7,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,243,Islamic Instruments (USD),,,0.0,0,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,244,Commercial banks,,,0.0,0,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,245,Other Financial Corporations,,,0.0,0,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,246,MVR Treasury Bonds,,,33584.0,0,0.0 0.0 0.0 0.0 0.0 3554.5 8697.0 0.0 21332.5 33584.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,247,Other Financial Corporations,,,13576.3,0,0.0 0.0 0.0 0.0 0.0 707.0 5424.0 0.0 7445.3 13576.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,248,Commercial banks,,,3970.0,0,0.0 0.0 0.0 0.0 0.0 2265.0 1705.0 0.0 0.0 3970.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,249,Public non-financial Corp.,,,282.5,0,0.0 0.0 0.0 0.0 0.0 282.5 0.0 0.0 0.0 282.5,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,250,Central Bank,,,3887.2,0,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 1.0 3887.2 1.0 3887.2,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,251,Listed Bonds,,,1868.0,0,0.0 0.0 0.0 0.0 0.0 300.0 1568.0 0.0 0.0 1868.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,252,USD Treasury Bonds,,,13089.4,0,0.0 0.0 0.0 0.0 0.0 7384.0 5705.4 0.0 0.0 13089.4,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,253,Commercial banks,,,9817.3,0,0.0 0.0 0.0 0.0 0.0 4111.9 5705.4 0.0 0.0 9817.3,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,254,Public Non-Financial Corp.,,,3272.1,0,0.0 0.0 0.0 0.0 0.0 3272.1 0.0 0.0 0.0 3272.1,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,255,Private Sector,,,0.0,0,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,256,External Instruments,,,1542.0,0,0.0 0.0 0.0 0.0 0.0 0.0 1542.0 0.0 0.0 1542.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,257,Bonds,,,1542.0,0,0.0 0.0 0.0 0.0 0.0 0.0 1542.0 0.0 0.0 1542.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf
+2026-10-01,securities,8,258,Sukuk,,,0.0,0,0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0,https://www.finance.gov.mv/public/attachments/b6hlH30UVv9s1ZrzfRNh6Q3wUEHmfQz4B1S3HfoO.pdf

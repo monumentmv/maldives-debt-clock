@@ -16156,6 +16156,7 @@ mof.weekly.aasandha.budget,"Aasandha health insurance, full-year approved budget
 mof.weekly.aasandha.budget,"Aasandha health insurance, full-year approved budget",2026-09-10,2022.6,MVR million
 mof.weekly.aasandha.budget,"Aasandha health insurance, full-year approved budget",2026-09-17,2022.6,MVR million
 mof.weekly.aasandha.budget,"Aasandha health insurance, full-year approved budget",2026-09-24,2022.6,MVR million
+mof.weekly.aasandha.budget,"Aasandha health insurance, full-year approved budget",2026-10-01,2022.6,MVR million
 mof.weekly.aasandha.same_date_last_year,"Aasandha health insurance, same date a year earlier",2020-01-09,0,MVR million
 mof.weekly.aasandha.same_date_last_year,"Aasandha health insurance, same date a year earlier",2020-01-16,0,MVR million
 mof.weekly.aasandha.same_date_last_year,"Aasandha health insurance, same date a year earlier",2020-01-23,0,MVR million
@@ -16500,6 +16501,7 @@ mof.weekly.aasandha.same_date_last_year,"Aasandha health insurance, same date a 
 mof.weekly.aasandha.same_date_last_year,"Aasandha health insurance, same date a year earlier",2026-09-10,1354.6,MVR million
 mof.weekly.aasandha.same_date_last_year,"Aasandha health insurance, same date a year earlier",2026-09-17,1404.4,MVR million
 mof.weekly.aasandha.same_date_last_year,"Aasandha health insurance, same date a year earlier",2026-09-24,1418,MVR million
+mof.weekly.aasandha.same_date_last_year,"Aasandha health insurance, same date a year earlier",2026-10-01,1490.7,MVR million
 mof.weekly.aasandha.ytd,"Aasandha health insurance, year to date",2018-12-09,1360.1,MVR million
 mof.weekly.aasandha.ytd,"Aasandha health insurance, year to date",2018-12-15,1399.4,MVR million
 mof.weekly.aasandha.ytd,"Aasandha health insurance, year to date",2018-12-22,1435.6,MVR million
@@ -16900,6 +16902,7 @@ mof.weekly.aasandha.ytd,"Aasandha health insurance, year to date",2026-09-03,149
 mof.weekly.aasandha.ytd,"Aasandha health insurance, year to date",2026-09-10,1631.9,MVR million
 mof.weekly.aasandha.ytd,"Aasandha health insurance, year to date",2026-09-17,1632.3,MVR million
 mof.weekly.aasandha.ytd,"Aasandha health insurance, year to date",2026-09-24,1747.9,MVR million
+mof.weekly.aasandha.ytd,"Aasandha health insurance, year to date",2026-10-01,1864.3,MVR million
 mof.weekly.capital_expenditure.budget,"Spending, capital, full-year approved budget",2018-12-09,8828.4,MVR million
 mof.weekly.capital_expenditure.budget,"Spending, capital, full-year approved budget",2018-12-15,8828.4,MVR million
 mof.weekly.capital_expenditure.budget,"Spending, capital, full-year approved budget",2018-12-22,8828.4,MVR million
@@ -17301,6 +17304,7 @@ mof.weekly.capital_expenditure.budget,"Spending, capital, full-year approved bud
 mof.weekly.capital_expenditure.budget,"Spending, capital, full-year approved budget",2026-09-10,9284.4,MVR million
 mof.weekly.capital_expenditure.budget,"Spending, capital, full-year approved budget",2026-09-17,9284.4,MVR million
 mof.weekly.capital_expenditure.budget,"Spending, capital, full-year approved budget",2026-09-24,9284.4,MVR million
+mof.weekly.capital_expenditure.budget,"Spending, capital, full-year approved budget",2026-10-01,9284.4,MVR million
 mof.weekly.capital_expenditure.same_date_last_year,"Spending, capital, same date a year earlier",2020-01-09,1.6,MVR million
 mof.weekly.capital_expenditure.same_date_last_year,"Spending, capital, same date a year earlier",2020-01-16,14.1,MVR million
 mof.weekly.capital_expenditure.same_date_last_year,"Spending, capital, same date a year earlier",2020-01-23,66.5,MVR million
@@ -17645,6 +17649,7 @@ mof.weekly.capital_expenditure.same_date_last_year,"Spending, capital, same date
 mof.weekly.capital_expenditure.same_date_last_year,"Spending, capital, same date a year earlier",2026-09-10,3659.7,MVR million
 mof.weekly.capital_expenditure.same_date_last_year,"Spending, capital, same date a year earlier",2026-09-17,3888.8,MVR million
 mof.weekly.capital_expenditure.same_date_last_year,"Spending, capital, same date a year earlier",2026-09-24,3930.2,MVR million
+mof.weekly.capital_expenditure.same_date_last_year,"Spending, capital, same date a year earlier",2026-10-01,4145.1,MVR million
 mof.weekly.capital_expenditure.ytd,"Spending, capital, year to date",2018-12-09,7069.1,MVR million
 mof.weekly.capital_expenditure.ytd,"Spending, capital, year to date",2018-12-15,7158.8,MVR million
 mof.weekly.capital_expenditure.ytd,"Spending, capital, year to date",2018-12-22,7225.6,MVR million
@@ -18046,6 +18051,7 @@ mof.weekly.capital_expenditure.ytd,"Spending, capital, year to date",2026-09-03,
 mof.weekly.capital_expenditure.ytd,"Spending, capital, year to date",2026-09-10,4436.8,MVR million
 mof.weekly.capital_expenditure.ytd,"Spending, capital, year to date",2026-09-17,4538.6,MVR million
 mof.weekly.capital_expenditure.ytd,"Spending, capital, year to date",2026-09-24,4665.7,MVR million
+mof.weekly.capital_expenditure.ytd,"Spending, capital, year to date",2026-10-01,4803.5,MVR million
 mof.weekly.general_gst.budget,"GST outside tourism, full-year approved budget",2018-12-09,3148,MVR million
 mof.weekly.general_gst.budget,"GST outside tourism, full-year approved budget",2018-12-15,3148,MVR million
 mof.weekly.general_gst.budget,"GST outside tourism, full-year approved budget",2018-12-22,3148,MVR million
@@ -18447,6 +18453,7 @@ mof.weekly.general_gst.budget,"GST outside tourism, full-year approved budget",2
 mof.weekly.general_gst.budget,"GST outside tourism, full-year approved budget",2026-09-10,5622.2,MVR million
 mof.weekly.general_gst.budget,"GST outside tourism, full-year approved budget",2026-09-17,5622.2,MVR million
 mof.weekly.general_gst.budget,"GST outside tourism, full-year approved budget",2026-09-24,5622.2,MVR million
+mof.weekly.general_gst.budget,"GST outside tourism, full-year approved budget",2026-10-01,5622.2,MVR million
 mof.weekly.general_gst.same_date_last_year,"GST outside tourism, same date a year earlier",2020-01-09,17.5,MVR million
 mof.weekly.general_gst.same_date_last_year,"GST outside tourism, same date a year earlier",2020-01-16,35.9,MVR million
 mof.weekly.general_gst.same_date_last_year,"GST outside tourism, same date a year earlier",2020-01-23,72.5,MVR million
@@ -18791,6 +18798,7 @@ mof.weekly.general_gst.same_date_last_year,"GST outside tourism, same date a yea
 mof.weekly.general_gst.same_date_last_year,"GST outside tourism, same date a year earlier",2026-09-10,3570.7,MVR million
 mof.weekly.general_gst.same_date_last_year,"GST outside tourism, same date a year earlier",2026-09-17,3608.7,MVR million
 mof.weekly.general_gst.same_date_last_year,"GST outside tourism, same date a year earlier",2026-09-24,3656.9,MVR million
+mof.weekly.general_gst.same_date_last_year,"GST outside tourism, same date a year earlier",2026-10-01,4019.3,MVR million
 mof.weekly.general_gst.ytd,"GST outside tourism, year to date",2018-12-09,4361.1,MVR million
 mof.weekly.general_gst.ytd,"GST outside tourism, year to date",2018-12-15,4383.1,MVR million
 mof.weekly.general_gst.ytd,"GST outside tourism, year to date",2018-12-22,4394.6,MVR million
@@ -19192,6 +19200,7 @@ mof.weekly.general_gst.ytd,"GST outside tourism, year to date",2026-09-03,3678,M
 mof.weekly.general_gst.ytd,"GST outside tourism, year to date",2026-09-10,3929.2,MVR million
 mof.weekly.general_gst.ytd,"GST outside tourism, year to date",2026-09-17,3964.4,MVR million
 mof.weekly.general_gst.ytd,"GST outside tourism, year to date",2026-09-24,4050.5,MVR million
+mof.weekly.general_gst.ytd,"GST outside tourism, year to date",2026-10-01,4131.7,MVR million
 mof.weekly.grants.budget,"Grants received, full-year approved budget",2018-12-09,733.7,MVR million
 mof.weekly.grants.budget,"Grants received, full-year approved budget",2018-12-15,733.7,MVR million
 mof.weekly.grants.budget,"Grants received, full-year approved budget",2018-12-22,733.7,MVR million
@@ -19593,6 +19602,7 @@ mof.weekly.grants.budget,"Grants received, full-year approved budget",2026-09-03
 mof.weekly.grants.budget,"Grants received, full-year approved budget",2026-09-10,373.6,MVR million
 mof.weekly.grants.budget,"Grants received, full-year approved budget",2026-09-17,373.6,MVR million
 mof.weekly.grants.budget,"Grants received, full-year approved budget",2026-09-24,373.6,MVR million
+mof.weekly.grants.budget,"Grants received, full-year approved budget",2026-10-01,373.6,MVR million
 mof.weekly.grants.same_date_last_year,"Grants received, same date a year earlier",2020-01-09,0.2,MVR million
 mof.weekly.grants.same_date_last_year,"Grants received, same date a year earlier",2020-01-16,0.9,MVR million
 mof.weekly.grants.same_date_last_year,"Grants received, same date a year earlier",2020-01-23,4.8,MVR million
@@ -19937,6 +19947,7 @@ mof.weekly.grants.same_date_last_year,"Grants received, same date a year earlier
 mof.weekly.grants.same_date_last_year,"Grants received, same date a year earlier",2026-09-10,230.1,MVR million
 mof.weekly.grants.same_date_last_year,"Grants received, same date a year earlier",2026-09-17,233.2,MVR million
 mof.weekly.grants.same_date_last_year,"Grants received, same date a year earlier",2026-09-24,237.3,MVR million
+mof.weekly.grants.same_date_last_year,"Grants received, same date a year earlier",2026-10-01,277.9,MVR million
 mof.weekly.grants.ytd,"Grants received, year to date",2018-12-09,307.7,MVR million
 mof.weekly.grants.ytd,"Grants received, year to date",2018-12-15,308.4,MVR million
 mof.weekly.grants.ytd,"Grants received, year to date",2018-12-22,308.4,MVR million
@@ -20338,6 +20349,7 @@ mof.weekly.grants.ytd,"Grants received, year to date",2026-09-03,499.1,MVR milli
 mof.weekly.grants.ytd,"Grants received, year to date",2026-09-10,489.6,MVR million
 mof.weekly.grants.ytd,"Grants received, year to date",2026-09-17,494.2,MVR million
 mof.weekly.grants.ytd,"Grants received, year to date",2026-09-24,495.9,MVR million
+mof.weekly.grants.ytd,"Grants received, year to date",2026-10-01,513.3,MVR million
 mof.weekly.green_tax.budget,"Green tax, full-year approved budget",2018-12-09,757.3,MVR million
 mof.weekly.green_tax.budget,"Green tax, full-year approved budget",2018-12-15,757.3,MVR million
 mof.weekly.green_tax.budget,"Green tax, full-year approved budget",2018-12-22,757.3,MVR million
@@ -20739,6 +20751,7 @@ mof.weekly.green_tax.budget,"Green tax, full-year approved budget",2026-09-03,23
 mof.weekly.green_tax.budget,"Green tax, full-year approved budget",2026-09-10,2395.4,MVR million
 mof.weekly.green_tax.budget,"Green tax, full-year approved budget",2026-09-17,2395.4,MVR million
 mof.weekly.green_tax.budget,"Green tax, full-year approved budget",2026-09-24,2395.4,MVR million
+mof.weekly.green_tax.budget,"Green tax, full-year approved budget",2026-10-01,2395.4,MVR million
 mof.weekly.green_tax.same_date_last_year,"Green tax, same date a year earlier",2020-01-09,7.5,MVR million
 mof.weekly.green_tax.same_date_last_year,"Green tax, same date a year earlier",2020-01-16,13.9,MVR million
 mof.weekly.green_tax.same_date_last_year,"Green tax, same date a year earlier",2020-01-23,29.8,MVR million
@@ -21083,6 +21096,7 @@ mof.weekly.green_tax.same_date_last_year,"Green tax, same date a year earlier",2
 mof.weekly.green_tax.same_date_last_year,"Green tax, same date a year earlier",2026-09-10,1483,MVR million
 mof.weekly.green_tax.same_date_last_year,"Green tax, same date a year earlier",2026-09-17,1502.5,MVR million
 mof.weekly.green_tax.same_date_last_year,"Green tax, same date a year earlier",2026-09-24,1544.6,MVR million
+mof.weekly.green_tax.same_date_last_year,"Green tax, same date a year earlier",2026-10-01,1673.4,MVR million
 mof.weekly.green_tax.ytd,"Green tax, year to date",2018-12-09,741.7,MVR million
 mof.weekly.green_tax.ytd,"Green tax, year to date",2018-12-15,747,MVR million
 mof.weekly.green_tax.ytd,"Green tax, year to date",2018-12-22,749.7,MVR million
@@ -21484,6 +21498,7 @@ mof.weekly.green_tax.ytd,"Green tax, year to date",2026-09-03,1505.1,MVR million
 mof.weekly.green_tax.ytd,"Green tax, year to date",2026-09-10,1519.6,MVR million
 mof.weekly.green_tax.ytd,"Green tax, year to date",2026-09-17,1527.5,MVR million
 mof.weekly.green_tax.ytd,"Green tax, year to date",2026-09-24,1556,MVR million
+mof.weekly.green_tax.ytd,"Green tax, year to date",2026-10-01,1607.6,MVR million
 mof.weekly.import_duties.budget,"Import duties, full-year approved budget",2018-12-09,3029.6,MVR million
 mof.weekly.import_duties.budget,"Import duties, full-year approved budget",2018-12-15,3029.6,MVR million
 mof.weekly.import_duties.budget,"Import duties, full-year approved budget",2018-12-22,3029.6,MVR million
@@ -21885,6 +21900,7 @@ mof.weekly.import_duties.budget,"Import duties, full-year approved budget",2026-
 mof.weekly.import_duties.budget,"Import duties, full-year approved budget",2026-09-10,3127.7,MVR million
 mof.weekly.import_duties.budget,"Import duties, full-year approved budget",2026-09-17,3127.7,MVR million
 mof.weekly.import_duties.budget,"Import duties, full-year approved budget",2026-09-24,3127.7,MVR million
+mof.weekly.import_duties.budget,"Import duties, full-year approved budget",2026-10-01,3127.7,MVR million
 mof.weekly.import_duties.same_date_last_year,"Import duties, same date a year earlier",2020-01-09,81.2,MVR million
 mof.weekly.import_duties.same_date_last_year,"Import duties, same date a year earlier",2020-01-16,127.4,MVR million
 mof.weekly.import_duties.same_date_last_year,"Import duties, same date a year earlier",2020-01-23,199.7,MVR million
@@ -22229,6 +22245,7 @@ mof.weekly.import_duties.same_date_last_year,"Import duties, same date a year ea
 mof.weekly.import_duties.same_date_last_year,"Import duties, same date a year earlier",2026-09-10,2107.4,MVR million
 mof.weekly.import_duties.same_date_last_year,"Import duties, same date a year earlier",2026-09-17,2149.6,MVR million
 mof.weekly.import_duties.same_date_last_year,"Import duties, same date a year earlier",2026-09-24,2196.1,MVR million
+mof.weekly.import_duties.same_date_last_year,"Import duties, same date a year earlier",2026-10-01,2255.3,MVR million
 mof.weekly.import_duties.ytd,"Import duties, year to date",2018-12-09,2653.2,MVR million
 mof.weekly.import_duties.ytd,"Import duties, year to date",2018-12-15,2653.2,MVR million
 mof.weekly.import_duties.ytd,"Import duties, year to date",2018-12-22,2714.6,MVR million
@@ -22630,6 +22647,7 @@ mof.weekly.import_duties.ytd,"Import duties, year to date",2026-09-03,2352.5,MVR
 mof.weekly.import_duties.ytd,"Import duties, year to date",2026-09-10,2432,MVR million
 mof.weekly.import_duties.ytd,"Import duties, year to date",2026-09-17,2450.2,MVR million
 mof.weekly.import_duties.ytd,"Import duties, year to date",2026-09-24,2483.6,MVR million
+mof.weekly.import_duties.ytd,"Import duties, year to date",2026-10-01,2513.1,MVR million
 mof.weekly.interest_costs.budget,"Interest and other financing costs, full-year approved budget",2018-12-09,1436.5,MVR million
 mof.weekly.interest_costs.budget,"Interest and other financing costs, full-year approved budget",2018-12-15,1436.5,MVR million
 mof.weekly.interest_costs.budget,"Interest and other financing costs, full-year approved budget",2018-12-22,1436.5,MVR million
@@ -23031,6 +23049,7 @@ mof.weekly.interest_costs.budget,"Interest and other financing costs, full-year 
 mof.weekly.interest_costs.budget,"Interest and other financing costs, full-year approved budget",2026-09-10,5557.3,MVR million
 mof.weekly.interest_costs.budget,"Interest and other financing costs, full-year approved budget",2026-09-17,5557.3,MVR million
 mof.weekly.interest_costs.budget,"Interest and other financing costs, full-year approved budget",2026-09-24,5557.3,MVR million
+mof.weekly.interest_costs.budget,"Interest and other financing costs, full-year approved budget",2026-10-01,5557.3,MVR million
 mof.weekly.interest_costs.same_date_last_year,"Interest and other financing costs, same date a year earlier",2020-01-09,28.9,MVR million
 mof.weekly.interest_costs.same_date_last_year,"Interest and other financing costs, same date a year earlier",2020-01-16,72.2,MVR million
 mof.weekly.interest_costs.same_date_last_year,"Interest and other financing costs, same date a year earlier",2020-01-23,97.4,MVR million
@@ -23375,6 +23394,7 @@ mof.weekly.interest_costs.same_date_last_year,"Interest and other financing cost
 mof.weekly.interest_costs.same_date_last_year,"Interest and other financing costs, same date a year earlier",2026-09-10,3446.3,MVR million
 mof.weekly.interest_costs.same_date_last_year,"Interest and other financing costs, same date a year earlier",2026-09-17,3468,MVR million
 mof.weekly.interest_costs.same_date_last_year,"Interest and other financing costs, same date a year earlier",2026-09-24,3945.9,MVR million
+mof.weekly.interest_costs.same_date_last_year,"Interest and other financing costs, same date a year earlier",2026-10-01,3978.1,MVR million
 mof.weekly.interest_costs.ytd,"Interest and other financing costs, year to date",2018-12-09,1262.9,MVR million
 mof.weekly.interest_costs.ytd,"Interest and other financing costs, year to date",2018-12-15,1262.9,MVR million
 mof.weekly.interest_costs.ytd,"Interest and other financing costs, year to date",2018-12-22,1265.8,MVR million
@@ -23776,6 +23796,7 @@ mof.weekly.interest_costs.ytd,"Interest and other financing costs, year to date"
 mof.weekly.interest_costs.ytd,"Interest and other financing costs, year to date",2026-09-10,3440.2,MVR million
 mof.weekly.interest_costs.ytd,"Interest and other financing costs, year to date",2026-09-17,3474.7,MVR million
 mof.weekly.interest_costs.ytd,"Interest and other financing costs, year to date",2026-09-24,3799.6,MVR million
+mof.weekly.interest_costs.ytd,"Interest and other financing costs, year to date",2026-10-01,3799.6,MVR million
 mof.weekly.loan_repayment.budget,"Loan repayments, full-year approved budget",2018-12-09,2183.7,MVR million
 mof.weekly.loan_repayment.budget,"Loan repayments, full-year approved budget",2018-12-15,2183.7,MVR million
 mof.weekly.loan_repayment.budget,"Loan repayments, full-year approved budget",2018-12-22,2183.7,MVR million
@@ -24177,6 +24198,7 @@ mof.weekly.loan_repayment.budget,"Loan repayments, full-year approved budget",20
 mof.weekly.loan_repayment.budget,"Loan repayments, full-year approved budget",2026-09-10,12914.3,MVR million
 mof.weekly.loan_repayment.budget,"Loan repayments, full-year approved budget",2026-09-17,12914.3,MVR million
 mof.weekly.loan_repayment.budget,"Loan repayments, full-year approved budget",2026-09-24,12914.3,MVR million
+mof.weekly.loan_repayment.budget,"Loan repayments, full-year approved budget",2026-10-01,12914.3,MVR million
 mof.weekly.loan_repayment.same_date_last_year,"Loan repayments, same date a year earlier",2020-01-09,48.8,MVR million
 mof.weekly.loan_repayment.same_date_last_year,"Loan repayments, same date a year earlier",2020-01-16,95,MVR million
 mof.weekly.loan_repayment.same_date_last_year,"Loan repayments, same date a year earlier",2020-01-23,119,MVR million
@@ -24521,6 +24543,7 @@ mof.weekly.loan_repayment.same_date_last_year,"Loan repayments, same date a year
 mof.weekly.loan_repayment.same_date_last_year,"Loan repayments, same date a year earlier",2026-09-10,4307.5,MVR million
 mof.weekly.loan_repayment.same_date_last_year,"Loan repayments, same date a year earlier",2026-09-17,4307.5,MVR million
 mof.weekly.loan_repayment.same_date_last_year,"Loan repayments, same date a year earlier",2026-09-24,4495.7,MVR million
+mof.weekly.loan_repayment.same_date_last_year,"Loan repayments, same date a year earlier",2026-10-01,4508.6,MVR million
 mof.weekly.loan_repayment.ytd,"Loan repayments, year to date",2018-12-09,1534.3,MVR million
 mof.weekly.loan_repayment.ytd,"Loan repayments, year to date",2018-12-15,1534.3,MVR million
 mof.weekly.loan_repayment.ytd,"Loan repayments, year to date",2018-12-22,1572.5,MVR million
@@ -24922,6 +24945,7 @@ mof.weekly.loan_repayment.ytd,"Loan repayments, year to date",2026-09-03,9770.7,
 mof.weekly.loan_repayment.ytd,"Loan repayments, year to date",2026-09-10,9932.2,MVR million
 mof.weekly.loan_repayment.ytd,"Loan repayments, year to date",2026-09-17,9965.4,MVR million
 mof.weekly.loan_repayment.ytd,"Loan repayments, year to date",2026-09-24,10091.7,MVR million
+mof.weekly.loan_repayment.ytd,"Loan repayments, year to date",2026-10-01,10091.7,MVR million
 mof.weekly.non_tax_revenue.budget,"Non-tax revenue, full-year approved budget",2018-12-09,5557.6,MVR million
 mof.weekly.non_tax_revenue.budget,"Non-tax revenue, full-year approved budget",2018-12-15,5557.6,MVR million
 mof.weekly.non_tax_revenue.budget,"Non-tax revenue, full-year approved budget",2018-12-22,5557.6,MVR million
@@ -25323,6 +25347,7 @@ mof.weekly.non_tax_revenue.budget,"Non-tax revenue, full-year approved budget",2
 mof.weekly.non_tax_revenue.budget,"Non-tax revenue, full-year approved budget",2026-09-10,8702.3,MVR million
 mof.weekly.non_tax_revenue.budget,"Non-tax revenue, full-year approved budget",2026-09-17,8702.3,MVR million
 mof.weekly.non_tax_revenue.budget,"Non-tax revenue, full-year approved budget",2026-09-24,8702.3,MVR million
+mof.weekly.non_tax_revenue.budget,"Non-tax revenue, full-year approved budget",2026-10-01,8702.3,MVR million
 mof.weekly.non_tax_revenue.same_date_last_year,"Non-tax revenue, same date a year earlier",2020-01-09,93.3,MVR million
 mof.weekly.non_tax_revenue.same_date_last_year,"Non-tax revenue, same date a year earlier",2020-01-16,174.5,MVR million
 mof.weekly.non_tax_revenue.same_date_last_year,"Non-tax revenue, same date a year earlier",2020-01-23,344,MVR million
@@ -25667,6 +25692,7 @@ mof.weekly.non_tax_revenue.same_date_last_year,"Non-tax revenue, same date a yea
 mof.weekly.non_tax_revenue.same_date_last_year,"Non-tax revenue, same date a year earlier",2026-09-10,6309.7,MVR million
 mof.weekly.non_tax_revenue.same_date_last_year,"Non-tax revenue, same date a year earlier",2026-09-17,6841.4,MVR million
 mof.weekly.non_tax_revenue.same_date_last_year,"Non-tax revenue, same date a year earlier",2026-09-24,7145.1,MVR million
+mof.weekly.non_tax_revenue.same_date_last_year,"Non-tax revenue, same date a year earlier",2026-10-01,7535.1,MVR million
 mof.weekly.non_tax_revenue.ytd,"Non-tax revenue, year to date",2018-12-09,5222.7,MVR million
 mof.weekly.non_tax_revenue.ytd,"Non-tax revenue, year to date",2018-12-15,5275.5,MVR million
 mof.weekly.non_tax_revenue.ytd,"Non-tax revenue, year to date",2018-12-22,5324.6,MVR million
@@ -26068,6 +26094,7 @@ mof.weekly.non_tax_revenue.ytd,"Non-tax revenue, year to date",2026-09-03,5872.2
 mof.weekly.non_tax_revenue.ytd,"Non-tax revenue, year to date",2026-09-10,6101.6,MVR million
 mof.weekly.non_tax_revenue.ytd,"Non-tax revenue, year to date",2026-09-17,6199.2,MVR million
 mof.weekly.non_tax_revenue.ytd,"Non-tax revenue, year to date",2026-09-24,6319.1,MVR million
+mof.weekly.non_tax_revenue.ytd,"Non-tax revenue, year to date",2026-10-01,6528.8,MVR million
 mof.weekly.overall_balance.budget,"Overall balance (revenue minus spending), full-year approved budget",2018-12-09,-2493.9,MVR million
 mof.weekly.overall_balance.budget,"Overall balance (revenue minus spending), full-year approved budget",2018-12-15,-2493.9,MVR million
 mof.weekly.overall_balance.budget,"Overall balance (revenue minus spending), full-year approved budget",2018-12-22,-2493.9,MVR million
@@ -26469,6 +26496,7 @@ mof.weekly.overall_balance.budget,"Overall balance (revenue minus spending), ful
 mof.weekly.overall_balance.budget,"Overall balance (revenue minus spending), full-year approved budget",2026-09-10,-8839.9,MVR million
 mof.weekly.overall_balance.budget,"Overall balance (revenue minus spending), full-year approved budget",2026-09-17,-8839.9,MVR million
 mof.weekly.overall_balance.budget,"Overall balance (revenue minus spending), full-year approved budget",2026-09-24,-8839.9,MVR million
+mof.weekly.overall_balance.budget,"Overall balance (revenue minus spending), full-year approved budget",2026-10-01,-8839.9,MVR million
 mof.weekly.overall_balance.same_date_last_year,"Overall balance (revenue minus spending), same date a year earlier",2020-01-09,153.3,MVR million
 mof.weekly.overall_balance.same_date_last_year,"Overall balance (revenue minus spending), same date a year earlier",2020-01-16,393.4,MVR million
 mof.weekly.overall_balance.same_date_last_year,"Overall balance (revenue minus spending), same date a year earlier",2020-01-23,580.3,MVR million
@@ -26813,6 +26841,7 @@ mof.weekly.overall_balance.same_date_last_year,"Overall balance (revenue minus s
 mof.weekly.overall_balance.same_date_last_year,"Overall balance (revenue minus spending), same date a year earlier",2026-09-10,436.6,MVR million
 mof.weekly.overall_balance.same_date_last_year,"Overall balance (revenue minus spending), same date a year earlier",2026-09-17,681.2,MVR million
 mof.weekly.overall_balance.same_date_last_year,"Overall balance (revenue minus spending), same date a year earlier",2026-09-24,499.3,MVR million
+mof.weekly.overall_balance.same_date_last_year,"Overall balance (revenue minus spending), same date a year earlier",2026-10-01,334,MVR million
 mof.weekly.overall_balance.ytd,"Overall balance (revenue minus spending), year to date",2018-12-09,-3264.6,MVR million
 mof.weekly.overall_balance.ytd,"Overall balance (revenue minus spending), year to date",2018-12-15,-3453,MVR million
 mof.weekly.overall_balance.ytd,"Overall balance (revenue minus spending), year to date",2018-12-22,-3551.1,MVR million
@@ -27214,6 +27243,7 @@ mof.weekly.overall_balance.ytd,"Overall balance (revenue minus spending), year t
 mof.weekly.overall_balance.ytd,"Overall balance (revenue minus spending), year to date",2026-09-10,-2639.1,MVR million
 mof.weekly.overall_balance.ytd,"Overall balance (revenue minus spending), year to date",2026-09-17,-3073.5,MVR million
 mof.weekly.overall_balance.ytd,"Overall balance (revenue minus spending), year to date",2026-09-24,-3357.4,MVR million
+mof.weekly.overall_balance.ytd,"Overall balance (revenue minus spending), year to date",2026-10-01,-4577.5,MVR million
 mof.weekly.primary_balance.budget,"Primary balance, full-year approved budget",2018-12-09,-1057.4,MVR million
 mof.weekly.primary_balance.budget,"Primary balance, full-year approved budget",2018-12-15,-1057.4,MVR million
 mof.weekly.primary_balance.budget,"Primary balance, full-year approved budget",2018-12-22,-1057.4,MVR million
@@ -27615,6 +27645,7 @@ mof.weekly.primary_balance.budget,"Primary balance, full-year approved budget",2
 mof.weekly.primary_balance.budget,"Primary balance, full-year approved budget",2026-09-10,-3282.6,MVR million
 mof.weekly.primary_balance.budget,"Primary balance, full-year approved budget",2026-09-17,-3282.6,MVR million
 mof.weekly.primary_balance.budget,"Primary balance, full-year approved budget",2026-09-24,-3282.6,MVR million
+mof.weekly.primary_balance.budget,"Primary balance, full-year approved budget",2026-10-01,-3282.6,MVR million
 mof.weekly.primary_balance.same_date_last_year,"Primary balance, same date a year earlier",2020-01-09,182.2,MVR million
 mof.weekly.primary_balance.same_date_last_year,"Primary balance, same date a year earlier",2020-01-16,465.6,MVR million
 mof.weekly.primary_balance.same_date_last_year,"Primary balance, same date a year earlier",2020-01-23,677.8,MVR million
@@ -27959,6 +27990,7 @@ mof.weekly.primary_balance.same_date_last_year,"Primary balance, same date a yea
 mof.weekly.primary_balance.same_date_last_year,"Primary balance, same date a year earlier",2026-09-10,3882.8,MVR million
 mof.weekly.primary_balance.same_date_last_year,"Primary balance, same date a year earlier",2026-09-17,4149.2,MVR million
 mof.weekly.primary_balance.same_date_last_year,"Primary balance, same date a year earlier",2026-09-24,4445.1,MVR million
+mof.weekly.primary_balance.same_date_last_year,"Primary balance, same date a year earlier",2026-10-01,4312,MVR million
 mof.weekly.primary_balance.ytd,"Primary balance, year to date",2018-12-09,-2001.6,MVR million
 mof.weekly.primary_balance.ytd,"Primary balance, year to date",2018-12-15,-2190.1,MVR million
 mof.weekly.primary_balance.ytd,"Primary balance, year to date",2018-12-22,-2285.3,MVR million
@@ -28360,6 +28392,7 @@ mof.weekly.primary_balance.ytd,"Primary balance, year to date",2026-09-03,1269.4
 mof.weekly.primary_balance.ytd,"Primary balance, year to date",2026-09-10,801.1,MVR million
 mof.weekly.primary_balance.ytd,"Primary balance, year to date",2026-09-17,401.2,MVR million
 mof.weekly.primary_balance.ytd,"Primary balance, year to date",2026-09-24,442.3,MVR million
+mof.weekly.primary_balance.ytd,"Primary balance, year to date",2026-10-01,-777.9,MVR million
 mof.weekly.psip.budget,"Public sector investment programme (PSIP), full-year approved budget",2018-12-09,7087.4,MVR million
 mof.weekly.psip.budget,"Public sector investment programme (PSIP), full-year approved budget",2018-12-15,7087.4,MVR million
 mof.weekly.psip.budget,"Public sector investment programme (PSIP), full-year approved budget",2018-12-22,7087.4,MVR million
@@ -28758,6 +28791,7 @@ mof.weekly.psip.budget,"Public sector investment programme (PSIP), full-year app
 mof.weekly.psip.budget,"Public sector investment programme (PSIP), full-year approved budget",2026-09-10,8312.1,MVR million
 mof.weekly.psip.budget,"Public sector investment programme (PSIP), full-year approved budget",2026-09-17,8312.1,MVR million
 mof.weekly.psip.budget,"Public sector investment programme (PSIP), full-year approved budget",2026-09-24,8312.1,MVR million
+mof.weekly.psip.budget,"Public sector investment programme (PSIP), full-year approved budget",2026-10-01,8312.1,MVR million
 mof.weekly.psip.same_date_last_year,"Public sector investment programme (PSIP), same date a year earlier",2020-01-30,24.6,MVR million
 mof.weekly.psip.same_date_last_year,"Public sector investment programme (PSIP), same date a year earlier",2020-02-06,358.6,MVR million
 mof.weekly.psip.same_date_last_year,"Public sector investment programme (PSIP), same date a year earlier",2020-02-13,362.9,MVR million
@@ -29099,6 +29133,7 @@ mof.weekly.psip.same_date_last_year,"Public sector investment programme (PSIP), 
 mof.weekly.psip.same_date_last_year,"Public sector investment programme (PSIP), same date a year earlier",2026-09-10,5135.2,MVR million
 mof.weekly.psip.same_date_last_year,"Public sector investment programme (PSIP), same date a year earlier",2026-09-17,5135.2,MVR million
 mof.weekly.psip.same_date_last_year,"Public sector investment programme (PSIP), same date a year earlier",2026-09-24,5135.2,MVR million
+mof.weekly.psip.same_date_last_year,"Public sector investment programme (PSIP), same date a year earlier",2026-10-01,6093,MVR million
 mof.weekly.psip.ytd,"Public sector investment programme (PSIP), year to date",2018-12-09,5489.2,MVR million
 mof.weekly.psip.ytd,"Public sector investment programme (PSIP), year to date",2018-12-15,5558.3,MVR million
 mof.weekly.psip.ytd,"Public sector investment programme (PSIP), year to date",2018-12-22,5581.5,MVR million
@@ -29497,6 +29532,7 @@ mof.weekly.psip.ytd,"Public sector investment programme (PSIP), year to date",20
 mof.weekly.psip.ytd,"Public sector investment programme (PSIP), year to date",2026-09-10,4282.3,MVR million
 mof.weekly.psip.ytd,"Public sector investment programme (PSIP), year to date",2026-09-17,4349.9,MVR million
 mof.weekly.psip.ytd,"Public sector investment programme (PSIP), year to date",2026-09-24,4487.3,MVR million
+mof.weekly.psip.ytd,"Public sector investment programme (PSIP), year to date",2026-10-01,4787.6,MVR million
 mof.weekly.recurrent_expenditure.budget,"Spending, recurrent, full-year approved budget",2018-12-09,16066.2,MVR million
 mof.weekly.recurrent_expenditure.budget,"Spending, recurrent, full-year approved budget",2018-12-15,16066.2,MVR million
 mof.weekly.recurrent_expenditure.budget,"Spending, recurrent, full-year approved budget",2018-12-22,16066.2,MVR million
@@ -29898,6 +29934,7 @@ mof.weekly.recurrent_expenditure.budget,"Spending, recurrent, full-year approved
 mof.weekly.recurrent_expenditure.budget,"Spending, recurrent, full-year approved budget",2026-09-10,39930.1,MVR million
 mof.weekly.recurrent_expenditure.budget,"Spending, recurrent, full-year approved budget",2026-09-17,39930.1,MVR million
 mof.weekly.recurrent_expenditure.budget,"Spending, recurrent, full-year approved budget",2026-09-24,39930.1,MVR million
+mof.weekly.recurrent_expenditure.budget,"Spending, recurrent, full-year approved budget",2026-10-01,39930.1,MVR million
 mof.weekly.recurrent_expenditure.same_date_last_year,"Spending, recurrent, same date a year earlier",2020-01-09,79.8,MVR million
 mof.weekly.recurrent_expenditure.same_date_last_year,"Spending, recurrent, same date a year earlier",2020-01-16,174,MVR million
 mof.weekly.recurrent_expenditure.same_date_last_year,"Spending, recurrent, same date a year earlier",2020-01-23,428.3,MVR million
@@ -30242,6 +30279,7 @@ mof.weekly.recurrent_expenditure.same_date_last_year,"Spending, recurrent, same 
 mof.weekly.recurrent_expenditure.same_date_last_year,"Spending, recurrent, same date a year earlier",2026-09-10,23211,MVR million
 mof.weekly.recurrent_expenditure.same_date_last_year,"Spending, recurrent, same date a year earlier",2026-09-17,23573.1,MVR million
 mof.weekly.recurrent_expenditure.same_date_last_year,"Spending, recurrent, same date a year earlier",2026-09-24,24320.7,MVR million
+mof.weekly.recurrent_expenditure.same_date_last_year,"Spending, recurrent, same date a year earlier",2026-10-01,25862.9,MVR million
 mof.weekly.recurrent_expenditure.ytd,"Spending, recurrent, year to date",2018-12-09,16093,MVR million
 mof.weekly.recurrent_expenditure.ytd,"Spending, recurrent, year to date",2018-12-15,16321.4,MVR million
 mof.weekly.recurrent_expenditure.ytd,"Spending, recurrent, year to date",2018-12-22,16510.1,MVR million
@@ -30643,6 +30681,7 @@ mof.weekly.recurrent_expenditure.ytd,"Spending, recurrent, year to date",2026-09
 mof.weekly.recurrent_expenditure.ytd,"Spending, recurrent, year to date",2026-09-10,27694.2,MVR million
 mof.weekly.recurrent_expenditure.ytd,"Spending, recurrent, year to date",2026-09-17,28294.9,MVR million
 mof.weekly.recurrent_expenditure.ytd,"Spending, recurrent, year to date",2026-09-24,28896.6,MVR million
+mof.weekly.recurrent_expenditure.ytd,"Spending, recurrent, year to date",2026-10-01,30652.6,MVR million
 mof.weekly.rent_from_resorts.budget,"Rent from resorts, full-year approved budget",2018-12-09,1905.1,MVR million
 mof.weekly.rent_from_resorts.budget,"Rent from resorts, full-year approved budget",2018-12-15,1905.1,MVR million
 mof.weekly.rent_from_resorts.budget,"Rent from resorts, full-year approved budget",2018-12-22,1905.1,MVR million
@@ -31044,6 +31083,7 @@ mof.weekly.rent_from_resorts.budget,"Rent from resorts, full-year approved budge
 mof.weekly.rent_from_resorts.budget,"Rent from resorts, full-year approved budget",2026-09-10,2034.6,MVR million
 mof.weekly.rent_from_resorts.budget,"Rent from resorts, full-year approved budget",2026-09-17,2034.6,MVR million
 mof.weekly.rent_from_resorts.budget,"Rent from resorts, full-year approved budget",2026-09-24,2034.6,MVR million
+mof.weekly.rent_from_resorts.budget,"Rent from resorts, full-year approved budget",2026-10-01,2034.6,MVR million
 mof.weekly.rent_from_resorts.same_date_last_year,"Rent from resorts, same date a year earlier",2020-01-09,36.7,MVR million
 mof.weekly.rent_from_resorts.same_date_last_year,"Rent from resorts, same date a year earlier",2020-01-16,41.5,MVR million
 mof.weekly.rent_from_resorts.same_date_last_year,"Rent from resorts, same date a year earlier",2020-01-23,47.3,MVR million
@@ -31388,6 +31428,7 @@ mof.weekly.rent_from_resorts.same_date_last_year,"Rent from resorts, same date a
 mof.weekly.rent_from_resorts.same_date_last_year,"Rent from resorts, same date a year earlier",2026-09-10,1089.9,MVR million
 mof.weekly.rent_from_resorts.same_date_last_year,"Rent from resorts, same date a year earlier",2026-09-17,1126.9,MVR million
 mof.weekly.rent_from_resorts.same_date_last_year,"Rent from resorts, same date a year earlier",2026-09-24,1245.4,MVR million
+mof.weekly.rent_from_resorts.same_date_last_year,"Rent from resorts, same date a year earlier",2026-10-01,1477.3,MVR million
 mof.weekly.rent_from_resorts.ytd,"Rent from resorts, year to date",2018-12-09,1183.8,MVR million
 mof.weekly.rent_from_resorts.ytd,"Rent from resorts, year to date",2018-12-15,1187.7,MVR million
 mof.weekly.rent_from_resorts.ytd,"Rent from resorts, year to date",2018-12-22,1196.4,MVR million
@@ -31789,6 +31830,7 @@ mof.weekly.rent_from_resorts.ytd,"Rent from resorts, year to date",2026-09-03,11
 mof.weekly.rent_from_resorts.ytd,"Rent from resorts, year to date",2026-09-10,1182.5,MVR million
 mof.weekly.rent_from_resorts.ytd,"Rent from resorts, year to date",2026-09-17,1204.8,MVR million
 mof.weekly.rent_from_resorts.ytd,"Rent from resorts, year to date",2026-09-24,1266.8,MVR million
+mof.weekly.rent_from_resorts.ytd,"Rent from resorts, year to date",2026-10-01,1358.8,MVR million
 mof.weekly.revenue_and_grants.budget,"Revenue and grants, full-year approved budget",2018-12-09,22400.7,MVR million
 mof.weekly.revenue_and_grants.budget,"Revenue and grants, full-year approved budget",2018-12-15,22400.7,MVR million
 mof.weekly.revenue_and_grants.budget,"Revenue and grants, full-year approved budget",2018-12-22,22400.7,MVR million
@@ -32190,6 +32232,7 @@ mof.weekly.revenue_and_grants.budget,"Revenue and grants, full-year approved bud
 mof.weekly.revenue_and_grants.budget,"Revenue and grants, full-year approved budget",2026-09-10,40374.5,MVR million
 mof.weekly.revenue_and_grants.budget,"Revenue and grants, full-year approved budget",2026-09-17,40374.5,MVR million
 mof.weekly.revenue_and_grants.budget,"Revenue and grants, full-year approved budget",2026-09-24,40374.5,MVR million
+mof.weekly.revenue_and_grants.budget,"Revenue and grants, full-year approved budget",2026-10-01,40374.5,MVR million
 mof.weekly.revenue_and_grants.same_date_last_year,"Revenue and grants, same date a year earlier",2020-01-09,234.7,MVR million
 mof.weekly.revenue_and_grants.same_date_last_year,"Revenue and grants, same date a year earlier",2020-01-16,581.5,MVR million
 mof.weekly.revenue_and_grants.same_date_last_year,"Revenue and grants, same date a year earlier",2020-01-23,1075.1,MVR million
@@ -32534,6 +32577,7 @@ mof.weekly.revenue_and_grants.same_date_last_year,"Revenue and grants, same date
 mof.weekly.revenue_and_grants.same_date_last_year,"Revenue and grants, same date a year earlier",2026-09-10,27307.3,MVR million
 mof.weekly.revenue_and_grants.same_date_last_year,"Revenue and grants, same date a year earlier",2026-09-17,28143.1,MVR million
 mof.weekly.revenue_and_grants.same_date_last_year,"Revenue and grants, same date a year earlier",2026-09-24,28750.1,MVR million
+mof.weekly.revenue_and_grants.same_date_last_year,"Revenue and grants, same date a year earlier",2026-10-01,30342,MVR million
 mof.weekly.revenue_and_grants.ytd,"Revenue and grants, year to date",2018-12-09,19897.5,MVR million
 mof.weekly.revenue_and_grants.ytd,"Revenue and grants, year to date",2018-12-15,20027.2,MVR million
 mof.weekly.revenue_and_grants.ytd,"Revenue and grants, year to date",2018-12-22,20184.6,MVR million
@@ -32935,6 +32979,7 @@ mof.weekly.revenue_and_grants.ytd,"Revenue and grants, year to date",2026-09-03,
 mof.weekly.revenue_and_grants.ytd,"Revenue and grants, year to date",2026-09-10,29491.9,MVR million
 mof.weekly.revenue_and_grants.ytd,"Revenue and grants, year to date",2026-09-17,29759.9,MVR million
 mof.weekly.revenue_and_grants.ytd,"Revenue and grants, year to date",2026-09-24,30205,MVR million
+mof.weekly.revenue_and_grants.ytd,"Revenue and grants, year to date",2026-10-01,30878.6,MVR million
 mof.weekly.salaries_wages_pensions.budget,"Salaries, wages and pensions, full-year approved budget",2018-12-09,9028,MVR million
 mof.weekly.salaries_wages_pensions.budget,"Salaries, wages and pensions, full-year approved budget",2018-12-15,9028,MVR million
 mof.weekly.salaries_wages_pensions.budget,"Salaries, wages and pensions, full-year approved budget",2018-12-22,9028,MVR million
@@ -33336,6 +33381,7 @@ mof.weekly.salaries_wages_pensions.budget,"Salaries, wages and pensions, full-ye
 mof.weekly.salaries_wages_pensions.budget,"Salaries, wages and pensions, full-year approved budget",2026-09-10,17088.4,MVR million
 mof.weekly.salaries_wages_pensions.budget,"Salaries, wages and pensions, full-year approved budget",2026-09-17,17088.4,MVR million
 mof.weekly.salaries_wages_pensions.budget,"Salaries, wages and pensions, full-year approved budget",2026-09-24,17088.4,MVR million
+mof.weekly.salaries_wages_pensions.budget,"Salaries, wages and pensions, full-year approved budget",2026-10-01,17088.4,MVR million
 mof.weekly.salaries_wages_pensions.same_date_last_year,"Salaries, wages and pensions, same date a year earlier",2020-01-09,0.8,MVR million
 mof.weekly.salaries_wages_pensions.same_date_last_year,"Salaries, wages and pensions, same date a year earlier",2020-01-16,9.9,MVR million
 mof.weekly.salaries_wages_pensions.same_date_last_year,"Salaries, wages and pensions, same date a year earlier",2020-01-23,202.1,MVR million
@@ -33680,6 +33726,7 @@ mof.weekly.salaries_wages_pensions.same_date_last_year,"Salaries, wages and pens
 mof.weekly.salaries_wages_pensions.same_date_last_year,"Salaries, wages and pensions, same date a year earlier",2026-09-10,9645.4,MVR million
 mof.weekly.salaries_wages_pensions.same_date_last_year,"Salaries, wages and pensions, same date a year earlier",2026-09-17,9648.9,MVR million
 mof.weekly.salaries_wages_pensions.same_date_last_year,"Salaries, wages and pensions, same date a year earlier",2026-09-24,9718.2,MVR million
+mof.weekly.salaries_wages_pensions.same_date_last_year,"Salaries, wages and pensions, same date a year earlier",2026-10-01,10873.2,MVR million
 mof.weekly.salaries_wages_pensions.ytd,"Salaries, wages and pensions, year to date",2018-12-09,8430.4,MVR million
 mof.weekly.salaries_wages_pensions.ytd,"Salaries, wages and pensions, year to date",2018-12-15,8433.5,MVR million
 mof.weekly.salaries_wages_pensions.ytd,"Salaries, wages and pensions, year to date",2018-12-22,8470.6,MVR million
@@ -34081,6 +34128,7 @@ mof.weekly.salaries_wages_pensions.ytd,"Salaries, wages and pensions, year to da
 mof.weekly.salaries_wages_pensions.ytd,"Salaries, wages and pensions, year to date",2026-09-10,10698.3,MVR million
 mof.weekly.salaries_wages_pensions.ytd,"Salaries, wages and pensions, year to date",2026-09-17,10699,MVR million
 mof.weekly.salaries_wages_pensions.ytd,"Salaries, wages and pensions, year to date",2026-09-24,10702.3,MVR million
+mof.weekly.salaries_wages_pensions.ytd,"Salaries, wages and pensions, year to date",2026-10-01,12042.2,MVR million
 mof.weekly.securities_domestic,"Government securities outstanding, domestic",2021-12-23,47225.2,MVR million
 mof.weekly.securities_domestic,"Government securities outstanding, domestic",2021-12-31,47573.2,MVR million
 mof.weekly.securities_domestic,"Government securities outstanding, domestic",2022-01-06,47746.8,MVR million
@@ -34323,6 +34371,7 @@ mof.weekly.securities_domestic,"Government securities outstanding, domestic",202
 mof.weekly.securities_domestic,"Government securities outstanding, domestic",2026-09-10,97557.8,MVR million
 mof.weekly.securities_domestic,"Government securities outstanding, domestic",2026-09-17,97557.8,MVR million
 mof.weekly.securities_domestic,"Government securities outstanding, domestic",2026-09-24,97014.2,MVR million
+mof.weekly.securities_domestic,"Government securities outstanding, domestic",2026-10-01,97014.2,MVR million
 mof.weekly.securities_external,"Government securities outstanding, external",2021-12-23,10114,MVR million
 mof.weekly.securities_external,"Government securities outstanding, external",2021-12-31,10127.1,MVR million
 mof.weekly.securities_external,"Government securities outstanding, external",2022-01-06,10140.3,MVR million
@@ -34565,6 +34614,7 @@ mof.weekly.securities_external,"Government securities outstanding, external",202
 mof.weekly.securities_external,"Government securities outstanding, external",2026-09-10,1542,MVR million
 mof.weekly.securities_external,"Government securities outstanding, external",2026-09-17,1542,MVR million
 mof.weekly.securities_external,"Government securities outstanding, external",2026-09-24,1542,MVR million
+mof.weekly.securities_external,"Government securities outstanding, external",2026-10-01,1542,MVR million
 mof.weekly.securities_total,"Government securities outstanding, total",2018-12-15,35623.5,MVR million
 mof.weekly.securities_total,"Government securities outstanding, total",2018-12-22,29635.7,MVR million
 mof.weekly.securities_total,"Government securities outstanding, total",2019-01-13,29986.6,MVR million
@@ -34952,6 +35002,7 @@ mof.weekly.securities_total,"Government securities outstanding, total",2026-09-0
 mof.weekly.securities_total,"Government securities outstanding, total",2026-09-10,99099.8,MVR million
 mof.weekly.securities_total,"Government securities outstanding, total",2026-09-17,99099.8,MVR million
 mof.weekly.securities_total,"Government securities outstanding, total",2026-09-24,98556.2,MVR million
+mof.weekly.securities_total,"Government securities outstanding, total",2026-10-01,98556.2,MVR million
 mof.weekly.soe_dividends.budget,"Dividends from state companies, full-year approved budget",2018-12-09,1118.2,MVR million
 mof.weekly.soe_dividends.budget,"Dividends from state companies, full-year approved budget",2018-12-15,1118.2,MVR million
 mof.weekly.soe_dividends.budget,"Dividends from state companies, full-year approved budget",2018-12-22,1118.2,MVR million
@@ -35352,6 +35403,7 @@ mof.weekly.soe_dividends.budget,"Dividends from state companies, full-year appro
 mof.weekly.soe_dividends.budget,"Dividends from state companies, full-year approved budget",2026-09-10,552.3,MVR million
 mof.weekly.soe_dividends.budget,"Dividends from state companies, full-year approved budget",2026-09-17,552.3,MVR million
 mof.weekly.soe_dividends.budget,"Dividends from state companies, full-year approved budget",2026-09-24,552.3,MVR million
+mof.weekly.soe_dividends.budget,"Dividends from state companies, full-year approved budget",2026-10-01,552.3,MVR million
 mof.weekly.soe_dividends.same_date_last_year,"Dividends from state companies, same date a year earlier",2020-01-09,0,MVR million
 mof.weekly.soe_dividends.same_date_last_year,"Dividends from state companies, same date a year earlier",2020-01-16,0,MVR million
 mof.weekly.soe_dividends.same_date_last_year,"Dividends from state companies, same date a year earlier",2020-01-23,0,MVR million
@@ -35696,6 +35748,7 @@ mof.weekly.soe_dividends.same_date_last_year,"Dividends from state companies, sa
 mof.weekly.soe_dividends.same_date_last_year,"Dividends from state companies, same date a year earlier",2026-09-10,648.9,MVR million
 mof.weekly.soe_dividends.same_date_last_year,"Dividends from state companies, same date a year earlier",2026-09-17,648.9,MVR million
 mof.weekly.soe_dividends.same_date_last_year,"Dividends from state companies, same date a year earlier",2026-09-24,648.9,MVR million
+mof.weekly.soe_dividends.same_date_last_year,"Dividends from state companies, same date a year earlier",2026-10-01,649.2,MVR million
 mof.weekly.soe_dividends.ytd,"Dividends from state companies, year to date",2018-12-09,1146.1,MVR million
 mof.weekly.soe_dividends.ytd,"Dividends from state companies, year to date",2018-12-15,1146.1,MVR million
 mof.weekly.soe_dividends.ytd,"Dividends from state companies, year to date",2018-12-22,1146.8,MVR million
@@ -36096,6 +36149,7 @@ mof.weekly.soe_dividends.ytd,"Dividends from state companies, year to date",2026
 mof.weekly.soe_dividends.ytd,"Dividends from state companies, year to date",2026-09-10,483.2,MVR million
 mof.weekly.soe_dividends.ytd,"Dividends from state companies, year to date",2026-09-17,483.2,MVR million
 mof.weekly.soe_dividends.ytd,"Dividends from state companies, year to date",2026-09-24,483.2,MVR million
+mof.weekly.soe_dividends.ytd,"Dividends from state companies, year to date",2026-10-01,483.2,MVR million
 mof.weekly.subsidies.budget,"Subsidies, full-year approved budget",2018-12-09,594,MVR million
 mof.weekly.subsidies.budget,"Subsidies, full-year approved budget",2018-12-15,594,MVR million
 mof.weekly.subsidies.budget,"Subsidies, full-year approved budget",2018-12-22,594,MVR million
@@ -36497,6 +36551,7 @@ mof.weekly.subsidies.budget,"Subsidies, full-year approved budget",2026-09-03,28
 mof.weekly.subsidies.budget,"Subsidies, full-year approved budget",2026-09-10,2890,MVR million
 mof.weekly.subsidies.budget,"Subsidies, full-year approved budget",2026-09-17,2890,MVR million
 mof.weekly.subsidies.budget,"Subsidies, full-year approved budget",2026-09-24,2890,MVR million
+mof.weekly.subsidies.budget,"Subsidies, full-year approved budget",2026-10-01,2890,MVR million
 mof.weekly.subsidies.same_date_last_year,"Subsidies, same date a year earlier",2020-01-09,0,MVR million
 mof.weekly.subsidies.same_date_last_year,"Subsidies, same date a year earlier",2020-01-16,0,MVR million
 mof.weekly.subsidies.same_date_last_year,"Subsidies, same date a year earlier",2020-01-23,0,MVR million
@@ -36841,6 +36896,7 @@ mof.weekly.subsidies.same_date_last_year,"Subsidies, same date a year earlier",2
 mof.weekly.subsidies.same_date_last_year,"Subsidies, same date a year earlier",2026-09-10,2253,MVR million
 mof.weekly.subsidies.same_date_last_year,"Subsidies, same date a year earlier",2026-09-17,2254.1,MVR million
 mof.weekly.subsidies.same_date_last_year,"Subsidies, same date a year earlier",2026-09-24,2342.3,MVR million
+mof.weekly.subsidies.same_date_last_year,"Subsidies, same date a year earlier",2026-10-01,2400.7,MVR million
 mof.weekly.subsidies.ytd,"Subsidies, year to date",2018-12-09,923.2,MVR million
 mof.weekly.subsidies.ytd,"Subsidies, year to date",2018-12-15,1035.2,MVR million
 mof.weekly.subsidies.ytd,"Subsidies, year to date",2018-12-22,1035.2,MVR million
@@ -37242,6 +37298,7 @@ mof.weekly.subsidies.ytd,"Subsidies, year to date",2026-09-03,3597.9,MVR million
 mof.weekly.subsidies.ytd,"Subsidies, year to date",2026-09-10,3718.5,MVR million
 mof.weekly.subsidies.ytd,"Subsidies, year to date",2026-09-17,4136.3,MVR million
 mof.weekly.subsidies.ytd,"Subsidies, year to date",2026-09-24,4148.3,MVR million
+mof.weekly.subsidies.ytd,"Subsidies, year to date",2026-10-01,4202.7,MVR million
 mof.weekly.tax_revenue.budget,"Tax revenue, full-year approved budget",2018-12-09,16301,MVR million
 mof.weekly.tax_revenue.budget,"Tax revenue, full-year approved budget",2018-12-15,16301,MVR million
 mof.weekly.tax_revenue.budget,"Tax revenue, full-year approved budget",2018-12-22,16301,MVR million
@@ -37643,6 +37700,7 @@ mof.weekly.tax_revenue.budget,"Tax revenue, full-year approved budget",2026-09-0
 mof.weekly.tax_revenue.budget,"Tax revenue, full-year approved budget",2026-09-10,31297.1,MVR million
 mof.weekly.tax_revenue.budget,"Tax revenue, full-year approved budget",2026-09-17,31297.1,MVR million
 mof.weekly.tax_revenue.budget,"Tax revenue, full-year approved budget",2026-09-24,31297.1,MVR million
+mof.weekly.tax_revenue.budget,"Tax revenue, full-year approved budget",2026-10-01,31297.1,MVR million
 mof.weekly.tax_revenue.same_date_last_year,"Tax revenue, same date a year earlier",2020-01-09,152.8,MVR million
 mof.weekly.tax_revenue.same_date_last_year,"Tax revenue, same date a year earlier",2020-01-16,427.1,MVR million
 mof.weekly.tax_revenue.same_date_last_year,"Tax revenue, same date a year earlier",2020-01-23,749.4,MVR million
@@ -37987,6 +38045,7 @@ mof.weekly.tax_revenue.same_date_last_year,"Tax revenue, same date a year earlie
 mof.weekly.tax_revenue.same_date_last_year,"Tax revenue, same date a year earlier",2026-09-10,20766.1,MVR million
 mof.weekly.tax_revenue.same_date_last_year,"Tax revenue, same date a year earlier",2026-09-17,21067,MVR million
 mof.weekly.tax_revenue.same_date_last_year,"Tax revenue, same date a year earlier",2026-09-24,21366.2,MVR million
+mof.weekly.tax_revenue.same_date_last_year,"Tax revenue, same date a year earlier",2026-10-01,22527.5,MVR million
 mof.weekly.tax_revenue.ytd,"Tax revenue, year to date",2018-12-09,14417.4,MVR million
 mof.weekly.tax_revenue.ytd,"Tax revenue, year to date",2018-12-15,14492.6,MVR million
 mof.weekly.tax_revenue.ytd,"Tax revenue, year to date",2018-12-22,14600.9,MVR million
@@ -38388,6 +38447,7 @@ mof.weekly.tax_revenue.ytd,"Tax revenue, year to date",2026-09-03,22354.8,MVR mi
 mof.weekly.tax_revenue.ytd,"Tax revenue, year to date",2026-09-10,22899.1,MVR million
 mof.weekly.tax_revenue.ytd,"Tax revenue, year to date",2026-09-17,23064.9,MVR million
 mof.weekly.tax_revenue.ytd,"Tax revenue, year to date",2026-09-24,23388.3,MVR million
+mof.weekly.tax_revenue.ytd,"Tax revenue, year to date",2026-10-01,23834.7,MVR million
 mof.weekly.total_expenditure.budget,"Spending, recurrent and capital, full-year approved budget",2018-12-09,24894.6,MVR million
 mof.weekly.total_expenditure.budget,"Spending, recurrent and capital, full-year approved budget",2018-12-15,24894.6,MVR million
 mof.weekly.total_expenditure.budget,"Spending, recurrent and capital, full-year approved budget",2018-12-22,24894.6,MVR million
@@ -38789,6 +38849,7 @@ mof.weekly.total_expenditure.budget,"Spending, recurrent and capital, full-year 
 mof.weekly.total_expenditure.budget,"Spending, recurrent and capital, full-year approved budget",2026-09-10,49214.4,MVR million
 mof.weekly.total_expenditure.budget,"Spending, recurrent and capital, full-year approved budget",2026-09-17,49214.4,MVR million
 mof.weekly.total_expenditure.budget,"Spending, recurrent and capital, full-year approved budget",2026-09-24,49214.4,MVR million
+mof.weekly.total_expenditure.budget,"Spending, recurrent and capital, full-year approved budget",2026-10-01,49214.4,MVR million
 mof.weekly.total_expenditure.same_date_last_year,"Spending, recurrent and capital, same date a year earlier",2020-01-09,81.4,MVR million
 mof.weekly.total_expenditure.same_date_last_year,"Spending, recurrent and capital, same date a year earlier",2020-01-16,188.1,MVR million
 mof.weekly.total_expenditure.same_date_last_year,"Spending, recurrent and capital, same date a year earlier",2020-01-23,494.8,MVR million
@@ -39133,6 +39194,7 @@ mof.weekly.total_expenditure.same_date_last_year,"Spending, recurrent and capita
 mof.weekly.total_expenditure.same_date_last_year,"Spending, recurrent and capital, same date a year earlier",2026-09-10,26870.7,MVR million
 mof.weekly.total_expenditure.same_date_last_year,"Spending, recurrent and capital, same date a year earlier",2026-09-17,27461.9,MVR million
 mof.weekly.total_expenditure.same_date_last_year,"Spending, recurrent and capital, same date a year earlier",2026-09-24,28250.9,MVR million
+mof.weekly.total_expenditure.same_date_last_year,"Spending, recurrent and capital, same date a year earlier",2026-10-01,30008,MVR million
 mof.weekly.total_expenditure.ytd,"Spending, recurrent and capital, year to date",2018-12-09,23162.1,MVR million
 mof.weekly.total_expenditure.ytd,"Spending, recurrent and capital, year to date",2018-12-15,23480.2,MVR million
 mof.weekly.total_expenditure.ytd,"Spending, recurrent and capital, year to date",2018-12-22,23735.7,MVR million
@@ -39534,6 +39596,7 @@ mof.weekly.total_expenditure.ytd,"Spending, recurrent and capital, year to date"
 mof.weekly.total_expenditure.ytd,"Spending, recurrent and capital, year to date",2026-09-10,32131,MVR million
 mof.weekly.total_expenditure.ytd,"Spending, recurrent and capital, year to date",2026-09-17,32833.4,MVR million
 mof.weekly.total_expenditure.ytd,"Spending, recurrent and capital, year to date",2026-09-24,33562.3,MVR million
+mof.weekly.total_expenditure.ytd,"Spending, recurrent and capital, year to date",2026-10-01,35456.1,MVR million
 mof.weekly.tourism_gst.budget,"Tourism GST, full-year approved budget",2018-12-09,4311.3,MVR million
 mof.weekly.tourism_gst.budget,"Tourism GST, full-year approved budget",2018-12-15,4311.3,MVR million
 mof.weekly.tourism_gst.budget,"Tourism GST, full-year approved budget",2018-12-22,4311.3,MVR million
@@ -39935,6 +39998,7 @@ mof.weekly.tourism_gst.budget,"Tourism GST, full-year approved budget",2026-09-0
 mof.weekly.tourism_gst.budget,"Tourism GST, full-year approved budget",2026-09-10,11473.2,MVR million
 mof.weekly.tourism_gst.budget,"Tourism GST, full-year approved budget",2026-09-17,11473.2,MVR million
 mof.weekly.tourism_gst.budget,"Tourism GST, full-year approved budget",2026-09-24,11473.2,MVR million
+mof.weekly.tourism_gst.budget,"Tourism GST, full-year approved budget",2026-10-01,11473.2,MVR million
 mof.weekly.tourism_gst.same_date_last_year,"Tourism GST, same date a year earlier",2020-01-09,20.2,MVR million
 mof.weekly.tourism_gst.same_date_last_year,"Tourism GST, same date a year earlier",2020-01-16,72.7,MVR million
 mof.weekly.tourism_gst.same_date_last_year,"Tourism GST, same date a year earlier",2020-01-23,162.6,MVR million
@@ -40279,6 +40343,7 @@ mof.weekly.tourism_gst.same_date_last_year,"Tourism GST, same date a year earlie
 mof.weekly.tourism_gst.same_date_last_year,"Tourism GST, same date a year earlier",2026-09-10,7496.5,MVR million
 mof.weekly.tourism_gst.same_date_last_year,"Tourism GST, same date a year earlier",2026-09-17,7555.6,MVR million
 mof.weekly.tourism_gst.same_date_last_year,"Tourism GST, same date a year earlier",2026-09-24,7668.9,MVR million
+mof.weekly.tourism_gst.same_date_last_year,"Tourism GST, same date a year earlier",2026-10-01,8172.4,MVR million
 mof.weekly.tourism_gst.ytd,"Tourism GST, year to date",2018-12-09,2665.9,MVR million
 mof.weekly.tourism_gst.ytd,"Tourism GST, year to date",2018-12-15,2684.4,MVR million
 mof.weekly.tourism_gst.ytd,"Tourism GST, year to date",2018-12-22,2694.9,MVR million
@@ -40680,6 +40745,7 @@ mof.weekly.tourism_gst.ytd,"Tourism GST, year to date",2026-09-03,7710.7,MVR mil
 mof.weekly.tourism_gst.ytd,"Tourism GST, year to date",2026-09-10,7763.1,MVR million
 mof.weekly.tourism_gst.ytd,"Tourism GST, year to date",2026-09-17,7775.7,MVR million
 mof.weekly.tourism_gst.ytd,"Tourism GST, year to date",2026-09-24,7879.7,MVR million
+mof.weekly.tourism_gst.ytd,"Tourism GST, year to date",2026-10-01,8061.9,MVR million
 mof.weekly.transfers_to_sdf.budget,"Transfers to the Sovereign Development Fund, full-year approved budget",2018-12-09,855.1,MVR million
 mof.weekly.transfers_to_sdf.budget,"Transfers to the Sovereign Development Fund, full-year approved budget",2018-12-15,855.1,MVR million
 mof.weekly.transfers_to_sdf.budget,"Transfers to the Sovereign Development Fund, full-year approved budget",2018-12-22,855.1,MVR million
@@ -41076,6 +41142,7 @@ mof.weekly.transfers_to_sdf.budget,"Transfers to the Sovereign Development Fund,
 mof.weekly.transfers_to_sdf.budget,"Transfers to the Sovereign Development Fund, full-year approved budget",2026-09-10,2429.4,MVR million
 mof.weekly.transfers_to_sdf.budget,"Transfers to the Sovereign Development Fund, full-year approved budget",2026-09-17,2429.4,MVR million
 mof.weekly.transfers_to_sdf.budget,"Transfers to the Sovereign Development Fund, full-year approved budget",2026-09-24,2429.4,MVR million
+mof.weekly.transfers_to_sdf.budget,"Transfers to the Sovereign Development Fund, full-year approved budget",2026-10-01,2429.4,MVR million
 mof.weekly.transfers_to_sdf.same_date_last_year,"Transfers to the Sovereign Development Fund, same date a year earlier",2020-02-13,120.9,MVR million
 mof.weekly.transfers_to_sdf.same_date_last_year,"Transfers to the Sovereign Development Fund, same date a year earlier",2020-02-20,120.9,MVR million
 mof.weekly.transfers_to_sdf.same_date_last_year,"Transfers to the Sovereign Development Fund, same date a year earlier",2020-02-27,123.8,MVR million
@@ -41415,6 +41482,7 @@ mof.weekly.transfers_to_sdf.same_date_last_year,"Transfers to the Sovereign Deve
 mof.weekly.transfers_to_sdf.same_date_last_year,"Transfers to the Sovereign Development Fund, same date a year earlier",2026-09-10,1503.8,MVR million
 mof.weekly.transfers_to_sdf.same_date_last_year,"Transfers to the Sovereign Development Fund, same date a year earlier",2026-09-17,1555.4,MVR million
 mof.weekly.transfers_to_sdf.same_date_last_year,"Transfers to the Sovereign Development Fund, same date a year earlier",2026-09-24,1616.9,MVR million
+mof.weekly.transfers_to_sdf.same_date_last_year,"Transfers to the Sovereign Development Fund, same date a year earlier",2026-10-01,2085.1,MVR million
 mof.weekly.transfers_to_sdf.ytd,"Transfers to the Sovereign Development Fund, year to date",2018-12-09,1203.8,MVR million
 mof.weekly.transfers_to_sdf.ytd,"Transfers to the Sovereign Development Fund, year to date",2018-12-15,1203.8,MVR million
 mof.weekly.transfers_to_sdf.ytd,"Transfers to the Sovereign Development Fund, year to date",2018-12-22,1203.8,MVR million
@@ -41811,6 +41879,7 @@ mof.weekly.transfers_to_sdf.ytd,"Transfers to the Sovereign Development Fund, ye
 mof.weekly.transfers_to_sdf.ytd,"Transfers to the Sovereign Development Fund, year to date",2026-09-10,1524.9,MVR million
 mof.weekly.transfers_to_sdf.ytd,"Transfers to the Sovereign Development Fund, year to date",2026-09-17,1583.3,MVR million
 mof.weekly.transfers_to_sdf.ytd,"Transfers to the Sovereign Development Fund, year to date",2026-09-24,1655.9,MVR million
+mof.weekly.transfers_to_sdf.ytd,"Transfers to the Sovereign Development Fund, year to date",2026-10-01,1695.3,MVR million
 mps.cases.assault,"Cases reported to the police, assault",2020-09-30,67,cases
 mps.cases.assault,"Cases reported to the police, assault",2021-03-31,57,cases
 mps.cases.cheque_bounce,"Cases reported to the police, cheque bounce",2020-09-30,5,cases
