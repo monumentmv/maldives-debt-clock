@@ -174,7 +174,7 @@ async def run(years_wanted, show):
             before = {(int(r["year"]), int(r["month"]), r["category"]): r for r in existing}
             for r in found:
                 old = before.get((int(r["year"]), int(r["month"]), r["category"]))
-                if old and int(old["cases"]) == int(r["cases"]):
+                if old and int(old["cases"]) == int(r["cases"]) and "T" in old["retrieved"]:   # older files only have the day
                     r["retrieved"] = old["retrieved"]
             done = {(int(r["year"]), int(r["month"])) for r in found}
             keep = [r for r in existing if (int(r["year"]), int(r["month"])) not in done]
