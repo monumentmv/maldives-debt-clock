@@ -47,7 +47,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .site-nav { order: 3; flex-basis: 100%; overflow-x: auto; scrollbar-width: none; margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter); }
   .site-nav::-webkit-scrollbar { display: none; }
   .site-nav a { font-size: .875rem; padding: .35rem .6rem; }
+  /* every tab in view, no sideways scrolling: they wrap onto a second line where needed */
+  .site-nav { flex-wrap: wrap; overflow: visible; }
   .toggle button { padding: .35rem .6rem; font-size: .8rem; min-height: 2rem; }
+}
+@media (max-width: 600px) {
+  .site-nav { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0 .15rem; margin: 0 calc(-.5 * var(--gutter)); padding: 0; }
+  .site-nav a { font-size: .8rem; padding: .4rem .15rem; text-align: center; }
 }
 @media (max-width: 520px) {
   .brand { font-size: .98rem; }
