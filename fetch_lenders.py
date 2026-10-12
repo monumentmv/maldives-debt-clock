@@ -184,6 +184,27 @@ def fx_on(d, currencies, usd_mvr, before=None):
             "source": f"International Monetary Fund (IMF) exchange rates, end of month ({when})" if from_imf else None}
 
 
+LIST_PAGE = "https://www.finance.gov.mv/public-finance/debt-management/active-loansbonds-and-sovereign-guarantees"
+
+
+def find_files():
+    """The files' current addresses, read from the Ministry's page (the addresses above if it can't be read)."""
+    found = dict(FILES)
+    try:
+        r = requests.get(LIST_PAGE, headers=H, timeout=60)
+        r.raise_for_status()
+        for href, text in re.findall(r'<a[^>]+href="([^"]+?\.xlsx)"[^>]*>(.*?)</a>', r.text, flags=re.S | re.I):
+            t = re.sub(r"<[^>]+>", " ", text).lower()
+            url = href if href.startswith("http") else "https://www.finance.gov.mv" + href
+            if "guarantee" in t:
+                found["guarantees"] = url
+            elif "borrow" in t or "loan" in t:
+                found["loans"] = url
+    except Exception as e:
+        print(f"  couldn't read the Ministry's page of lists ({e}); using the saved addresses")
+    return found
+
+
 def mma_rate(d):
     try:
         pts = json.load(open(HERE / "data.json"))["series"]["usd_rate"]["points"]
@@ -196,7 +217,7 @@ def mma_rate(d):
 def main():
     INPUTS.mkdir(parents=True, exist_ok=True)
     OUT.mkdir(parents=True, exist_ok=True)
-    for kind, url in FILES.items():
+    for kind, url in find_files().items():
         try:
             r = requests.get(url, headers=H, timeout=90)
             r.raise_for_status()

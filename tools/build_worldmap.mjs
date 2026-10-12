@@ -12,7 +12,7 @@ const round = d => d.replace(/\d+\.\d+/g, m => (+m).toFixed(1));
 const countries = feature(JSON.parse(fs.readFileSync("node_modules/world-atlas/countries-110m.json")), "countries");
 const land = feature(JSON.parse(fs.readFileSync("node_modules/world-atlas/land-110m.json")), "land");
 const WANT = ["China", "India", "Saudi Arabia", "United Arab Emirates", "Kuwait", "Japan", "France", "Belgium", "United States of America",
-  "Germany", "Netherlands", "Oman", "Pakistan", "Maldives", "Italy", "Luxembourg", "Finland", "Austria", "Philippines"];
+  "Germany", "Netherlands", "Oman", "Pakistan", "Maldives", "Italy", "Luxembourg", "Finland", "Austria", "Philippines", "Hungary", "Sri Lanka", "Denmark", "Switzerland"];
 const out = { w: W, h: H, s, tx, ty, lon0, land: round(path(land)), countries: {} };
 for (const f of countries.features) if (WANT.includes(f.properties.name)) { const d = path(f); if (d) out.countries[f.properties.name] = round(d); }
 fs.writeFileSync(process.argv[2], JSON.stringify(out));

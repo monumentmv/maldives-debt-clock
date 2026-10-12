@@ -18,7 +18,7 @@ window.MVUpdates = (() => {
     police: { label: "Police cases", icon: "police", color: "#a9cdd6" },
   };
 
-  function build({ data, budget, revenue, priorities }) {
+  function build({ data, budget, revenue, priorities, lenders }) {
     const out = [];
     const S = data?.series || {};
 
@@ -77,12 +77,26 @@ window.MVUpdates = (() => {
 
     // official debt, quarterly
     const T = (S.total?.points || []).filter(x => x.value > 0), G = Object.fromEntries((S.debt_to_gdp?.points || []).map(x => [x.date, pct(x.value)]));
+    const at = k => Object.fromEntries((S[k]?.points || []).map(x => [x.date, x.value])), EX = at("external"), DO = at("domestic"), OW = lenders?.owed;
     T.forEach((x, i) => {
       const p = T[i - 1], dlt = p ? x.value - p.value : null;
+      // where the change came from: abroad or at home, and (from the Debt Bulletin) the biggest repayments
+      const why = [];
+      if (p && EX[x.date] != null && EX[p.date] != null && DO[x.date] != null && DO[p.date] != null) {
+        const de = EX[x.date] - EX[p.date], dd = DO[x.date] - DO[p.date], mv = v => m(Math.abs(v), x.date);
+        why.push(`Debt owed abroad ${de >= 0 ? "rose" : "fell"} by ${mv(de)}, and debt owed at home ${dd >= 0 ? "rose" : "fell"} by ${mv(dd)}.`
+          + (de < -2e9 && dd > -de / 3 ? " Large repayments abroad were made while borrowing at home rose." : ""));
+      }
+      if (p && OW?.quarters?.includes(x.date) && OW.quarters.includes(p.date)) {
+        const drops = [];
+        ["loans", "guarantees"].forEach(k => Object.entries(OW[k] || {}).forEach(([l, v]) => { const dl = (v[p.date] || 0) - (v[x.date] || 0); if (dl > 500) drops.push([l, dl]); }));
+        drops.sort((a, b) => b[1] - a[1]);
+        if (drops.length) why.push(`Abroad, what was owed fell most for ${drops.slice(0, 2).map(([l, v]) => `${l} (down ${m(v * 1e6, x.date)})`).join(" and ")}, according to the Ministry of Finance's Debt Bulletin.`);
+      }
       out.push({ type: "debt", d: x.date, big: m(x.value, x.date), bigLabel: `owed at the end of ${mLabel(x.date)}`, spark: T.slice(Math.max(0, i - 11), i + 1).map(y => y.value), sparkCap: "last 3 years",
         title: dlt != null ? `Official debt ${dlt >= 0 ? "rose" : "fell"} by ${m(Math.abs(dlt), x.date)} in three months` : `The official debt figure for ${mLabel(x.date)}`,
         lead: `The latest official total, published every three months.`,
-        lines: G[x.date] ? [`That is ${fmt(G[x.date], 1)}% of GDP, the value of everything the country produces in a year.`] : [],
+        lines: (G[x.date] ? [`That is ${fmt(G[x.date], 1)}% of GDP, the value of everything the country produces in a year.`] : []).concat(why),
         link: "./", linkText: "See the debt clock", period: `End of ${mLabel(x.date)}` });
     });
 

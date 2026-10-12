@@ -3,18 +3,21 @@ Builds lenders.json for the home page from the Ministry of Finance lists saved b
 every active external loan and sovereign guarantee, with the lender's country or type and the amount in
 US dollars at the exchange rates on the list's "as of" date.
 
-The amounts are what was originally borrowed or guaranteed, as the Ministry lists them, not what is
-still owed: many have been partly repaid.
+The amounts in those lists are what was originally borrowed or guaranteed, not what is still owed: many
+have been partly repaid. What is still owed to each lender, quarter by quarter, comes from the Ministry's
+Quarterly Debt Bulletins, read by fetch_bulletin.py into data/bulletin/.
 
 To run it yourself:
     python build_lenders.py
 """
 import json
+import re
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 RAW = HERE / "data" / "lenders" / "raw.json"
 FX = HERE / "data" / "lenders" / "fx.json"
+BULLETINS = HERE / "data" / "bulletin"
 OUT = HERE / "lenders.json"
 
 # lender name as the Ministry writes it -> (short name, country or group, type)
@@ -72,12 +75,17 @@ PLACES = {
     "France": {"lon": 2.35, "lat": 48.9, "label": "France", "kind": "country", "map": ["France"]},
     "Belgium": {"lon": 4.35, "lat": 50.85, "label": "Belgium", "kind": "country", "map": ["Belgium"]},
     "Germany and the Netherlands": {"lon": 8.7, "lat": 51.5, "label": "Germany, Netherlands", "kind": "country", "map": ["Germany", "Netherlands"]},
+    "Hungary": {"lon": 19.04, "lat": 47.5, "label": "Hungary", "kind": "country", "map": ["Hungary"]},
+    "Denmark": {"lon": 12.57, "lat": 55.68, "label": "Denmark", "kind": "country", "map": ["Denmark"]},
+    "Switzerland": {"lon": 8.54, "lat": 47.37, "label": "Switzerland", "kind": "country", "map": ["Switzerland"]},
+    "Sri Lanka": {"lon": 79.86, "lat": 6.93, "label": "Sri Lanka", "kind": "country", "map": ["Sri Lanka"]},
     "United States": {"lon": -77.0, "lat": 38.9, "label": "United States", "kind": "country", "map": ["United States of America"]},
     "World Bank (IDA)": {"lon": -77.04, "lat": 38.9, "label": "World Bank", "kind": "institution", "city": "Washington DC"},
     "Asian Development Bank": {"lon": 121.0, "lat": 14.6, "label": "ADB", "kind": "institution", "city": "Manila"},
     "Asian Infrastructure Investment Bank": {"lon": 116.4, "lat": 39.9, "label": "AIIB", "kind": "institution", "city": "Beijing"},
     "Islamic Development Bank": {"lon": 39.2, "lat": 21.5, "label": "IsDB", "kind": "institution", "city": "Jeddah"},
     "International Islamic Trade Finance Corporation": {"lon": 39.2, "lat": 21.5, "label": "ITFC", "kind": "institution", "city": "Jeddah"},
+    "Islamic Corporation for the Development of the Private Sector": {"lon": 39.2, "lat": 21.5, "label": "ICD", "kind": "institution", "city": "Jeddah"},
     "International Fund for Agricultural Development": {"lon": 12.5, "lat": 41.9, "label": "IFAD", "kind": "institution", "city": "Rome"},
     "European Investment Bank": {"lon": 6.1, "lat": 49.6, "label": "EIB", "kind": "institution", "city": "Luxembourg"},
     "Nordic Development Fund": {"lon": 24.9, "lat": 60.2, "label": "Nordic Fund", "kind": "institution", "city": "Helsinki"},
@@ -91,7 +99,183 @@ INSTITUTION = {  # lender short name -> its place, for the development banks and
     "International Fund for Agricultural Development": "International Fund for Agricultural Development",
     "European Investment Bank": "European Investment Bank", "Nordic Development Fund": "Nordic Development Fund",
     "OPEC Fund for International Development": "OPEC Fund for International Development",
+    "Islamic Corporation for the Development of the Private Sector": "Islamic Corporation for the Development of the Private Sector",
 }
+
+# lender names in the Debt Bulletins (written a little differently from bulletin to bulletin) -> (short name, country or group, type).
+# Matched on the start of the name, lower case, letters only.
+BULLETIN_LENDERS = [
+    ("abnamro", "AKA, ABN AMRO and ING (bank group)", "Germany and the Netherlands", C),
+    ("ingbank", "AKA, ABN AMRO and ING (bank group)", "Germany and the Netherlands", C),
+    ("rabobank", "Rabobank", "Germany and the Netherlands", C),
+    ("abudhabifund", "Abu Dhabi Fund for Development", "United Arab Emirates", B),
+    ("agencefrancaise", "French Development Agency (AFD)", "France", B),
+    ("asiandevelopmentbank", "Asian Development Bank", "Multilateral institutions", M),
+    ("asianinfrastructure", "Asian Infrastructure Investment Bank", "Multilateral institutions", M),
+    ("bondholders", "International bond holders", "Bond holders", X),
+    ("cfsit", "CFSIT Inc.", "Not published", C),
+    ("europeaninvestmentbank", "European Investment Bank", "Multilateral institutions", M),
+    ("exportimportbankofindia", "Export-Import Bank of India", "India", B),
+    ("exportimportbankofchina", "Export-Import Bank of China", "China", B),
+    ("governmentofbelgium", "Government of Belgium", "Belgium", B),
+    ("governmentofindia", "Government of India", "India", B),
+    ("hungarianexportimport", "Hungarian Export-Import Bank", "Hungary", B),
+    ("internationaldevelopmentassociation", "World Bank (IDA)", "Multilateral institutions", M),
+    ("intrfundforagricultural", "International Fund for Agricultural Development", "Multilateral institutions", M),
+    ("internationalfundforagricultural", "International Fund for Agricultural Development", "Multilateral institutions", M),
+    ("islamicdevelopmentbank", "Islamic Development Bank", "Multilateral institutions", M),
+    ("internationalislamictrade", "International Islamic Trade Finance Corporation", "Multilateral institutions", M),
+    ("islamiccorp", "Islamic Corporation for the Development of the Private Sector", "Multilateral institutions", M),
+    ("japaninternational", "Japan International Cooperation Agency", "Japan", B),
+    ("kuwaitfund", "Kuwait Fund for Arab Economic Development", "Kuwait", B),
+    ("nordeabank", "Nordea Bank", "Denmark", C),
+    ("nordicdevelopmentfund", "Nordic Development Fund", "Multilateral institutions", M),
+    ("saudifund", "Saudi Fund for Development", "Saudi Arabia", B),
+    ("opecfund", "OPEC Fund for International Development", "Multilateral institutions", M),
+    ("usagency", "US Agency for International Development", "United States", B),
+    ("bankofceylon", "Bank of Ceylon", "Sri Lanka", C),
+    ("seylanbank", "Seylan Bank", "Sri Lanka", C),
+    ("bankofchina", "Bank of China (London branch)", "China", C),
+    ("browns", "Browns and China Machinery Engineering Corporation", "China", C),
+    ("chinadevelopmentbank", "China Development Bank", "China", B),
+    ("creditsuisse", "Credit Suisse (Singapore branch)", "Switzerland", C),
+    ("dongfang", "Dongfang Electric Corporation", "China", C),
+    ("industrialandcommercialbank", "Industrial and Commercial Bank of China", "China", C),
+    ("reservebankofindia", "Reserve Bank of India", "India", B),
+    ("others", "Others, not named in the bulletin", "Not published", X),
+    # banks in the Maldives (guaranteed debt owed at home)
+    ("bankofmaldives", "Bank of Maldives", "Maldives", C),
+    ("maldivesislamicbank", "Maldives Islamic Bank", "Maldives", C),
+    ("habibbank", "Habib Bank (Malé branch)", "Pakistan", C),
+    ("statebankofindia", "State Bank of India (Malé branch)", "India", C),
+    ("hongkongandshanghai", "HSBC (Malé branch)", "United Kingdom", C),
+]
+
+
+def bulletin_name(n):
+    """(short name, country or group, type) for a lender as a Debt Bulletin writes it."""
+    key = re.sub(r"[^a-z]", "", re.sub(r"(?<=[A-Za-z.])\d+$", "", n).lower())
+    key = key[3:] if key.startswith("the") else key
+    for start, short, country, typ in BULLETIN_LENDERS:
+        if key.startswith(start):
+            return short, country, typ
+    return None
+
+
+def tidy(n):
+    """A beneficiary's name, without footnote numbers and with spelling slips fixed."""
+    n = re.sub(r"(?<=[A-Za-z.])\d+$", "", n).strip()
+    return {"Fenaka Corperation Limited": "Fenaka Corporation Limited", "Bank of Maldive PLC": "Bank of Maldives PLC"}.get(n, n)
+
+
+def merged(bulletins, table, name=lambda n: n):
+    """{row: {quarter: value}} and {quarter: total} for one table across every bulletin. For each quarter the
+    newest bulletin whose rows add up to its total is used (bulletins revise earlier quarters); if none adds up,
+    the newest is used, with rows it leaves out taken from older bulletins, and anything still missing shown
+    as not itemised."""
+    rows, totals, unknown = {}, {}, set()
+    quarters = sorted({q for b in bulletins for r in b["tables"].get(table, {}).values() for q in r})
+    for q in quarters:
+        cands = []
+        for b in sorted(bulletins, key=lambda b: b["quarter"], reverse=True):
+            t = b["tables"].get(table, {})
+            if not any(q in r for r in t.values()):
+                continue
+            tot = next((r.get(q) for n, r in t.items() if n.upper() == "TOTAL"), None)
+            vals = {}
+            for n, r in t.items():
+                if n.upper() == "TOTAL" or q not in r:
+                    continue
+                k = name(n)
+                if k is None:
+                    unknown.add(n)
+                    k = n
+                vals[k] = vals.get(k, 0) + r[q]
+            cands.append((tot, vals))
+        if not cands:
+            continue
+        ok = [c for c in cands if c[0] is None or abs(sum(c[1].values()) - c[0]) <= max(1.0, abs(c[0]) * .002)]
+        tot, vals = ok[0] if ok else cands[0]
+        if not ok:
+            vals = dict(vals)
+            for _, other in cands[1:]:
+                for k, v in other.items():
+                    if k not in vals and abs(sum(vals.values()) + v - tot) < abs(sum(vals.values()) - tot):
+                        vals[k] = v
+            gap = tot - sum(vals.values())
+            if gap > 1:
+                vals["Not itemised in the bulletin"] = gap
+        totals[q] = tot if tot is not None else sum(vals.values())
+        for k, v in vals.items():
+            rows.setdefault(k, {})[q] = round(v, 1)
+    return rows, totals, unknown
+
+
+def bulletin_data():
+    files = sorted(BULLETINS.glob("*.json")) if BULLETINS.exists() else []
+    bulletins = [json.load(open(f)) for f in files]
+    if not bulletins:
+        return None
+    unknown = set()
+    who = {}
+    def lender(n):
+        hit = bulletin_name(n)
+        if not hit:
+            return None
+        short, country, typ = hit
+        who[short] = {"c": country, "t": typ, "pl": INSTITUTION.get(short) or (country if country in PLACES else None)}
+        return short
+    loans, lt, u1 = merged(bulletins, "gov_ext", lender)
+    guar, gt, u2 = merged(bulletins, "sg_ext", lender)
+    def home_lender(n):   # bonds in this table were bought by banks in the Maldives
+        if n.lower().startswith("bondholder"):
+            who["Bondholders (banks in the Maldives)"] = {"c": "Maldives", "t": C, "pl": None}
+            return "Bondholders (banks in the Maldives)"
+        return lender(n)
+    home, ht, u3 = merged(bulletins, "sg_dom", home_lender)   # guaranteed debt owed to banks in the Maldives
+    unknown |= u1 | u2 | u3
+    for k in list(loans) + list(guar) + list(home):
+        who.setdefault(k, {"c": "Not published", "t": X, "pl": None})
+    # exchange rate the bulletin applied each quarter (MVR per US dollar)
+    rate = {}
+    for b in sorted(bulletins, key=lambda b: b["quarter"]):
+        for n, r in b["tables"].get("ppg", {}).items():
+            if n.lower().endswith("applied exchange rate"):
+                rate.update({q: v for q, v in r.items() if v})
+    # repayments and interest each quarter, government and guaranteed debt
+    svc = {}
+    for b in sorted(bulletins, key=lambda b: b["quarter"]):
+        for n, r in b["tables"].get("service", {}).items():
+            n = n.upper().replace("SG DEBT", "GUARANTEED DEBT")
+            part = "p" if "PRINCIPAL" in n else "i" if "INTEREST" in n else None
+            who_ = "g" if n.startswith("TOTAL DEBT SERVICE COST OF BCG DEBT") else "s" if n.startswith("TOTAL DEBT SERVICE COST OF GUARANTEED DEBT") else None
+            if part and who_:
+                for q, v in r.items():
+                    svc.setdefault(q, {})[who_ + part] = v
+    latest = max(bulletins, key=lambda b: b["quarter"])
+    lq = latest["quarter"]
+    def latest_table(t, fix=tidy):
+        rows = latest["tables"].get(t, {})
+        out = {}
+        for n, r in rows.items():
+            if n.upper() != "TOTAL" and r.get(lq):
+                out[fix(n)] = out.get(fix(n), 0) + r[lq]
+        return out
+    cub = {}
+    for n, v in latest_table("cub", lambda n: (bulletin_name(n) or (n,))[0]).items():
+        cub[n] = v
+    ben = {}
+    for t, part in (("sg_ext_ben", "ext"), ("sg_dom_ben", "dom")):
+        for n, v in latest_table(t).items():
+            ben.setdefault(n, {})[part] = v
+    if unknown:
+        print("Lenders in the Debt Bulletins not yet given a country:\n  " + "\n  ".join(sorted(unknown)))
+    return {
+        "latest": lq, "quarters": sorted(set(lt) | set(gt)), "rate": rate,
+        "loans": loans, "guarantees": guar, "guarantees_home": home, "total": {"loans": lt, "guarantees": gt, "guarantees_home": ht}, "who": who,
+        "service": dict(sorted(svc.items())), "cub": cub, "subsidiary": latest_table("subsidiary"), "guaranteed_for": ben,
+        "sources": [{"q": b["quarter"], "url": b.get("url"), "title": b.get("title")} for b in sorted(bulletins, key=lambda b: b["quarter"])],
+    }
 
 
 def main():
@@ -113,6 +297,12 @@ def main():
                 rows.append({"g": i["group"], "d": i["date"], "l": name, "c": country, "t": typ, "pl": place, "p": i["purpose"], "b": i["beneficiary"],
                              "cur": i["currency"], "a": i["amount"], "usd": round(i["amount"] / r) if r and i["amount"] is not None else None, "s": i["status"]})
             out["lists"][kind][asof] = rows
+    owed = bulletin_data()
+    if owed:
+        out["owed"] = owed
+        q = owed["latest"]
+        print(f"Debt Bulletins: {len(owed['sources'])}, {owed['quarters'][0]} to {q}. Still owed at {q}: "
+              f"loans MVR {owed['total']['loans'][q]:,.1f} m, guarantees MVR {owed['total']['guarantees'][q]:,.1f} m")
     json.dump(out, open(OUT, "w"), ensure_ascii=False, separators=(",", ":"))
     for kind, v in out["lists"].items():
         a = versions[-1] if versions[-1] in v else max(v)

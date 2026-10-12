@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: [fetch_data.py, fetch_mira.py, build_revenue.py, fetch_wfd.py, wfd_extract.py, fetch_police.py, fetch_lenders.py, build_lenders.py, build_priorities.py, build_protection.py, build_master.py, build_share.py, tools/share-card.html, "inputs/**", .github/workflows/update-data.yml]
+    paths: [fetch_data.py, fetch_mira.py, build_revenue.py, fetch_wfd.py, wfd_extract.py, fetch_police.py, fetch_lenders.py, fetch_bulletin.py, build_lenders.py, build_priorities.py, build_protection.py, build_master.py, build_share.py, tools/share-card.html, "inputs/**", .github/workflows/update-data.yml]
 
 permissions:
   contents: write
@@ -38,10 +38,11 @@ jobs:
       - name: Weekly budget figures from the Ministry of Finance
         if: always()
         run: python fetch_wfd.py
-      - name: Ministry of Finance lists of external loans and sovereign guarantees (IMF exchange rates)
+      - name: Ministry of Finance loans and guarantees, and Quarterly Debt Bulletins
         if: always()
         run: |
           python fetch_lenders.py
+          python fetch_bulletin.py
           python build_lenders.py
       - name: Crime statistics from the Maldives Police Service
         if: always()
@@ -63,7 +64,7 @@ jobs:
         run: |
           git config user.name "debt-clock-bot"
           git config user.email "actions@users.noreply.github.com"
-          for p in data.json revenue.json budget.json budget-detail assets/share.png priorities.json protection.json data/police data/wfd data/master inputs/mira lenders.json data/lenders inputs/mof inputs/imf; do if [ -e "$p" ]; then git add -A "$p"; fi; done
+          for p in data.json revenue.json budget.json budget-detail assets/share.png priorities.json protection.json data/police data/wfd data/master inputs/mira lenders.json data/lenders data/bulletin inputs/mof inputs/imf; do if [ -e "$p" ]; then git add -A "$p"; fi; done
           git diff --cached --quiet || (git commit -m "Update data $(date -u +%F)" && git pull --rebase --autostash -X theirs && git push)
       - name: Publish the downloads
         if: always()

@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261013e">
+<link rel="stylesheet" href="assets/site.css?v=20261013g">
 <title>Maldives National Debt Clock</title>
 <meta property="og:url" content="https://mvdebtclock.org/">
 <meta property="og:type" content="website">
@@ -212,6 +212,19 @@
   .what-in .wi td:first-child { white-space: normal; }
   .lend-hist { margin: -.25rem 0 1rem; font-size: .88rem; color: var(--mist); border-left: 3px solid rgba(244,201,93,.6); padding: .35rem .7rem; }
   .lend-hist a { color: var(--foam); }
+  .map-time { display: flex; align-items: center; gap: .7rem; margin-top: .8rem; }
+  .map-time input { flex: 1; accent-color: #f4c95d; }
+  .map-time span { font-weight: 700; color: var(--foam); min-width: 9.5rem; font-size: .92rem; }
+  .map-play { border: 1px solid rgba(169,205,214,.4); background: transparent; color: var(--foam); width: 2.2rem; height: 2.2rem; border-radius: 50%; cursor: pointer; font-size: .85rem; flex: none; }
+  .map-tot { margin: .5rem 0 0; font-size: .92rem; color: var(--mist); } .map-tot b { color: var(--foam); }
+  .svc-key { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; margin: .4rem 0 .2rem; font-size: .8rem; color: var(--mist); }
+  .svc-key i { display: inline-block; width: .8rem; height: .8rem; border-radius: 2px; margin-right: .35rem; vertical-align: -1px; }
+  .lend-cards small { display: block; margin-top: .3rem; font-size: .8rem; color: var(--mist); line-height: 1.4; }
+  .mc-spark { margin-top: .4rem; } .mc-spark svg { width: 100%; height: 46px; display: block; }
+  .mc-row { display: flex; justify-content: space-between; gap: .6rem; font-size: .85rem; color: var(--mist); } .mc-row b { font: 700 .85rem var(--body); color: var(--foam); }
+  .lb .t i.f { opacity: .3; }
+  .lb .v small { display: block; font-size: .72rem; color: var(--mist); font-weight: 400; }
+  .lend-flag { display: inline-block; margin-left: .35rem; padding: .05rem .45rem; border-radius: 999px; font-size: .72rem; font-weight: 700; background: rgba(255,95,86,.18); color: #ffb3ad; vertical-align: 1px; }
   .lend-fx { margin-top: 1.5rem; color: var(--mist); font-size: .9rem; }
   .lend-fx summary { cursor: pointer; font-weight: 700; color: var(--foam); }
   .lend-fx ul { margin: .5rem 0; padding-left: 1.1rem; }
@@ -333,14 +346,28 @@
       <div id="lendPanel" hidden>
         <h4 style="margin-top:.5rem">Where the money comes from</h4>
         <div class="lend-top">
+          <div class="subtoggle" role="group" aria-label="Amounts on the map" id="mapBasis"><button type="button" data-mb="owed" aria-pressed="true">Still owed</button><button type="button" data-mb="signed" aria-pressed="false">Originally borrowed</button></div>
           <div class="subtoggle" role="group" aria-label="Show on the map"><button type="button" data-ms="both" aria-pressed="true">Loans and guarantees</button><button type="button" data-ms="loans" aria-pressed="false">Loans</button><button type="button" data-ms="guarantees" aria-pressed="false">Guarantees</button></div>
           <div class="subtoggle" role="group" aria-label="Map view"><button type="button" data-mz="region" aria-pressed="false">Closer view</button><button type="button" data-mz="world" aria-pressed="true">Whole world</button></div>
           <label class="chk"><input type="checkbox" id="mapInst" checked> Development banks and funds</label>
         </div>
+        <div class="map-time" id="mapTime"><button type="button" class="map-play" id="mapPlay" aria-label="Play the years">▶</button><input type="range" id="mapQ" min="0" max="0" value="0" aria-label="Quarter"><span id="mapQl"></span></div>
+        <p class="map-tot" id="mapTot"></p>
         <div class="lend-map" id="lendMap"></div>
         <div class="map-key"><span><i style="background:#3fb8b0"></i>Loans to the government</span><span><i style="background:#f2a541"></i>Loans the government guaranteed</span><span><i class="dot"></i>Country</span><span><i class="dia"></i>Development bank or fund</span><span>Tap a place for amounts</span></div>
         <div class="map-card" id="mapCard"></div>
         <p class="hint" id="mapOff"></p>
+        <div id="lendBul" hidden>
+          <h4>Paying it back</h4>
+          <p class="lend-note" id="svcNote"></p>
+          <div class="svc-key"><span><i style="background:#3fb8b0"></i>Government: repayments</span><span><i style="background:#9fe0d6"></i>Government: interest</span><span><i style="background:#f2a541"></i>Guaranteed: repayments</span><span><i style="background:#f8d49b"></i>Guaranteed: interest</span></div>
+          <div class="lend-years" id="lendSvc"></div>
+          <h4>Still to come, and passed on</h4>
+          <div class="lend-sum lend-cards" id="lendExtra"></div>
+          <h4>Who borrowed with a government guarantee</h4>
+          <div class="lend-bars" id="lendFor"></div>
+          <p class="hint" id="bulSrc"></p>
+        </div>
         <h4>Every loan and guarantee</h4>
         <div class="lend-top">
           <div class="subtoggle" role="group" aria-label="List"><button type="button" data-lk="loans" aria-pressed="true">External loans</button><button type="button" data-lk="guarantees" aria-pressed="false">Sovereign guarantees</button></div>
@@ -358,7 +385,7 @@
         <div class="tbl-wrap"><table class="lend-tbl" id="lendTbl"></table></div>
         <button type="button" class="pill lend-more" id="lendMore" hidden></button>
         <details class="lend-fx"><summary>Exchange rates used</summary><div id="lendFx"></div></details>
-        <p class="hint">Source: Ministry of Finance, Debt Management Department, lists of active external borrowings and active sovereign guarantees. A new version is saved each time the Ministry updates them, so earlier dates can be picked above.</p>
+        <p class="hint">Sources: Ministry of Finance, Debt Management Department: the lists of active external borrowings and active sovereign guarantees (a new version is saved each time the Ministry updates them, so earlier dates can be picked above), and the Quarterly Debt Bulletins for what is still owed.</p>
       </div>
     </div>
   
@@ -539,10 +566,10 @@ window.MVSky = (() => {
   return { horizon(y) { hz = y; hero.style.setProperty("--hz", y + "px"); stars.style.bottom = "auto"; stars.style.height = y + "px"; draw(); }, draw };
 })();
 </script>
-<script src="assets/site.js?v=20261013e"></script>
-<script src="assets/motion.js?v=20261013e" defer></script>
-<script src="assets/updates.js?v=20261013e"></script>
-<script src="assets/lenders.js?v=20261013f" defer></script>
+<script src="assets/site.js?v=20261013g"></script>
+<script src="assets/motion.js?v=20261013g" defer></script>
+<script src="assets/updates.js?v=20261013g"></script>
+<script src="assets/lenders.js?v=20261013g" defer></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -585,9 +612,11 @@ window.MVSky = (() => {
     if (!window.MVUpdates) return;
     Promise.all([MV.getJSON("budget.json").catch(() => null), MV.getJSON("revenue.json").catch(() => null), MV.getJSON("priorities.json").catch(() => null)]).then(([budget, revenue, priorities]) => {
       if (priorities) { window.MV_PRI = priorities; dispatchEvent(new Event("mv:pri")); }
-      const draw = () => { const list = MVUpdates.latestOfEach(MVUpdates.build({ data: d, budget, revenue, priorities })).slice(0, 4);
+      let lenders = null;
+      const draw = () => { const list = MVUpdates.latestOfEach(MVUpdates.build({ data: d, budget, revenue, priorities, lenders })).slice(0, 4);
         $("latestUpd").innerHTML = list.map(e => MVUpdates.card(e, "home")).join(""); MV.paintIcons($("latestUpd")); $("latestSec").hidden = !list.length; };
       draw(); MV.onPrefs(draw);
+      MV.getJSON("lenders.json").then(j => { lenders = j; draw(); }).catch(() => {});   // adds the biggest repayments to the debt update
     }).catch(e => console.error("Latest updates skipped:", e));
   }
 

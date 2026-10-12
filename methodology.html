@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261013e">
+<link rel="stylesheet" href="assets/site.css?v=20261013g">
 <title>Methodology · Maldives National Debt Clock</title>
 <meta property="og:title" content="Methodology · Maldives National Debt Clock">
 <meta property="og:description" content="Where every number on Maldives National Debt Clock comes from, how it is calculated, and what it leaves out.">
@@ -185,6 +185,11 @@
 <p>The breakdown uses MMA's split of total debt into four parts. These are domestic debt of the central government (4516), domestic guaranteed debt (4517), external debt of the central government (4519) and external guaranteed debt (4520). Each share is that part divided by the total, for the latest quarter.</p>
 <p>The front page also reports how each part changed over the latest quarter, simply the latest figure minus the one before.</p>
 <p>"Grown X times since 2015" is the latest total divided by the first quarter in MMA series (March 2015). This compares rufiyaa amounts directly and does not adjust for inflation or for the economy growing. The debt-to-GDP ratio is the better measure for that.</p>
+<h3>Every loan and guarantee, and what is still owed</h3>
+<p>Under "See every external loan and sovereign guarantee" on the front page, two kinds of Ministry of Finance figures are used.</p>
+<p><b>Originally borrowed</b> comes from the Ministry's lists of active external borrowings and active sovereign guarantees. They give each loan's lender, date, currency and the amount agreed. A loan stays on these lists while it is active, so some have been partly or fully repaid. Amounts are converted to US dollars at the International Monetary Fund's end-of-month exchange rate for the list's date. Each new version of the lists is saved, so older versions stay available.</p>
+<p><b>Still owed</b> comes from the Ministry's Quarterly Debt Bulletins. They give what is owed to each lender abroad, the debt the government has guaranteed by borrower, repayments and interest each quarter, money agreed but not yet paid out, and loans passed on to state companies. Each bulletin covers its last 12 quarters, so together they go back to June 2020. The Ministry sometimes revises earlier quarters, so for each quarter the newest bulletin is used. A few bulletins leave a lender out of a table while still counting it in the table's total. For those quarters, the missing row is taken from another bulletin that covers the same quarter. The bulletins' totals are within MVR 50 million of MMA's figures for every quarter except March 2021, where MMA's figure for guaranteed debt owed abroad is MVR 3.8 billion higher than the bulletin's. Bulletin amounts are in rufiyaa, converted by the Ministry at MMA's quarter-end rate.</p>
+<p>The half-yearly bulletins from 2018 to 2022 only group lenders broadly, such as "other bilateral", so they are not used.</p>
 
 <h2 id="population">6. Population and per-citizen figures</h2>
 <p>Per-citizen figures divide a total, such as the debt, by the number of Maldivian citizens. This turns a number too large to picture into something easier to grasp. It is a way of showing scale, not a bill. No individual owes this amount.</p>
@@ -443,8 +448,8 @@
   <span id="fetched">Figures from Maldives Monetary Authority Statistics Database.</span>
   <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with MMA.</span></span>
 </div></footer>
-<script src="assets/site.js?v=20261013e"></script>
-<script src="assets/motion.js?v=20261013e" defer></script>
+<script src="assets/site.js?v=20261013g"></script>
+<script src="assets/motion.js?v=20261013g" defer></script>
 <script>
 (() => {
   const SEC_YEAR = 365.25 * 86400;

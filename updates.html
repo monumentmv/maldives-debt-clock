@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261013e">
+<link rel="stylesheet" href="assets/site.css?v=20261013g">
 <title>Updates · Maldives National Debt Clock</title>
 <meta property="og:title" content="Updates · Maldives National Debt Clock">
 <meta property="og:description" content="Every new official figure on Maldives public finances, summed up in plain words as it comes out.">
@@ -76,17 +76,17 @@
   <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with the Ministry of Finance, MIRA, the Maldives Police Service or MMA.</span></span>
 </div></footer>
 
-<script src="assets/site.js?v=20261013e"></script>
-<script src="assets/motion.js?v=20261013e" defer></script>
-<script src="assets/updates.js?v=20261013e"></script>
+<script src="assets/site.js?v=20261013g"></script>
+<script src="assets/motion.js?v=20261013g" defer></script>
+<script src="assets/updates.js?v=20261013g"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
   const T = MVUpdates.TYPES;
-  Promise.all([MV.getJSON("data.json"), MV.getJSON("budget.json").catch(() => null), MV.getJSON("revenue.json").catch(() => null), MV.getJSON("priorities.json").catch(() => null)])
-  .then(([data, budget, revenue, priorities]) => {
+  Promise.all([MV.getJSON("data.json"), MV.getJSON("budget.json").catch(() => null), MV.getJSON("revenue.json").catch(() => null), MV.getJSON("priorities.json").catch(() => null), MV.getJSON("lenders.json").catch(() => null)])
+  .then(([data, budget, revenue, priorities, lenders]) => {
     MV.setData(data.series); MV.paintPrefs();
-    let all = MVUpdates.build({ data, budget, revenue, priorities });
+    let all = MVUpdates.build({ data, budget, revenue, priorities, lenders });
     let type = "all", months = 3, start = null;
     const kinds = Object.keys(T).filter(k => all.some(e => e.type === k));
     $("filters").innerHTML = `<button type="button" data-t="all" aria-pressed="true">Everything</button>` + kinds.map(k => `<button type="button" data-t="${k}" aria-pressed="false">${T[k].label}</button>`).join("");
