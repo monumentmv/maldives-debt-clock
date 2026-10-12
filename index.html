@@ -142,6 +142,93 @@
   .notice.on { display: block; }
 
   .bar { display: flex; height: 3.25rem; border-radius: 4px; overflow: hidden; margin: 1.5rem 0 1.25rem; gap: 2px; }
+  .what-in-btn { border: 0; background: none; padding: 0; margin-left: .5rem; color: var(--sun); font: 700 .9rem var(--body); text-decoration: underline dotted; cursor: pointer; }
+  .what-in table.wi { width: 100%; border-collapse: collapse; font-size: .88rem; margin: .5rem 0 1rem; }
+  .what-in .wi th, .what-in .wi td { text-align: right; padding: .3rem .4rem; border-bottom: 1px solid #e3eef0; }
+  .what-in .wi th:first-child, .what-in .wi td:first-child { text-align: left; }
+  .what-in .wi tr.t td { border-bottom: 0; }
+  .lenders { margin-top: 2rem; }
+  .lend-btn { display: flex; justify-content: space-between; align-items: center; gap: 1rem; width: 100%; font: 700 1rem var(--body); color: var(--foam); background: rgba(255,255,255,.06); border: 1px solid rgba(169,205,214,.3); border-radius: 10px; padding: .85rem 1rem; cursor: pointer; text-align: left; }
+  .lend-btn[aria-expanded="true"] span:last-child { transform: rotate(180deg); }
+  #lendPanel { margin-top: 1.25rem; }
+  #lendPanel h4 { margin: 1.75rem 0 .6rem; font-size: 1rem; color: var(--foam); }
+  .lend-top { display: flex; flex-wrap: wrap; gap: .6rem 1rem; align-items: center; }
+  .lend-asof { display: inline-flex; gap: .5rem; align-items: center; font-weight: 700; color: var(--foam); }
+  .lend-asof select { font: 700 .9rem var(--body); background: rgba(255,255,255,.08); color: var(--foam); border: 1px solid rgba(169,205,214,.3); border-radius: 6px; padding: .3rem .4rem; }
+  .lend-asof select option { color: #072f40; background: #fff; }
+  .lend-note { margin: 1rem 0 0 !important; font-size: .92rem; }
+  .lend-sum { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: .8rem; margin-top: 1.1rem; }
+  .lend-sum div { background: rgba(255,255,255,.05); border-radius: 8px; padding: .75rem .9rem; }
+  .lend-sum b { display: block; font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 75; font-size: 1.5rem; color: var(--foam); line-height: 1.1; }
+  .lend-sum span { font-size: .82rem; color: var(--mist); }
+  .lend-bars { display: grid; gap: .35rem; }
+  .lb { display: grid; grid-template-columns: minmax(8rem, 13rem) 1fr 6.5rem; gap: .8rem; align-items: center; background: none; border: 0; padding: .2rem .3rem; border-radius: 6px; color: var(--foam); font: .9rem var(--body); text-align: left; cursor: pointer; }
+  .lb:hover, .lb.on { background: rgba(255,255,255,.07); }
+  .lb .t { height: .7rem; background: rgba(255,255,255,.08); border-radius: 999px; position: relative; overflow: hidden; }
+  .lb .t i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; }
+  .lb .v { text-align: right; color: var(--mist); }
+  .lend-years svg { width: 100%; height: auto; display: block; }
+  .lend-years text { fill: var(--mist); font-size: 12px; }
+  .lend-tools { display: flex; flex-wrap: wrap; gap: .6rem 1rem; align-items: center; margin: 1.75rem 0 .75rem; }
+  .lend-tools input { flex: 1; min-width: 12rem; font: .95rem var(--body); padding: .5rem .7rem; border-radius: 8px; border: 1px solid rgba(169,205,214,.35); background: rgba(255,255,255,.06); color: var(--foam); }
+  .lend-tools span { font-size: .85rem; color: var(--mist); }
+  .lend-tbl { width: 100%; border-collapse: collapse; font-size: .88rem; }
+  .lend-tbl th { text-align: left; color: var(--mist); font-weight: 700; padding: .45rem .5rem; border-bottom: 1px solid rgba(169,205,214,.3); white-space: nowrap; }
+  .lend-tbl th[data-sort] { cursor: pointer; color: var(--foam); }
+  .lend-tbl td { padding: .5rem; border-bottom: 1px solid rgba(169,205,214,.12); vertical-align: top; color: var(--foam); }
+  .lend-tbl td small { display: block; color: var(--mist); font-size: .78rem; margin-top: .1rem; }
+  .lend-tbl .r { text-align: right; white-space: nowrap; }
+  .lend-map { margin-top: 1rem; border-radius: 12px; overflow: hidden; background: rgba(0,0,0,.18); }
+  .lend-map svg { display: block; width: 100%; height: auto; }
+  .lend-map .land { fill: rgba(169,205,214,.13); stroke: none; }
+  .lend-map .lc.loans { fill: rgba(63,184,176,.32); } .lend-map .lc.guarantees { fill: rgba(242,165,65,.3); }
+  .lend-map .arc { fill: none; stroke-linecap: round; opacity: .85; cursor: pointer; animation: flow 1.6s linear infinite; }
+  .lend-map .arc.loans { stroke: #3fb8b0; } .lend-map .arc.guarantees { stroke: #f2a541; }
+  .lend-map .arc.dim { opacity: .15; }
+  .lend-map .node { cursor: pointer; } .lend-map .labels text { cursor: pointer; fill: var(--foam); font-weight: 700; paint-order: stroke; stroke: rgba(7,47,64,.85); stroke-width: 3px; } .lend-map .node text { fill: var(--foam); font-weight: 700; paint-order: stroke; stroke: rgba(7,47,64,.85); stroke-width: 3px; }
+  .lend-map .node.on circle, .lend-map .node.on rect { stroke: #fff; stroke-width: 3px; }
+  .lend-map .male { fill: #ff5f56; stroke: #fff; stroke-width: 2px; } .lend-map .male-t { fill: #fff; font-weight: 800; paint-order: stroke; stroke: rgba(7,47,64,.85); stroke-width: 3px; }
+  @keyframes flow { to { stroke-dashoffset: -28; } }
+  @media (prefers-reduced-motion: reduce) { .lend-map .arc { animation: none; stroke-dasharray: none !important; } }
+  .chk { display: inline-flex; gap: .45rem; align-items: center; font-size: .9rem; color: var(--foam); cursor: pointer; }
+  .map-key { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; margin-top: .7rem; font-size: .82rem; color: var(--mist); }
+  .map-key i { display: inline-block; width: .9rem; height: .3rem; border-radius: 2px; margin-right: .35rem; vertical-align: middle; }
+  .map-key i.dot { width: .6rem; height: .6rem; border-radius: 50%; background: var(--mist); }
+  .map-key i.dia { width: .55rem; height: .55rem; border-radius: 2px; background: var(--mist); transform: rotate(45deg); }
+  .map-card { margin-top: .9rem; }
+  .mc-t { display: flex; align-items: baseline; gap: .6rem; font: 800 1.25rem var(--display); color: var(--foam); }
+  .mc-t small { font: .85rem var(--body); color: var(--mist); }
+  .mc-x { margin-left: auto; border: 0; background: rgba(255,255,255,.08); color: var(--mist); width: 1.9rem; height: 1.9rem; border-radius: 50%; cursor: pointer; font-size: 1.1rem; }
+  .mc-b { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: .8rem; margin-top: .6rem; }
+  .mc-k { background: rgba(255,255,255,.05); border-left: 3px solid var(--kc); border-radius: 8px; padding: .75rem .9rem; display: grid; gap: .2rem; }
+  .mc-h { font-size: .8rem; font-weight: 700; color: var(--kc); text-transform: uppercase; letter-spacing: .04em; }
+  .mc-k b { font: 800 1.4rem var(--display); color: var(--foam); }
+  .mc-n, .mc-l { font-size: .85rem; color: var(--mist); }
+  .mc-go { justify-self: start; margin-top: .35rem; font: 700 .82rem var(--body); color: var(--foam); background: transparent; border: 1px solid rgba(169,205,214,.4); border-radius: 999px; padding: .3rem .8rem; cursor: pointer; }
+  #mapOff { margin-top: .9rem; }
+  .lend-more { margin-top: .9rem; font: 700 .88rem var(--body); color: var(--foam); background: rgba(255,255,255,.06); border: 1px solid rgba(169,205,214,.35); border-radius: 999px; padding: .45rem 1rem; cursor: pointer; }
+  .lend-years svg { height: 160px; }
+  .what-in .wi td { white-space: nowrap; }
+  .what-in .wi td:first-child { white-space: normal; }
+  .lend-fx { margin-top: 1.5rem; color: var(--mist); font-size: .9rem; }
+  .lend-fx summary { cursor: pointer; font-weight: 700; color: var(--foam); }
+  .lend-fx ul { margin: .5rem 0; padding-left: 1.1rem; }
+  @media (max-width: 640px) {
+    .lb { grid-template-columns: 7.5rem 1fr 5.2rem; gap: .5rem; font-size: .82rem; }
+    /* on phones each loan is a small card: date and amounts on top, lender and purpose underneath */
+    .lend-tbl thead { display: none; }
+    .lend-tbl, .lend-tbl tbody, .lend-tbl tr, .lend-tbl td { display: block; width: 100%; }
+    .lend-tbl tr { display: grid; grid-template-columns: 1fr auto; gap: .15rem .8rem; padding: .7rem 0; border-bottom: 1px solid rgba(169,205,214,.15); }
+    .lend-tbl td { border: 0; padding: 0; }
+    .lend-tbl td.sg { grid-column: 1; font-size: .78rem; color: var(--mist); }
+    .lend-tbl td.sg small { display: inline; margin-left: .3rem; }
+    .lend-tbl td.us { grid-column: 2; grid-row: 1; font-weight: 700; }
+    .lend-tbl td.am { grid-column: 2; grid-row: 2; font-size: .78rem; color: var(--mist); }
+    .lend-tbl td:nth-child(2) { grid-column: 1; grid-row: 2; font-weight: 700; }
+    .lend-tbl td:nth-child(3) { grid-column: 1 / -1; font-size: .85rem; color: var(--mist); }
+    .lend-tbl td:nth-child(3) b { color: var(--foam); }
+    .lend-tbl .st { display: none; }
+  }
   .legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem 2rem; list-style: none; padding: 0; margin: 0; }
   .legend li { display: grid; grid-template-columns: .9rem 1fr; gap: .2rem .7rem; align-items: baseline; }
   .legend i { width: .9rem; height: .9rem; border-radius: 2px; display: inline-block; transform: translateY(.1rem); }
@@ -207,7 +294,7 @@
   <div class="readout" id="readout">
     <h1>Maldives National Debt Clock</h1>
     <p class="clock num"><span class="cur" id="clockCur">MVR</span><span id="clock">…</span></p>
-    <p class="asof">As of <time id="mvTime">…</time> in Malé</p>
+    <p class="asof">As of <time id="mvTime">…</time> in Malé <button type="button" class="what-in-btn" id="whatIn">What's in this number?</button></p>
     <p class="sub" id="sub">Loading the latest figures from Maldives Monetary Authority.</p>
     <div id="fresh"></div>
     <div id="since"></div>
@@ -251,6 +338,38 @@
     <div class="bar" id="bar" role="img" aria-label="Debt breakdown"></div>
     <ul class="legend" id="legend"></ul>
     <div class="split" id="gdpSplit"></div>
+    <div class="lenders">
+      <button type="button" class="lend-btn" id="lendBtn" aria-expanded="false" aria-controls="lendPanel"><span class="t">See every external loan and sovereign guarantee</span><span aria-hidden="true">▾</span></button>
+      <div id="lendPanel" hidden>
+        <h4 style="margin-top:.5rem">Where the money comes from</h4>
+        <div class="lend-top">
+          <div class="subtoggle" role="group" aria-label="Show on the map"><button type="button" data-ms="both" aria-pressed="true">Loans and guarantees</button><button type="button" data-ms="loans" aria-pressed="false">Loans</button><button type="button" data-ms="guarantees" aria-pressed="false">Guarantees</button></div>
+          <div class="subtoggle" role="group" aria-label="Map view"><button type="button" data-mz="region" aria-pressed="false">Closer view</button><button type="button" data-mz="world" aria-pressed="true">Whole world</button></div>
+          <label class="chk"><input type="checkbox" id="mapInst" checked> Development banks and funds</label>
+        </div>
+        <div class="lend-map" id="lendMap"></div>
+        <div class="map-key"><span><i style="background:#3fb8b0"></i>Loans to the government</span><span><i style="background:#f2a541"></i>Loans the government guaranteed</span><span><i class="dot"></i>Country</span><span><i class="dia"></i>Development bank or fund</span><span>Thicker line, more money</span></div>
+        <div class="map-card" id="mapCard"></div>
+        <p class="hint" id="mapOff"></p>
+        <h4>Every loan and guarantee</h4>
+        <div class="lend-top">
+          <div class="subtoggle" role="group" aria-label="List"><button type="button" data-lk="loans" aria-pressed="true">External loans</button><button type="button" data-lk="guarantees" aria-pressed="false">Sovereign guarantees</button></div>
+          <div class="subtoggle" role="group" aria-label="Guaranteed for" id="lendG" hidden><button type="button" data-lg="all" aria-pressed="true">All</button><button type="button" data-lg="soe" aria-pressed="false">State companies</button><button type="button" data-lg="private" aria-pressed="false">Private</button></div>
+          <label class="lend-asof">As of <select id="lendAsof" aria-label="As of"></select></label>
+        </div>
+        <p class="lend-note" id="lendNote">Loading the Ministry of Finance lists…</p>
+        <div class="lend-sum" id="lendSum"></div>
+        <h4>By lender</h4>
+        <div class="lend-bars" id="lendBars"></div>
+        <h4>Signed each year, in US dollars</h4>
+        <div class="lend-years" id="lendYears"></div>
+        <div class="lend-tools"><input type="search" id="lendQ" placeholder="Search a lender, project or company" aria-label="Search"><span id="lendCount"></span></div>
+        <div class="tbl-wrap"><table class="lend-tbl" id="lendTbl"></table></div>
+        <button type="button" class="pill lend-more" id="lendMore" hidden></button>
+        <details class="lend-fx"><summary>Exchange rates used</summary><div id="lendFx"></div></details>
+        <p class="hint">Source: Ministry of Finance, Debt Management Department, lists of active external borrowings and active sovereign guarantees. A new version is saved each time the Ministry updates them, so earlier dates can be picked above.</p>
+      </div>
+    </div>
   
     </div>
   </section>
@@ -420,6 +539,7 @@ window.MVSky = (() => {
 <script src="assets/site.js?v=20261012k"></script>
 <script src="assets/motion.js?v=20261012k" defer></script>
 <script src="assets/updates.js?v=20261012k"></script>
+<script src="assets/lenders.js?v=20261013b" defer></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -469,7 +589,7 @@ window.MVSky = (() => {
   }
 
   function init(data, POP) {
-    const S = data.series; MV.setData(S); MV.paintPrefs();
+    const S = data.series; MV.setData(S); MV.paintPrefs(); window.MV_DATA = data;   // for the "What's in this number?" pop-up
     const tot = S.total.points.filter(p => p.value > 0);
     const latest = tot[tot.length - 1], back = tot[Math.max(0, tot.length - 5)];
     const rate = (latest.value - back.value) / ((ts(latest.date) - ts(back.date)) / 1000 || 1);
