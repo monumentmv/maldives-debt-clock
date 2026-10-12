@@ -1,8 +1,5 @@
 {
- "checked_at": "2026-10-12T17:09:52+00:00",
- "ok": true,
- "periods_read": 23,
- "problems": [
-  "2026: categories add to 9791 but total is 2712"
- ]
+ "checked_at": "2026-10-12T20:01:04+00:00",
+ "ok": false,
+ "error": "Locator.wait_for: Timeout 60000ms exceeded.\nCall log:\n  - waiting for get_by_text(\"Detailed breakdown\").first to be visible\n"
 }
