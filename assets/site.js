@@ -373,7 +373,7 @@ const MV = (() => {
     const t = ev.target.closest("[data-term]");
     if (t) { ev.preventDefault(); explain(t.dataset.term, t.dataset.anchor); return; }
     const a = ev.target.closest('a[href^="methodology.html#"]');
-    if (a && !a.closest(".explain") && !/methodology\.html$/.test(location.pathname)) { const k = a.getAttribute("href").split("#")[1]; if (explain(k)) ev.preventDefault(); }
+    if (a && !a.closest(".explain") && !/\/methodology(\.html)?\/?$/.test(location.pathname)) { const k = a.getAttribute("href").split("#")[1]; if (explain(k)) ev.preventDefault(); }
   });
   document.addEventListener("keydown", ev => { const t = ev.target.closest?.("[data-term]"); if (t && (ev.key === "Enter" || ev.key === " ")) { ev.preventDefault(); explain(t.dataset.term, t.dataset.anchor); } });
   function realHelp() {
@@ -401,9 +401,9 @@ const MV = (() => {
   function updatesBadge() {
     const link = document.querySelector('.site-nav a[data-page="updates"]'); if (!link) return;
     getJSON("priorities.json").then(P => {
-      const newest = P?.latest?.d; if (!newest) return;
+      const newest = P?.latest?.d; if (!newest) return;   // the live site serves pages without ".html", so match both
       let seen = null; try { seen = localStorage.getItem("updatesSeen"); } catch (e) {}
-      if (/updates\.html$/.test(location.pathname)) { try { localStorage.setItem("updatesSeen", newest); } catch (e) {} return; }
+      if (/\/updates(\.html)?\/?$/.test(location.pathname)) { try { localStorage.setItem("updatesSeen", newest); } catch (e) {} return; }
       if (!seen || seen < newest) link.insertAdjacentHTML("beforeend", `<span class="nav-new" role="img" aria-label="new since your last visit" title="New since your last visit"></span>`);
     }).catch(() => {});
   }
