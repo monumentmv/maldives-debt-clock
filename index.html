@@ -196,7 +196,7 @@
     <svg class="foam" viewBox="0 0 1200 8" preserveAspectRatio="none"><path d="M0 6 Q 60 0 120 6 T 240 6 T 360 6 T 480 6 T 600 6 T 720 6 T 840 6 T 960 6 T 1080 6 T 1200 6" stroke="#fff" stroke-width="1.5" fill="none" stroke-dasharray="14 22"/></svg>
   </div>
   <div class="gauge" id="gauge" aria-hidden="true"><div class="pole"></div></div>
-  <div class="surface-label" id="seaLabel">Surface: 60% of GDP<span class="long">, a common guide for safe debt</span></div>
+  <div class="surface-label" id="seaLabel">Surface: 70% of GDP<span class="long">, where the IMF flags debt as high risk</span></div>
   <div class="gdp-line" id="gdpLine"><span id="lineLabel"></span></div>
   <div class="readout" id="readout">
     <h1>Maldives National Debt Clock</h1>
@@ -498,20 +498,20 @@ window.MVSky = (() => {
     setInterval(tick, 60);
 
     // hero layout
-    const SEA = 60;                                                          // the sea surface: 60% of GDP, a common guide for prudent debt
+    const SEA = 70;                                                          // the sea surface: 70% of GDP, the IMF's high-risk benchmark for emerging economies
     const hero = $("hero"), water = $("water"), line = $("gdpLine"), readout = $("readout");
     if (ratio) {
       $("ratioVal").textContent = fmt(ratio, 1) + "%"; $("ratioTag").hidden = false;
       $("lineLabel").innerHTML = ratio >= SEA ? `<b>${fmt(ratio, 1)}% of GDP</b> ${fmt(ratio - SEA, 1)} points below the surface` : `<b>${fmt(ratio, 1)}% of GDP</b> ${fmt(SEA - ratio, 1)} points above the surface`;
     }
-    // The sea surface is fixed at 60% of GDP, the level most often quoted as a prudent ceiling for public debt.
+    // The sea surface is fixed at 70% of GDP, the level above which the IMF flags public debt in emerging economies as high risk.
     // Debt above that sits below the surface: the further down the yellow line, the deeper underwater.
     // 100% (debt equal to a full year of the economy) is well under the surface, so being "at sea level" never reads as fine.
     // The hero is only as tall as it needs to be, with the readout just under the line.
     function layout() {
       const k = innerWidth < 600 ? 3.5 : 4;                                  // pixels per percentage point
       const tag = $("ratioTag"), tagB = tag.offsetTop + tag.offsetHeight;
-      const y0 = Math.max(innerWidth < 600 ? 200 : 210, tagB + 100);          // the surface: 60% of GDP, with room in the sky for the scene
+      const y0 = Math.max(innerWidth < 600 ? 200 : 210, tagB + 100);          // the surface: 70% of GDP, with room in the sky for the scene
       const markY = y0 + ((ratio || SEA) - SEA) * k;                         // today's debt
       const rh = readout.offsetHeight, top = Math.max(markY, y0) + 48;
       const H = Math.max(520, Math.ceil(top + rh + 56));
@@ -521,7 +521,7 @@ window.MVSky = (() => {
       $("seaLabel").style.top = (y0 - 30) + "px";
       line.style.top = markY + "px"; line.style.opacity = ratio ? 1 : 0;
       readout.style.top = top + "px";
-      // depth gauge: 60% at the surface, counting down into the water (and up into the sky for lower debt)
+      // depth gauge: 70% at the surface, counting down into the water (and up into the sky for lower debt)
       const g = $("gauge"); g.querySelectorAll(".tick").forEach(t => t.remove());
       const vTop = SEA - Math.floor(y0 / k / 10) * 10, vBot = SEA + Math.floor((H - y0) / k / 10) * 10;
       for (let v = Math.max(0, vTop); v <= vBot; v += 5) {

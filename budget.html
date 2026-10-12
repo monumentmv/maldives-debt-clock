@@ -79,6 +79,11 @@
   @media (max-width: 560px) { .fbar .segs { height: 2.2rem; } .fbar .seg { font-size: 0; } }
   .caveat { border-top: 1px solid rgba(169,205,214,.25); padding-top: 2rem; }
   .subtoggle[hidden] { display: none; }
+  .period-zone > .period-bar { position: sticky; top: var(--headH, 60px); z-index: 25; display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1.25rem; margin: 0 -1.25rem 2rem; padding: .7rem 1.25rem; background: color-mix(in srgb, var(--abyss) 92%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid rgba(169,205,214,.18); }
+  .period-bar .period-pick { display: contents; }   /* the picker's buttons and the switch share one row where they fit */
+  @media (max-width: 600px) { .period-zone > .period-bar { gap: .5rem .6rem; } .period-bar .subtoggle button { padding: .35rem .65rem; font-size: .8rem; min-height: 2rem; } }
+  .period-bar .period-pick label span { color: var(--sun); }
+  .controls { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
   @media (max-width: 560px) {
     .prog .row { grid-template-columns: 1fr; }
     .used { display: none; }
@@ -120,9 +125,9 @@
 
 
   <div class="period-zone">
-    <div id="asof"></div>
+    <div class="period-bar"><div id="asof"></div><div class="subtoggle" role="group" aria-label="Figures shown"><button type="button" data-mode="ytd" aria-pressed="true">Year so far</button><button type="button" data-mode="week" aria-pressed="false">Each week</button></div></div>
   <section>
-    <h2>The week's figures</h2>
+    <h2 id="latestH">The week's figures</h2>
     <p id="latestNote"></p>
     <div class="stats" style="margin-top:2rem">
       <div class="stat hot" data-icon="moneyIn"><div class="n num" id="sRev">…</div><div class="l" id="sRevL">collected so far this year</div><div class="d" id="sRevD"></div></div>
@@ -153,16 +158,16 @@
   <section>
     <div class="chart-head">
       <div><h2>This year against other years</h2><p id="pathNote" style="margin:0"></p></div>
-      <div class="controls"><label for="measure" class="sr-only" style="position:absolute;left:-9999px">Measure</label><select id="measure" aria-label="Measure"></select></div>
+      <div class="controls"><div class="subtoggle" role="group" aria-label="Figures shown"><button type="button" data-mode="ytd" aria-pressed="true">Year so far</button><button type="button" data-mode="week" aria-pressed="false">Each week</button></div><label for="measure" class="sr-only" style="position:absolute;left:-9999px">Measure</label><select id="measure" aria-label="Measure"></select></div>
     </div>
     <div class="pills" id="years" role="group" aria-label="Years to show" style="margin-top:1rem"></div>
     <div class="chart-box" id="path"></div>
-    <div class="hint">Each line is the running total from 1 January. Hover or tap the chart to compare the years on the same day.</div>
+    <div class="hint" id="pathHint">Each line is the running total from 1 January. Hover or tap the chart to compare the years on the same day.</div>
   </section>
 
   <section>
-    <h2>Compare any two weeks</h2>
-    <p>Pick any two weekly reports. Each figure is the total from 1 January to that report's date, so compare weeks at the same point in their years, such as the latest week against the same week a year earlier.</p>
+    <div class="chart-head"><h2>Compare any two weeks</h2><div class="controls"><div class="subtoggle" role="group" aria-label="Figures shown"><button type="button" data-mode="ytd" aria-pressed="true">Year so far</button><button type="button" data-mode="week" aria-pressed="false">Each week</button></div></div></div>
+    <p id="cmpNote">Pick any two weekly reports. Each figure is the total from 1 January to that report's date, so compare weeks at the same point in their years, such as the latest week against the same week a year earlier.</p>
     <div class="cmp">
       <label><i style="background:#f4c95d"></i>This report <select id="cmpB" aria-label="This report"></select></label>
       <label><i style="background:#6fb3c2"></i>Compared with <select id="cmpA" aria-label="Compared with"></select></label>
@@ -234,10 +239,20 @@
     const sgn = v => v < 0 ? "−" : "";
     const balTxt = (v, d) => v == null ? "n/a" : (v < 0 ? "deficit of " : "surplus of ") + sym() + " " + short(Math.abs(MV.convNow(M(v), d)));
     const years = [...new Set(R.map(r => Number(r.d.slice(0, 4))))].filter(y => R.filter(r => r.d.startsWith(y)).length >= 8);
+    // "Each week": what changed since the previous report of the same year (the first report of a year counts from 1 January)
+    let MODE = "ytd";
+    const wk = () => MODE === "week";
+    const prevOf = r => { const p = R[R.indexOf(r) - 1]; return p && p.d.slice(0, 4) === r.d.slice(0, 4) ? p : null; };
+    const daysOf = r => { const p = prevOf(r); return p ? doy(r.d) - doy(p.d) : doy(r.d); };
+    const wv = (r, k, i = 0) => { const a = val(r, k, i), p = prevOf(r); if (a == null || !p) return a; const b = val(p, k, i); return b == null ? null : Math.round((a - b) * 10) / 10; };   // figures come in millions to one decimal
+    const mv = (r, k, i = 0) => wk() ? wv(r, k, i) : val(r, k, i);       // i = 2 is the same date a year earlier, as given in each report
+    const span = r => { const p = prevOf(r), n = daysOf(r); return !p ? `from 1 January to ${dayLabel(r.d)}, the first report of the year` : n === 7 ? `in the week to ${dayLabel(r.d)}` : `in the ${n} days from ${dayLabel(p.d)} to ${dayLabel(r.d)}`; };
     const sameWeek = (r, y) => { const c = R.filter(x => x.d.startsWith(String(y))); if (!c.length) return null; const t = doy(r.d); return c.reduce((a, x) => Math.abs(doy(x.d) - t) < Math.abs(doy(a.d) - t) ? x : a); };
 
     // ---------- latest ----------
     function drawLatest() {
+      if (wk()) return drawWeek();
+      $("latestH").textContent = "The week's figures";
       const L = SEL, Ly = Number(SEL.d.slice(0, 4)), isLatest = SEL === R[R.length - 1];
       const age = isLatest ? (Date.now() - new Date(L.d + "T00:00:00Z")) / 86400000 : 0;
       $("latestNote").innerHTML = `Totals from 1 January to <b>${dayLabel(L.d)}</b>${L.w ? `, week ${L.w}` : ""}, ${isLatest ? "the latest report published" : "an earlier report"}. Changes are against the same date a year earlier, as given in the report.` + (age > 21 ? ` <b style="color:var(--coral)">No new report for ${Math.floor(age)} days.</b>` : "");
@@ -270,15 +285,45 @@
       drawFlow();
     }
 
+    function drawWeek() {
+      const L = SEL, isLatest = SEL === R[R.length - 1], p = prevOf(L), n = daysOf(L);
+      $("latestH").textContent = n === 7 || !p ? "That week on its own" : `Those ${n} days on its own`;
+      $("latestNote").innerHTML = `What came in and went out ${span(L).replace(dayLabel(L.d), `<b>${dayLabel(L.d)}</b>`)}${L.w ? `, week ${L.w}` : ""}, ${isLatest ? "the latest report" : "an earlier report"}.${p ? " It is the change in the running totals since the report before." : ""} Changes are against the same days a year earlier.`;
+      const line = (k, better) => { const a = wv(L, k, 2), b = wv(L, k); if (a == null || b == null || a <= 0 || b <= 0) return "";
+        const c = (b / a - 1) * 100, good = better === "up" ? c >= 0 : c <= 0; return `<span class="${good ? "up" : "down"}">${c >= 0 ? "+" : "−"}${fmt(Math.abs(c), 1)}% on the same days a year earlier</span>`; };
+      const avg = k => { const t = val(L, k); return t == null ? "" : `<br><span class="neutral">an average week this year: ${sym()} ${short(Math.abs(MV.convNow(M(t) / doy(L.d) * 7, L.d)))}</span>`; };
+      const amt = v => v == null ? "n/a" : !v ? sym() + " 0" : (v < 0 ? "−" : "") + sym() + " " + short(Math.abs(MV.convNow(M(v), L.d)));
+      const words = !p ? "since 1 January" : n === 7 ? "that week" : `in those ${n} days`;
+      $("sRev").textContent = amt(wv(L, "revenue_and_grants"));
+      $("sRevL").textContent = `collected in revenue and grants ${words}`;
+      $("sRevD").innerHTML = line("revenue_and_grants", "up") + avg("revenue_and_grants");
+      $("sExp").textContent = amt(wv(L, "total_expenditure"));
+      $("sExpL").textContent = `spent ${words}, before loan repayments`;
+      $("sExpD").innerHTML = line("total_expenditure", "down") + avg("total_expenditure");
+      const bal = wv(L, "overall_balance"), balL = wv(L, "overall_balance", 2);
+      $("sBal").textContent = bal == null ? "n/a" : (bal < 0 ? "−" : "+") + sym() + " " + short(Math.abs(MV.convNow(M(bal), L.d)));
+      $("sBalL").textContent = bal < 0 ? `more spent than collected ${words}` : `more collected than spent ${words}`;
+      $("sBal").closest(".stat").className = "stat " + (bal < 0 ? "red" : "hot");
+      $("sBalD").innerHTML = balL != null ? `<span class="neutral">Same days last year, a ${balTxt(balL, L.d)}</span>` : "";
+      const it = wv(L, "interest_costs");
+      $("sInt").textContent = amt(it);
+      $("sIntL").textContent = `paid in interest and other financing costs ${words}`;
+      $("sIntD").innerHTML = line("interest_costs", "down") + avg("interest_costs") + (it > 0 ? `<br><span class="neutral">about ${sym()} ${short(MV.convNow(M(it) / n, L.d))} a day</span>` : "");
+      $("miniKey").hidden = true;
+      drawFlow();
+    }
+
     // ---------- where the money came from and where it went ----------
     function drawFlow() {
       const L = SEL, isLatest = SEL === R[R.length - 1];
       const det = k => (B.detail?.expenditure || []).find(x => new RegExp(k, "i").test(x.label))?.now ?? null;
-      const rev = val(L, "revenue_and_grants"), exp = val(L, "total_expenditure");
+      const rev = mv(L, "revenue_and_grants"), exp = mv(L, "total_expenditure");
       if (rev == null || exp == null) { $("flow").innerHTML = ""; return; }
-      const tax = val(L, "tax_revenue") ?? 0, grants = val(L, "grants") ?? 0, nontax = Math.max(0, rev - tax - grants);
-      const sal = val(L, "salaries_wages_pensions") ?? 0, intr = val(L, "interest_costs") ?? 0, cap = val(L, "capital_expenditure") ?? 0;
-      const subs = (isLatest ? det("^grants, contributions and subsidies") : null) ?? val(L, "grants_subsidies") ?? 0;
+      if (rev <= 0 || exp <= 0) { $("flow").innerHTML = `<h3>Where the money came from and where it went</h3><p class="hint">The figures ${span(L)} include corrections to earlier weeks, so they can't be split this way.</p>`; return; }
+      const z = v => Math.max(0, v ?? 0);
+      const tax = z(mv(L, "tax_revenue")), grants = z(mv(L, "grants")), nontax = Math.max(0, rev - tax - grants);
+      const sal = z(mv(L, "salaries_wages_pensions")), intr = z(mv(L, "interest_costs")), cap = z(mv(L, "capital_expenditure"));
+      const subs = z((isLatest && !wk() ? det("^grants, contributions and subsidies") : null) ?? mv(L, "grants_subsidies"));
       const other = Math.max(0, exp - sal - intr - cap - subs);
       const gap = exp - rev, top = Math.max(rev, exp);
       const IN = [["Taxes", tax, "#f4c95d"], ["Fees, rents and dividends", nontax, "#f7e2a6"], ["Grants from abroad", grants, "#9fe0d6"]];
@@ -291,9 +336,9 @@
         `</div><div class="fkey">` + segs.filter(s => s[1] > 0).map(([n, v, c]) => `<div><i style="background:${c === "gap" ? "#ff5f56" : c === "spare" ? "#3fb8b0" : c}"></i><span><b>${amt(v)}</b>${n}</span></div>`).join("") + `</div></div>`;
       const unit = sym() + " 100";
       $("flow").innerHTML = `<h3>Where the money came from and where it went</h3>` +
-        `<p class="lead">Of every ${unit} spent ${isLatest ? "this year" : `from 1 January to ${dayLabel(L.d)}`}, <b>${sym()} ${per(intr)}</b> went on interest` + (gap > 0 ? ` and <b class="red">${sym()} ${per(gap)}</b> wasn't covered by revenue, so had to be borrowed.` : ".") + `</p>` +
+        `<p class="lead">Of every ${unit} spent ${wk() ? span(L) : isLatest ? "this year" : `from 1 January to ${dayLabel(L.d)}`}, <b>${sym()} ${per(intr)}</b> went on interest` + (gap > 0 ? ` and <b class="red">${sym()} ${per(gap)}</b> wasn't covered by revenue, so had to be borrowed.` : ".") + `</p>` +
         bar("Came in", rev, IN) + bar("Went out", exp, OUT) +
-        `<p class="hint">Both bars are drawn to the same scale. Loan repayments aren't included, so total borrowing in the year is larger than the gap shown.</p>`;
+        `<p class="hint">Both bars are drawn to the same scale. Loan repayments aren't included, so total borrowing ${wk() ? "in that time" : "in the year"} is larger than the gap shown.</p>`;
     }
 
     // ---------- progress ----------
@@ -325,7 +370,9 @@
       const W = Math.max(300, box.clientWidth), small = W < 560, Hc = Math.round(Math.min(400, Math.max(260, W * .45)));
       const pad = { l: 50, r: 12, t: 26, b: 28 };
       const ys = [...shown].sort();
-      const lines = ys.map(y => ({ y, pts: R.filter(r => r.d.startsWith(y) && val(r, measure) != null).map(r => ({ x: doy(r.d), d: r.d, v: over(val(r, measure), r.d) / 1e6 })) }));
+      // each week: the change since the report before, scaled to 7 days when reports are further apart
+      const pv = r => wk() ? (wv(r, measure) == null ? null : wv(r, measure) * 7 / daysOf(r)) : val(r, measure);
+      const lines = ys.map(y => ({ y, pts: R.filter(r => r.d.startsWith(y) && pv(r) != null).map(r => ({ x: doy(r.d), d: r.d, v: over(pv(r), r.d) / 1e6 })) }));
       const all = lines.flatMap(l => l.pts.map(p => p.v)).concat([0]);
       let lo = Math.min(...all), hi = Math.max(...all); const span = (hi - lo) || 1; hi += span * .06; if (lo < 0) lo -= span * .06;
       const X = x => pad.l + (x - 1) / 365 * (W - pad.l - pad.r), Y = v => Hc - pad.b - (v - lo) / (hi - lo) * (Hc - pad.t - pad.b);
@@ -338,7 +385,7 @@
         const e = l.pts[l.pts.length - 1]; g += `<text x="${Math.min(X(e.x) + 6, W - 30)}" y="${Y(e.v) - 6}" style="fill:${c};font-weight:700">${l.y}</text>`; });
       g += `<g class="hov" style="display:none"><line class="hl" y1="${pad.t}" y2="${Hc - pad.b}" stroke="#fff" stroke-opacity=".5"/></g><rect class="hit" x="${pad.l}" y="0" width="${W - pad.l - pad.r}" height="${Hc}" fill="transparent"/>`;
       box.querySelector("svg")?.remove();
-      box.insertAdjacentHTML("afterbegin", `<svg viewBox="0 0 ${W} ${Hc}" width="${W}" height="${Hc}" role="img" aria-label="${LABEL[measure]}, running total through the year">${g}</svg>`);
+      box.insertAdjacentHTML("afterbegin", `<svg viewBox="0 0 ${W} ${Hc}" width="${W}" height="${Hc}" role="img" aria-label="${LABEL[measure]}, ${wk() ? "amount each week" : "running total through the year"}">${g}</svg>`);
       const svg = box.querySelector("svg"), hov = svg.querySelector(".hov"), hl = svg.querySelector(".hl");
       const show = e => { const rc = svg.getBoundingClientRect(), mx = (e.clientX - rc.left) * W / rc.width, day = 1 + (mx - pad.l) / (W - pad.l - pad.r) * 365;
         hov.style.display = ""; hl.setAttribute("x1", X(day)); hl.setAttribute("x2", X(day));
@@ -348,8 +395,9 @@
       const hide = () => { hov.style.display = "none"; tip.classList.remove("on"); };
       const hit = svg.querySelector(".hit"); hit.addEventListener("pointermove", show); hit.addEventListener("pointerdown", show); hit.addEventListener("pointerleave", hide);
       const cur = lines.find(l => l.y === Ly)?.pts.slice(-1)[0], prev = lines.find(l => l.y === Ly - 1);
-      let note = `${LABEL[measure]}, running total from 1 January, in millions.`;
-      if (cur && prev) { const p = prev.pts.filter(p => p.x <= cur.x + 3.5).pop(); if (p) note += ` By ${dayLabel(cur.d)} it was ${money(cur.v * 1e6)}, against ${money(p.v * 1e6)} at the same point in ${Ly - 1}.`; }
+      let note = wk() ? `${LABEL[measure]}, amount each week, in millions.` : `${LABEL[measure]}, running total from 1 January, in millions.`;
+      if (cur && prev) { const p = prev.pts.filter(p => p.x <= cur.x + 3.5).pop(); if (p) note += wk() ? ` In the week to ${dayLabel(cur.d)} it was ${money(cur.v * 1e6)}, against ${money(p.v * 1e6)} in the same week of ${Ly - 1}.` : ` By ${dayLabel(cur.d)} it was ${money(cur.v * 1e6)}, against ${money(p.v * 1e6)} at the same point in ${Ly - 1}.`; }
+      $("pathHint").textContent = wk() ? "Each point is one week: the change in the running total since the report before. Where reports are more than a week apart, the change is averaged to a week. Weeks can dip below zero when the Ministry corrects earlier figures. Hover or tap the chart to compare the years." : "Each line is the running total from 1 January. Hover or tap the chart to compare the years on the same day.";
       $("pathNote").textContent = note + (measure === "overall_balance" ? " Below zero is a deficit." : "");
     }
 
@@ -364,16 +412,18 @@
       const b = byD[$("cmpB").value], a = byD[$("cmpA").value];
       const rows = MEASURES.concat([["green_tax", "Green tax"], ["general_gst", "GST outside tourism"], ["import_duties", "Import duties"], ["rent_from_resorts", "Rent from resorts"], ["soe_dividends", "Dividends from state companies"], ["grants", "Grants received"]]);
       const cell = (x, k) => x == null ? "n/a" : (x < 0 ? "−" : k === "overall_balance" ? "+" : "") + short(Math.abs(x));
-      let h = `<tr><th>From 1 January to</th><th>${dayLabel(b.d)} (${sym()})</th><th>${dayLabel(a.d)} (${sym()})</th><th>Change</th></tr>`;
-      rows.forEach(([k, l]) => { const vb = val(b, k), va = val(a, k); if (vb == null && va == null) return;
+      const head = r => wk() ? `${daysOf(r) === 7 || !prevOf(r) ? "Week" : daysOf(r) + " days"} to ${dayLabel(r.d)}` : dayLabel(r.d);
+      let h = `<tr><th>${wk() ? "That week alone" : "From 1 January to"}</th><th>${head(b)} (${sym()})</th><th>${head(a)} (${sym()})</th><th>Change</th></tr>`;
+      $("cmpNote").textContent = wk() ? "Pick any two weekly reports. Each figure is what came in or went out in that week alone, the change since the report before." : "Pick any two weekly reports. Each figure is the total from 1 January to that report's date, so compare weeks at the same point in their years, such as the latest week against the same week a year earlier.";
+      rows.forEach(([k, l]) => { const vb = mv(b, k), va = mv(a, k); if (vb == null && va == null) return;
         const cb = over(vb, b.d), ca = over(va, a.d); let c = "", cls = "";
         if (k === "overall_balance") { if (cb != null && ca != null) { const dlt = cb - ca; c = (dlt >= 0 ? "+" : "−") + short(Math.abs(dlt)); cls = dlt >= 0 ? "up" : "down"; } }
-        else if (ca && cb != null) { const p = (cb / ca - 1) * 100; c = (p >= 0 ? "+" : "−") + fmt(Math.abs(p), 1) + "%"; }
+        else if (ca > 0 && cb != null && cb >= 0) { const p = (cb / ca - 1) * 100; c = (p >= 0 ? "+" : "−") + fmt(Math.abs(p), 1) + "%"; }
         h += `<tr class="${["revenue_and_grants", "total_expenditure", "overall_balance"].includes(k) ? "l1" : "l2"}"><td>${l}</td><td>${cell(cb, k)}</td><td>${cell(ca, k)}</td><td class="${cls}">${c}</td></tr>`; });
       $("cmpTbl").innerHTML = h;
       document.querySelectorAll("#cmpQuick .pill").forEach(p => p.setAttribute("aria-pressed", "false"));
       try { const u = new URLSearchParams(location.search); u.set("a", a.d); u.set("b", b.d); history.replaceState(null, "", "?" + u.toString()); } catch (e) {}
-      $("cmpLink").textContent = "The page address now includes these two reports, so you can copy it to share this comparison." + (Math.abs(doy(a.d) - doy(b.d)) > 10 ? " These two reports are at different points in their years, so the totals aren't directly comparable." : "");
+      $("cmpLink").textContent = "The page address now includes these two reports, so you can copy it to share this comparison." + (!wk() && Math.abs(doy(a.d) - doy(b.d)) > 10 ? " These two reports are at different points in their years, so the totals aren't directly comparable." : "");
     }
 
     // ---------- year by year ----------
@@ -421,6 +471,7 @@
     function drawDetail() {
       const L = SEL, Ly = Number(SEL.d.slice(0, 4)), D = detailFor(SEL);
       if (!D) { $("detailNote").textContent = `Loading the line-by-line figures for ${dayLabel(L.d)}.`; $("detail").innerHTML = ""; return; }
+      if (wk()) return drawDetailWeek(D);
       const rows = D[tab] || [];
       const v = x => x == null ? "–" : sgn(x) + short(Math.abs(MV.convNow(M(x), L.d)));
       const used = (n, a) => { if (!a || n == null) return "–"; const p = pct(n, a); return `${fmt(p, 0)}%<span class="used"><i class="${p > 100 ? "over" : ""}" style="width:${Math.min(100, p)}%"></i></span>`; };
@@ -439,6 +490,33 @@
       rows.forEach(r => { if (r.memo && !memo) { memo = true; h += `<tr class="sec"><td colspan="6">Listed separately, not counted as spending</td></tr>`; }
         const lv = r.memo ? 2 : level(r.label, tab);
         h += `<tr class="l${lv}"><td>${clean(r.label)}</td><td>${v(r.approved)}</td><td>${v(r.now)}</td><td>${used(r.now, r.approved)}</td><td>${v(r.last)}</td><td>${ch(r.now, r.last)}</td></tr>`; });
+      $("detail").innerHTML = h;
+    }
+
+    // line by line, one week: each line's change since the report before, matched by its label
+    function drawDetailWeek(D) {
+      const L = SEL, p = prevOf(L), P = p ? detailFor(p) : {};
+      if (!P) { $("detailNote").textContent = `Loading the line-by-line figures for the week before ${dayLabel(L.d)}.`; $("detail").innerHTML = ""; return; }
+      const rows = D[tab] || [], seen = {}, before = {};
+      (P[tab] || []).forEach(r => { const key = r.label.trim().toLowerCase(); seen[key] = (seen[key] || 0) + 1; before[key + "#" + seen[key]] = r; });
+      const cnt = {}, prevRow = r => { const key = r.label.trim().toLowerCase(); cnt[key] = (cnt[key] || 0) + 1; return p ? before[key + "#" + cnt[key]] : { now: 0, last: 0 }; };
+      const d = (a, b) => a == null || b == null ? null : Math.round((a - b) * 10) / 10;
+      const v = x => x == null ? "–" : !x ? "0" : sgn(x) + short(Math.abs(MV.convNow(M(x), L.d)));
+      const ch = (n, l) => { if (n == null || l == null || l <= 0 || n < 0) return ""; const c = (n / l - 1) * 100; return (c >= 0 ? "+" : "−") + fmt(Math.abs(c), 0) + "%"; };
+      const when = span(L);
+      if (tab === "agencies") {
+        const list = rows.filter(r => !/^total$/i.test(r.label.trim())).map(r => { const q = prevRow(r) || {}; return { ...r, name: r.label.replace(/^\d+\s+/, ""), wn: d(r.now, q.now ?? 0), wl: d(r.last, q.last ?? 0) }; })
+          .filter(r => r.approved || r.now).sort((a, b) => (b.wn || 0) - (a.wn || 0));
+        $("detailNote").textContent = `What each government office spent ${when}, and in the same days a year earlier, largest first. Amounts in ${sym()}.`;
+        $("detail").innerHTML = `<tr><th>Office</th><th>That week</th><th>Same week a year earlier</th><th>Change</th></tr>`
+          + list.map(r => `<tr class="l2"><td>${r.name}</td><td>${v(r.wn)}</td><td>${v(r.wl)}</td><td>${ch(r.wn, r.wl)}</td></tr>`).join("");
+        return;
+      }
+      $("detailNote").textContent = (tab === "revenue" ? "Every revenue line" : "Every spending line") + ` ${when}, against the same days a year earlier. Amounts in ${sym()}. A minus means the Ministry corrected an earlier week.`;
+      let h = `<tr><th>${tab === "revenue" ? "Revenue" : "Spending"}</th><th>That week</th><th>Same week a year earlier</th><th>Change</th></tr>`, memo = false;
+      rows.forEach(r => { const q = prevRow(r) || {}; if (r.memo && !memo) { memo = true; h += `<tr class="sec"><td colspan="4">Listed separately, not counted as spending</td></tr>`; }
+        const lv = r.memo ? 2 : level(r.label, tab), wn = d(r.now, q.now ?? (p ? null : 0)), wl = d(r.last, q.last ?? (p ? null : 0));
+        h += `<tr class="l${lv}"><td>${clean(r.label)}</td><td>${v(wn)}</td><td>${v(wl)}</td><td>${ch(wn, wl)}</td></tr>`; });
       $("detail").innerHTML = h;
     }
 
@@ -463,6 +541,7 @@
     });
     document.addEventListener("click", e => {
       const y = e.target.closest("[data-year]"); if (y) { const n = Number(y.dataset.year); shown.has(n) ? shown.delete(n) : shown.add(n); if (!shown.size) shown.add(Ly); yearPills(); drawPath(); return; }
+      const md = e.target.closest("[data-mode]"); if (md) { MODE = md.dataset.mode; document.querySelectorAll("[data-mode]").forEach(x => x.setAttribute("aria-pressed", x.dataset.mode === MODE)); drawLatest(); drawPath(); drawCmp(); drawDetail(); return; }
       const t = e.target.closest("[data-tab]"); if (t) { tab = t.dataset.tab; t.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === t)); drawDetail(); return; }
       const qb = e.target.closest("[data-q]"); if (qb) { const b = byD[$("cmpB").value]; let a = null;
         if (qb.dataset.q === "yr") a = sameWeek(b, Number(b.d.slice(0, 4)) - 1);
