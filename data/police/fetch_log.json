@@ -1,6 +1,8 @@
 {
- "checked_at": "2026-10-12T22:56:33+00:00",
+ "checked_at": "2026-10-12T23:46:21+00:00",
  "ok": true,
- "periods_read": 24,
- "problems": []
+ "periods_read": 23,
+ "problems": [
+  "Oct 2025: page showed no cases"
+ ]
 }
