@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261012b">
+<link rel="stylesheet" href="assets/site.css?v=20261012c">
 <title>Maldives National Debt Clock</title>
 <meta name="description" content="A live estimate of Maldives' public and publicly guaranteed debt, built from Maldives Monetary Authority statistics.">
 <meta property="og:title" content="Maldives National Debt Clock">
@@ -66,7 +66,6 @@
   .gauge .now { position: absolute; right: 1.1rem; transform: translateY(-50%); background: var(--sun); color: var(--abyss); font: 800 .82rem var(--body); padding: .15rem .45rem; border-radius: 3px; white-space: nowrap; transition: top 2.4s cubic-bezier(.2,.7,.2,1); }
   .gauge .now::after { content: ""; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); border: 6px solid transparent; border-right: 0; border-left-color: var(--sun); }
   .gdp-line { position: absolute; left: 0; right: 0; height: 0; border-top: 2px dashed var(--sun); opacity: 0; transition: opacity .6s 1.8s; }
-  .surface-label { position: absolute; z-index: 5; left: var(--gutter); font-size: .8rem; font-weight: 700; color: var(--sky-ink); transition: top 2.4s cubic-bezier(.2,.7,.2,1); }
   .gdp-line { z-index: 4; transition: opacity .6s 1.2s, top 2.4s cubic-bezier(.2,.7,.2,1); }
   .gdp-line span b { font-size: 1.05rem; margin-right: .45rem; }
   .gdp-line span { position: absolute; left: var(--gutter); top: -2.05rem; font-size: .8rem; font-weight: 700; color: var(--abyss); background: var(--sun); padding: .1rem .5rem; border-radius: 3px; white-space: nowrap; }
@@ -154,7 +153,6 @@
     .cloud.c1 { top: 2.6rem; }
     .gdp-line span { font-size: .72rem; }
     .ratio-tag b { font-size: 1.3rem; }
-    .surface-label .long { display: none; }
     .legend { grid-template-columns: 1fr 1fr; gap: .9rem 1rem; }
     .legend .v { font-size: .85rem; }
   }
@@ -167,10 +165,10 @@
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock" aria-current="page">Debt clock</a>
     <a href="priorities.html" data-page="priorities">Priorities</a>
-    <a href="updates.html" data-page="updates">Updates</a>
     <a href="budget.html" data-page="budget">Budget</a>
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
+    <a href="updates.html" data-page="updates">Updates</a>
     <a href="methodology.html" data-page="method">Methodology</a>
     <a href="about.html" data-page="about">About</a>
   </nav>
@@ -196,7 +194,6 @@
     <svg class="foam" viewBox="0 0 1200 8" preserveAspectRatio="none"><path d="M0 6 Q 60 0 120 6 T 240 6 T 360 6 T 480 6 T 600 6 T 720 6 T 840 6 T 960 6 T 1080 6 T 1200 6" stroke="#fff" stroke-width="1.5" fill="none" stroke-dasharray="14 22"/></svg>
   </div>
   <div class="gauge" id="gauge" aria-hidden="true"><div class="pole"></div></div>
-  <div class="surface-label" id="seaLabel">Surface: 70% of GDP<span class="long">, where the IMF flags debt as high risk</span></div>
   <div class="gdp-line" id="gdpLine"><span id="lineLabel"></span></div>
   <div class="readout" id="readout">
     <h1>Maldives National Debt Clock</h1>
@@ -411,9 +408,9 @@ window.MVSky = (() => {
   return { horizon(y) { hz = y; hero.style.setProperty("--hz", y + "px"); stars.style.bottom = "auto"; stars.style.height = y + "px"; draw(); }, draw };
 })();
 </script>
-<script src="assets/site.js?v=20261012b"></script>
-<script src="assets/motion.js?v=20261012b" defer></script>
-<script src="assets/updates.js?v=20261012b"></script>
+<script src="assets/site.js?v=20261012c"></script>
+<script src="assets/motion.js?v=20261012c" defer></script>
+<script src="assets/updates.js?v=20261012c"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -518,7 +515,6 @@ window.MVSky = (() => {
       hero.style.height = H + "px";
       water.style.height = (H - y0) + "px";
       surfaceY = y0; $("surface").style.top = y0 + "px";
-      $("seaLabel").style.top = (y0 - 30) + "px";
       line.style.top = markY + "px"; line.style.opacity = ratio ? 1 : 0;
       readout.style.top = top + "px";
       // depth gauge: 70% at the surface, counting down into the water (and up into the sky for lower debt)

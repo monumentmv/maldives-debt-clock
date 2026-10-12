@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261012b">
+<link rel="stylesheet" href="assets/site.css?v=20261012c">
 <title>Taxes · Maldives National Debt Clock</title>
 <meta name="description" content="Taxes, fees and rents collected by the Maldives Inland Revenue Authority since 2010, and how much of it is paid in US dollars.">
 <style>
@@ -58,6 +58,13 @@
   .tbl-head { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; }
   .tbl-head h3 { margin: 0 !important; }
   .subtoggle[hidden] { display: none; }
+  .pill { font: 700 .85rem var(--body); border: 1px solid rgba(169,205,214,.35); background: transparent; color: var(--mist); padding: .35rem .75rem; border-radius: 999px; cursor: pointer; min-height: 2.1rem; display: inline-flex; align-items: center; gap: .4rem; }
+  .pill i { width: .7rem; height: .7rem; border-radius: 2px; display: inline-block; border: 2px solid currentColor; }
+  .pill[aria-pressed="true"] i { background: currentColor; }
+  .pills { display: flex; flex-wrap: wrap; gap: .45rem; }
+  .ytd-ctl { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
+  .ytd-ctl select { font: 700 .9rem var(--body); background: rgba(255,255,255,.08); color: var(--foam); border: 1px solid rgba(169,205,214,.3); border-radius: 6px; padding: .35rem .45rem; min-height: 2.2rem; }
+  .ytd-ctl select option { color: #072f40; background: #fff; }
   .rev-table tr.sub td:first-child { padding-left: 2rem; }
   .caveat { border-top: 1px solid rgba(169,205,214,.25); padding-top: 2rem; }
   @media (max-width: 560px) {
@@ -72,10 +79,10 @@
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock">Debt clock</a>
     <a href="priorities.html" data-page="priorities">Priorities</a>
-    <a href="updates.html" data-page="updates">Updates</a>
     <a href="budget.html" data-page="budget">Budget</a>
     <a href="revenue.html" data-page="revenue" aria-current="page">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
+    <a href="updates.html" data-page="updates">Updates</a>
     <a href="methodology.html" data-page="method">Methodology</a>
     <a href="about.html" data-page="about">About</a>
   </nav>
@@ -130,6 +137,19 @@
 
   <section>
     <div class="chart-head">
+      <div><h2>This year against other years</h2><p id="ytdNote" style="margin:0"></p></div>
+      <div class="ytd-ctl">
+        <div class="subtoggle" role="group" aria-label="Figures shown"><button type="button" data-ymode="ytd" aria-pressed="true">Year so far</button><button type="button" data-ymode="month" aria-pressed="false">Each month</button></div>
+        <select id="ytdWhat" aria-label="What to show"></select>
+      </div>
+    </div>
+    <div class="pills" id="ytdYears" role="group" aria-label="Years to show" style="margin-top:1rem"></div>
+    <div class="chart-box" id="ytdChart"></div>
+    <div class="hint" id="ytdHint"></div>
+  </section>
+
+  <section>
+    <div class="chart-head">
       <div><h2>The whole history</h2><p id="histNote" style="margin:0"></p></div>
       <div class="controls">
         <div class="subtoggle" role="group" aria-label="Detail"><button type="button" data-gran="year" aria-pressed="true">By year</button><button type="button" data-gran="month" aria-pressed="false">By month</button></div>
@@ -174,8 +194,8 @@
   <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with MIRA or MMA.</span></span>
 </div></footer>
 
-<script src="assets/site.js?v=20261012b"></script>
-<script src="assets/motion.js?v=20261012b" defer></script>
+<script src="assets/site.js?v=20261012c"></script>
+<script src="assets/motion.js?v=20261012c" defer></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -414,6 +434,50 @@
       $("dollarLine").innerHTML = `In ${f1}, <b>US$ ${short(raw(R.total.usd, fx))}</b> of MIRA's collections were paid in US dollars, <b>${fmt(pct(raw(dolM, fx), raw(allM, fx)), 0)}%</b> of the total. In ${f0} it was US$ ${short(raw(R.total.usd, idxOf(f0)))}.`;
     }
 
+    // ---------- this year against other years: running total from January, or each month on its own ----------
+    let ymode = "ytd", ywhat = "all";
+    const YCOL = ["#f4c95d", "#3fb8b0", "#9fe0d6", "#6fa8dc", "#a98bd6", "#e0a3c8", "#f2a541", "#7f9aa5", "#c7d6db"];
+    const Ly = lastM.y, yShown = new Set([Ly, String(Number(Ly) - 1)].filter(y => years.includes(y)));
+    const yColor = y => YCOL[Math.min(YCOL.length - 1, Number(Ly) - Number(y))];
+    $("ytdWhat").innerHTML = `<option value="all">Everything MIRA collected</option><option value="usd">Paid in US dollars</option>` + G.map(k => `<option value="${k}">${LABEL[k]}</option>`).join("");
+    const ytdArr = () => ywhat === "all" ? allM : ywhat === "usd" ? dolM : R.mvr[ywhat];
+    const ytdName = () => ywhat === "all" ? "Everything MIRA collected" : ywhat === "usd" ? "The part paid in US dollars" : LABEL[ywhat];
+    function drawYtd() {
+      const arr = ytdArr(), yrs = years.filter(y => idxOf(y).some(i => arr[i] != null));
+      [...yShown].forEach(y => { if (!yrs.includes(y)) yShown.delete(y); }); if (!yShown.size && yrs.length) yShown.add(yrs[yrs.length - 1]);
+      $("ytdYears").innerHTML = yrs.slice().reverse().map(y => `<button type="button" class="pill" data-yy="${y}" aria-pressed="${yShown.has(y)}" style="${yShown.has(y) ? `color:${yColor(y)};border-color:${yColor(y)}` : ""}"><i></i>${y}</button>`).join("");
+      const lines = [...yShown].sort().map(y => { let run = 0; return { y, pts: idxOf(y).filter(i => arr[i] != null).map(i => { const v = MV.conv(arr[i], months[i].date) / 1e6; run += v; return { mo: months[i].mo, i, v: ymode === "ytd" ? run : v }; }) }; });
+      const box = $("ytdChart"), tip = box.querySelector(".tip") || box.appendChild(Object.assign(document.createElement("div"), { className: "tip" }));
+      const W = Math.max(300, box.clientWidth), small = W < 560, Hc = Math.round(Math.min(400, Math.max(260, W * .45))), pad = { l: 56, r: 14, t: 26, b: 28 };
+      const all = lines.flatMap(l => l.pts.map(p => p.v)).concat([0]);
+      let lo = Math.min(...all), hi = Math.max(...all) * 1.06 || 1;
+      const X = m => pad.l + (m - 1) / 11 * (W - pad.l - pad.r), Y = v => Hc - pad.b - (v - lo) / (hi - lo) * (Hc - pad.t - pad.b);
+      const mag = Math.pow(10, Math.floor(Math.log10((hi - lo) / 4))), step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(st => (hi - lo) / st <= (small ? 4 : 6));
+      let g = `<text x="${pad.l - 8}" y="12" text-anchor="end" style="font-weight:700">${sym()} m</text>`;
+      for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) g += `<line x1="${pad.l}" x2="${W - pad.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="rgba(169,205,214,${v ? .15 : .5})"/><text x="${pad.l - 8}" y="${Y(v) + 4}" text-anchor="end">${fmt(v)}</text>`;
+      MV.MONTHS.forEach((m, i) => { if (!small || i % 2 === 0) g += `<text x="${X(i + 1)}" y="${Hc - 8}" text-anchor="middle">${m.slice(0, 3)}</text>`; });
+      lines.forEach(l => { if (!l.pts.length) return; const c = yColor(l.y);
+        g += `<path d="${l.pts.map((p, k) => (k ? "L" : "M") + X(p.mo).toFixed(1) + " " + Y(p.v).toFixed(1)).join(" ")}" fill="none" stroke="${c}" stroke-width="${l.y === Ly ? 3 : 2}" stroke-linejoin="round"/>`
+          + l.pts.map(p => `<circle cx="${X(p.mo).toFixed(1)}" cy="${Y(p.v).toFixed(1)}" r="${l.y === Ly ? 3 : 2}" fill="${c}"/>`).join("");
+        const e = l.pts[l.pts.length - 1]; g += `<text x="${Math.min(X(e.mo) + 6, W - 30)}" y="${Y(e.v) - 8}" style="fill:${c};font-weight:700">${l.y}</text>`; });
+      g += `<g class="hov" style="display:none"><line class="hl" y1="${pad.t}" y2="${Hc - pad.b}" stroke="#fff" stroke-opacity=".5"/></g><rect class="hit" x="${pad.l - 10}" y="0" width="${W - pad.l - pad.r + 20}" height="${Hc}" fill="transparent"/>`;
+      box.querySelector("svg")?.remove();
+      box.insertAdjacentHTML("afterbegin", `<svg viewBox="0 0 ${W} ${Hc}" width="${W}" height="${Hc}" role="img" aria-label="${ytdName()}, ${ymode === "ytd" ? "running total from January" : "each month"}, by year">${g}</svg>`);
+      const svg = box.querySelector("svg"), hov = svg.querySelector(".hov"), hl = svg.querySelector(".hl");
+      const show = ev => { const rc = svg.getBoundingClientRect(), mx = (ev.clientX - rc.left) * W / rc.width, mo = Math.min(12, Math.max(1, Math.round(1 + (mx - pad.l) / (W - pad.l - pad.r) * 11)));
+        hov.style.display = ""; hl.setAttribute("x1", X(mo)); hl.setAttribute("x2", X(mo));
+        let h = `<b>${ymode === "ytd" ? `January to ${MV.MONTHS[mo - 1]}` : MV.MONTHS[mo - 1]}</b>`;
+        lines.slice().reverse().forEach(l => { const p = l.pts.find(p => p.mo === mo); if (p) h += row(`<span style="color:${yColor(l.y)}">■</span> ${l.y}`, money(p.v * 1e6)); });
+        tip.innerHTML = h; tip.classList.add("on"); const px = X(mo) * rc.width / W, tw = tip.offsetWidth; tip.style.left = Math.min(Math.max(0, px + 14 + tw > rc.width ? px - tw - 14 : px + 14), rc.width - tw) + "px"; };
+      const hide = () => { hov.style.display = "none"; tip.classList.remove("on"); };
+      const hit = svg.querySelector(".hit"); hit.addEventListener("pointermove", show); hit.addEventListener("pointerdown", show); hit.addEventListener("pointerleave", hide);
+      const cur = lines.find(l => l.y === Ly)?.pts.slice(-1)[0], prev = lines.find(l => l.y === String(Number(Ly) - 1))?.pts.find(p => cur && p.mo === cur.mo);
+      let note = `${ytdName()}, ${ymode === "ytd" ? "running total from January" : "each month on its own"}, in millions.`;
+      if (cur && prev) { const c = chg(cur.v, prev.v); note += ymode === "ytd" ? ` January to ${MV.MONTHS[cur.mo - 1]} ${Ly}: ${money(cur.v * 1e6)}, against ${money(prev.v * 1e6)} in the same months of ${Number(Ly) - 1} (${chgTxt(c)}).` : ` ${MV.MONTHS[cur.mo - 1]} ${Ly}: ${money(cur.v * 1e6)}, against ${money(prev.v * 1e6)} a year earlier (${chgTxt(c)}).`; }
+      $("ytdNote").textContent = note;
+      $("ytdHint").textContent = (ymode === "ytd" ? "Each line adds up the months from January, so years can be compared at the same point." : "Each point is one month. Many taxes are paid quarterly or once a year, so some months jump.") + " Pick years above. Hover or tap the chart to compare them.";
+    }
+
     // ---------- by tax ----------
     let which = "all", as = "amt";
     function drawTypes() {
@@ -454,7 +518,7 @@
     }
 
     function render() {
-      drawLatest(); drawCompare(); drawHist(); drawTypes(); drawTable();
+      drawLatest(); drawCompare(); drawYtd(); drawHist(); drawTypes(); drawTable();
       const sh = years.map(y => [y, mmaShare(y)]).filter(([, s]) => s != null);
       if (sh.length) { const [y, s] = sh[sh.length - 1]; $("shareOfAll").textContent = `In ${y}, MIRA's collections were ${fmt(s, 0)}% of all government revenue and grants recorded by MMA (series 1999).`; }
     }
@@ -466,18 +530,21 @@
 
     document.addEventListener("change", e => {
       if (e.target.id === "tblYear") { drawTable(); return; }
+      if (e.target.id === "ytdWhat") { ywhat = e.target.value; drawYtd(); return; }
       const s = e.target.closest("select[data-p]"); if (!s) return;
       const k = s.dataset.p, en = Number(s.dataset.e); P[k][en] = readSelect(k, en); preset = null; setSelects(); drawCompare();
     });
     document.addEventListener("click", e => {
       const pr = e.target.closest("[data-preset]"); if (pr) { applyPreset(pr.dataset.preset); return; }
+      const yy = e.target.closest("[data-yy]"); if (yy) { const y = yy.dataset.yy; yShown.has(y) ? yShown.delete(y) : yShown.add(y); drawYtd(); return; }
+      const ym = e.target.closest("[data-ymode]"); if (ym) { ymode = ym.dataset.ymode; ym.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === ym)); drawYtd(); return; }
       const b = e.target.closest("[data-which],[data-as],[data-avg],[data-gran],[data-range]"); if (!b) return;
       if (b.dataset.which) which = b.dataset.which; if (b.dataset.as) as = b.dataset.as;
       if (b.dataset.avg) avg = b.dataset.avg === "1"; if (b.dataset.gran) gran = b.dataset.gran; if (b.dataset.range) hrange = b.dataset.range;
       b.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
       if (b.dataset.avg) drawCompare(); else if (b.dataset.gran || b.dataset.range) drawHist(); else drawTypes();
     });
-    MV.onPrefs(render); MV.onResize(() => { drawHist(); drawTypes(); });
+    MV.onPrefs(render); MV.onResize(() => { drawYtd(); drawHist(); drawTypes(); });
     $("fetched").textContent = `MIRA figures to ${mLabel(lastM.date)}${R.source_note ? `, file updated ${R.source_note.replace(/^Updated on\s*/i, "").replace(/(\d+)(st|nd|rd|th)\b/, "$1")}` : ""}. Exchange rates and prices from MMA Statistics Database, last fetched ${MV.fetched(data.fetched_at)}, Malé time.`;
     render();
   }).catch(err => { console.error(err); $("latestNote").textContent = "Couldn't load the revenue data."; });

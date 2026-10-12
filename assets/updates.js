@@ -65,7 +65,8 @@ window.MVUpdates = (() => {
         const tot = revenue.total?.mvr?.[i]; if (!tot) return;
         const date = new Date(Date.UTC(Number(k.slice(0, 4)), Number(k.slice(5, 7)), 0)).toISOString().slice(0, 10);
         const li = RIDX[`${Number(k.slice(0, 4)) - 1}-${k.slice(5, 7)}`], c = li != null ? chg(tot, revenue.total.mvr[li]) : null;
-        const dol = keys.reduce((a, g) => a + (revenue.usd?.[g]?.[i] || 0), 0), dsh = dol ? 100 * dol / tot : null;
+        // the dollar part in rufiyaa at that month's rate, each tax capped at its own total, as on the taxes page
+        const dol = keys.reduce((a, g) => { const u = revenue.usd?.[g]?.[i]; return u == null ? a : a + Math.min(revenue.mvr?.[g]?.[i] || 0, u * MV.rateAt(date)); }, 0), dsh = dol ? 100 * dol / tot : null;
         out.push({ type: "revenue", d: date, big: m(tot, date), bigLabel: `collected, ${mLabel(date)}`, spark: revenue.total.mvr.slice(Math.max(0, i - 12), i + 1), sparkCap: "last 13 months",
           title: c != null ? `Tax collections were ${chgTxt(c)} on a year earlier` : `Tax collections for ${mLabel(date)}`,
           lead: `What MIRA, the tax office, collected in ${mLabel(date)}.`,
@@ -90,8 +91,10 @@ window.MVUpdates = (() => {
     if (C?.monthly) Object.entries(C.monthly).forEach(([y, months]) => Object.entries(months).forEach(([mo, cats]) => {
       const date = new Date(Date.UTC(Number(y), Number(mo), 0)).toISOString().slice(0, 10), list = Object.entries(cats).sort((a, b) => b[1] - a[1]);
       const tot = list.reduce((s, [, n]) => s + n, 0); if (!tot) return;
+      // a month still under way counts only the days up to when the figures were read
+      const got = C.retrieved || "", days = got.slice(0, 7) === date.slice(0, 7) ? Math.max(1, Number(got.slice(8, 10))) : new Date(date).getUTCDate(), sofar = days < new Date(date).getUTCDate();
       out.push({ type: "police", d: date, big: fmt(tot), bigLabel: `cases, ${mLabel(date)}`, spark: [], sparkCap: "", title: `${list[0][0]} was the most reported case in ${mLabel(date)}`,
-        lead: `About one every ${fmt(Math.round(new Date(date).getUTCDate() * 1080 / tot))} minutes, counting waking hours from 6 am to midnight.`,
+        lead: `A case was reported about every ${fmt(Math.round(days * 1080 / tot))} minutes${sofar ? ` so far this month` : ""}, counting waking hours from 6 am to midnight.`,
         lines: [`The most common were ${list.slice(0, 3).map(([c, n]) => `${c.toLowerCase()} (${fmt(n)})`).join(", ")}.`],
         link: `priorities.html?cy=${y}&cm=${mo}`, linkText: "See that month's police figures", period: mLabel(date) });
     }));
