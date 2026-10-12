@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261012c">
+<link rel="stylesheet" href="assets/site.css?v=20261012d">
 <title>Maldives National Debt Clock</title>
 <meta name="description" content="A live estimate of Maldives' public and publicly guaranteed debt, built from Maldives Monetary Authority statistics.">
 <meta property="og:title" content="Maldives National Debt Clock">
@@ -408,9 +408,9 @@ window.MVSky = (() => {
   return { horizon(y) { hz = y; hero.style.setProperty("--hz", y + "px"); stars.style.bottom = "auto"; stars.style.height = y + "px"; draw(); }, draw };
 })();
 </script>
-<script src="assets/site.js?v=20261012c"></script>
-<script src="assets/motion.js?v=20261012c" defer></script>
-<script src="assets/updates.js?v=20261012c"></script>
+<script src="assets/site.js?v=20261012d"></script>
+<script src="assets/motion.js?v=20261012d" defer></script>
+<script src="assets/updates.js?v=20261012d"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -506,11 +506,11 @@ window.MVSky = (() => {
     // 100% (debt equal to a full year of the economy) is well under the surface, so being "at sea level" never reads as fine.
     // The hero is only as tall as it needs to be, with the readout just under the line.
     function layout() {
-      const k = innerWidth < 600 ? 3.5 : 4;                                  // pixels per percentage point
+      const phone = innerWidth < 600, k = phone ? 2 : 4;                    // pixels per percentage point: shallower on phones, so the clock is on the first screen
       const tag = $("ratioTag"), tagB = tag.offsetTop + tag.offsetHeight;
-      const y0 = Math.max(innerWidth < 600 ? 200 : 210, tagB + 100);          // the surface: 70% of GDP, with room in the sky for the scene
+      const y0 = Math.max(phone ? 130 : 210, tagB + (phone ? 70 : 100));          // the surface: 70% of GDP, with room in the sky for the scene
       const markY = y0 + ((ratio || SEA) - SEA) * k;                         // today's debt
-      const rh = readout.offsetHeight, top = Math.max(markY, y0) + 48;
+      const rh = readout.offsetHeight, top = Math.max(markY, y0) + (phone ? 34 : 48);
       const H = Math.max(520, Math.ceil(top + rh + 56));
       hero.style.height = H + "px";
       water.style.height = (H - y0) + "px";
@@ -521,7 +521,7 @@ window.MVSky = (() => {
       const g = $("gauge"); g.querySelectorAll(".tick").forEach(t => t.remove());
       const vTop = SEA - Math.floor(y0 / k / 10) * 10, vBot = SEA + Math.floor((H - y0) / k / 10) * 10;
       for (let v = Math.max(0, vTop); v <= vBot; v += 5) {
-        const y = y0 + (v - SEA) * k, label = v % 20 === 0 || v === SEA || v === 100;
+        const y = y0 + (v - SEA) * k, label = v % 20 === 0 || v === 100 || (v === SEA && !phone);
         if (y < 12 || y > H - 8) continue;
         const t = document.createElement("div"); t.className = "tick";
         t.style.top = y + "px"; t.style.width = label ? "10px" : "5px";

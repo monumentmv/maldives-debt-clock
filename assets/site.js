@@ -441,6 +441,9 @@ const MV = (() => {
       el.className = "ticker";
       el.innerHTML = `<span class="dot" aria-hidden="true"></span><a href="priorities.html" title="Interest builds up every second on the money the government owes"><span>Interest accrued since you arrived</span><span class="v">…</span></a><button type="button" aria-label="Hide the interest counter">×</button>`;
       document.body.appendChild(el);
+      // on phones, stay out of the way while the debt clock itself is on screen
+      const hold = document.getElementById("readout");
+      if (hold && innerWidth < 700) new IntersectionObserver(([e]) => el.classList.toggle("away", e.isIntersecting)).observe(hold);
       const v = el.querySelector(".v");
       let last = 0;
       const tick = t => { if (!el.isConnected) return; if (t - last > 100) { last = t; v.textContent = sym() + " " + fmt(convNow((Date.now() - start) / 1000 * perSec)); } requestAnimationFrame(tick); };
