@@ -133,6 +133,7 @@
   <section id="casesSec" hidden>
     <p class="eyebrow">Cases reported to the police</p>
     <h1 class="often-h">How often, on average</h1>
+    <p class="lede" id="oftenIntro" hidden></p>
     <div class="period-zone">
     <div class="period-pick cases-pick">
       <span class="yr-chip" id="cYearChip"></span>
@@ -269,6 +270,13 @@
         : ratio >= .9 ? "Interest cost about as much as policing, justice and rights put together"
         : `Interest cost ${fmt(ratio * 100)}% as much as policing, justice and rights put together`;
       $("lede").innerHTML = `From 1 January to ${dayLabel(d)}, the government paid <b>${cur(it, d)}</b> in interest and financing costs. That money pays lenders for borrowing already done. It doesn't build a school, run a hospital or pay a police officer. Over the same period the police, prisons, prosecutors, the Anti-Corruption Commission and the ${nR === 4 ? "four offices that protect families, children, human rights and people affected by drugs" : `${W[nR]} protection and rights offices then listed`} spent <b>${cur(both, d)}</b> between them.`;
+
+      // one plain line under "How often, on average", so the page's point is clear from the top
+      const when0 = R === LR ? "So far this year" : `From 1 January to ${dayLabel(d)}`;
+      $("oftenIntro").innerHTML = it >= both
+        ? `${when0} the government has paid <b>more in interest</b> on its debt than it spent on the police, prisons, prosecutors and the offices that protect children, families and rights, all put together. Here is how often people need them.`
+        : `${when0} the government's interest bill is <b>${fmt(ratio * 100)}%</b> of what it spent on the police, prisons, prosecutors and the offices that protect children, families and rights. Here is how often people need them.`;
+      $("oftenIntro").hidden = false;
 
       // the comparison
       const max = Math.max(it, both);
