@@ -203,6 +203,9 @@
   }
 
   // ---------- from the Debt Bulletins: repayments, money still to come, loans passed on ----------
+  // "April to June 2026" for the quarter ending 30 June 2026
+  const qSpan = d => { const e = new Date(d + "T00:00:00Z"), st = new Date(Date.UTC(e.getUTCFullYear(), e.getUTCMonth() - 2, 1)), mo = x => x.toLocaleString("en-GB", { month: "long", timeZone: "UTC" });
+    return `${mo(st)} to ${mo(e)} ${e.getUTCFullYear()}`; };
   function drawBul() {
     const o = O(); $("lendBul").hidden = !o; if (!o) return;
     const d = qNow(), S = o.service, qs = Object.keys(S).sort(), tot = q => ["gp", "gi", "sp", "si"].reduce((a, k) => a + (S[q][k] || 0), 0);
@@ -212,9 +215,9 @@
     if (prev) ["loans", "guarantees"].forEach(k => Object.entries(o[k]).forEach(([l, v]) => { const dlt = (v[prev] || 0) - (v[d] || 0); if (dlt > 300) drops.push([l, dlt]); }));
     drops.sort((x, y) => y[1] - x[1]);
     $("svcNote").innerHTML = !yr.length ? `The bulletins give repayments and interest from ${MV.mLabel(qs[0])}. Move the quarter forward to see them.`
-      : `Every three months the government pays back part of what it owes, and pays interest. In the ${yr.length === 4 ? "year" : `${yr.length} quarter${yr.length > 1 ? "s" : ""}`} to the end of ${MV.mLabel(yr[yr.length - 1])} it paid <b>${mvr(sum("gp"), d)}</b> in repayments and <b>${mvr(sum("gi"), d)}</b> in interest. `
+      : `The government repays its loans and pays interest at different times through the year. Ministry of Finance reports the payments for each quarter, shown here as one bar per quarter. In the ${yr.length === 4 ? "year" : `${yr.length} quarter${yr.length > 1 ? "s" : ""}`} to the end of ${MV.mLabel(yr[yr.length - 1])} it paid <b>${mvr(sum("gp"), d)}</b> in repayments and <b>${mvr(sum("gi"), d)}</b> in interest. `
       + `State companies and others paid <b>${mvr(sum("sp") + sum("si"), d)}</b> on debt the government guaranteed for them, <b>${mvr(sum("si"), d)}</b> of it interest: that interest is not in the clock's <i>interest accrued</i>, as the government doesn't pay it.`
-      + (S[d] ? ` In ${MV.mLabel(d)} alone: ${mvr(tot(d), d)}.` : "")
+      + (S[d] ? ` In ${qSpan(d)} alone: ${mvr(tot(d), d)}.` : "")
       + (drops.length ? ` What was owed abroad fell most for ${drops.slice(0, 2).map(([l, v]) => `${esc(l)} (down ${mvr(v, d)})`).join(" and ")}.` : "");
     const Wd = Math.max(300, $("lendSvc").clientWidth || 640), Hh = 150, bw = (Wd - 30) / qs.length, top = Math.max(...qs.map(tot), 1);
     const COLS = { gp: "#3fb8b0", gi: "#9fe0d6", sp: "#b39ddb", si: "#ddd2f2" }, NAMES = { gp: "government repayments", gi: "government interest", sp: "guaranteed repayments", si: "guaranteed interest" };
@@ -224,7 +227,7 @@
             return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" fill="${COLS[k]}"><title>${MV.mLabel(q)}: ${NAMES[k]} ${mvr(S[q][k] || 0, q)}</title></rect>`; }).join("")
             + (q === d ? `<rect x="${x.toFixed(1)}" y="0" width="${w.toFixed(1)}" height="${Hh}" fill="none" stroke="#fff" stroke-width="1.5"/>` : "") + `</g>`; }).join("")
       + qs.map((q, j) => q.endsWith("03-31") && (bw > 14 || q.slice(0, 4) % 2 === 0) ? `<text x="${(15 + j * bw).toFixed(1)}" y="${Hh + 16}">${q.slice(0, 4)}</text>` : "").join("")
-      + `<line x1="15" x2="${Wd - 15}" y1="${Hh}" y2="${Hh}" stroke="rgba(169,205,214,.3)"/></svg><p class="hint">Each bar is three months. Tap a bar to move to that quarter.</p>`;
+      + `<line x1="15" x2="${Wd - 15}" y1="${Hh}" y2="${Hh}" stroke="rgba(169,205,214,.3)"/></svg><p class="hint">Each bar is one quarter (three months). Tap a bar to move to that quarter.</p>`;
     // still to come, and passed on, at the chosen quarter
     const at = tbl => Object.entries(tbl).map(([n, v]) => [n, v[d]]).filter(([, v]) => v > 0).sort((x, y) => y[1] - x[1]);
     const cub = at(o.cub), sub = at(o.subsidiary), t = a => a.reduce((s, [, v]) => s + v, 0);
@@ -236,7 +239,10 @@
     // guaranteed for whom
     const ben = Object.entries(o.guaranteed_for).map(([n, v]) => [n, v[d]]).filter(([, v]) => v).map(([n, v]) => [n, (v.ext || 0) + (v.dom || 0), v]).sort((x, y) => y[1] - x[1]), bm = ben[0]?.[1] || 1;
     $("lendFor").innerHTML = ben.map(([n, v, p]) => `<div class="lb" role="img" aria-label="${esc(n)}: ${mvr(v, d)}"><span class="n">${esc(n.replace(/ (Limited|Ltd|PLC|Private Limited|Pvt Ltd)$/, ""))}</span><span class="t"><i style="width:${v / bm * 100}%;background:${KC.guarantees}"></i></span><span class="v num">${mvr(v, d)}${p.dom ? `<small>${p.ext ? `${mvr(p.dom, d)} of it` : "all"} at home</small>` : ""}</span></div>`).join("")
-      + `<p class="hint">${ben.length ? `Still owed at the end of ${MV.mLabel(d)}.${ben.some(([n]) => /Monetary Authority/.test(n)) ? " Maldives Monetary Authority's is its currency swap with Reserve Bank of India." : ""}` : "Not given for this quarter."}</p>`;
+      + (ben.length ? "" : `<p class="hint">Not given for this quarter.</p>`);
+    $("forHead").textContent = `Who owes the guaranteed debt, at the end of ${MV.mLabel(d)}`;
+    $("forNote").innerHTML = `These are the state companies and others that borrowed with a government guarantee, and how much each still owed on that date. It is not what they borrowed during the quarter: it is everything still owed, from loans taken over many years. If they can't repay, the government has promised to.`
+      + (ben.some(([n]) => /Monetary Authority/.test(n)) ? ` <b>Maldives Monetary Authority</b>, the central bank, is here because of its currency swap with Reserve Bank of India: money it drew from India's central bank, which the government guaranteed.` : "");
     $("bulSrc").innerHTML = `Source: Ministry of Finance, Quarterly Debt Bulletins, ${MV.mLabel(o.sources[0].q)} to ${MV.mLabel(o.latest)}. Where a later bulletin revised a quarter, the later figure is used.`;
   }
 

@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261013h">
+<link rel="stylesheet" href="assets/site.css?v=20261013i">
 <title>Maldives National Debt Clock</title>
 <meta property="og:url" content="https://mvdebtclock.org/">
 <meta property="og:type" content="website">
@@ -426,7 +426,8 @@
           <div class="lend-years" id="lendSvc"></div>
           <h4>Still to come, and passed on</h4>
           <div class="lend-sum lend-cards" id="lendExtra"></div>
-          <h4>Who borrowed with a government guarantee</h4>
+          <h4 id="forHead">Who owes the guaranteed debt</h4>
+          <p class="lend-note" id="forNote"></p>
           <div class="lend-bars" id="lendFor"></div>
           <p class="hint" id="bulSrc"></p>
         </div>
@@ -633,10 +634,10 @@ window.MVSky = (() => {
   return { horizon(y) { hz = y; hero.style.setProperty("--hz", y + "px"); stars.style.bottom = "auto"; stars.style.height = y + "px"; draw(); }, draw };
 })();
 </script>
-<script src="assets/site.js?v=20261013h"></script>
-<script src="assets/motion.js?v=20261013h" defer></script>
-<script src="assets/updates.js?v=20261013h"></script>
-<script src="assets/lenders.js?v=20261013h" defer></script>
+<script src="assets/site.js?v=20261013i"></script>
+<script src="assets/motion.js?v=20261013i" defer></script>
+<script src="assets/updates.js?v=20261013i"></script>
+<script src="assets/lenders.js?v=20261013i" defer></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
