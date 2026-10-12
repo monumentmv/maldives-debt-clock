@@ -448,9 +448,10 @@ const MV = (() => {
         + `<span class="item"><span class="v num int">…</span><span class="k">interest accrued</span></span></span>`
         + (debtSec != null ? `<span class="now">Debt now <b class="num">…</b></span>` : "") + `</a><button type="button" aria-label="Hide the counter">×</button>`;
       document.body.appendChild(el);
-      // on phones, stay out of the way while the debt clock itself is on screen
-      const hold = document.getElementById("readout");
-      if (hold && innerWidth < 700) new IntersectionObserver(([e]) => el.classList.toggle("away", e.isIntersecting)).observe(hold);
+      // on the home page, step aside only while the box would sit on top of the big clock (short phone screens)
+      const big = document.getElementById("clock");
+      if (big) { const check = () => { const c = big.getBoundingClientRect(), b = el.getBoundingClientRect(); el.classList.toggle("away", c.bottom > b.top - 8 && c.top < b.bottom && c.right > b.left && c.left < b.right); };
+        addEventListener("scroll", check, { passive: true }); addEventListener("resize", check); setInterval(check, 1000); setTimeout(check, 50); }   // the clock section settles after the figures load
       const vd = el.querySelector(".v.debt"), vi = el.querySelector(".v.int"), vn = el.querySelector(".now b");
       let last = 0;
       const tick = t => { if (!el.isConnected) return;
