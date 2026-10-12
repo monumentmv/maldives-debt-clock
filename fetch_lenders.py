@@ -156,8 +156,14 @@ def main():
         kind = f.name.split("_")[0]
         asof, items = parse(kind, f.read_bytes())
         raw[kind][asof] = items
-        if asof not in fx or not fx[asof].get("source"):
-            fx[asof] = fx_on(asof, {i["currency"] for k in raw for v in raw[k].values() for i in v}, mma_rate(asof))
+    # exchange rates on each "as of" day, for every currency used that day (looked up once, then kept)
+    for asof in sorted({a for k in raw for a in raw[k]}):
+        cur = {i["currency"] for k in raw for i in raw[k].get(asof, []) if i["currency"]}
+        if not cur <= set(fx.get(asof, {}).get("per_usd", {})):
+            fx[asof] = fx_on(asof, cur, mma_rate(asof))
+            missing = sorted(cur - set(fx[asof]["per_usd"]))
+            if missing:
+                print(f"  no exchange rate for {', '.join(missing)} on {asof}")
     json.dump(raw, open(OUT / "raw.json", "w"), ensure_ascii=False, indent=0)
     json.dump(fx, open(OUT / "fx.json", "w"), indent=1)
     creditors = sorted({i["creditor"] for k in raw for v in raw[k].values() for i in v})
