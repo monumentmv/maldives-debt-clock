@@ -432,25 +432,39 @@ const MV = (() => {
   function ticker() {
     let off = false; try { off = sessionStorage.getItem("tickerOff") === "1"; } catch (e) {}
     if (off || document.querySelector(".ticker")) return;
-    getJSON("priorities.json").then(P => {
+    Promise.all([getJSON("priorities.json"), getJSON("data.json").catch(() => null)]).then(([P, D]) => {
       const it = P?.latest?.interest?.[2], days = P?.latest?.days;
       if (!it || !days) return;
       const perSec = it * 1e6 / days / 86400;
+      // debt added: the same pace as the clock on the home page, the change over the last four quarters
+      const tot = (D?.series?.total?.points || []).filter(p => p.value > 0);   // ts() is the same date helper the clock uses
+      const L = tot[tot.length - 1], B = tot[Math.max(0, tot.length - 5)];
+      const debtSec = L && B && L !== B ? (L.value - B.value) / ((ts(L.date) - ts(B.date)) / 1000) : null;
       let start = Date.now(); try { start = Number(sessionStorage.getItem("arrived")) || start; sessionStorage.setItem("arrived", start); } catch (e) {}
       const el = document.createElement("div");
       el.className = "ticker";
-      el.innerHTML = `<span class="dot" aria-hidden="true"></span><a href="priorities.html" title="Interest builds up every second on the money the government owes"><span>Interest accrued since you arrived</span><span class="v">…</span></a><button type="button" aria-label="Hide the interest counter">×</button>`;
+      el.innerHTML = `<span class="dot" aria-hidden="true"></span><a href="priorities.html" title="The debt and the interest on it keep growing every second"><span class="lbl">Since you arrived</span><span class="pair">`
+        + (debtSec != null ? `<span class="item"><span class="v num debt">…</span><span class="k">${debtSec >= 0 ? "debt added" : "debt paid down"}</span></span>` : "")
+        + `<span class="item"><span class="v num int">…</span><span class="k">interest accrued</span></span></span>`
+        + (debtSec != null ? `<span class="now">Debt now <b class="num">…</b></span>` : "") + `</a><button type="button" aria-label="Hide the counter">×</button>`;
       document.body.appendChild(el);
       // on phones, stay out of the way while the debt clock itself is on screen
       const hold = document.getElementById("readout");
       if (hold && innerWidth < 700) new IntersectionObserver(([e]) => el.classList.toggle("away", e.isIntersecting)).observe(hold);
-      const v = el.querySelector(".v");
+      const vd = el.querySelector(".v.debt"), vi = el.querySelector(".v.int"), vn = el.querySelector(".now b");
       let last = 0;
-      const tick = t => { if (!el.isConnected) return; if (t - last > 100) { last = t; v.textContent = sym() + " " + fmt(convNow((Date.now() - start) / 1000 * perSec)); } requestAnimationFrame(tick); };
+      const tick = t => { if (!el.isConnected) return;
+        if (t - last > 100) { last = t; const s = (Date.now() - start) / 1000;
+          if (vd) vd.textContent = sym() + " " + fmt(convNow(Math.abs(s * debtSec)));
+          vi.textContent = sym() + " " + fmt(convNow(s * perSec));
+          // the whole debt right now, worked out exactly as the clock on the home page
+          if (vn) vn.textContent = sym() + " " + fmt(convNow(L.value + debtSec * (Date.now() - ts(L.date)) / 1000)); }
+        requestAnimationFrame(tick); };
       requestAnimationFrame(tick);
       el.querySelector("button").addEventListener("click", () => { el.remove(); try { sessionStorage.setItem("tickerOff", "1"); } catch (e) {} });
     }).catch(() => {});
   }
+
   // ---------- on phones the menu scrolls sideways: keep the current page's tab in view ----------
   function navToCurrent() {
     const nav = document.querySelector(".site-nav"), cur = nav?.querySelector('[aria-current="page"]');

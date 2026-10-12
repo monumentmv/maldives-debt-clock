@@ -46,7 +46,7 @@
 <script>
 // Same estimate as the clock on the home page: the latest official figure, moved on at the pace of the last year.
 fetch("../data.json").then(r => r.json()).then(d => {
-  const ts = s => Date.parse(s + "T00:00:00Z");
+  const ts = s => Date.parse(s + "T23:59:59Z");   // as in assets/site.js
   const tot = d.series.total.points.filter(p => p.value > 0), latest = tot[tot.length - 1], back = tot[Math.max(0, tot.length - 5)];
   const rate = (latest.value - back.value) / ((ts(latest.date) - ts(back.date)) / 1000 || 1);
   const now = latest.value + rate * (Date.now() - ts(latest.date)) / 1000;
