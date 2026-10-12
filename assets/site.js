@@ -451,7 +451,15 @@ const MV = (() => {
       el.querySelector("button").addEventListener("click", () => { el.remove(); try { sessionStorage.setItem("tickerOff", "1"); } catch (e) {} });
     }).catch(() => {});
   }
-  const boot = () => { headHeight(); themeButton(); realHelp(); ticker(); paintIcons(); backLink(); updatesBadge(); };
+  // ---------- on phones the menu scrolls sideways: keep the current page's tab in view ----------
+  function navToCurrent() {
+    const nav = document.querySelector(".site-nav"), cur = nav?.querySelector('[aria-current="page"]');
+    if (!nav || !cur || nav.scrollWidth <= nav.clientWidth) return;
+    nav.scrollLeft = Math.max(0, cur.offsetLeft - nav.offsetLeft - (nav.clientWidth - cur.offsetWidth) / 2);
+  }
+
+  const boot = () => { headHeight(); navToCurrent(); themeButton(); realHelp(); ticker(); paintIcons(); backLink(); updatesBadge(); };
+  addEventListener("load", navToCurrent);   // again once the fonts have set the tab widths
   document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", boot) : boot();
 
   return { SEC_YEAR, mini, setTheme, explain, wantedPeriod, icon, paintIcons, fresh, since, asOf, ago, daysAgo, MONTHS, state, setData, rateAt, cpiAt, realFactor, conv, convNow, isReal, baseLabel, checkStale, fromUSD, fmt, sym, short, money, moneyNow, moneyFull,
