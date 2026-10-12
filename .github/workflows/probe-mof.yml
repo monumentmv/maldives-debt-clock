@@ -17,20 +17,6 @@ jobs:
       - run: pip install requests openpyxl
       - run: python fetch_lenders.py
       - run: python build_lenders.py
-      - name: Probe IMF exchange-rate sources (temporary)
-        continue-on-error: true
-        run: |
-          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36"
-          for u in \
-            "https://www.imf.org/external/np/fin/data/rms_mth.aspx?SelectDate=2026-06-30&reportType=REP&tsvflag=Y" \
-            "https://api.imf.org/external/sdmx/2.1/dataflow/IMF.STA/ER/+" \
-            "https://api.imf.org/external/sdmx/2.1/datastructure/IMF.STA/DSD_ER/+" \
-            "https://api.imf.org/external/sdmx/2.1/data/IMF.STA,ER/CHN+IND+JPN.XDC_USD.EOP_RT.M?startPeriod=2026-05" \
-            "https://api.imf.org/external/sdmx/3.0/data/dataflow/IMF.STA/ER/+/CHN.*.*.M?c[TIME_PERIOD]=ge:2026-05" \
-            "https://dataservices.imf.org/REST/SDMX_JSON.svc/CompactData/IFS/M.CN.ENDE_XDC_USD_RATE?startPeriod=2026-05" ; do
-            echo "=== $u"
-            curl -sS -m 60 -A "$UA" -H "Accept: application/json, text/plain, */*" -w "\nHTTP %{http_code}\n" "$u" | head -c 2500; echo
-          done
       - name: Save to this branch only
         run: |
           git config user.name "debt-clock-bot"

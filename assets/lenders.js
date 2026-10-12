@@ -160,7 +160,7 @@
     drawTable(); drawMap();
     // exchange rates
     const fx = L.fx[asof] || {}, cur = [...new Set(rowsNow().map(r => r.cur))].sort();
-    $("lendFx").innerHTML = `<p>Each amount is converted to US dollars at the rate on <b>${day(fx.date)}</b>, the date of the Ministry's list, so all ${word}s are compared at the same rates.</p><ul>`
+    $("lendFx").innerHTML = `<p>Each amount is converted to US dollars at the rate on <b>${day(fx.rate_date || fx.date)}</b>${(fx.rate_date || fx.date) === fx.date ? ", the date of the Ministry's list" : `, the last month-end before the Ministry's list of ${day(fx.date)}`}, so all ${word}s are compared at the same rates.</p><ul>`
       + cur.map(c => `<li><b>${c}</b> ${c === "USD" ? "US dollar" : `${fmt(fx.per_usd?.[c], fx.per_usd?.[c] < 10 ? 4 : 2)} per US dollar${fx.notes?.[c] ? `, ${fx.notes[c]}` : ""}`}${c === "XDR" ? " (the IMF's Special Drawing Right, used by IDA, IFAD and others)" : ""}</li>`).join("")
       + `</ul><p class="hint">${esc(fx.source || "")}.</p>`;
   }

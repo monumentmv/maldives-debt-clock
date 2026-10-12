@@ -4,7 +4,7 @@ Ministry of Finance lists of active external loans and active sovereign guarante
 Every new version of each file is kept in inputs/mof/, named by its "as of" date, so the history builds up
 over time (the Ministry replaces the files on its website). Every version is read into
 data/lenders/raw.json, with the IMF exchange rates on each version's "as of" date in data/lenders/fx.json
-(the IMF tables used are kept in inputs/imf/).
+(the IMF data used is kept in inputs/imf/).
 build_lenders.py then turns that into lenders.json for the home page.
 
 Runs every morning in GitHub Actions. To run it yourself:
@@ -96,104 +96,77 @@ def parse(kind, content):
     return asof, items
 
 
-IMF = "https://www.imf.org/external/np/fin/data/rms_mth.aspx?SelectDate={d}&reportType={r}&tsvflag=Y"
+# IMF exchange rates (dataset ER on the IMF's data service): end-of-month rates, national currency per US dollar
+IMF = "https://api.imf.org/external/sdmx/2.1/data/IMF.STA,ER/{key}?startPeriod={start}"
 IMF_SAVE = HERE / "inputs" / "imf"
-# IMF currency names -> ISO codes
-IMF_NAMES = [("chinese yuan", "CNY"), ("renminbi", "CNY"), ("euro", "EUR"), ("indian rupee", "INR"), ("japanese yen", "JPY"),
-             ("kuwaiti dinar", "KWD"), ("saudi arabian riyal", "SAR"), ("saudi riyal", "SAR"), ("u.a.e. dirham", "AED"),
-             ("emirati dirham", "AED"), ("u.k. pound", "GBP"), ("pound sterling", "GBP"), ("swiss franc", "CHF"),
-             ("korean won", "KRW"), ("singapore dollar", "SGD"), ("australian dollar", "AUD"), ("u.s. dollar", "USD")]
+IMF_COUNTRY = {"CNY": "CHN", "INR": "IND", "JPY": "JPN", "KWD": "KWT", "SAR": "SAU", "AED": "ARE", "EUR": "DEU",
+               "GBP": "GBR", "CHF": "CHE", "KRW": "KOR", "SGD": "SGP", "AUD": "AUS", "XDR": "USA"}
 
 
-def _imf_day(t):
-    t = t.strip()
-    for f in ("%B %d, %Y", "%d-%b-%Y", "%Y-%m-%d", "%m/%d/%Y", "%b %d, %Y"):
-        try:
-            return datetime.strptime(t, f).date().isoformat()
-        except ValueError:
-            pass
-    return None
+def month_end(d):
+    """The last month-end on or before day d, as (YYYY-MM, YYYY-MM-DD)."""
+    x = date.fromisoformat(d)
+    if (x + timedelta(days=1)).month == x.month:   # not the last day of its month: use the month before
+        x = x.replace(day=1) - timedelta(days=1)
+    return f"{x:%Y-%m}", x.isoformat()
 
 
-def imf_table(d, report):
-    """{ISO: (mode, {day: value})} from the IMF's monthly table that contains day d.
-    mode says which way round the numbers are: per_usd, usd_per or per_sdr."""
-    r = requests.get(IMF.format(d=d, r=report), headers=H, timeout=60)
+def imf_series(key, start):
+    """[(country, indicator, indicator name, {YYYY-MM: value})] for an SDMX key on the IMF's data service."""
+    r = requests.get(IMF.format(key=key, start=start), headers={**H, "Accept": "application/json"}, timeout=90)
     r.raise_for_status()
     IMF_SAVE.mkdir(parents=True, exist_ok=True)
-    (IMF_SAVE / f"{report}_{d[:7]}.tsv").write_text(r.text)   # kept, so every rate used can be checked later
-    out, mode, cols = {}, "per_usd" if report == "REP" else "per_sdr", []
-    for line in r.text.splitlines():
-        cells = [c.strip() for c in line.split("\t")]
-        low = line.lower()
-        if "dollars per currency unit" in low or "u.s.$ per" in low:
-            mode = "usd_per"
-        elif "units per u.s. dollar" in low or "per u.s.$" in low or "currency units per us dollar" in low:
-            mode = "per_usd"
-        elif "per sdr" in low:
-            mode = "per_sdr"
-        days = [_imf_day(c) for c in cells[1:]]
-        if cells and cells[0].lower().startswith("currency") and any(days):
-            cols = days
-            continue
-        name = cells[0].lower() if cells else ""
-        code = next((c for n, c in IMF_NAMES if n in name), None)
-        if not code or not cols:
-            continue
-        vals = {}
-        for day_, v in zip(cols, cells[1:]):
-            try:
-                vals[day_] = float(v.replace(",", ""))
-            except ValueError:
-                pass
-        if vals:
-            out.setdefault(code, (mode, vals))
+    (IMF_SAVE / f"ER_{key.split('.')[0][:40].replace('+', '_')}_{start}.json").write_text(r.text)   # kept, so every rate used can be checked
+    j = r.json()
+    dims = j["structure"]["dimensions"]["series"]
+    times = [t["id"].replace("-M", "-") for t in j["structure"]["dimensions"]["observation"][0]["values"]]
+    pos = {dm["id"]: i for i, dm in enumerate(dims)}
+    out = []
+    for k, ser in j["dataSets"][0]["series"].items():
+        idx = [int(i) for i in k.split(":")]
+        val = lambda dim: dims[pos[dim]]["values"][idx[pos[dim]]]
+        obs = {times[int(t)]: float(o[0]) for t, o in ser["observations"].items() if o and o[0] not in (None, "")}
+        out.append((val("COUNTRY")["id"], val("INDICATOR")["id"], val("INDICATOR")["name"], obs))
     return out
 
 
-def imf_rates(d):
-    """Units of each currency per US dollar on day d (or the last day before it the IMF has a rate), from the IMF."""
-    prev = (date.fromisoformat(d[:8] + "01") - timedelta(days=1)).isoformat()
-    rates, used = {}, {}
-    for report in ("REP", "CVSDR"):
-        tables = []
-        for when in (d, prev):
-            try:
-                tables.append(imf_table(when, report))
-            except Exception as e:
-                print(f"  IMF {report} table for {when[:7]} not available ({e})")
-        for t in tables:
-            for code, (mode, vals) in t.items():
-                ok = sorted(k for k in vals if k and k <= d)
-                if not ok or (code in used and used[code] >= ok[-1]):
-                    continue
-                v = vals[ok[-1]]
-                if report == "CVSDR":
-                    if code != "USD":
-                        continue
-                    code, v = "XDR", 1 / v   # SDRs per US dollar
-                elif mode == "usd_per":
-                    v = 1 / v
-                rates[code], used[code] = v, ok[-1]
-    return rates, used
+def imf_rates(d, need):
+    """Units of each currency per US dollar at the last month-end on or before day d, from the IMF."""
+    month, day_ = month_end(d)
+    rates = {}
+    plain = [c for c in need if c in IMF_COUNTRY and c != "XDR"]
+    try:
+        if plain:
+            back = {v: k for k, v in IMF_COUNTRY.items() if k in plain}
+            for country, ind, name, obs in imf_series("+".join(IMF_COUNTRY[c] for c in plain) + ".XDC_USD.EOP_RT.M", month):
+                if month in obs and country in back:
+                    rates[back[country]] = obs[month]
+        if "XDR" in need:   # the SDR: from the US dollar's rate against it
+            for country, ind, name, obs in imf_series("USA..EOP_RT.M", month):
+                print(f"  IMF USA indicator {ind}: {name} = {obs.get(month)}")
+                n = name.lower()
+                if month in obs and "sdr" in n and "per" in n and "eur" not in n:
+                    v = obs[month]
+                    rates["XDR"] = 1 / v if n.index("per") < n.index("sdr") else v   # "... per SDR" is US$ per SDR
+                    break
+    except Exception as e:
+        print(f"  IMF exchange rates for {month} not available ({e})")
+    return rates, day_
 
 
 def fx_on(d, currencies, usd_mvr, before=None):
-    """Units of each currency per US dollar on day d, from the IMF. MVR uses the MMA rate."""
+    """Units of each currency per US dollar for day d: the IMF's end-of-month rate. MVR uses the MMA rate."""
     need = sorted(c for c in currencies if c not in ("USD", "MVR"))
     rates, notes = {"USD": 1.0} if "USD" in currencies else {}, {}
-    imf, used = imf_rates(d) if need else ({}, {})
+    imf, used = imf_rates(d, need) if need else ({}, d)
     for c in need:
-        if c in imf:
-            v = imf[c]
-            old = (before or {}).get(c)
-            if old and abs(v / old - 1) > .2 and abs((1 / v) / old - 1) < .05:   # a table read the other way round
-                v = 1 / v
+        v, old = imf.get(c), (before or {}).get(c)
+        if v and old and abs(v / old - 1) > .2:
+            print(f"  check {c}: IMF {v} against {old} before")
+        if v:
             rates[c] = v
-            if used[c] != d:
-                notes[c] = f"IMF rate on {date.fromisoformat(used[c]):%-d %B %Y}, the last day before with a rate"
     missing = [c for c in need if c not in rates]
-    for c in missing:   # not in the IMF's tables: fixed pegs, else the open currency-api dataset
+    for c in missing:   # not in the IMF's data yet: fixed pegs, else the open currency-api dataset
         if c in PEGS:
             rates[c], notes[c] = PEGS[c], f"fixed to the US dollar at {PEGS[c]}"
             continue
@@ -201,15 +174,16 @@ def fx_on(d, currencies, usd_mvr, before=None):
                     f"https://{d}.currency-api.pages.dev/v1/currencies/usd.json"):
             try:
                 rates[c] = float(requests.get(url, timeout=60).json()["usd"][c.lower()])
-                notes[c] = "not in the IMF's tables; open currency-api dataset"
+                notes[c] = "not yet in the IMF's data: open currency-api dataset"
                 break
             except Exception:
                 pass
     if "MVR" in currencies and usd_mvr:
         rates["MVR"], notes["MVR"] = usd_mvr, "MMA reference rate"
-    from_imf = any(c in imf for c in need)
-    return {"date": d, "per_usd": rates, "notes": notes, "imf": from_imf,
-            "source": "Representative exchange rates published by the International Monetary Fund (IMF) for that day" if from_imf else None}
+    from_imf = bool(imf)
+    when = f"{date.fromisoformat(used):%-d %B %Y}"
+    return {"date": d, "rate_date": used, "per_usd": rates, "notes": notes, "imf": from_imf,
+            "source": f"International Monetary Fund (IMF) exchange rates, end of month ({when})" if from_imf else None}
 
 
 def mma_rate(d):
