@@ -267,13 +267,13 @@ year,month,category,cases,retrieved
 2025,12,Sexual Offences,20,2026-10-12
 2025,12,Robbery,15,2026-10-12
 2025,12,Counterfeit and forgery,11,2026-10-12
-2026,0,Theft,2710,2026-10-12
+2026,0,Theft,2709,2026-10-12
 2026,0,Traffic Accidents,2358,2026-10-12
 2026,0,Drugs,2043,2026-10-12
 2026,0,Lost items,785,2026-10-12
 2026,0,Vandalism,522,2026-10-12
 2026,0,Assault,514,2026-10-12
-2026,0,Domestic violence,258,2026-10-12
+2026,0,Domestic violence,257,2026-10-12
 2026,0,Embezzlement,213,2026-10-12
 2026,0,Sexual Offences,211,2026-10-12
 2026,0,Robbery,118,2026-10-12
@@ -291,7 +291,7 @@ year,month,category,cases,retrieved
 2026,1,Sexual Offences,14,2026-10-12
 2026,1,Counterfeit and forgery,9,2026-10-12
 2026,2,Traffic Accidents,251,2026-10-12
-2026,2,Theft,249,2026-10-12
+2026,2,Theft,248,2026-10-12
 2026,2,Drugs,169,2026-10-12
 2026,2,Lost items,81,2026-10-12
 2026,2,Assault,64,2026-10-12
@@ -387,6 +387,6 @@ year,month,category,cases,retrieved
 2026,10,Assault,16,2026-10-12
 2026,10,Lost items,16,2026-10-12
 2026,10,Sexual Offences,9,2026-10-12
-2026,10,Domestic violence,7,2026-10-12
+2026,10,Domestic violence,6,2026-10-12
 2026,10,Robbery,5,2026-10-12
 2026,10,Embezzlement,4,2026-10-12
