@@ -54,7 +54,7 @@ def rows_of(ws):
     rows = list(ws.iter_rows(values_only=True))
     for i, r in enumerate(rows):
         if r and str(r[0] or "").strip() == "#" or (len(r) > 1 and str(r[0] or "").strip() == "" and str(r[1] or "").strip() == "#"):
-            hdr = [re.sub(r"[^a-z%]+", " ", str(h or "").lower()).strip() for h in r]
+            hdr = [re.sub(r"[^a-z%#]+", " ", str(h or "").lower()).strip() for h in r]
             out = []
             for r2 in rows[i + 1:]:
                 if not any(c not in (None, "") for c in r2):
@@ -85,7 +85,7 @@ def parse(kind, content):
             amt = pick(d, "guaranteed amount", "amount")
             items.append({
                 "group": group, "date": day(pick(d, "loan date", "date")),
-                "creditor": str(pick(d, "creditor") or "").strip().rstrip("'").replace("Male'", "Malé").strip(),
+                "creditor": str(pick(d, "creditor") or "").strip().replace("Male'", "Malé").rstrip("'").strip(),
                 "beneficiary": str(pick(d, "beneficiary") or "").strip() or None,
                 "purpose": re.sub(r"\s+", " ", str(pick(d, "purpose", "project") or "")).strip(),
                 "currency": str(pick(d, "curren") or "").strip().upper(),
