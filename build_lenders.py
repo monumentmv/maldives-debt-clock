@@ -195,6 +195,13 @@ def merged(bulletins, table, name=lambda n: n):
         if not cands:
             continue
         ok = [c for c in cands if c[0] is None or abs(sum(c[1].values()) - c[0]) <= max(1.0, abs(c[0]) * .002)]
+        if len(ok) >= 3:   # a bulletin whose figures for this quarter disagree with all the others is a misprint: skip it
+            med = lambda k: sorted(c[1].get(k, 0) for c in ok)[len(ok) // 2]
+            big = [k for k in {k for c in ok for k in c[1]} if med(k) > .02 * max(1, sum(med(x) for x in {x for c in ok for x in c[1]}))]
+            off = lambda c: max((abs(c[1].get(k, 0) - med(k)) / med(k) for k in big), default=0)
+            agree = [c for c in ok if off(c) <= .3]
+            if agree:
+                ok = agree
         tot, vals = ok[0] if ok else cands[0]
         if not ok:
             vals = dict(vals)
@@ -254,6 +261,16 @@ def bulletin_data():
                     svc.setdefault(q, {})[who_ + part] = v
     latest = max(bulletins, key=lambda b: b["quarter"])
     lq = latest["quarter"]
+    # owed at home: who holds the government's domestic debt, in what form and currency, every quarter
+    home_debt = {}
+    HOLDER = [("central", "Maldives Monetary Authority"), ("commercial", "Banks"), ("other financial", "Pension fund and other financial firms"),
+              ("public", "State companies"), ("private", "Individuals and private companies"),
+              ("bond", "Bonds"), ("loan", "Loans"), ("t-bill", "Treasury bills"), ("t bill", "Treasury bills")]
+    plain = lambda n: next((v for k, v in HOLDER if tidy(n).lower().startswith(k)), tidy(n))
+    for t in ("gov_dom_cat", "gov_dom_type", "gov_dom_cur"):
+        rows, tots, _ = merged(bulletins, t, plain)
+        home_debt[t.replace("gov_dom_", "")] = rows
+        home_debt.setdefault("total", tots)
     # money agreed but not yet paid out, by lender, every quarter
     cub, _, _ = merged(bulletins, "cub", lambda n: (bulletin_name(n) or (tidy(n),))[0])
     # loans passed on to state companies: each bulletin gives only its own quarter
@@ -275,7 +292,7 @@ def bulletin_data():
     return {
         "latest": lq, "quarters": sorted(set(lt) | set(gt)), "rate": rate,
         "loans": loans, "guarantees": guar, "guarantees_home": home, "total": {"loans": lt, "guarantees": gt, "guarantees_home": ht}, "who": who,
-        "service": dict(sorted(svc.items())), "cub": cub, "subsidiary": sub, "guaranteed_for": ben,
+        "service": dict(sorted(svc.items())), "home": home_debt, "cub": cub, "subsidiary": sub, "guaranteed_for": ben,
         "sources": [{"q": b["quarter"], "url": b.get("url"), "title": b.get("title")} for b in sorted(bulletins, key=lambda b: b["quarter"])],
     }
 

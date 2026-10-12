@@ -93,10 +93,12 @@
       return `<g class="node${mpick === n.key ? " on" : ""}" data-pl="${esc(n.key)}" tabindex="0" role="button" aria-label="${esc(n.label)}">${mark}</g>`;
     }).join("") + `<g class="labels">${labels.join("")}</g>`;   // labels on top of every mark
     g += `<circle cx="${mx}" cy="${my}" r="${6 * px}" class="male"/><text x="${mx + 9 * px}" y="${my + 18 * px}" class="male-t" style="font-size:${(fs * 1.05).toFixed(1)}px">Maldives</text>`;
-    box.innerHTML = `<svg viewBox="${vb.map(v => v.toFixed(1)).join(" ")}" role="img" aria-label="Map of where Maldives' external loans and guaranteed loans come from">${g}</svg>`;
+    box.innerHTML = `<svg viewBox="${vb.map(v => v.toFixed(1)).join(" ")}" role="img" aria-label="Map of where Maldives' foreign loans and guaranteed loans come from">${g}</svg>`;
     // the quarter, and the totals at that quarter
     const owed = mbasis === "owed" && O();
     $("qNav").hidden = !O(); $("mapBasis").hidden = !O();
+    if (O()) { const d = qNow(), sm = k => Object.values(O()[k] || {}).reduce((t, v) => t + (v[d] || 0), 0);
+      $("foreignNote").innerHTML = `Foreign debt is money owed to lenders abroad, such as other governments, development banks and international bond holders. At the end of ${MV.mLabel(d)} the government owed <b>${mvr(sm("loans"), d)}</b> abroad, and state companies and others owed <b>${mvr(sm("guarantees"), d)}</b> abroad with a government guarantee.`; }
     if (O()) {
       const d = qNow(), src = pdfOf(d);
       $("mapQ").max = QS().length - 1; $("mapQ").value = mq; $("mapQl").textContent = qLabel(d);
@@ -107,7 +109,7 @@
     if (owed) {
       const d = qNow(), sum = k => owedRows(k, d).reduce((s, r) => s + r.m, 0);
       $("mapTot").className = "map-tot";
-      $("mapTot").innerHTML = `At the end of ${MV.mLabel(d)}, the government still owed <b>${mvr(sum("loans"), d)}</b> abroad, and others owed <b>${mvr(sum("guarantees"), d)}</b> abroad with a government guarantee. Press ▶ to watch it change since ${MV.mLabel(QS()[0])}.`;
+      $("mapTot").innerHTML = `The map shows who it is owed to at the end of ${MV.mLabel(d)}. Press ▶ to watch it change since ${MV.mLabel(QS()[0])}.`;
     } else {
       $("mapTot").className = "map-tot map-warn";
       $("mapTot").innerHTML = `<b>This is not what is owed today.</b> It shows what was agreed for every loan and guarantee on Ministry of Finance's lists as of ${day(asof)}, including loans for finished projects that are still being repaid, and a few repaid since.${O() ? ` <button type="button" class="linkish" data-mb="owed">Show what is still owed</button>` : ""}`;
@@ -244,11 +246,51 @@
     sheetEl._cite = () => `At the end of ${MV.mLabel(d)}, ${short(name)} owed ${mvr(owed, d)} on debt counted as guaranteed by Maldives government${showA ? `. The guarantees on Ministry of Finance's list total ${usd(agreedUSD)}, about ${mvr(agreed, d)}` : ""}. Sources: Ministry of Finance, Quarterly Debt Bulletin${pdfOf(d) ? ` (${pdfOf(d).url})` : ""}, and list of active sovereign guarantees. Via Maldives National Debt Clock, ${link}`;
   }
 
+  // ---------- the two parts of the debt: domestic and foreign ----------
+  function drawParts() {
+    const o = O(); if (!o) { $("parts").innerHTML = ""; return; }
+    const d = qNow(), sum = k => Object.values(o[k] || {}).reduce((t, v) => t + (v[d] || 0), 0);
+    const hg = o.home?.total?.[d] || 0, hgu = sum("guarantees_home"), fg = sum("loans"), fgu = sum("guarantees"), all = hg + hgu + fg + fgu;
+    if (!all) { $("parts").innerHTML = ""; return; }
+    const card = (id, kc, name, total, gov, gu, who) => `<button type="button" class="part" data-part="${id}" style="--kc:${kc}"><span class="k">${name}</span><b class="num">${mvr(total, d)}</b>
+      <span class="s">${mvr(gov, d)} owed by the government, and ${mvr(gu, d)} owed by state companies and others with a government guarantee.</span><span class="s">${who}</span><span class="go">See the details ↓</span></button>`;
+    $("parts").innerHTML = `<p class="parts-lead">All public debt, <b>${mvr(all, d)}</b> at the end of ${MV.mLabel(d)}, is in two parts. Domestic debt is owed to lenders in Maldives. Foreign debt is owed to lenders abroad.</p>`
+      + card("partHome", "#f4c95d", "1. Domestic debt", hg + hgu, hg, hgu, "Mostly owed to banks, the pension fund and Maldives Monetary Authority.")
+      + card("partForeign", "#3fb8b0", "2. Foreign debt", fg + fgu, fg, fgu, "Owed to other countries, development banks and international bond holders.");
+  }
+
+  // ---------- owed at home: who holds the government's domestic debt ----------
+  const HC = { "Banks": "#3fb8b0", "Pension fund and other financial firms": "#f4c95d", "Maldives Monetary Authority": "#9fe0d6", "State companies": "#b39ddb", "Individuals and private companies": "#7f9aa5" };
+  function drawHome() {
+    const o = O(), H = o?.home; $("lendHome").hidden = !H; if (!H) return;
+    const d = qNow(), tot = H.total[d], abroad = Object.values(o.loans).reduce((t, v) => t + (v[d] || 0), 0);
+
+    if (!tot) { $("homeNote").textContent = "The bulletins don't give this for this quarter."; ["homeBars", "homeKey", "homeChart"].forEach(i => { $(i).innerHTML = ""; }); return; }
+    const ty = H.type, cu = H.cur, v = (t, k) => (t[k] || {})[d] || 0, ratio = abroad ? tot / abroad : 0;
+    $("homeNote").innerHTML = `Domestic debt is money the government owes to lenders in Maldives. At the end of ${MV.mLabel(d)} it was <b>${mvr(tot, d)}</b>${abroad ? `, ${ratio >= 1.5 ? `${fmt(ratio, 1)} times` : "more than"} the ${mvr(abroad, d)} the government owed abroad` : ""}.`
+      + ` Of it, ${mvr(v(ty, "Treasury bills"), d)} is in treasury bills, which fall due within a year, and ${mvr(v(ty, "Bonds"), d)} is in bonds.`
+      + (v(cu, "USD") ? ` ${mvr(v(cu, "USD"), d)} of it is in US dollars, even though it is owed at home.` : "") + ` Here is who it is owed to.`;
+    const rows = Object.entries(H.cat).map(([n, x]) => [n, x[d] || 0]).filter(([, x]) => x > 0).sort((a, b) => b[1] - a[1]), top = rows[0]?.[1] || 1;
+    $("homeBars").innerHTML = rows.map(([n, x]) => `<div class="lb" role="img" aria-label="${esc(n)}: ${mvr(x, d)}"><span class="n">${esc(n)}</span><span class="t"><i style="width:${x / top * 100}%;background:${HC[n] || "#7f9aa5"}"></i></span><span class="v num">${mvr(x, d)}<small>${x / tot < .005 ? "under 1%" : fmt(x / tot * 100, 0) + "%"}</small></span></div>`).join("");
+    // who has held it, quarter by quarter
+    const qs = Object.keys(H.total).sort(), names = Object.keys(HC).filter(n => H.cat[n]), Wd = Math.max(300, $("homeChart").clientWidth || 640), Hh = 150, bw = (Wd - 30) / qs.length, mx = Math.max(...qs.map(q => H.total[q] || 0), 1);
+    $("homeKey").innerHTML = names.map(n => `<span><i style="background:${HC[n]}"></i>${esc(n)}</span>`).join("");
+    $("homeChart").innerHTML = `<svg viewBox="0 0 ${Wd} ${Hh + 22}" role="img" aria-label="Owed at home, by who holds it, every quarter">`
+      + qs.map((q, j) => { let y = Hh; const x = 15 + j * bw + 1, w = Math.max(1, bw - 2);
+          return `<g data-q="${q}" opacity="${q === d ? 1 : .6}" style="cursor:pointer">` + names.map(n => { const h = ((H.cat[n] || {})[q] || 0) / mx * Hh; y -= h;
+            return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" fill="${HC[n]}"><title>${MV.mLabel(q)}, ${n}: ${mvr((H.cat[n] || {})[q] || 0, q)}</title></rect>`; }).join("")
+            + (q === d ? `<rect x="${x.toFixed(1)}" y="0" width="${w.toFixed(1)}" height="${Hh}" fill="none" stroke="#fff" stroke-width="1.5"/>` : "") + `</g>`; }).join("")
+      + qs.map((q, j) => q.endsWith("03-31") && (bw > 14 || q.slice(0, 4) % 2 === 0) ? `<text x="${(15 + j * bw).toFixed(1)}" y="${Hh + 16}">${q.slice(0, 4)}</text>` : "").join("")
+      + `<line x1="15" x2="${Wd - 15}" y1="${Hh}" y2="${Hh}" stroke="rgba(169,205,214,.3)"/></svg>`;
+    $("homeSrc").innerHTML = `Each bar is one quarter. Tap a bar to move to that quarter. Source: Ministry of Finance's Quarterly Debt Bulletins, tables of domestic debt by creditor, by instrument and by currency. The bulletin calls these groups central bank, commercial banks, other financial corporations, public non-financial corporations and private. This is the government's own debt at home. Debt it has guaranteed for others at home is shown under who owes the guaranteed debt.`;
+  }
+
   // ---------- from the Debt Bulletins: repayments, money still to come, loans passed on ----------
   // "April to June 2026" for the quarter ending 30 June 2026
   const qSpan = d => { const e = new Date(d + "T00:00:00Z"), st = new Date(Date.UTC(e.getUTCFullYear(), e.getUTCMonth() - 2, 1)), mo = x => x.toLocaleString("en-GB", { month: "long", timeZone: "UTC" });
     return `${mo(st)} to ${mo(e)} ${e.getUTCFullYear()}`; };
   function drawBul() {
+    drawParts(); drawHome();
     const o = O(); $("lendBul").hidden = !o; if (!o) return;
     const d = qNow(), S = o.service, qs = Object.keys(S).sort(), tot = q => ["gp", "gi", "sp", "si"].reduce((a, k) => a + (S[q][k] || 0), 0);
     // repayments: the four quarters to the one chosen
@@ -331,7 +373,7 @@
   function toggle() {
     const open = $("lendPanel").hidden;
     $("lendPanel").hidden = !open; $("lendBtn").setAttribute("aria-expanded", open);
-    $("lendBtn").querySelector(".t").textContent = open ? "Hide the loans and guarantees" : "See every external loan and sovereign guarantee";
+    $("lendBtn").querySelector(".t").textContent = open ? "Hide the details" : "See who it is owed to, at home and abroad";
     if (open && !L) Promise.all([MV.getJSON("lenders.json"), MV.getJSON("assets/worldmap.json").catch(() => null)]).then(([j, w]) => { L = j; W = w; asof = j.versions[j.versions.length - 1]; mbasis = j.owed ? "owed" : "signed"; mq = Math.max(0, QS().length - 1); draw(); drawBul();
       const h = location.hash.slice(1); if (/^(lender|signed|borrower)=/.test(h)) render(h); })
       .catch(() => { $("lendNote").textContent = "The lists couldn't be loaded. Please try again later."; });
@@ -347,7 +389,7 @@
     $("lendAsof").innerHTML = L.versions.slice().reverse().map(v => `<option value="${v}"${v === asof ? " selected" : ""}>${day(v)}</option>`).join("");
     const tot = rows.reduce((s, r) => s + (r.usd || 0), 0), open = rows.filter(r => /ongoing/i.test(r.s || "")).length;
     $("lendNote").innerHTML = kind === "loans"
-      ? `Every external loan the government still has on its books, as Ministry of Finance lists them, as of <b>${day(asof)}</b>. Amounts are <b>what was originally borrowed</b>, not what is still owed. Many have been partly repaid.`
+      ? `Every foreign loan the government still has on its books, as Ministry of Finance lists them, as of <b>${day(asof)}</b>. Amounts are <b>what was originally borrowed</b>, not what is still owed. Many have been partly repaid.`
       : `Every loan the government has guaranteed for others, as Ministry of Finance lists them, as of <b>${day(asof)}</b>. If the borrower can't repay, the government has promised to. Amounts are <b>what was originally guaranteed</b>, not what is still owed.`;
     listHistory(rows, word);
     // the list's country filter: countries, then each development bank
@@ -438,12 +480,13 @@
       playing = setInterval(() => { if (mq >= QS().length - 1) { stopPlay(); return; } mq++; drawMap(); drawBul(); }, 650); drawMap(); drawBul(); return; }
     const ms = e.target.closest("[data-ms]"); if (ms) { mshow = ms.dataset.ms; ms.parentElement.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b === ms)); drawMap(); return; }
     const pl = e.target.closest("#lendMap [data-pl]"); if (pl) { stopPlay(); mpick = pl.dataset.pl; drawMap(); go("lender=" + encodeURIComponent(pl.dataset.pl)); return; }
+    const pt = e.target.closest("[data-part]"); if (pt) { document.getElementById(pt.dataset.part)?.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
     const bn = e.target.closest("[data-ben]"); if (bn) { go("borrower=" + encodeURIComponent(bn.dataset.ben)); return; }
     const who = e.target.closest("[data-who]"); if (who) { e.preventDefault(); go("lender=" + encodeURIComponent(who.dataset.who)); return; }
     const yr = e.target.closest("[data-yr]"); if (yr) { go(`signed=${yr.dataset.yr}-${kind}`); return; }
     if (e.target.closest(".sheet-back")) { back(); return; }
     const cp = e.target.closest("[data-copy]"); if (cp && sheetEl) { copy(cp, cp.dataset.copy === "cite" ? sheetEl._cite() : sheetEl._link); return; }
-    const gq = e.target.closest("#lendSvc [data-q]"); if (gq) { const j = QS().indexOf(gq.dataset.q); if (j >= 0) { stopPlay(); mq = j; drawMap(); drawBul(); } return; }
+    const gq = e.target.closest("#lendSvc [data-q], #homeChart [data-q]"); if (gq) { const j = QS().indexOf(gq.dataset.q); if (j >= 0) { stopPlay(); mq = j; drawMap(); drawBul(); } return; }
     const qs = e.target.closest("[data-qs]"); if (qs) { stopPlay(); mq = Math.max(0, Math.min(QS().length - 1, mq + +qs.dataset.qs)); drawMap(); drawBul(); return; }
     const st = e.target.closest("[data-st]"); if (st) { status = st.dataset.st; all = false; st.parentElement.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b === st)); drawTable(); return; }
     if (e.target.closest("#oweCta")) { openPanel(true); return; }

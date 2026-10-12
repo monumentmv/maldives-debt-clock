@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261013m">
+<link rel="stylesheet" href="assets/site.css?v=20261013p">
 <title>Maldives National Debt Clock</title>
 <meta property="og:url" content="https://mvdebtclock.org/">
 <meta property="og:type" content="website">
@@ -242,6 +242,15 @@
   .q-nav { display: flex; align-items: center; gap: .6rem; margin: .3rem 0 0; padding: .6rem .7rem; border-radius: 12px; background: rgba(255,255,255,.05); }
   .q-zone > .q-nav, .l-zone > .l-pick { position: sticky; top: var(--headH, 60px); z-index: 20; background: var(--abyss); border: 1px solid rgba(169,205,214,.18); box-shadow: 0 8px 16px -10px rgba(0,0,0,.7); }
   .l-zone > .l-pick { margin: 0 -.5rem; padding: .5rem; border-radius: 0 0 10px 10px; }
+  .parts { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; margin: 1rem 0 .4rem; }
+  .part { display: block; text-align: left; border: 1px solid rgba(169,205,214,.2); background: rgba(255,255,255,.04); border-left: 4px solid var(--kc); border-radius: 10px; padding: .9rem 1rem; color: var(--foam); font: inherit; cursor: pointer; }
+  .part:hover { background: rgba(255,255,255,.07); }
+  .part .k { font: 800 1.05rem var(--body); color: var(--foam); } .part b { display: block; font: 800 1.9rem var(--display); color: var(--foam); margin: .15rem 0; }
+  .part .s { display: block; font-size: .86rem; color: var(--mist); line-height: 1.45; } .part .go { display: inline-block; margin-top: .45rem; font: 700 .85rem var(--body); color: var(--sun); }
+  @media (max-width: 640px) { .parts { grid-template-columns: 1fr; } }
+  .parts-lead { grid-column: 1 / -1; margin: 0; color: var(--foam); font-size: 1.02rem; line-height: 1.55; }
+  .part-h { display: flex; align-items: center; gap: .6rem; font: 800 1.3rem var(--body); color: var(--foam); margin: 2.2rem 0 .5rem; padding-top: 1rem; border-top: 1px solid rgba(169,205,214,.18); scroll-margin-top: calc(var(--headH, 60px) + 90px); }
+  .part-n { display: inline-grid; place-items: center; width: 1.8rem; height: 1.8rem; border-radius: 50%; background: #f4c95d; color: #07303f; font: 800 .95rem var(--body); flex: none; }
   .q-step { border: 1px solid rgba(169,205,214,.4); background: transparent; color: var(--foam); border-radius: 999px; padding: .35rem .8rem; font: 700 .85rem var(--body); cursor: pointer; flex: none; }
   .q-step:disabled { opacity: .35; cursor: default; }
   .q-mid { flex: 1; display: grid; gap: .2rem; min-width: 0; } .q-lbl { font-weight: 800; color: var(--foam); text-align: center; font-size: .98rem; }
@@ -399,12 +408,12 @@
     <div class="chap-body" id="ch-owed-body" hidden>
 
     
-    <p>Domestic debt is owed to lenders inside Maldives, mostly banks, the central bank and the pension fund. External debt is owed abroad, to other governments, development banks and bondholders. <a href="#" class="term" data-term="guaranteed">Guaranteed debt</a> is borrowed mostly by state-owned companies, from banks and other lenders, with the government promising to pay if they can't.</p>
+    <p>Domestic debt is owed to lenders inside Maldives, mostly banks, the central bank and the pension fund. Foreign debt is owed abroad, to other governments, development banks and bondholders. <a href="#" class="term" data-term="guaranteed">Guaranteed debt</a> is borrowed mostly by state-owned companies, from banks and other lenders, with the government promising to pay if they can't.</p>
     <div class="bar" id="bar" role="img" aria-label="Debt breakdown"></div>
     <ul class="legend" id="legend"></ul>
     <div class="split" id="gdpSplit"></div>
     <div class="lenders">
-      <button type="button" class="lend-btn" id="lendBtn" aria-expanded="false" aria-controls="lendPanel"><span class="t">See every external loan and sovereign guarantee</span><span aria-hidden="true">▾</span></button>
+      <button type="button" class="lend-btn" id="lendBtn" aria-expanded="false" aria-controls="lendPanel"><span class="t">See who it is owed to, at home and abroad</span><span aria-hidden="true">▾</span></button>
       <div id="lendPanel" hidden>
         <div class="q-zone">
         <div class="q-nav" id="qNav" hidden>
@@ -414,7 +423,17 @@
           <button type="button" class="map-play" id="mapPlay" aria-label="Play the years">▶</button>
         </div>
         <p class="q-src" id="qSrc"></p>
-        <h4 style="margin-top:.5rem">Where the money comes from</h4>
+        <div class="parts" id="parts"></div>
+        <div id="lendHome" hidden>
+          <h3 class="part-h" id="partHome"><span class="part-n">1</span><span id="homeHead">Domestic debt, owed at home</span></h3>
+          <p class="lend-note" id="homeNote"></p>
+          <div class="lend-bars" id="homeBars"></div>
+          <div class="svc-key" id="homeKey"></div>
+          <div class="lend-years" id="homeChart"></div>
+          <p class="hint" id="homeSrc"></p>
+        </div>
+        <h3 class="part-h" id="partForeign"><span class="part-n">2</span>Foreign debt, owed abroad</h3>
+        <p class="lend-note" id="foreignNote"></p>
         <div class="lend-top">
           <div class="subtoggle" role="group" aria-label="Amounts on the map" id="mapBasis"><button type="button" data-mb="owed" aria-pressed="true">Still owed</button><button type="button" data-mb="signed" aria-pressed="false">Originally borrowed</button></div>
           <div class="subtoggle" role="group" aria-label="Show on the map"><button type="button" data-ms="both" aria-pressed="true">Loans and guarantees</button><button type="button" data-ms="loans" aria-pressed="false">Loans</button><button type="button" data-ms="guarantees" aria-pressed="false">Guarantees</button></div>
@@ -426,6 +445,7 @@
         <div class="map-key"><span><i style="background:#3fb8b0"></i>Loans to the government</span><span><i style="background:#b39ddb"></i>Loans the government guaranteed</span><span><i class="dot"></i>Country</span><span><i class="dia"></i>Development bank or fund</span><span>Tap a place for amounts</span></div>
         <div class="map-card" id="mapCard"></div>
         <p class="hint" id="mapOff"></p>
+        <h3 class="part-h"><span class="part-n">3</span>Paying it back, and what is still to come</h3>
         <div id="lendBul" hidden>
           <h4>Paying it back</h4>
           <p class="lend-note" id="svcNote"></p>
@@ -442,7 +462,7 @@
         <h4>Every loan and guarantee</h4>
         <div class="l-zone">
         <div class="lend-top l-pick">
-          <div class="subtoggle" role="group" aria-label="List"><button type="button" data-lk="loans" aria-pressed="true">External loans</button><button type="button" data-lk="guarantees" aria-pressed="false">Sovereign guarantees</button></div>
+          <div class="subtoggle" role="group" aria-label="List"><button type="button" data-lk="loans" aria-pressed="true">Foreign loans</button><button type="button" data-lk="guarantees" aria-pressed="false">Sovereign guarantees</button></div>
           <div class="subtoggle" role="group" aria-label="Guaranteed for" id="lendG" hidden><button type="button" data-lg="all" aria-pressed="true">All</button><button type="button" data-lg="soe" aria-pressed="false">State companies</button><button type="button" data-lg="private" aria-pressed="false">Private</button></div>
           <label class="lend-asof">As of <select id="lendAsof" aria-label="As of"></select></label>
         </div>
@@ -639,15 +659,15 @@ window.MVSky = (() => {
   return { horizon(y) { hz = y; hero.style.setProperty("--hz", y + "px"); stars.style.bottom = "auto"; stars.style.height = y + "px"; draw(); }, draw };
 })();
 </script>
-<script src="assets/site.js?v=20261013m"></script>
-<script src="assets/motion.js?v=20261013m" defer></script>
-<script src="assets/lenders.js?v=20261013m" defer></script>
+<script src="assets/site.js?v=20261013p"></script>
+<script src="assets/motion.js?v=20261013p" defer></script>
+<script src="assets/lenders.js?v=20261013p" defer></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
   const { fmt, sym, short, money, moneyNow, moneyFull, conv, convNow, ts, mLabel, qLabel, last, row, SEC_YEAR } = MV;
   const COLORS = { domestic_cg: "#3fb8b0", domestic_guaranteed: "#9fe0d6", external_cg: "#f4c95d", external_guaranteed: "#f7e2a6" };
-  const LABELS = { domestic_cg: "Domestic, central government", domestic_guaranteed: "Domestic, guaranteed", external_cg: "External, central government", external_guaranteed: "External, guaranteed" };
+  const LABELS = { domestic_cg: "Domestic, central government", domestic_guaranteed: "Domestic, guaranteed", external_cg: "Foreign, central government", external_guaranteed: "Foreign, guaranteed" };
   const pct = v => v == null ? null : (v < 5 ? v * 100 : v);   // MMA stores some ratios as 1.23 rather than 123
 
   // live Malé time
@@ -953,7 +973,7 @@ window.MVSky = (() => {
         rows: useRatio ? rows.filter(r => r.ratio != null) : rows, label: "Debt by quarter",
         series: [{ val: r => useRatio ? r.ratio : conv(r.total, r.date) / 1e9, color: "#3fb8b0", area: true }],
         ref: useRatio ? { value: 100, color: "#f4c95d" } : null, yFmt: v => fmt(v) + (useRatio ? "%" : ""),
-        tip: r => `<b>${qLabel(r.date)}</b>` + row("Total", money(r.total, r.date)) + row("Domestic", r.dom != null ? money(r.dom, r.date) : null) + row("External", r.ext != null ? money(r.ext, r.date) : null) + row("Share of GDP", r.ratio != null ? fmt(r.ratio, 1) + "%" : null)
+        tip: r => `<b>${qLabel(r.date)}</b>` + row("Total", money(r.total, r.date)) + row("Domestic", r.dom != null ? money(r.dom, r.date) : null) + row("Foreign", r.ext != null ? money(r.ext, r.date) : null) + row("Share of GDP", r.ratio != null ? fmt(r.ratio, 1) + "%" : null)
       });
     }
     document.querySelectorAll("[data-view]").forEach(b => b.addEventListener("click", () => { view = b.dataset.view; document.querySelectorAll("[data-view]").forEach(x => x.setAttribute("aria-pressed", x === b)); drawChart(); }));
