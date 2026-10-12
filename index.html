@@ -530,11 +530,11 @@ window.MVSky = (() => {
       const g = $("gauge"); g.querySelectorAll(".tick").forEach(t => t.remove());
       const vTop = SEA - Math.floor(y0 / k / 10) * 10, vBot = SEA + Math.floor((H - y0) / k / 10) * 10;
       for (let v = Math.max(0, vTop); v <= vBot; v += 5) {
-        const y = y0 + (v - SEA) * k, label = v % 20 === 0 || v === 100 || (v === SEA && !phone);
+        const y = y0 + (v - SEA) * k, label = phone ? (v - SEA) % 30 === 0 : v % 20 === 0 || v === SEA || v === 100;   // phones: every 30 points from the surface, so 70% and 100% are always labelled
         if (y < 12 || y > H - 8) continue;
         const t = document.createElement("div"); t.className = "tick";
         t.style.top = y + "px"; t.style.width = label ? "10px" : "5px";
-        t.style.color = y < y0 ? "var(--sky-ink)" : "#cfe6ea";
+        t.style.color = y <= y0 ? "var(--sky-ink)" : "#cfe6ea";   // the surface label sits on light water, so it takes the sky colour
         const near = y > markY - 30 && y < markY + 10;                      // the marker sits just above the line
         if (label && !near) t.innerHTML = `<span>${v}%</span>`;
         if (near) continue;
