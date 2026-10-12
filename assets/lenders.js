@@ -142,14 +142,18 @@
   // every page opened is a step in the browser's history, so the phone's back gesture works too
   function go(hash) { window.history.pushState({ lend: hash }, "", "#" + hash); sheetDepth++; render(hash); }
   function back() { if (sheetDepth > 0) window.history.back(); else { closeSheet(); window.history.replaceState(null, "", location.pathname + location.search); } }
-  addEventListener("popstate", () => { sheetDepth = Math.max(0, sheetDepth - 1); const h = location.hash.slice(1); if (/^(lender|signed)=/.test(h) && L) render(h); else closeSheet(); });
+  addEventListener("popstate", () => { sheetDepth = Math.max(0, sheetDepth - 1); const h = location.hash.slice(1); if (/^(lender|signed|borrower)=/.test(h) && L) render(h); else closeSheet(); });
   addEventListener("keydown", e => { if (e.key === "Escape" && sheetEl) back(); });
   function render(hash) {
     const [k, v] = hash.split("="), val = decodeURIComponent(v || "");
     if (k === "lender") placePage(val);
     else if (k === "signed") { const [y, kd] = val.split("-"); yearPage(y, kd || "loans"); }
+    else if (k === "borrower") borrowerPage(val);
   }
   const pdfOf = d => O()?.sources.find(x => x.q === d);
+  // a borrower's name, as both the Ministry's list and the bulletin write it ("Ltd", "Limited", "Co." and so on dropped)
+  const bkey = n => (n || "").toLowerCase().replace(/[^a-z ]/g, " ").replace(/\b(ltd|limited|plc|private|pvt|company|co|corporation|corp|the)\b/g, " ").split(/\s+/).filter(Boolean).slice(0, 3).join(" ");
+  const short = n => (n || "").replace(/ (Limited|Ltd|PLC|Private Limited|Pvt Ltd)$/, "");
   function copy(btn, text) {
     const done = () => { btn.classList.add("done"); const t = btn.textContent; btn.textContent = "Copied"; setTimeout(() => { btn.classList.remove("done"); btn.textContent = t; }, 1800); };
     (navigator.clipboard?.writeText(text) || Promise.reject()).then(done).catch(() => { const a = document.createElement("textarea"); a.value = text; document.body.appendChild(a); a.select(); try { document.execCommand("copy"); done(); } catch (e) {} a.remove(); });
@@ -202,6 +206,37 @@
     sheetEl._link = `${location.origin}${location.pathname}#signed=${y}-${k}`;
   }
 
+  function borrowerPage(name) {
+    const o = O(), d = qNow(), qs = QS(), ser = o.guaranteed_for[name] || {}, rate = o.rate[d] || 15.42;
+    const gl = L.lists.guarantees, ga = gl[asof] ? asof : Object.keys(gl).sort().pop(), rows = (gl[ga] || []).filter(r => bkey(r.b) === bkey(name)).sort((x, y) => (y.d || "").localeCompare(x.d || ""));
+    const now = ser[d] || {}, owed = (now.ext || 0) + (now.dom || 0), agreedUSD = rows.reduce((t, r) => t + (r.usd || 0), 0), agreed = agreedUSD * rate / 1e6, showA = d >= ga && agreed > 0;
+    const swap = /Monetary Authority/.test(name);
+    let h = `<p class="lead-in">${swap ? `${esc(short(name))}, the central bank, has currency swaps with Reserve Bank of India, India's central bank. Ministry of Finance lists them among its sovereign guarantees and counts what has been drawn as government-guaranteed debt.`
+        : `${esc(short(name))} borrowed with a government guarantee: if it can't repay, the government has promised to.`}`
+      + (showA ? ` The ${swap ? "swaps" : "loans"} on Ministry of Finance's list add up to <b>${usd(agreedUSD)}</b> (about ${mvr(agreed, d)}). At the end of ${MV.mLabel(d)} it still owed <b>${mvr(owed, d)}</b>${owed < agreed ? `. The other ${mvr(agreed - owed, d)} has been repaid, or was never drawn` : ""}.` : ` At the end of ${MV.mLabel(d)} it still owed <b>${mvr(owed, d)}</b>.`) + `</p>`;
+    h += `<div class="sh-tot"><div style="--kc:${KC.guarantees}"><span>Still owed, end of ${MV.mLabel(d)}</span><b>${mvr(owed, d)}</b>${now.dom ? `<span>${now.ext ? `${mvr(now.dom, d)} of it to banks in Maldives` : "all to banks in Maldives"}</span>` : ""}</div>`
+      + (showA ? `<div style="--kc:#7f9aa5"><span>Agreed, on the Ministry's list</span><b>${mvr(agreed, d)}</b><span>${usd(agreedUSD)}, ${rows.length} loan${rows.length === 1 ? "" : "s"}</span></div>` : "") + `</div>`;
+    // what it owed, quarter by quarter
+    const vals = qs.map(q => { const x = ser[q] || {}; return (x.ext || 0) + (x.dom || 0); });
+    if (vals.some(v => v > 0)) {
+      const W = 640, H = 160, bw = (W - 20) / qs.length, top = Math.max(1, ...vals, showA ? agreed : 0), y = v => H - v / top * H;
+      h += `<h3>Still owed, every quarter</h3><div class="sh-chart"><svg viewBox="0 0 ${W} ${H + 20}" role="img" aria-label="Still owed each quarter">`
+        + qs.map((q, i) => { const x = 10 + i * bw + 1, w = Math.max(1, bw - 2), e = (ser[q] || {}).ext || 0, m = (ser[q] || {}).dom || 0;
+            return `<g opacity="${q === d ? 1 : .75}"><rect x="${x.toFixed(1)}" y="${y(e).toFixed(1)}" width="${w.toFixed(1)}" height="${(H - y(e)).toFixed(1)}" fill="${KC.guarantees}"><title>${MV.mLabel(q)}: ${mvr(e, q)} owed abroad</title></rect>`
+              + (m ? `<rect x="${x.toFixed(1)}" y="${y(e + m).toFixed(1)}" width="${w.toFixed(1)}" height="${(y(e) - y(e + m)).toFixed(1)}" fill="#ddd2f2"><title>${MV.mLabel(q)}: ${mvr(m, q)} owed to banks in Maldives</title></rect>` : "") + `</g>`; }).join("")
+        + (showA ? `<line x1="10" x2="${W - 10}" y1="${y(agreed).toFixed(1)}" y2="${y(agreed).toFixed(1)}" stroke="#f4c95d" stroke-width="1.5" stroke-dasharray="5 4"/><text x="${W - 12}" y="${(y(agreed) - 5).toFixed(1)}" text-anchor="end" style="fill:#f4c95d">agreed ${mvr(agreed, d)}</text>` : "")
+        + qs.map((q, i) => q.endsWith("03-31") ? `<text x="${(10 + i * bw).toFixed(1)}" y="${H + 15}">${q.slice(0, 4)}</text>` : "").join("")
+        + `</svg></div><p class="hint">From Ministry of Finance's Quarterly Debt Bulletins. ${qs.some(q => (ser[q] || {}).dom) ? "Darker: owed to lenders abroad. Lighter: owed to banks in Maldives. " : ""}${showA ? "Yellow line: the total agreed, for the guarantees on today's list. " : ""}A falling bar means it is being repaid.`
+        + (showA && vals.some(v => v > agreed + 1) ? ` Where a bar is above the line, ${esc(short(name))} also owed on other guaranteed loans that have since been repaid, so they are no longer on the list.` : "") + ` Tap or hover a bar for its figure.</p>`;
+    }
+    if (rows.length) h += `<h3>${swap ? "The swaps, as listed" : "The loans the government guaranteed"}</h3><p class="hint">From Ministry of Finance's list of active sovereign guarantees as of ${day(ga)}. Amounts are what was agreed.</p>`
+      + `<div class="sh-list">${rows.map(r => itemHTML(r, "loans").replace('<div class="w">', `<div class="w"><button type="button" class="cty" data-who="${esc(whoOf(r))}" aria-label="${esc(nameOf(r.c))}">${flag(r.c, r.pl)}</button>`).replace("</small></div>", ` = ${mvr((r.usd || 0) * rate / 1e6, d)}</small></div>`)).join("")}</div>`;
+    const link = `${location.origin}${location.pathname}#borrower=${encodeURIComponent(name)}`;
+    showSheet(esc(short(name)), `${h}<div class="sheet-acts"><button type="button" data-copy="cite">Copy these figures, with source</button><button type="button" data-copy="link">Copy a link to this page</button></div>`);
+    sheetEl._link = link;
+    sheetEl._cite = () => `At the end of ${MV.mLabel(d)}, ${short(name)} owed ${mvr(owed, d)} on loans guaranteed by Maldives government${showA ? `, out of ${usd(agreedUSD)} (about ${mvr(agreed, d)}) agreed` : ""}. Sources: Ministry of Finance, Quarterly Debt Bulletin${pdfOf(d) ? ` (${pdfOf(d).url})` : ""}, and list of active sovereign guarantees. Via Maldives National Debt Clock, ${link}`;
+  }
+
   // ---------- from the Debt Bulletins: repayments, money still to come, loans passed on ----------
   // "April to June 2026" for the quarter ending 30 June 2026
   const qSpan = d => { const e = new Date(d + "T00:00:00Z"), st = new Date(Date.UTC(e.getUTCFullYear(), e.getUTCMonth() - 2, 1)), mo = x => x.toLocaleString("en-GB", { month: "long", timeZone: "UTC" });
@@ -232,17 +267,26 @@
     const at = tbl => Object.entries(tbl).map(([n, v]) => [n, v[d]]).filter(([, v]) => v > 0).sort((x, y) => y[1] - x[1]);
     const cub = at(o.cub), sub = at(o.subsidiary), t = a => a.reduce((s, [, v]) => s + v, 0);
     const list = a => a.slice(0, 3).map(([n, v]) => `${esc(n.replace(/ (Limited|Ltd|PLC|Private Limited)$/, ""))} ${mvr(v, d)}`).join(", ");
-    $("lendExtra").innerHTML = (cub.length ? `<div><b class="num">${mvr(t(cub), d)}</b><span>agreed with lenders abroad but not yet paid out, at the end of ${MV.mLabel(d)}. It becomes debt as it is drawn.</span><small>Largest: ${list(cub)}</small></div>`
+    $("lendExtra").innerHTML = (cub.length ? `<div><b class="num">${mvr(t(cub), d)}</b><span>in loans the government has signed with lenders abroad but not yet received, at the end of ${MV.mLabel(d)}. It becomes debt as the money is drawn.</span><small>Largest: ${list(cub)}</small><small>Debt Bulletin table: Committed Undisbursed Balance (CUB) of BCG External Loans.</small></div>`
         : `<div><b>–</b><span>Money agreed but not yet paid out is in the bulletins from ${MV.mLabel(Object.values(o.cub).flatMap(Object.keys).sort()[0])}.</span></div>`)
-      + (sub.length ? `<div><b class="num">${mvr(t(sub), d)}</b><span>borrowed by the government and lent on to state companies, which repay it to the government.</span><small>Largest: ${list(sub)}</small></div>`
+      + (sub.length ? `<div><b class="num">${mvr(t(sub), d)}</b><span>borrowed by the government and lent on to state companies, which repay it to the government. It is part of the government's own debt, not extra.</span><small>Largest: ${list(sub)}</small><small>Debt Bulletin table: Outstanding under Subsidiary Loans.</small></div>`
         : `<div><b>–</b><span>Loans passed on to state companies are in the bulletins from ${MV.mLabel(Object.values(o.subsidiary).flatMap(Object.keys).sort()[0])}.</span></div>`);
-    // guaranteed for whom
-    const ben = Object.entries(o.guaranteed_for).map(([n, v]) => [n, v[d]]).filter(([, v]) => v).map(([n, v]) => [n, (v.ext || 0) + (v.dom || 0), v]).sort((x, y) => y[1] - x[1]), bm = ben[0]?.[1] || 1;
-    $("lendFor").innerHTML = ben.map(([n, v, p]) => `<div class="lb" role="img" aria-label="${esc(n)}: ${mvr(v, d)}"><span class="n">${esc(n.replace(/ (Limited|Ltd|PLC|Private Limited|Pvt Ltd)$/, ""))}</span><span class="t"><i style="width:${v / bm * 100}%;background:${KC.guarantees}"></i></span><span class="v num">${mvr(v, d)}${p.dom ? `<small>${p.ext ? `${mvr(p.dom, d)} of it` : "all"} at home</small>` : ""}</span></div>`).join("")
+    // guaranteed for whom: still owed (Debt Bulletin) against what was agreed (Ministry's list of guarantees)
+    const gl = L.lists.guarantees, ga = gl[asof] ? asof : Object.keys(gl).sort().pop(), agreed = {}, rate = o.rate[d] || 15.42;
+    (gl[ga] || []).forEach(r => { if (r.usd) (agreed[bkey(r.b)] = agreed[bkey(r.b)] || []).push(r); });
+    const ben = Object.entries(o.guaranteed_for).map(([n, v]) => [n, v[d]]).filter(([, v]) => v).map(([n, v]) => [n, (v.ext || 0) + (v.dom || 0), v]).sort((x, y) => y[1] - x[1]);
+    const showA = d >= ga;   // the list is from one date: for earlier quarters it would include guarantees not yet signed
+    const agr = n => showA ? (agreed[bkey(n)] || []).reduce((s, r) => s + r.usd, 0) * rate / 1e6 : 0, bm = Math.max(1, ...ben.map(([n, v]) => Math.max(v, agr(n))));
+    $("lendFor").innerHTML = ben.map(([n, v, p]) => { const a = agr(n);
+      return `<button type="button" class="lb" data-ben="${esc(n)}" aria-label="${esc(n)}: ${mvr(v, d)} still owed${a ? `, ${mvr(a, d)} agreed` : ""}. See its loans"><span class="n">${esc(n.replace(/ (Limited|Ltd|PLC|Private Limited|Pvt Ltd)$/, ""))}</span><span class="t">${a ? `<i class="f" style="width:${a / bm * 100}%;background:${KC.guarantees}"></i>` : ""}<i style="width:${v / bm * 100}%;background:${KC.guarantees}"></i></span><span class="v num">${mvr(v, d)}${a ? `<small>of ${mvr(a, d)} agreed</small>` : ""}${p.dom ? `<small>${p.ext ? `${mvr(p.dom, d)} of it` : "all"} at home</small>` : ""}</span></button>`; }).join("")
+      + (!showA ? `<p class="hint">Still owed at the end of ${MV.mLabel(d)}, from the Debt Bulletin.</p>` : "")
+      + (!showA ? "" : `<p class="hint">Solid: still owed at the end of ${MV.mLabel(d)}, from the Debt Bulletin. Faint: the total of the guarantees on Ministry of Finance's list as of ${day(ga)}, at the bulletin's exchange rate. A guarantee covers a loan up to an agreed amount; the borrower may not have drawn all of it, or may have repaid some. Tap a name for its loans and repayments.</p>`)
       + (ben.length ? "" : `<p class="hint">Not given for this quarter.</p>`);
     $("forHead").textContent = `Who owes the guaranteed debt, at the end of ${MV.mLabel(d)}`;
     $("forNote").innerHTML = `These are the state companies and others that borrowed with a government guarantee, and how much each still owed on that date. It is not what they borrowed during the quarter: it is everything still owed, from loans taken over many years. If they can't repay, the government has promised to.`
-      + (ben.some(([n]) => /Monetary Authority/.test(n)) ? ` <b>Maldives Monetary Authority</b>, the central bank, is here because of its currency swap with Reserve Bank of India: money it drew from India's central bank, which the government guaranteed.` : "");
+      + (() => { const m = ben.find(([n]) => /Monetary Authority/.test(n)); if (!m) return ""; const sw = agreed[bkey(m[0])] || [];
+          return ` <b>Maldives Monetary Authority</b>, the central bank, is here because of its currency swaps with Reserve Bank of India, India's central bank. They are usually described simply as currency swaps between the two central banks. Ministry of Finance lists them among its sovereign guarantees and counts what MMA has drawn as government-guaranteed debt, so they are shown here the same way.`
+            + (sw.length && showA ? ` The swaps were agreed for ${sw.map(r => `${esc(r.cur)} ${MV.short(r.a)}`).join(" and ")}, about ${mvr(agr(m[0]), d)} together. They have not all been drawn at once: what was owed at the end of ${MV.mLabel(d)} was ${mvr(m[1], d)}.` : ""); })();
     $("bulSrc").innerHTML = `Source: Ministry of Finance, Quarterly Debt Bulletins, ${MV.mLabel(o.sources[0].q)} to ${MV.mLabel(o.latest)}. Where a later bulletin revised a quarter, the later figure is used.`;
   }
 
@@ -282,7 +326,7 @@
     $("lendPanel").hidden = !open; $("lendBtn").setAttribute("aria-expanded", open);
     $("lendBtn").querySelector(".t").textContent = open ? "Hide the loans and guarantees" : "See every external loan and sovereign guarantee";
     if (open && !L) Promise.all([MV.getJSON("lenders.json"), MV.getJSON("assets/worldmap.json").catch(() => null)]).then(([j, w]) => { L = j; W = w; asof = j.versions[j.versions.length - 1]; mbasis = j.owed ? "owed" : "signed"; mq = Math.max(0, QS().length - 1); draw(); drawBul();
-      const h = location.hash.slice(1); if (/^(lender|signed)=/.test(h)) render(h); })
+      const h = location.hash.slice(1); if (/^(lender|signed|borrower)=/.test(h)) render(h); })
       .catch(() => { $("lendNote").textContent = "The lists couldn't be loaded. Please try again later."; });
   }
   const rowsNow = () => {
@@ -387,6 +431,7 @@
       playing = setInterval(() => { if (mq >= QS().length - 1) { stopPlay(); return; } mq++; drawMap(); drawBul(); }, 650); drawMap(); drawBul(); return; }
     const ms = e.target.closest("[data-ms]"); if (ms) { mshow = ms.dataset.ms; ms.parentElement.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b === ms)); drawMap(); return; }
     const pl = e.target.closest("#lendMap [data-pl]"); if (pl) { stopPlay(); mpick = pl.dataset.pl; drawMap(); go("lender=" + encodeURIComponent(pl.dataset.pl)); return; }
+    const bn = e.target.closest("[data-ben]"); if (bn) { go("borrower=" + encodeURIComponent(bn.dataset.ben)); return; }
     const who = e.target.closest("[data-who]"); if (who) { e.preventDefault(); go("lender=" + encodeURIComponent(who.dataset.who)); return; }
     const yr = e.target.closest("[data-yr]"); if (yr) { go(`signed=${yr.dataset.yr}-${kind}`); return; }
     if (e.target.closest(".sheet-back")) { back(); return; }
@@ -403,7 +448,7 @@
   document.addEventListener("change", e => { if (e.target.id === "lendC") { only = e.target.value || null; all = false; drawTable(); } if (e.target.id === "lendAsof") { asof = e.target.value; draw(); } if (e.target.id === "mapInst") { minst = e.target.checked; drawMap(); } });
   document.addEventListener("keydown", e => { const n = e.target.closest?.("#lendMap .node, [data-yr]"); if (n && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); n.dispatchEvent(new MouseEvent("click", { bubbles: true })); } });
   document.querySelectorAll("[data-mz]").forEach(b => b.setAttribute("aria-pressed", b.dataset.mz === mzoom));
-  if (/^#(lender|signed)=/.test(location.hash)) addEventListener("load", () => openPanel(false));   // a shared link to a lender or year
+  if (/^#(lender|signed|borrower)=/.test(location.hash)) addEventListener("load", () => openPanel(false));   // a shared link to a lender or year
   MV.onPrefs?.(() => { draw(); drawBul(); });
   let rw = 0; addEventListener("resize", () => { if (L && Math.abs(innerWidth - rw) > 40) { rw = innerWidth; draw(); } });
 })();
