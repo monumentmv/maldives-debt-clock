@@ -430,8 +430,7 @@ const MV = (() => {
 
   // ---------- interest ticker, counting from when the visitor arrived ----------
   function ticker() {
-    let off = false; try { off = sessionStorage.getItem("tickerOff") === "1"; } catch (e) {}
-    if (off || document.querySelector(".ticker")) return;
+    if (document.querySelector(".ticker")) return;   // closing it hides it on this page only; it comes back on the next one
     Promise.all([getJSON("priorities.json"), getJSON("data.json").catch(() => null)]).then(([P, D]) => {
       const it = P?.latest?.interest?.[2], days = P?.latest?.days;
       if (!it || !days) return;
@@ -440,7 +439,13 @@ const MV = (() => {
       const tot = (D?.series?.total?.points || []).filter(p => p.value > 0);   // ts() is the same date helper the clock uses
       const L = tot[tot.length - 1], B = tot[Math.max(0, tot.length - 5)];
       const debtSec = L && B && L !== B ? (L.value - B.value) / ((ts(L.date) - ts(B.date)) / 1000) : null;
-      let start = Date.now(); try { start = Number(sessionStorage.getItem("arrived")) || start; sessionStorage.setItem("arrived", start); } catch (e) {}
+      // a visit starts when the reader arrives, and a new one after 30 minutes away, so a tab left open for days starts again from zero
+      let start = Date.now();
+      try { const seen = Number(sessionStorage.getItem("seenAt")) || 0, arrived = Number(sessionStorage.getItem("arrived")) || 0;
+        if (arrived && Date.now() - seen < 30 * 60e3) start = arrived;
+        sessionStorage.setItem("arrived", start); sessionStorage.setItem("seenAt", Date.now()); } catch (e) {}
+      const stillHere = () => { try { sessionStorage.setItem("seenAt", Date.now()); } catch (e) {} };
+      setInterval(stillHere, 15000); addEventListener("pagehide", stillHere);
       const el = document.createElement("div");
       el.className = "ticker";
       el.innerHTML = `<span class="dot" aria-hidden="true"></span><a href="priorities.html" title="The debt and the interest on it keep growing every second"><span class="lbl">Since you arrived</span><span class="pair">`
@@ -462,7 +467,7 @@ const MV = (() => {
           if (vn) vn.textContent = sym() + " " + fmt(convNow(L.value + debtSec * (Date.now() - ts(L.date)) / 1000)); }
         requestAnimationFrame(tick); };
       requestAnimationFrame(tick);
-      el.querySelector("button").addEventListener("click", () => { el.remove(); try { sessionStorage.setItem("tickerOff", "1"); } catch (e) {} });
+      el.querySelector("button").addEventListener("click", () => el.remove());
     }).catch(() => {});
   }
 
