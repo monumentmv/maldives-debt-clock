@@ -1,5 +1,11 @@
 {
- "checked_at": "2026-10-12T20:01:04+00:00",
- "ok": false,
- "error": "Locator.wait_for: Timeout 60000ms exceeded.\nCall log:\n  - waiting for get_by_text(\"Detailed breakdown\").first to be visible\n"
+ "checked_at": "2026-10-12T20:10:19+00:00",
+ "ok": true,
+ "periods_read": 20,
+ "problems": [
+  "Jun 2025: page showed no cases",
+  "Aug 2025: page showed no cases",
+  "Oct 2025: page showed no cases",
+  "Dec 2025: page showed no cases"
+ ]
 }
