@@ -10,13 +10,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261007m">
+<link rel="stylesheet" href="assets/site.css?v=20261012a">
 <title>Maldives National Debt Clock</title>
 <meta name="description" content="A live estimate of Maldives' public and publicly guaranteed debt, built from Maldives Monetary Authority statistics.">
 <meta property="og:title" content="Maldives National Debt Clock">
 <meta property="og:description" content="How much the Maldivian government owes, right now.">
 <style>
-  .hero { position: relative; min-height: 70svh; overflow: hidden; background: linear-gradient(to bottom, var(--sky), var(--sky-low)); }
+  @property --sky-a { syntax: "<color>"; inherits: true; initial-value: #d7ecef; }
+  @property --sky-b { syntax: "<color>"; inherits: true; initial-value: #eef6f4; }
+  .hero { position: relative; min-height: 70svh; overflow: hidden; --sky-ink: #072f40; --sky-muted: #4a6b78;
+    background: linear-gradient(to bottom, var(--sky-a) 0, var(--sky-b) var(--hz, 210px)); transition: --sky-a 2.5s ease, --sky-b 2.5s ease; }
+  .hero.is-night { --sky-ink: #e6f3f5; --sky-muted: #a9cdd6; }
   .water { position: absolute; left: 0; right: 0; bottom: 0; height: 0; background: linear-gradient(to bottom, var(--lagoon) 0, var(--deep) 6rem, var(--abyss) 100%); transition: height 2.4s cubic-bezier(.2,.7,.2,1); }
   .wave { position: absolute; left: 0; top: -23px; width: 200%; height: 24px; animation: drift 14s linear infinite; }
   .wave path { fill: var(--lagoon); }
@@ -30,7 +34,13 @@
   .island { position: absolute; width: clamp(190px, 24vw, 330px); top: 0; left: 52%; transform: translateY(-76.5%); z-index: 3; }
   .island .fronds { transform-box: fill-box; }
   .sky { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
-  .sun { position: absolute; top: 1.6rem; left: 74%; width: 3.4rem; height: 3.4rem; border-radius: 50%; background: radial-gradient(circle, #fff6d6 0 45%, #ffe9a8 60%, rgba(255,233,168,0) 72%); box-shadow: 0 0 60px 30px rgba(255,240,190,.45); }
+  .sun, .moon { transition: left 2.5s cubic-bezier(.2,.7,.2,1), top 2.5s cubic-bezier(.2,.7,.2,1), opacity 1.5s; }
+  .sun { position: absolute; top: 1.6rem; left: 74%; width: 3.4rem; height: 3.4rem; margin: -1.7rem 0 0 -1.7rem; border-radius: 50%; background: radial-gradient(circle, #fff6d6 0 45%, #ffe9a8 60%, rgba(255,233,168,0) 72%); box-shadow: 0 0 60px 30px rgba(255,240,190,.45); }
+  .sun.low { background: radial-gradient(circle, #fff1d0 0 40%, #ffb36b 58%, rgba(255,150,90,0) 72%); box-shadow: 0 0 70px 34px rgba(255,150,90,.4); }
+  .moon { position: absolute; width: 1.9rem; height: 1.9rem; margin: -.95rem 0 0 -.95rem; border-radius: 50%; background: #f3f1e4; box-shadow: inset -.45rem -.2rem 0 #d9d5c2, 0 0 28px 8px rgba(243,241,228,.18); opacity: 0; }
+  .stars { position: absolute; inset: 0; opacity: 0; transition: opacity 2.5s; }
+  .stars i { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #fff; }
+  .hero.is-night .cloud { opacity: .18 !important; }
   .cloud { position: absolute; height: 1.4rem; border-radius: 999px; background: rgba(255,255,255,.85); filter: blur(.4px); animation: cloud 140s linear infinite; }
   .cloud::before, .cloud::after { content: ""; position: absolute; background: inherit; border-radius: 50%; }
   .cloud::before { width: 2.2rem; height: 2.2rem; left: 1rem; top: -1.1rem; }
@@ -60,9 +70,9 @@
   .gdp-line { z-index: 4; transition: opacity .6s 1.2s, top 2.4s cubic-bezier(.2,.7,.2,1); }
   .gdp-line span b { font-size: 1.05rem; margin-right: .45rem; }
   .gdp-line span { position: absolute; left: var(--gutter); top: -2.05rem; font-size: .8rem; font-weight: 700; color: var(--abyss); background: var(--sun); padding: .1rem .5rem; border-radius: 3px; white-space: nowrap; }
-  .ratio-tag { position: absolute; z-index: 5; top: 1rem; left: var(--gutter); font-size: .95rem; color: var(--ink); max-width: 17rem; line-height: 1.35; }
+  .ratio-tag { position: absolute; z-index: 5; top: 1rem; left: var(--gutter); font-size: .95rem; color: var(--sky-ink); transition: color 2.5s; max-width: 17rem; line-height: 1.35; }
   .ratio-tag b { font-family: var(--display); font-size: 1.6rem; font-weight: 800; font-variation-settings: "wdth" 75; margin-right: .25rem; }
-  .ratio-tag small { display: block; font-size: .82rem; color: var(--muted); margin-top: .2rem; }
+  .ratio-tag small { display: block; font-size: .82rem; color: var(--sky-muted); margin-top: .2rem; }
   .readout { position: absolute; z-index: 4; left: 0; right: 0; padding: 0 calc(var(--gutter) + 3.2rem) 0 var(--gutter); max-width: 76rem; margin: 0 auto; color: var(--foam); }
   .readout.dry { color: var(--ink); }
   .readout p, .readout strong { color: inherit; }
@@ -140,7 +150,7 @@
   @media (max-width: 600px) {
     .clock { font-size: clamp(2.2rem, 9.6vw, 8.5rem); }
     .island { left: 40%; width: 190px; }
-    .sun { width: 2.4rem; height: 2.4rem; top: 1rem; left: 70%; }
+    .sun { width: 2.4rem; height: 2.4rem; margin: -1.2rem 0 0 -1.2rem; }
     .cloud.c1 { top: 2.6rem; }
     .gdp-line span { font-size: .72rem; }
     .ratio-tag b { font-size: 1.3rem; }
@@ -172,7 +182,7 @@
 
 <section class="hero" id="hero" aria-label="Debt clock">
   <div class="ratio-tag" id="ratioTag" hidden><b id="ratioVal">…</b>of GDP</div>
-  <div class="sky" aria-hidden="true"><div class="sun"></div><div class="cloud c1"></div><div class="cloud c2"></div></div>
+  <div class="sky" id="sky" aria-hidden="true"><div class="stars" id="stars"></div><div class="moon" id="moon"></div><div class="sun" id="sun"></div><div class="cloud c1"></div><div class="cloud c2"></div></div>
   <div class="water" id="water" aria-hidden="true">
     <div class="rays"><i></i><i></i><i></i><i></i></div>
     <svg class="wave back" viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0 16 Q 100 2 200 16 T 400 16 T 600 16 T 800 16 T 1000 16 T 1200 16 V30 H0Z"/></svg>
@@ -315,12 +325,93 @@
 </main>
 <footer class="site-foot"><div class="wrap">
   <span id="fetched">Figures from Maldives Monetary Authority Statistics Database.</span>
-  <span class="foot-links"><a href="downloads/maldives_public_finance.xlsx">Download all data</a> <a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with MMA.</span></span>
+  <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with MMA.</span></span>
 </div></footer>
 
-<script src="assets/site.js?v=20261007h"></script>
-<script src="assets/motion.js?v=20261007m" defer></script>
-<script src="assets/updates.js?v=20261007h"></script>
+<script>
+// The sky over the island follows the real time in Malé: the sun rises at sunrise, crosses the sky
+// and sets into the sea at sunset; dawn and dusk turn the sky warm, and at night the moon and stars come out.
+// Add ?t=18:05 to the address to see any time of day.
+window.MVSky = (() => {
+  const LAT = 4.175, LON = 73.509, TZ = 300;                 // Malé, UTC+5
+  const rad = Math.PI / 180, hero = document.getElementById("hero");
+  const sun = document.getElementById("sun"), moon = document.getElementById("moon"), stars = document.getElementById("stars");
+  const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let hz = 210, first = true;
+
+  // sunrise and sunset in Malé, minutes after local midnight (NOAA's simplified formula)
+  function sunTimes(d) {
+    const n = Math.floor((Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()) - Date.UTC(d.getUTCFullYear(), 0, 0)) / 864e5);
+    const g = 2 * Math.PI / 365 * (n - 1);
+    const eq = 229.18 * (0.000075 + 0.001868 * Math.cos(g) - 0.032077 * Math.sin(g) - 0.014615 * Math.cos(2 * g) - 0.040849 * Math.sin(2 * g));
+    const dec = 0.006918 - 0.399912 * Math.cos(g) + 0.070257 * Math.sin(g) - 0.006758 * Math.cos(2 * g) + 0.000907 * Math.sin(2 * g) - 0.002697 * Math.cos(3 * g) + 0.00148 * Math.sin(3 * g);
+    const ha = Math.acos(Math.cos(90.833 * rad) / (Math.cos(LAT * rad) * Math.cos(dec)) - Math.tan(LAT * rad) * Math.tan(dec)) / rad;
+    return { rise: 720 - 4 * (LON + ha) - eq + TZ, set: 720 - 4 * (LON - ha) - eq + TZ };
+  }
+  function nowMin() {
+    const q = /[?&]t=(\d{1,2}):(\d{2})/.exec(location.search);
+    if (q) return +q[1] * 60 + +q[2];
+    const d = new Date(); return ((d.getUTCHours() * 60 + d.getUTCMinutes() + d.getUTCSeconds() / 60 + TZ) % 1440 + 1440) % 1440;
+  }
+
+  // sky colours (top, horizon) at minutes before or after sunrise and sunset
+  const NIGHT = ["#0b1a33", "#1f3a5c"], TWI = ["#2c3e6b", "#e98a6b"], GOLD = ["#8fb8d6", "#ffc99c"], DAY = ["#d7ecef", "#eef6f4"];
+  const RISE = [[-70, NIGHT], [-15, TWI], [20, GOLD], [80, DAY]], SET = [[-80, DAY], [-20, GOLD], [15, TWI], [70, NIGHT]];
+  const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+  const mix = (a, b, k) => "#" + hex(a).map((v, i) => Math.round(v + (hex(b)[i] - v) * k).toString(16).padStart(2, "0")).join("");
+  function along(keys, m) {
+    if (m <= keys[0][0]) return keys[0][1];
+    for (let i = 1; i < keys.length; i++) if (m <= keys[i][0]) {
+      const [m0, c0] = keys[i - 1], [m1, c1] = keys[i], k = (m - m0) / (m1 - m0);
+      return [mix(c0[0], c1[0], k), mix(c0[1], c1[1], k)];
+    }
+    return keys[keys.length - 1][1];
+  }
+  const lum = h => { const [r, g, b] = hex(h); return (r * 299 + g * 587 + b * 114) / 255000; };
+
+  // a body crossing the sky: k from 0 (rising, left) to 1 (setting, right)
+  function place(el, k, size) {
+    const W = hero.clientWidth, peak = Math.max(28, hz * .16);
+    const x = W * (.08 + .76 * k), y = hz + size - Math.sqrt(Math.sin(Math.PI * Math.min(1, Math.max(0, k)))) * (hz - peak + size);   // climbs quickly, stays clear of the gauge
+    return [x, y];
+  }
+  function move(el, [x, y], from) {
+    if (from && !calm) { el.style.transition = "none"; el.style.left = x + "px"; el.style.top = (hz + 60) + "px"; void el.offsetWidth; el.style.transition = ""; }
+    el.style.left = x + "px"; el.style.top = y + "px";
+  }
+
+  function draw() {
+    const m = nowMin(), { rise, set } = sunTimes(new Date());
+    const near = Math.abs(m - rise) < Math.abs(m - set) ? along(RISE, m - rise) : along(SET, m - set);
+    const day = m >= rise && m <= set, sky = m < rise - 70 || m > set + 70 ? NIGHT : near;
+    hero.style.setProperty("--sky-a", sky[0]); hero.style.setProperty("--sky-b", sky[1]);
+    hero.classList.toggle("is-night", lum(sky[0]) < .45);
+    const s = sun.offsetWidth / 2 || 20;
+    const ks = (m - rise) / (set - rise);
+    move(sun, place(sun, ks, s), first && day); sun.style.opacity = ks > -.05 && ks < 1.05 ? 1 : 0;
+    sun.classList.toggle("low", day && (m - rise < 50 || set - m < 50));
+    const night = 1440 - (set - rise), km = ((m - set + 1440) % 1440) / night;
+    move(moon, place(moon, km, 15), first && !day); moon.style.opacity = !day && km < 1 ? 1 : 0;
+    stars.style.opacity = Math.max(0, Math.min(1, (.5 - lum(sky[0])) * 4));
+    first = false;
+  }
+
+  // stars, scattered once
+  for (let i = 0; i < 60; i++) {
+    const st = document.createElement("i");
+    st.style.left = (Math.random() * 100).toFixed(2) + "%"; st.style.top = (Math.random() * 85).toFixed(2) + "%";
+    st.style.opacity = (.35 + Math.random() * .65).toFixed(2);
+    stars.appendChild(st);
+  }
+  setInterval(draw, 30000);
+  setTimeout(() => { if (first) draw(); }, 1500);   // if the figures never load, still show the sky
+  addEventListener("resize", draw);
+  return { horizon(y) { hz = y; hero.style.setProperty("--hz", y + "px"); stars.style.bottom = "auto"; stars.style.height = y + "px"; draw(); }, draw };
+})();
+</script>
+<script src="assets/site.js?v=20261012a"></script>
+<script src="assets/motion.js?v=20261012a" defer></script>
+<script src="assets/updates.js?v=20261012a"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -433,13 +524,14 @@
         if (y < 12 || y > H - 8) continue;
         const t = document.createElement("div"); t.className = "tick";
         t.style.top = y + "px"; t.style.width = label ? "10px" : "5px";
-        t.style.color = y < y0 ? "#072f40" : "#cfe6ea";
+        t.style.color = y < y0 ? "var(--sky-ink)" : "#cfe6ea";
         if (label && Math.abs(markY - y) > 26) t.innerHTML = `<span>${v}%</span>`;
         if (Math.abs(markY - y) <= 14) continue;
         g.appendChild(t);
       }
       let now = g.querySelector(".now"); if (!now) { now = document.createElement("div"); now.className = "now"; g.appendChild(now); }
       now.textContent = ratio ? fmt(ratio, 1) + "%" : ""; now.style.top = markY + "px"; now.hidden = !ratio;
+      if (window.MVSky) MVSky.horizon(y0);
     }
     let surfaceY = 0;
 
