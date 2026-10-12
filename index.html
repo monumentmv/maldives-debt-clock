@@ -63,8 +63,8 @@
   .gauge .pole { position: absolute; right: .4rem; top: 0; bottom: 0; width: 8px; background: repeating-linear-gradient(to bottom, #fff 0 10px, #e85a4f 10px 20px); border-radius: 2px; opacity: .9; box-shadow: 0 0 0 1px rgba(7,47,64,.25); }
   .gauge .tick { position: absolute; right: 1.15rem; height: 0; border-top: 1px solid currentColor; width: 6px; }
   .gauge .tick span { position: absolute; right: 9px; top: -.6rem; font-size: .72rem; font-weight: 700; white-space: nowrap; }
-  .gauge .now { position: absolute; right: 1.1rem; transform: translateY(-50%); background: var(--sun); color: var(--abyss); font: 800 .82rem var(--body); padding: .15rem .45rem; border-radius: 3px; white-space: nowrap; transition: top 2.4s cubic-bezier(.2,.7,.2,1); }
-  .gauge .now::after { content: ""; position: absolute; right: -6px; top: 50%; transform: translateY(-50%); border: 6px solid transparent; border-right: 0; border-left-color: var(--sun); }
+  .gauge .now { position: absolute; right: 1.1rem; transform: translateY(calc(-100% - 4px)); background: var(--sun); color: var(--abyss); font: 800 .82rem var(--body); padding: .15rem .45rem; border-radius: 3px; white-space: nowrap; transition: top 2.4s cubic-bezier(.2,.7,.2,1); }
+  .gauge .now::after { content: ""; position: absolute; right: 0; bottom: -6px; border: 6px solid transparent; border-bottom: 0; border-top-color: var(--sun); }   /* points down at the line */
   .gdp-line { position: absolute; left: 0; right: 0; height: 0; border-top: 2px dashed var(--sun); opacity: 0; transition: opacity .6s 1.8s; }
   .gdp-line { z-index: 4; transition: opacity .6s 1.2s, top 2.4s cubic-bezier(.2,.7,.2,1); }
   .gdp-line span b { font-size: 1.05rem; margin-right: .45rem; }
@@ -526,8 +526,9 @@ window.MVSky = (() => {
         const t = document.createElement("div"); t.className = "tick";
         t.style.top = y + "px"; t.style.width = label ? "10px" : "5px";
         t.style.color = y < y0 ? "var(--sky-ink)" : "#cfe6ea";
-        if (label && Math.abs(markY - y) > 26) t.innerHTML = `<span>${v}%</span>`;
-        if (Math.abs(markY - y) <= 14) continue;
+        const near = y > markY - 30 && y < markY + 10;                      // the marker sits just above the line
+        if (label && !near) t.innerHTML = `<span>${v}%</span>`;
+        if (near) continue;
         g.appendChild(t);
       }
       let now = g.querySelector(".now"); if (!now) { now = document.createElement("div"); now.className = "now"; g.appendChild(now); }

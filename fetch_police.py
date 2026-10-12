@@ -137,7 +137,7 @@ async def read_period(page, year, month_index):
 
 async def run(years_wanted, show):
     from playwright.async_api import async_playwright
-    stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
     existing = load_existing()
     found, problems = [], []
     async with async_playwright() as p:
@@ -169,6 +169,13 @@ async def run(years_wanted, show):
                 print(f"  {year} {label:>10}: {sum(n for _, n in rows):>6,} cases in {len(rows)} categories")
             found += year_rows
             # save after every year, so a stopped run keeps what it already read
+            # a figure that hasn't changed keeps the time it was first read, so "retrieved" says when the
+            # figures last changed, and runs that find nothing new don't change the file
+            before = {(int(r["year"]), int(r["month"]), r["category"]): r for r in existing}
+            for r in found:
+                old = before.get((int(r["year"]), int(r["month"]), r["category"]))
+                if old and int(old["cases"]) == int(r["cases"]):
+                    r["retrieved"] = old["retrieved"]
             done = {(int(r["year"]), int(r["month"])) for r in found}
             keep = [r for r in existing if (int(r["year"]), int(r["month"])) not in done]
             save(keep + found)
