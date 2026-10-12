@@ -499,7 +499,7 @@ window.MVSky = (() => {
     const hero = $("hero"), water = $("water"), line = $("gdpLine"), readout = $("readout");
     if (ratio) {
       $("ratioVal").textContent = fmt(ratio, 1) + "%"; $("ratioTag").hidden = false;
-      $("lineLabel").innerHTML = ratio >= SEA ? `<b>${fmt(ratio, 1)}% of GDP</b> ${fmt(ratio - SEA, 1)} points below the surface` : `<b>${fmt(ratio, 1)}% of GDP</b> ${fmt(SEA - ratio, 1)} points above the surface`;
+      $("lineLabel").innerHTML = `<b>${fmt(ratio, 1)}% of GDP</b>`;
     }
     // The sea surface is fixed at 70% of GDP, the level above which the IMF flags public debt in emerging economies as high risk.
     // Debt above that sits below the surface: the further down the yellow line, the deeper underwater.
