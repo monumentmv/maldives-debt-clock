@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261012k">
+<link rel="stylesheet" href="assets/site.css?v=20261013d">
 <title>Maldives National Debt Clock</title>
 <meta property="og:url" content="https://mvdebtclock.org/">
 <meta property="og:type" content="website">
@@ -182,13 +182,13 @@
   .lend-map svg { display: block; width: 100%; height: auto; }
   .lend-map .land { fill: rgba(169,205,214,.13); stroke: none; }
   .lend-map .lc.loans { fill: rgba(63,184,176,.32); } .lend-map .lc.guarantees { fill: rgba(242,165,65,.3); }
-  .lend-map .arc { fill: none; stroke-linecap: round; opacity: .85; cursor: pointer; animation: flow 1.6s linear infinite; }
+  .lend-map .arc { fill: none; stroke-linecap: butt; opacity: .9; cursor: pointer; animation: flow 1.6s linear infinite; }
   .lend-map .arc.loans { stroke: #3fb8b0; } .lend-map .arc.guarantees { stroke: #f2a541; }
   .lend-map .arc.dim { opacity: .15; }
   .lend-map .node { cursor: pointer; } .lend-map .labels text { cursor: pointer; fill: var(--foam); font-weight: 700; paint-order: stroke; stroke: rgba(7,47,64,.85); stroke-width: 3px; } .lend-map .node text { fill: var(--foam); font-weight: 700; paint-order: stroke; stroke: rgba(7,47,64,.85); stroke-width: 3px; }
   .lend-map .node.on circle, .lend-map .node.on rect { stroke: #fff; stroke-width: 3px; }
   .lend-map .male { fill: #ff5f56; stroke: #fff; stroke-width: 2px; } .lend-map .male-t { fill: #fff; font-weight: 800; paint-order: stroke; stroke: rgba(7,47,64,.85); stroke-width: 3px; }
-  @keyframes flow { to { stroke-dashoffset: -28; } }
+  @keyframes flow { to { stroke-dashoffset: -22; } }
   @media (prefers-reduced-motion: reduce) { .lend-map .arc { animation: none; stroke-dasharray: none !important; } }
   .chk { display: inline-flex; gap: .45rem; align-items: center; font-size: .9rem; color: var(--foam); cursor: pointer; }
   .map-key { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; margin-top: .7rem; font-size: .82rem; color: var(--mist); }
@@ -536,10 +536,10 @@ window.MVSky = (() => {
   return { horizon(y) { hz = y; hero.style.setProperty("--hz", y + "px"); stars.style.bottom = "auto"; stars.style.height = y + "px"; draw(); }, draw };
 })();
 </script>
-<script src="assets/site.js?v=20261012k"></script>
-<script src="assets/motion.js?v=20261012k" defer></script>
-<script src="assets/updates.js?v=20261012k"></script>
-<script src="assets/lenders.js?v=20261013b" defer></script>
+<script src="assets/site.js?v=20261013d"></script>
+<script src="assets/motion.js?v=20261013d" defer></script>
+<script src="assets/updates.js?v=20261013d"></script>
+<script src="assets/lenders.js?v=20261013c" defer></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);

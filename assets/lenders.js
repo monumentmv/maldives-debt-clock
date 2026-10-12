@@ -45,8 +45,8 @@
       const dx = mx - n.x, dy = my - n.y, len = Math.hypot(dx, dy) || 1;
       let nx = -dy / len, ny = dx / len; if (ny > 0) { nx = -nx; ny = -ny; }        // bow towards the north
       const bend = (k === "guarantees" && n.lu ? -1 : 1) * Math.min(120, len * .22);  // two lines bow apart when a place has both
-      const cx = (n.x + mx) / 2 + nx * bend, cy = (n.y + my) / 2 + ny * bend, w = (1.3 + 9 * Math.sqrt(v / max)) * px;
-      return `<path class="arc ${k}${mpick && mpick !== n.key ? " dim" : ""}" data-pl="${esc(n.key)}" d="M${n.x.toFixed(1)} ${n.y.toFixed(1)} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${mx.toFixed(1)} ${my.toFixed(1)}" style="stroke-width:${w.toFixed(2)};stroke-dasharray:${(5 * px).toFixed(1)} ${(9 * px).toFixed(1)}"><title>${esc(n.label)}: ${usd(v)} in ${KW[k]}s</title></path>`;
+      const cx = (n.x + mx) / 2 + nx * bend, cy = (n.y + my) / 2 + ny * bend, w = (.9 + 4 * Math.sqrt(v / max)) * px;
+      return `<path class="arc ${k}${mpick && mpick !== n.key ? " dim" : ""}" data-pl="${esc(n.key)}" d="M${n.x.toFixed(1)} ${n.y.toFixed(1)} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${mx.toFixed(1)} ${my.toFixed(1)}" style="stroke-width:${w.toFixed(2)};stroke-dasharray:${(6 * px).toFixed(1)} ${(5 * px).toFixed(1)}"><title>${esc(n.label)}: ${usd(v)} in ${KW[k]}s</title></path>`;
     };
     list.sort((a, b) => (b.lu + b.gu) - (a.lu + a.gu));
     g += list.map(n => arc(n, "loans") + arc(n, "guarantees")).join("");
