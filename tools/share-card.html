@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Share card</title>
+<!-- Drawn by build_share.py into assets/share.png, the picture shown when the site is shared. Not linked from the site. -->
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; }
+  body { width: 1200px; height: 630px; overflow: hidden; font-family: "Atkinson Hyperlegible", Arial, sans-serif; }
+  .card { position: relative; width: 1200px; height: 630px; overflow: hidden; background: linear-gradient(to bottom, #cfe8ee 0, #f3efe2 250px); }
+  .sun { position: absolute; left: 960px; top: 70px; width: 84px; height: 84px; border-radius: 50%; background: radial-gradient(circle, #fff6d6 0 45%, #ffe9a8 60%, rgba(255,233,168,0) 72%); box-shadow: 0 0 80px 40px rgba(255,240,190,.5); }
+  .cloud { position: absolute; height: 26px; border-radius: 999px; background: rgba(255,255,255,.9); }
+  .cloud::before, .cloud::after { content: ""; position: absolute; background: inherit; border-radius: 50%; }
+  .cloud::before { width: 40px; height: 40px; left: 18px; top: -20px; } .cloud::after { width: 30px; height: 30px; left: 50px; top: -13px; }
+  .c1 { width: 110px; left: 620px; top: 70px; } .c2 { width: 80px; left: 360px; top: 40px; opacity: .75; }
+  .island { position: absolute; width: 380px; left: 690px; top: 128px; }
+  .island svg { display: block; width: 100%; height: auto; }
+  .sea { position: absolute; left: 0; right: 0; top: 250px; bottom: 0; background: linear-gradient(to bottom, #3fb8b0 0, #0b4f6c 120px, #072f40 100%); }
+  .sea::before { content: ""; position: absolute; left: 0; right: 0; top: -10px; height: 20px; background: #3fb8b0; border-radius: 50% 50% 0 0 / 100% 100% 0 0; }
+  .line { position: absolute; left: 0; right: 0; top: 392px; border-top: 3px dashed #f4c95d; }
+  .tag { position: absolute; left: 64px; top: 356px; background: #f4c95d; color: #072f40; font: 800 24px "Atkinson Hyperlegible", Arial, sans-serif; padding: 4px 12px; border-radius: 4px; }
+  .text { position: absolute; left: 64px; top: 420px; color: #fff; }
+  .kicker { font-weight: 700; font-size: 26px; letter-spacing: .02em; color: #cfe6ea; }
+  .big { font-family: "Archivo", "Arial Narrow", Arial, sans-serif; font-weight: 800; font-variation-settings: "wdth" 72; font-size: 112px; line-height: 1; margin-top: 6px; }
+  .big small { font-size: 56px; font-weight: 600; margin-right: 10px; }
+  .site { position: absolute; right: 64px; bottom: 44px; font-weight: 700; font-size: 30px; color: #f4c95d; }
+  .brand { position: absolute; left: 64px; top: 48px; font-family: "Archivo", Arial, sans-serif; font-weight: 800; font-variation-settings: "wdth" 80; font-size: 34px; color: #072f40; }
+  .brand span { color: #b98a10; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="brand">MV <span>Debt Clock</span></div>
+  <div class="sun"></div><div class="cloud c1"></div><div class="cloud c2"></div>
+  <div class="sea"></div>
+  <div class="island"><svg viewBox="0 0 340 120" aria-hidden="true"><defs><radialGradient id="lagoon" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#c4f5ec"/><stop offset=".55" stop-color="#7fdcd0"/><stop offset="1" stop-color="#3fb8b0" stop-opacity="0"/></radialGradient><linearGradient id="sandg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf4df"/><stop offset="1" stop-color="#ead9ae"/></linearGradient></defs><ellipse cx="160" cy="98" rx="165" ry="20" fill="url(#lagoon)"/><g stroke="#7a5a3a" stroke-width="2"><line x1="232" y1="84" x2="314" y2="84"/><line x1="252" y1="78" x2="252" y2="96"/><line x1="262" y1="78" x2="262" y2="96"/><line x1="280" y1="78" x2="280" y2="96"/><line x1="290" y1="78" x2="290" y2="96"/><line x1="306" y1="78" x2="306" y2="96"/><line x1="316" y1="78" x2="316" y2="96"/></g><rect x="248" y="68" width="18" height="11" fill="#f3e6c8"/><path d="M244 69 L257 58 L270 69 Z" fill="#b8874f"/><rect x="276" y="68" width="18" height="11" fill="#f3e6c8"/><path d="M272 69 L285 58 L298 69 Z" fill="#b8874f"/><rect x="302" y="68" width="18" height="11" fill="#f3e6c8"/><path d="M298 69 L311 58 L324 69 Z" fill="#b8874f"/><path d="M40 92 Q 70 74 120 72 Q 170 68 215 74 Q 240 80 250 92 Z" fill="url(#sandg)"/><path d="M70 80 q 8 -14 22 -10 q 8 -12 22 -6 q 12 -10 26 -2 q 12 -8 24 0 q 12 -4 18 8 q -60 6 -112 10 Z" fill="#3c8f4f"/><path d="M84 80 q 10 -10 22 -6 q 10 -8 22 -2 q 10 -6 20 2 q -30 6 -64 6 Z" fill="#4fa35c"/><g stroke-linecap="round" fill="none"><path d="M100 76 Q 92 46 104 18" stroke="#8a6a44" stroke-width="4.5"/><path d="M140 74 Q 146 44 132 10" stroke="#7a5a3a" stroke-width="5"/><path d="M176 76 Q 186 52 196 30" stroke="#8a6a44" stroke-width="4"/><path d="M120 75 Q 116 58 122 42" stroke="#7a5a3a" stroke-width="3.5"/><path d="M200 80 Q 214 64 226 54" stroke="#8a6a44" stroke-width="3.5"/></g><g class="fronds" fill="#2f8a5b"><g transform="translate(104,18)"><path d="M0 0 C -12 -8 -26 -6 -36 4 C -24 -2 -12 -1 0 2 Z"/><path d="M0 0 C 10 -12 26 -12 34 -2 C 22 -6 10 -4 0 2 Z"/><path d="M0 0 C -6 -14 -2 -24 6 -30 C 2 -20 2 -10 2 0 Z"/><path d="M0 0 C 14 2 24 10 28 20 C 18 12 8 8 0 4 Z"/><path d="M0 0 C -14 4 -22 12 -24 22 C -16 14 -8 8 0 4 Z"/></g><g transform="translate(132,10)" fill="#36985f"><path d="M0 0 C -12 -8 -28 -6 -40 6 C -26 -2 -12 -1 0 2 Z"/><path d="M0 0 C 12 -12 30 -12 40 0 C 26 -6 12 -4 0 2 Z"/><path d="M0 0 C -4 -14 2 -24 10 -28 C 4 -18 4 -8 2 0 Z"/><path d="M0 0 C 16 2 28 12 30 24 C 20 14 10 8 0 4 Z"/><path d="M0 0 C -16 4 -26 14 -28 26 C -18 16 -8 8 0 4 Z"/></g><g transform="translate(196,30)"><path d="M0 0 C -10 -8 -24 -6 -32 4 C -22 -2 -10 -1 0 2 Z"/><path d="M0 0 C 10 -10 24 -10 32 0 C 22 -4 10 -3 0 2 Z"/><path d="M0 0 C 12 2 20 10 22 18 C 14 12 6 7 0 4 Z"/><path d="M0 0 C -12 4 -18 10 -20 18 C -12 12 -6 7 0 4 Z"/></g><g transform="translate(122,42)" fill="#3f9f63"><path d="M0 0 C -8 -6 -18 -5 -24 3 C -16 -1 -8 0 0 2 Z"/><path d="M0 0 C 8 -8 18 -8 24 0 C 16 -3 8 -2 0 2 Z"/><path d="M0 0 C 8 2 14 7 16 13 C 10 9 4 6 0 4 Z"/></g><g transform="translate(226,54)" fill="#3f9f63"><path d="M0 0 C -8 -6 -18 -5 -24 3 C -16 -1 -8 0 0 2 Z"/><path d="M0 0 C 8 -8 18 -8 24 0 C 16 -3 8 -2 0 2 Z"/><path d="M0 0 C 8 2 14 7 16 13 C 10 9 4 6 0 4 Z"/></g></g><g fill="#6b4a2a"><circle cx="102" cy="21" r="2.4"/><circle cx="106" cy="22" r="2.4"/><circle cx="131" cy="13" r="2.6"/><circle cx="135" cy="14" r="2.6"/><circle cx="195" cy="33" r="2.2"/></g></svg></div>
+  <div class="line"></div>
+  <div class="tag" id="ratio">…</div>
+  <div class="text">
+    <div class="kicker">What the Maldivian government owes</div>
+    <div class="big"><small>MVR</small><span id="debt">…</span></div>
+  </div>
+  <div class="site">mvdebtclock.org</div>
+</div>
+<script>
+// Same estimate as the clock on the home page: the latest official figure, moved on at the pace of the last year.
+fetch("../data.json").then(r => r.json()).then(d => {
+  const ts = s => Date.parse(s + "T00:00:00Z");
+  const tot = d.series.total.points.filter(p => p.value > 0), latest = tot[tot.length - 1], back = tot[Math.max(0, tot.length - 5)];
+  const rate = (latest.value - back.value) / ((ts(latest.date) - ts(back.date)) / 1000 || 1);
+  const now = latest.value + rate * (Date.now() - ts(latest.date)) / 1000;
+  const r = d.series.debt_to_gdp.points.slice(-1)[0].value, pct = r < 5 ? r * 100 : r;
+  document.getElementById("debt").textContent = (now / 1e9).toFixed(1) + " bn";
+  document.getElementById("ratio").textContent = pct.toFixed(1) + "% of GDP";
+  document.fonts.ready.then(() => document.body.dataset.ready = "1");
+}).catch(e => { document.body.dataset.ready = "error"; console.error(e); });
+</script>
+</body>
+</html>
