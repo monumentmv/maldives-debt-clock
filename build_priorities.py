@@ -1,7 +1,7 @@
 """
 Builds priorities.json for the priorities page. It sets what the government pays in interest
 against what it spends on policing, justice, protection and rights, and on other big services,
-with cases reported to the Maldives Police Service.
+with cases reported to Maldives Police Service.
 
 Runs every morning in GitHub Actions, after fetch_wfd.py and fetch_police.py. Reads:
   data/wfd/wfd_long.csv           every row of every Weekly Fiscal Developments table

@@ -1,5 +1,5 @@
 """
-Builds lenders.json for the home page from the Ministry of Finance lists saved by fetch_lenders.py:
+Builds lenders.json for the home page from Ministry of Finance lists saved by fetch_lenders.py:
 every active external loan and sovereign guarantee, with the lender's country or type and the amount in
 US dollars at the exchange rates on the list's "as of" date.
 
@@ -143,7 +143,7 @@ BULLETIN_LENDERS = [
     ("industrialandcommercialbank", "Industrial and Commercial Bank of China", "China", C),
     ("reservebankofindia", "Reserve Bank of India", "India", B),
     ("others", "Others, not named in the bulletin", "Not published", X),
-    # banks in the Maldives (guaranteed debt owed at home)
+    # banks in Maldives (guaranteed debt owed at home)
     ("bankofmaldives", "Bank of Maldives", "Maldives", C),
     ("maldivesislamicbank", "Maldives Islamic Bank", "Maldives", C),
     ("habibbank", "Habib Bank (Malé branch)", "Pakistan", C),
@@ -227,12 +227,12 @@ def bulletin_data():
         return short
     loans, lt, u1 = merged(bulletins, "gov_ext", lender)
     guar, gt, u2 = merged(bulletins, "sg_ext", lender)
-    def home_lender(n):   # bonds in this table were bought by banks in the Maldives
+    def home_lender(n):   # bonds in this table were bought by banks in Maldives
         if n.lower().startswith("bondholder"):
-            who["Bondholders (banks in the Maldives)"] = {"c": "Maldives", "t": C, "pl": None}
-            return "Bondholders (banks in the Maldives)"
+            who["Bondholders (banks in Maldives)"] = {"c": "Maldives", "t": C, "pl": None}
+            return "Bondholders (banks in Maldives)"
         return lender(n)
-    home, ht, u3 = merged(bulletins, "sg_dom", home_lender)   # guaranteed debt owed to banks in the Maldives
+    home, ht, u3 = merged(bulletins, "sg_dom", home_lender)   # guaranteed debt owed to banks in Maldives
     unknown |= u1 | u2 | u3
     for k in list(loans) + list(guar) + list(home):
         who.setdefault(k, {"c": "Not published", "t": X, "pl": None})
@@ -254,26 +254,28 @@ def bulletin_data():
                     svc.setdefault(q, {})[who_ + part] = v
     latest = max(bulletins, key=lambda b: b["quarter"])
     lq = latest["quarter"]
-    def latest_table(t, fix=tidy):
-        rows = latest["tables"].get(t, {})
-        out = {}
-        for n, r in rows.items():
-            if n.upper() != "TOTAL" and r.get(lq):
-                out[fix(n)] = out.get(fix(n), 0) + r[lq]
-        return out
-    cub = {}
-    for n, v in latest_table("cub", lambda n: (bulletin_name(n) or (n,))[0]).items():
-        cub[n] = v
+    # money agreed but not yet paid out, by lender, every quarter
+    cub, _, _ = merged(bulletins, "cub", lambda n: (bulletin_name(n) or (tidy(n),))[0])
+    # loans passed on to state companies: each bulletin gives only its own quarter
+    sub = {}
+    for b in bulletins:
+        for n, r in b["tables"].get("subsidiary", {}).items():
+            if n.upper() != "TOTAL" and r.get(b["quarter"]):
+                sub.setdefault(tidy(n), {})[b["quarter"]] = r[b["quarter"]]
+    # who borrowed with a government guarantee, abroad and at home, every quarter
     ben = {}
     for t, part in (("sg_ext_ben", "ext"), ("sg_dom_ben", "dom")):
-        for n, v in latest_table(t).items():
-            ben.setdefault(n, {})[part] = v
+        rows, _, _ = merged(bulletins, t, tidy)
+        for n, v in rows.items():
+            for q, x in v.items():
+                if x:
+                    ben.setdefault(n, {}).setdefault(q, {})[part] = x
     if unknown:
         print("Lenders in the Debt Bulletins not yet given a country:\n  " + "\n  ".join(sorted(unknown)))
     return {
         "latest": lq, "quarters": sorted(set(lt) | set(gt)), "rate": rate,
         "loans": loans, "guarantees": guar, "guarantees_home": home, "total": {"loans": lt, "guarantees": gt, "guarantees_home": ht}, "who": who,
-        "service": dict(sorted(svc.items())), "cub": cub, "subsidiary": latest_table("subsidiary"), "guaranteed_for": ben,
+        "service": dict(sorted(svc.items())), "cub": cub, "subsidiary": sub, "guaranteed_for": ben,
         "sources": [{"q": b["quarter"], "url": b.get("url"), "title": b.get("title")} for b in sorted(bulletins, key=lambda b: b["quarter"])],
     }
 

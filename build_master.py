@@ -1,7 +1,7 @@
 """
 Builds one clean master dataset from every source the site uses:
   MMA Statistics Database (data.json), MIRA revenue files (inputs/mira/) and
-  the Ministry of Finance Weekly Fiscal Developments (data/wfd/) and
+  Ministry of Finance Weekly Fiscal Developments (data/wfd/) and
   Maldives Police Service case counts (data/police/).
 
 Runs every morning in GitHub Actions, after the other scripts. Writes:
@@ -326,12 +326,12 @@ def write_xlsx(series, obs, tables, built):
     first = lambda c: min((series[s]["first_date"] for s in series if series[s]["category"].startswith(c)), default="")
     lines = [
         ("Maldives public finance data", True),
-        (f"Compiled by the Maldives National Debt Clock ({SITE}) from official publications. Built {built} UTC.", False),
+        (f"Compiled by Maldives National Debt Clock ({SITE}) from official publications. Built {built} UTC.", False),
         ("", False),
         ("What is in this workbook", True),
         ("Catalogue: every series, with its clean name, unit, frequency, dates covered and original source.", False),
         ("Public debt (quarterly), Monthly, Annual and Weekly budget: the same data laid out with one column per series and one row per date.", False),
-        ("Weekly budget tables: every line of every table in the Ministry of Finance's weekly reports.", False),
+        ("Weekly budget tables: every line of every table in Ministry of Finance's weekly reports.", False),
         ("All series (long): every observation in one list, the easiest form to load into other software.", False),
         ("", False),
         ("Sources", True),
@@ -347,7 +347,7 @@ def write_xlsx(series, obs, tables, built):
         ("Figures are as published by each source and can be revised. They are not adjusted for inflation.", False),
         ("", False),
         ("Using this data", True),
-        ("Please credit the original publishers (MMA, MIRA, the Ministry of Finance and the Maldives Police Service) and the Maldives National Debt Clock. "
+        ("Please credit the original publishers (MMA, MIRA, Ministry of Finance and Maldives Police Service) and Maldives National Debt Clock. "
          "Errors can be reported through the contact form on the site's About page.", False),
         (f"Latest version: {RELEASE}maldives_public_finance.xlsx", False),
     ]
@@ -387,7 +387,7 @@ def main():
     with zipfile.ZipFile(DIST / "maldives_public_finance_csv.zip", "w", zipfile.ZIP_DEFLATED) as z:
         for name, text in files.items():
             z.writestr(name, text)
-        z.writestr("README.txt", "Maldives public finance data, compiled by the Maldives National Debt Clock from MMA, MIRA, Ministry of Finance and Maldives Police Service publications.\n"
+        z.writestr("README.txt", "Maldives public finance data, compiled by Maldives National Debt Clock from MMA, MIRA, Ministry of Finance and Maldives Police Service publications.\n"
                    f"Built {built} UTC. See series_catalogue.csv for names, units and sources. Money is in millions of MVR or US$ as stated.\n")
     meta = {"built_at": built, "series": len(series), "observations": len(obs), "weekly_table_rows": len(tables),
             "first_date": min(m["first_date"] for m in series.values()), "last_date": max(m["last_date"] for m in series.values()),

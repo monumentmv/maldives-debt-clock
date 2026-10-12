@@ -1,5 +1,5 @@
 """
-Pulls Maldives public debt series from the MMA Statistics Database
+Pulls Maldives public debt series from MMA Statistics Database
 and writes data.json for the debt clock page.
 
 Runs in GitHub Actions. The API token comes from the MMA_TOKEN secret,

@@ -1,5 +1,5 @@
 """
-Collects every year and every month from the Maldives Police Service crime statistics page
+Collects every year and every month from Maldives Police Service crime statistics page
 (https://www.police.gov.mv/crime-statistics) and saves it to data/police/crime_monthly.csv.
 
 The page shows one period at a time: a year (2017 onwards) and either the whole year or a month.

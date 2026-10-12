@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261013g">
+<link rel="stylesheet" href="assets/site.css?v=20261013h">
 <title>Protection and interest · Maldives National Debt Clock</title>
 <meta property="og:title" content="Protection and interest · Maldives National Debt Clock">
 <meta property="og:description" content="What the government spends on the police and on protecting families, children and human rights, set against what it pays in interest, with cases reported to the police.">
@@ -184,21 +184,21 @@
 
   <section class="caveat">
     <h2>Reading these figures</h2>
-    <p>Spending and interest come from the Ministry of Finance's weekly fiscal reports. Interest is what the Ministry reports as financing and interest costs, and doesn't include loan repayments. Weekly figures are early and change as accounts are reconciled.</p>
+    <p>Spending and interest come from Ministry of Finance's weekly fiscal reports. Interest is what the Ministry reports as financing and interest costs, and doesn't include loan repayments. Weekly figures are early and change as accounts are reconciled.</p>
     <p>Days of interest divide an agency's spending by the average daily interest cost over the same period. Matching an agency with a type of case shows scale only. It doesn't mean the agency handles every such case, or that spending and cases are linked.</p>
-    <p>Case counts are cases reported to the Maldives Police Service. They count reports, not convictions, and include traffic accidents and lost items.</p>
+    <p>Case counts are cases reported to Maldives Police Service. They count reports, not convictions, and include traffic accidents and lost items.</p>
     <p>Courts aren't shown because judiciary spending moved into the Special Budget in April 2026. Gender and family functions were merged into other ministries in April 2026 and aren't reported separately. The National Drug Agency first appears as its own office in 2024. <a href="methodology.html#protection">More in the methodology</a>.</p>
   </section>
 
 </div>
 </main>
 <footer class="site-foot"><div class="wrap">
-  <span id="fetched">Figures from the Ministry of Finance, Weekly Fiscal Developments, and the Maldives Police Service.</span>
-  <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with the Ministry of Finance, the Maldives Police Service or MMA.</span></span>
+  <span id="fetched">Figures from Ministry of Finance, Weekly Fiscal Developments, and Maldives Police Service.</span>
+  <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with Ministry of Finance, Maldives Police Service or MMA.</span></span>
 </div></footer>
 
 <script src="assets/site.js"></script>
-<script src="assets/motion.js?v=20261013g" defer></script>
+<script src="assets/motion.js?v=20261013h" defer></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -353,7 +353,7 @@
       else if (m === "ytd") Object.values(C.monthly[y] || {}).forEach(o => Object.entries(o).forEach(([c, n]) => cats[c] = (cats[c] || 0) + n));
       else cats = C.monthly[y]?.[m] || {};
       const list = Object.entries(cats).sort((a, b) => b[1] - a[1]), max = list[0]?.[1] || 1, total = list.reduce((s, [, n]) => s + n, 0);
-      $("casesNote").textContent = `${fmt(total)} cases reported to the Maldives Police Service in ${m === "0" ? y : m === "ytd" ? `${$("cMonth").selectedOptions[0].text} ${y}` : `${MONTHS[m - 1]} ${y}`}, by category. Latest figures as of ${dayLabel(C.retrieved)}.`;
+      $("casesNote").textContent = `${fmt(total)} cases reported to Maldives Police Service in ${m === "0" ? y : m === "ytd" ? `${$("cMonth").selectedOptions[0].text} ${y}` : `${MONTHS[m - 1]} ${y}`}, by category. Latest figures as of ${dayLabel(C.retrieved)}.`;
       $("casesList").innerHTML = list.map(([c, n]) => `<div class="row${linked.has(c) ? " linked" : ""}"><span>${c}</span><div class="bar"><i style="width:${n / max * 100}%"></i></div><span>${fmt(n)}</span></div>`).join("");
     }
 

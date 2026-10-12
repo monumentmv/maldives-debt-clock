@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261013g">
+<link rel="stylesheet" href="assets/site.css?v=20261013h">
 <title>Compare the first three years · Maldives National Debt Clock</title>
 <meta property="og:title" content="Compare the first three years · Maldives National Debt Clock">
 <meta property="og:description" content="Compare the economic and fiscal record of the first three years of the last three Maldivian presidents, with adjustments for crises beyond their control.">
@@ -148,7 +148,7 @@
   <section class="method" id="how">
     <h2>How this comparison works</h2>
     <p><b>Periods.</b> All three presidents took office in mid-November, so we compare their first full calendar years. These are 2014 to 2016 for Abdulla Yameen, 2019 to 2021 for Ibrahim Mohamed Solih, and 2024 to 2026 for Mohamed Muizzu. The year before each term (2013, 2018 and 2023) is the starting point for changes.</p>
-    <p><b>Data.</b> All figures come from the MMA Statistics Database. Government finances use the MMA's annual government finance statistics for every year, so all three presidents are measured the same way. Inflation uses the national consumer price index, tourism uses monthly tourist arrivals, reserves use official reserve assets, and external debt uses central government external debt in US dollars, converted at the MMA rate and divided by GDP. For 2026, revenue, spending and GDP are official projections, and tourism, prices and reserves cover January to the latest month, compared with the same months of 2025.</p>
+    <p><b>Data.</b> All figures come from MMA Statistics Database. Government finances use MMA's annual government finance statistics for every year, so all three presidents are measured the same way. Inflation uses the national consumer price index, tourism uses monthly tourist arrivals, reserves use official reserve assets, and external debt uses central government external debt in US dollars, converted at MMA rate and divided by GDP. For 2026, revenue, spending and GDP are official projections, and tourism, prices and reserves cover January to the latest month, compared with the same months of 2025.</p>
     <p><b>Scores.</b> Each indicator is scored from 0 to 100 among the three presidents. The overall score is the weighted average of the indicator scores. Because only three presidents are compared, small differences can look large under "By size of gap", which is why "By position only" and the robustness check are offered.</p>
 
     <h3>The tourism adjustment</h3>
@@ -164,7 +164,7 @@
     <p style="margin-top:1rem">Tourist arrivals growth itself is then left out of the score, since it is the very thing being adjusted for.</p>
 
     <h3>The oil price adjustment</h3>
-    <p>The Maldives imports all its fuel, so world oil prices move the current account. With the adjustment on, each year's fuel bill is recalculated as if oil had been at its <span id="oilRef">long-run average</span>, and the difference is taken out of the current account.</p>
+    <p>Maldives imports all its fuel, so world oil prices move the current account. With the adjustment on, each year's fuel bill is recalculated as if oil had been at its <span id="oilRef">long-run average</span>, and the difference is taken out of the current account.</p>
     <div class="note"><p>adjusted current account = current account + fuel imports × (1 − average oil price ÷ that year's oil price) ÷ GDP</p></div>
     <p style="margin-top:1rem">This takes away Yameen's advantage from cheap oil in 2015 and 2016, and the costs Muizzu faced from expensive oil in 2026, using the same rule for both.</p>
 
@@ -185,11 +185,11 @@
 </main>
 <footer class="site-foot"><div class="wrap">
   <span id="fetched">Source: Maldives Monetary Authority Statistics Database.</span>
-  <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent; not affiliated with the MMA.</span></span>
+  <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent; not affiliated with MMA.</span></span>
 </div></footer>
 
 <script src="assets/site.js"></script>
-<script src="assets/motion.js?v=20261013g" defer></script>
+<script src="assets/motion.js?v=20261013h" defer></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -424,7 +424,7 @@
     document.addEventListener("input", e => { const r = e.target.closest("[data-w]"); if (!r) return; r.previousSibling.textContent = "Weight " + r.value; });
     document.addEventListener("change", e => { const r = e.target.closest("[data-w]"); if (!r) return; W[r.dataset.w] = +r.value; render(); });
     ["adjExt", "exCovid", "exHormuz"].forEach(id => $(id).addEventListener("change", e => { S[{ adjExt: "adj", exCovid: "exCovid", exHormuz: "exHormuz" }[id]] = e.target.checked; render(); }));
-    $("fetched").textContent = "Data last fetched " + MV.fetched(C.fetched_at) + ", Malé time. Figures from the MMA Statistics Database.";
+    $("fetched").textContent = "Data last fetched " + MV.fetched(C.fetched_at) + ", Malé time. Figures from MMA Statistics Database.";
     render();
   }).catch(err => { console.error(err); $("cards").innerHTML = `<p>The comparison data hasn't loaded. Check that compare.json exists in the repository.</p>`; });
 })();

@@ -1,9 +1,9 @@
 """
-The Ministry of Finance's Quarterly Debt Bulletins: what is still owed to each lender, repayments and interest
+Ministry of Finance's Quarterly Debt Bulletins: what is still owed to each lender, repayments and interest
 each quarter, money agreed but not yet paid out, and loans passed on to state companies.
 
 Each run it:
-  1. reads the list of bulletins on the Ministry of Finance website,
+  1. reads the list of bulletins on Ministry of Finance website,
   2. downloads only bulletins it hasn't read yet (on the first run, every quarterly bulletin since 2023 Q1),
   3. reads every table, checks that each one adds up to its own total,
   4. saves the tables in data/bulletin/<year>-Q<n>.json.

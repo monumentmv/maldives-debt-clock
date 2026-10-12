@@ -1,5 +1,5 @@
 """
-Downloads every year and every month from the Maldives Police Service crime statistics page
+Downloads every year and every month from Maldives Police Service crime statistics page
 https://www.police.gov.mv/crime-statistics
 and saves them to police_crime_stats.csv in the same folder as this script.
 

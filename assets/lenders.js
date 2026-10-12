@@ -1,28 +1,38 @@
 /* Maldives National Debt Clock: every active external loan and sovereign guarantee (home page, "Who is the money owed to?").
-   Reads lenders.json, built by build_lenders.py from the Ministry of Finance lists. Also the "What's in this number?" pop-up. */
+   Reads lenders.json, built by build_lenders.py from Ministry of Finance lists. Also the "What's in this number?" pop-up. */
 (() => {
   const $ = id => document.getElementById(id);
   const { fmt } = MV;
   const usd = v => v == null ? "–" : "US$ " + MV.short(v);
   const day = d => d ? MV.dayLabel(d) : "–";
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const COL = { "Multilateral institutions": "#3fb8b0", China: "#ff5f56", India: "#f2a541", "Saudi Arabia": "#7ddc7a", "Bond holders": "#a98bd6",
-    "United Arab Emirates": "#6fa8dc", Kuwait: "#e0a3c8", Japan: "#ff8a6b", Maldives: "#f4c95d", Oman: "#9fe0d6" };
-  const colour = c => COL[c] || "#7f9aa5";
-  let L = null, kind = "loans", group = "all", asof = null, only = null, q = "", sortBy = "d", desc = true, all = false;
-  let onlyPl = null, W = null, mshow = "both", minst = true, mpick = null, mzoom = innerWidth < 700 ? "region" : "world";   // map: what to show, and the place picked
+  const colour = () => KC[kind];   // every bar in the colour of what is shown: loans or guarantees
+  let L = null, kind = "loans", group = "all", asof = null, only = null, q = "", sortBy = "d", desc = true, all = false, status = "all";
+  let W = null, mshow = "both", minst = true, mpick = null, mzoom = innerWidth < 700 ? "region" : "world";   // map: what to show, and the place picked
   let mbasis = "owed", mq = 0, playing = null;   // map: still owed (Debt Bulletins) or originally borrowed (Ministry lists), and which quarter
   const O = () => L?.owed, QS = () => O()?.quarters || [], qNow = () => QS()[mq];
   const qLabel = d => "End of " + MV.mLabel(d);
   const mvr = (v, d) => MV.moneyNow(v * 1e6, d);
   // what is still owed to each lender at a quarter, in the same shape as a list row
-  function owedRows(k, d, home) {   // home: also guaranteed debt owed to banks in the Maldives (not on the map)
+  function owedRows(k, d, home) {   // home: also guaranteed debt owed to banks in Maldives (not on the map)
     const o = O(); if (!o) return [];
     const rate = o.rate[d] || 15.42, row = ([l, v]) => { const w = o.who[l] || {}; return { l, c: w.c, pl: w.pl, m: v[d], usd: v[d] * 1e6 / rate }; };
     const ext = Object.entries(o[k] || {}).filter(([, v]) => v[d] > 0).map(row);
     return home && k === "guarantees" ? ext.concat(Object.entries(o.guarantees_home || {}).filter(([, v]) => v[d] > 0).map(row)) : ext;
   }
-  const KC = { loans: "#3fb8b0", guarantees: "#f2a541" }, KW = { loans: "loan", guarantees: "guarantee" };
+  const KC = { loans: "#3fb8b0", guarantees: "#b39ddb" }, KW = { loans: "loan", guarantees: "guarantee" };
+  // flags (stored with the site, so every phone shows the same)
+  const FLAG = { China: ["cn"], India: ["in"], "Saudi Arabia": ["sa"], "United Arab Emirates": ["ae"], Kuwait: ["kw"], Oman: ["om"], Pakistan: ["pk"], Japan: ["jp"],
+    France: ["fr"], Belgium: ["be"], "Germany and the Netherlands": ["de", "nl"], "United States": ["us"], Hungary: ["hu"], Denmark: ["dk"], Switzerland: ["ch"],
+    "Sri Lanka": ["lk"], Maldives: ["mv"], "United Kingdom": ["gb"] };
+  const WORLD = `<svg class="flag-world" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 12h19M12 2.5c3 3 3 16 0 19M12 2.5c-3 3-3 16 0 19" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
+  const isInst = k => L?.places?.[k]?.kind === "institution";
+  const flag = (c, pl) => isInst(pl) ? `<i class="flag-inst" aria-hidden="true"></i>` : c === "Multilateral institutions" ? WORLD
+    : (FLAG[c] || []).map(x => `<img class="flag" src="assets/flag-${x}.svg" alt="" width="20" height="15">`).join("");
+  // who a page is about: a development bank or fund (by its place), or a country or group (by name)
+  const whoOf = r => isInst(r.pl) ? r.pl : r.c;
+  const matches = key => isInst(key) ? r => r.pl === key : r => r.c === key;
+  const nameOf = key => key === "Germany and the Netherlands" ? "Germany and Netherlands" : key;
 
   // ---------- the map: every lender, with a line to Malé ----------
   function rowsAll(k) { if (mbasis === "owed" && O()) return owedRows(k, qNow()); const v = L.lists[k], a = v[asof] ? asof : Object.keys(v).sort().pop(); return v[a] || []; }
@@ -67,9 +77,11 @@
     const fs = 12 * px, placed = [[mx, my, mx + 70 * px, my + 22 * px]];   // label boxes already drawn, so labels never overlap
     const labels = [], free = (x0, y0, x1, y1) => !placed.some(([a, b, c, d]) => x0 < c && x1 > a && y0 < d && y1 > b);
     g += list.map((n, i) => {
-      const r = (3 + 7 * Math.sqrt((n.lu + n.gu) / maxT)) * px, col = n.lu && n.gu ? "#fff" : n.lu ? KC.loans : KC.guarantees;
+      const r = Math.max(3 + 7 * Math.sqrt((n.lu + n.gu) / maxT), n.kind === "institution" || !FLAG[n.key] ? 0 : 7) * px, col = n.lu && n.gu ? "#fff" : n.lu ? KC.loans : KC.guarantees;
+      const fl = FLAG[n.key], rf = r, cid = "cf" + i;
       const mark = n.kind === "institution"
         ? `<rect x="${(n.x - r).toFixed(1)}" y="${(n.y - r).toFixed(1)}" width="${(2 * r).toFixed(1)}" height="${(2 * r).toFixed(1)}" rx="${(r * .3).toFixed(1)}" transform="rotate(45 ${n.x.toFixed(1)} ${n.y.toFixed(1)})" fill="${col}"/>`
+        : fl ? `<clipPath id="${cid}"><circle cx="${n.x.toFixed(1)}" cy="${n.y.toFixed(1)}" r="${rf.toFixed(1)}"/></clipPath><image href="assets/flag-${fl[0]}.svg" x="${(n.x - rf * 1.34).toFixed(1)}" y="${(n.y - rf).toFixed(1)}" width="${(rf * 2.68).toFixed(1)}" height="${(rf * 2).toFixed(1)}" clip-path="url(#${cid})" preserveAspectRatio="xMidYMid slice"/><circle cx="${n.x.toFixed(1)}" cy="${n.y.toFixed(1)}" r="${rf.toFixed(1)}" fill="none" stroke="${col}" stroke-width="${(2 * px).toFixed(2)}"/>`
         : `<circle cx="${n.x.toFixed(1)}" cy="${n.y.toFixed(1)}" r="${r.toFixed(1)}" fill="${col}"/>`;
       let lab = "";
       const tw = n.label.length * fs * .58, inView = n.x > vb[0] && n.x < vb[0] + vb[2] && n.y > vb[1] && n.y < vb[1] + vb[3];
@@ -81,81 +93,151 @@
       return `<g class="node${mpick === n.key ? " on" : ""}" data-pl="${esc(n.key)}" tabindex="0" role="button" aria-label="${esc(n.label)}">${mark}</g>`;
     }).join("") + `<g class="labels">${labels.join("")}</g>`;   // labels on top of every mark
     g += `<circle cx="${mx}" cy="${my}" r="${6 * px}" class="male"/><text x="${mx + 9 * px}" y="${my + 18 * px}" class="male-t" style="font-size:${(fs * 1.05).toFixed(1)}px">Maldives</text>`;
-    box.innerHTML = `<svg viewBox="${vb.map(v => v.toFixed(1)).join(" ")}" role="img" aria-label="Map of where the Maldives' external loans and guaranteed loans come from">${g}</svg>`;
+    box.innerHTML = `<svg viewBox="${vb.map(v => v.toFixed(1)).join(" ")}" role="img" aria-label="Map of where Maldives' external loans and guaranteed loans come from">${g}</svg>`;
     // the quarter, and the totals at that quarter
     const owed = mbasis === "owed" && O();
-    $("mapTime").hidden = !owed;
-    $("mapBasis").hidden = !O();
+    $("qNav").hidden = !O(); $("mapBasis").hidden = !O();
+    if (O()) {
+      const d = qNow(), src = pdfOf(d);
+      $("mapQ").max = QS().length - 1; $("mapQ").value = mq; $("mapQl").textContent = qLabel(d);
+      document.querySelectorAll("[data-qs]").forEach(b => { b.disabled = b.dataset.qs < 0 ? mq <= 0 : mq >= QS().length - 1; });
+      $("qSrc").innerHTML = src ? `Figures for this quarter: Ministry of Finance, <a href="${esc(src.url)}" target="_blank" rel="noopener">Quarterly Debt Bulletin, ${MV.mLabel(d)} (PDF)</a>.`
+        : `Figures for this quarter come from later Quarterly Debt Bulletins, which go back to ${MV.mLabel(QS()[0])}. <a href="https://www.finance.gov.mv/publications/reports-and-analyses/quarterly-debt-bulletin" target="_blank" rel="noopener">All bulletins</a>.`;
+    }
     if (owed) {
       const d = qNow(), sum = k => owedRows(k, d).reduce((s, r) => s + r.m, 0);
-      $("mapQ").max = QS().length - 1; $("mapQ").value = mq; $("mapQl").textContent = qLabel(d);
-      $("mapTot").innerHTML = `Still owed abroad: <b>${mvr(sum("loans"), d)}</b> by the government, <b>${mvr(sum("guarantees"), d)}</b> by others with a government guarantee. Press ▶ to watch it change since ${MV.mLabel(QS()[0])}.`;
-    } else $("mapTot").innerHTML = O() ? `What was originally borrowed or guaranteed, for every loan and guarantee on the Ministry's lists as of ${day(asof)}, whether or not it has since been repaid.` : "";
+      $("mapTot").className = "map-tot";
+      $("mapTot").innerHTML = `Still owed abroad at the end of ${MV.mLabel(d)}: <b>${mvr(sum("loans"), d)}</b> by the government, <b>${mvr(sum("guarantees"), d)}</b> by others with a government guarantee. Press ▶ to watch it change since ${MV.mLabel(QS()[0])}.`;
+    } else {
+      $("mapTot").className = "map-tot map-warn";
+      $("mapTot").innerHTML = `<b>This is not what is owed today.</b> It shows what was agreed for every loan and guarantee on Ministry of Finance's lists as of ${day(asof)}, including loans for finished projects that are still being repaid, and a few repaid since.${O() ? ` <button type="button" class="linkish" data-mb="owed">Show what is still owed</button>` : ""}`;
+    }
     // not on the map
     const off = {};
     kinds.forEach(k => rowsAll(k).forEach(r => { if (!r.pl || !P[r.pl] || (!minst && P[r.pl].kind === "institution")) { const key = r.pl && P[r.pl] ? "Development banks and funds (hidden)" : (r.c === "Maldives" ? "Maldivian banks" : r.l); (off[key] = off[key] || { loans: [], guarantees: [] })[k].push(r); } }));
     $("mapOff").innerHTML = Object.keys(off).length ? "<b>Not on the map:</b> " + Object.entries(off).map(([k, v]) => `${esc(k)}, ` + ["loans", "guarantees"].filter(x => v[x].length).map(x => owed ? `${mvr(v[x].reduce((s, r) => s + r.m, 0), qNow())} still owed in ${KW[x]}s` : `${usd(v[x].reduce((s, r) => s + (r.usd || 0), 0))} in ${KW[x]}s (${curMix(v[x])})`).join(" and ")).join("; ") + "." : "";
-    drawCard(nodes);
+    drawCard();
   }
-  function spark(pl) {   // what this place was owed, quarter by quarter
-    const qs = QS(), ks = mshow === "both" ? ["loans", "guarantees"] : [mshow];
-    const ser = ks.map(k => qs.map(d => owedRows(k, d).filter(r => r.pl === pl).reduce((s, r) => s + r.m, 0)));
-    const top = Math.max(1, ...qs.map((_, i) => ser.reduce((s, a) => s + a[i], 0))), w = 300, h = 46, x = i => i / (qs.length - 1) * w;
-    let base = qs.map(() => 0);
-    const areas = ser.map((a, j) => { const lo = base.slice(), hi = base.map((b, i) => b + a[i]); base = hi;
-      return `<path d="M${hi.map((v, i) => `${x(i).toFixed(1)} ${(h - v / top * (h - 4)).toFixed(1)}`).join(" L")} L${lo.map((v, i) => `${x(i).toFixed(1)} ${(h - v / top * (h - 4)).toFixed(1)}`).reverse().join(" L")} Z" fill="${KC[ks[j]]}" opacity=".75"/>`; }).join("");
-    return `<div class="mc-spark"><svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">${areas}<line x1="${x(mq)}" x2="${x(mq)}" y1="0" y2="${h}" stroke="#fff" stroke-width="1.5"/></svg><div class="mc-row"><span>${MV.mLabel(qs[0])}</span><span>${MV.mLabel(qs[qs.length - 1])}</span></div></div>`;
+  function drawCard() {
+    $("mapCard").innerHTML = `<p class="hint">Tap a country or a development bank to see everything about it: what is still owed, how that has changed, and every loan and guarantee.</p>`;
   }
-  function drawCard(nodes) {
-    const n = nodes?.[mpick];
-    if (!n) { $("mapCard").innerHTML = `<p class="hint">${mbasis === "owed" && O() ? "Tap a country, a development bank or a line to see what is still owed to it, and how that has changed since " + MV.mLabel(QS()[0]) + "." : "Tap a country, a development bank or a line to see what it lent or guaranteed, in US dollars and in the original currencies."}</p>`; return; }
-    if (mbasis === "owed" && O()) {
-      const d = qNow(), part = k => { const rs = n[k].slice().sort((a, b) => b.m - a.m); if (!rs.length) return "";
-        return `<div class="mc-k" style="--kc:${KC[k]}"><span class="mc-h">${k === "loans" ? "Owed by the government" : "Owed by others, guaranteed by the government"}</span>
-          <b class="num">${mvr(rs.reduce((s, r) => s + r.m, 0), d)}</b>${rs.map(r => `<span class="mc-row"><span>${esc(r.l)}</span><b>${mvr(r.m, d)}</b></span>`).join("")}
-          <button type="button" class="pill mc-go" data-go="${k}">List the ${KW[k]}s signed</button></div>`; };
-      $("mapCard").innerHTML = `<div class="mc-t">${esc(n.kind === "institution" ? `${n.key}` : n.label)}<small>${qLabel(d)}${n.city ? `, ${esc(n.city)}` : ""}</small><button type="button" class="mc-x" aria-label="Close">×</button></div><div class="mc-b">${part("loans")}${part("guarantees")}</div>${spark(n.key)}`;
-      return;
+
+  // ---------- a full page for one lender or year, with a way back to exactly where you were ----------
+  let sheetEl = null, sheetFrom = null, sheetDepth = 0;
+  function showSheet(title, html) {
+    if (!sheetEl) {
+      sheetFrom = document.activeElement;
+      sheetEl = document.createElement("div"); sheetEl.className = "sheet"; sheetEl.setAttribute("role", "dialog"); sheetEl.setAttribute("aria-modal", "true");
+      document.body.appendChild(sheetEl); document.body.classList.add("sheet-open");
     }
-    const part = k => { const rs = n[k]; if (!rs.length) return "";
-      const lenders = [...new Set(rs.map(r => r.l))];
-      return `<div class="mc-k" style="--kc:${KC[k]}"><span class="mc-h">${k === "loans" ? "Loans to the government" : "Loans the government guaranteed"}</span>
-        <b class="num">${usd(rs.reduce((s, r) => s + (r.usd || 0), 0))}</b><span class="mc-n">${rs.length} ${KW[k]}${rs.length > 1 ? "s" : ""}, in ${esc(curMix(rs))}</span>
-        <span class="mc-l">${lenders.slice(0, 4).map(esc).join(", ")}${lenders.length > 4 ? ` and ${lenders.length - 4} more` : ""}</span>
-        <button type="button" class="pill mc-go" data-go="${k}">List them below</button></div>`; };
-    $("mapCard").innerHTML = `<div class="mc-t">${esc(n.kind === "institution" ? `${n.key}` : n.label)}${n.city ? `<small>${esc(n.city)}</small>` : ""}<button type="button" class="mc-x" aria-label="Close">×</button></div><div class="mc-b">${part("loans")}${part("guarantees")}</div>`;
+    sheetEl.innerHTML = `<div class="sheet-bar"><button type="button" class="sheet-back">← Back</button><div class="sheet-ttl" id="sheetT">${title}</div></div><div class="sheet-body">${html}</div>`;
+    sheetEl.setAttribute("aria-labelledby", "sheetT"); sheetEl.scrollTop = 0;
+    sheetEl.querySelector(".sheet-back").focus({ preventScroll: true });
+  }
+  function closeSheet() {
+    if (!sheetEl) return;
+    sheetEl.remove(); sheetEl = null; document.body.classList.remove("sheet-open");
+    sheetFrom?.focus?.({ preventScroll: true });
+  }
+  // every page opened is a step in the browser's history, so the phone's back gesture works too
+  function go(hash) { window.history.pushState({ lend: hash }, "", "#" + hash); sheetDepth++; render(hash); }
+  function back() { if (sheetDepth > 0) window.history.back(); else { closeSheet(); window.history.replaceState(null, "", location.pathname + location.search); } }
+  addEventListener("popstate", () => { sheetDepth = Math.max(0, sheetDepth - 1); const h = location.hash.slice(1); if (/^(lender|signed)=/.test(h) && L) render(h); else closeSheet(); });
+  addEventListener("keydown", e => { if (e.key === "Escape" && sheetEl) back(); });
+  function render(hash) {
+    const [k, v] = hash.split("="), val = decodeURIComponent(v || "");
+    if (k === "lender") placePage(val);
+    else if (k === "signed") { const [y, kd] = val.split("-"); yearPage(y, kd || "loans"); }
+  }
+  const pdfOf = d => O()?.sources.find(x => x.q === d);
+  function copy(btn, text) {
+    const done = () => { btn.classList.add("done"); const t = btn.textContent; btn.textContent = "Copied"; setTimeout(() => { btn.classList.remove("done"); btn.textContent = t; }, 1800); };
+    (navigator.clipboard?.writeText(text) || Promise.reject()).then(done).catch(() => { const a = document.createElement("textarea"); a.value = text; document.body.appendChild(a); a.select(); try { document.execCommand("copy"); done(); } catch (e) {} a.remove(); });
+  }
+  const itemHTML = (r, k) => `<div class="sh-item"><div><div class="w">${esc(r.l)}${paid(r.l) ? `<span class="lend-flag">nothing owed now</span>` : ""}</div>
+      <div class="m">Signed ${r.d ? MV.dayLabel(r.d) : "date not given"}${r.s && r.s !== "NA" ? `<span class="tag${r.s === "Ongoing" ? " on" : ""}">Project ${r.s === "Ongoing" ? "under way" : r.s === "Completed" ? "finished" : esc(r.s)}</span>` : ""}</div></div>
+      <div class="a">${usd(r.usd)}<small>${esc(r.cur)} ${r.a == null ? "–" : MV.short(r.a)}</small></div>
+      <div class="p">${k === "guarantees" && r.b ? `<b>For ${esc(r.b)}:</b> ` : ""}${esc(r.p || "")}</div></div>`;
+  function placePage(key) {
+    const m = matches(key), o = O(), d = o ? qNow() : null, P = L.places[key];
+    const title = `${flag(isInst(key) ? null : key, isInst(key) ? key : null)}${esc(nameOf(key))}`;
+    let h = "";
+    if (o) {
+      const lo = owedRows("loans", d).filter(m), gu = owedRows("guarantees", d, true).filter(m), sum = a => a.reduce((s, r) => s + r.m, 0);
+      const box = (k, rs, t) => `<div style="--kc:${KC[k]}"><span>${t}</span><b>${rs.length ? mvr(sum(rs), d) : "Nothing"}</b>${rs.length ? `<span>about ${usd(rs.reduce((s, r) => s + r.usd, 0))}</span>` : ""}${rs.length > 1 ? rs.sort((a, b) => b.m - a.m).map(r => `<div class="mc-row"><span>${esc(r.l)}</span><b>${mvr(r.m, d)}</b></div>`).join("") : rs.length ? `<div class="mc-row"><span>${esc(rs[0].l)}</span></div>` : ""}</div>`;
+      h += `<p class="hint">Still owed at the end of ${MV.mLabel(d)}${pdfOf(d) ? `, from <a href="${esc(pdfOf(d).url)}" target="_blank" rel="noopener">Ministry of Finance's Quarterly Debt Bulletin</a>` : ", from Ministry of Finance's Quarterly Debt Bulletins"}. Change the quarter with ‹ › on the main page.</p>
+        <div class="sh-tot">${box("loans", lo, "Owed by the government")}${box("guarantees", gu, "Owed by others, guaranteed by the government")}</div>`;
+      // history, quarter by quarter
+      const qs = QS(), ser = qs.map(q => [owedRows("loans", q).filter(m).reduce((s, r) => s + r.m, 0), owedRows("guarantees", q, true).filter(m).reduce((s, r) => s + r.m, 0)]);
+      if (ser.some(([a, b]) => a + b > 0)) {
+        const W = 640, H = 150, bw = (W - 20) / qs.length, top = Math.max(1, ...ser.map(([a, b]) => a + b));
+        h += `<h3>Still owed, every quarter since ${MV.mLabel(qs[0])}</h3><div class="sh-chart"><svg viewBox="0 0 ${W} ${H + 20}" role="img" aria-label="Still owed each quarter">`
+          + qs.map((q, i) => { const [a, b] = ser[i], ha = a / top * H, hb = b / top * H, x = 10 + i * bw + 1, w = Math.max(1, bw - 2), sel = q === d;
+            return `<g${sel ? ' opacity="1"' : ' opacity=".75"'}><rect x="${x.toFixed(1)}" y="${(H - ha).toFixed(1)}" width="${w.toFixed(1)}" height="${ha.toFixed(1)}" fill="${KC.loans}"><title>${MV.mLabel(q)}: ${mvr(a, q)} owed by the government</title></rect><rect x="${x.toFixed(1)}" y="${(H - ha - hb).toFixed(1)}" width="${w.toFixed(1)}" height="${hb.toFixed(1)}" fill="${KC.guarantees}"><title>${MV.mLabel(q)}: ${mvr(b, q)} guaranteed</title></rect>${sel ? `<rect x="${x.toFixed(1)}" y="0" width="${w.toFixed(1)}" height="${H}" fill="none" stroke="#fff" stroke-width="1.5"/>` : ""}</g>`; }).join("")
+          + qs.map((q, i) => q.endsWith("03-31") ? `<text x="${(10 + i * bw).toFixed(1)}" y="${H + 15}">${q.slice(0, 4)}</text>` : "").join("")
+          + `</svg></div><p class="hint">Teal: owed by the government. Lavender: owed by others with a government guarantee. Tap or hover a bar for its figures.</p>`;
+      }
+    }
+    // every loan and guarantee signed
+    ["loans", "guarantees"].forEach(k => {
+      const v = L.lists[k], a = v[asof] ? asof : Object.keys(v).sort().pop(), rs = (v[a] || []).filter(m).sort((x, y) => (y.d || "").localeCompare(x.d || ""));
+      if (!rs.length) return;
+      h += `<h3>${rs.length} ${k === "loans" ? `loan${rs.length > 1 ? "s" : ""} to the government` : `loan${rs.length > 1 ? "s" : ""} guaranteed by the government`}, ${usd(rs.reduce((s, r) => s + (r.usd || 0), 0))} originally</h3>
+        <p class="hint">From Ministry of Finance's list as of ${day(a)}. Amounts are what was agreed, converted at IMF rates for that date.</p><div class="sh-list">${rs.map(r => itemHTML(r, k)).join("")}</div>`;
+    });
+    if (!h) h = `<p>Nothing is listed for ${esc(nameOf(key))}.</p>`;
+    const cite = () => { const lo = o ? owedRows("loans", d).filter(m).reduce((s, r) => s + r.m, 0) : 0, gu = o ? owedRows("guarantees", d, true).filter(m).reduce((s, r) => s + r.m, 0) : 0;
+      return `At the end of ${MV.mLabel(d)}, Maldives government owed ${mvr(lo, d)} to ${nameOf(key)}${gu ? `, and ${mvr(gu, d)} more was owed to ${nameOf(key)} by state companies and others under government guarantees` : ""}. Source: Ministry of Finance, Quarterly Debt Bulletin${pdfOf(d) ? ` (${pdfOf(d).url})` : ""}. Via Maldives National Debt Clock, ${location.origin}${location.pathname}#lender=${encodeURIComponent(key)}`; };
+    showSheet(title, `${h}<div class="sheet-acts"><button type="button" data-copy="cite">Copy these figures, with source</button><button type="button" data-copy="link">Copy a link to this page</button></div>`);
+    sheetEl._cite = cite; sheetEl._link = `${location.origin}${location.pathname}#lender=${encodeURIComponent(key)}`;
+  }
+  function yearPage(y, k) {
+    const v = L.lists[k], a = v[asof] ? asof : Object.keys(v).sort().pop(), rs = (v[a] || []).filter(r => r.d && r.d.slice(0, 4) === y).sort((x, z) => (z.usd || 0) - (x.usd || 0));
+    const word = k === "loans" ? "loan" : "guarantee";
+    showSheet(`${esc(y)}: ${rs.length} ${word}${rs.length === 1 ? "" : "s"} signed`,
+      `<div class="sh-tot"><div style="--kc:${KC[k]}"><span>${k === "loans" ? "Borrowed" : "Guaranteed"} in ${esc(y)}, as agreed</span><b>${usd(rs.reduce((s, r) => s + (r.usd || 0), 0))}</b><span>${rs.length} ${word}${rs.length === 1 ? "" : "s"} still on Ministry of Finance's list as of ${day(a)}</span></div></div>
+       <h3>Largest first</h3><div class="sh-list">${rs.map(r => itemHTML(r, k).replace('<div class="w">', `<div class="w"><button type="button" class="cty" data-who="${esc(whoOf(r))}">${flag(r.c, r.pl)}</button>`)).join("")}</div>
+       <p class="hint">Only ${word}s still on the Ministry's list are counted: ones fully repaid before the list was made are not included.</p>
+       <div class="sheet-acts"><button type="button" data-copy="link">Copy a link to this page</button></div>`);
+    sheetEl._link = `${location.origin}${location.pathname}#signed=${y}-${k}`;
   }
 
   // ---------- from the Debt Bulletins: repayments, money still to come, loans passed on ----------
   function drawBul() {
     const o = O(); $("lendBul").hidden = !o; if (!o) return;
-    const S = o.service, qs = Object.keys(S).sort(), last = o.latest, tot = d => ["gp", "gi", "sp", "si"].reduce((a, k) => a + (S[d][k] || 0), 0);
-    const yr = qs.slice(-4), sum = k => yr.reduce((a, d) => a + (S[d][k] || 0), 0);
-    // the biggest repayments in the latest quarter: lenders owed much less than three months before
-    const prev = o.quarters[o.quarters.length - 2], drops = [];
-    ["loans", "guarantees"].forEach(k => Object.entries(o[k]).forEach(([l, v]) => { const dlt = (v[prev] || 0) - (v[last] || 0); if (dlt > 300) drops.push([l, dlt]); }));
-    drops.sort((a, b) => b[1] - a[1]);
-    const peak = qs.reduce((a, d) => tot(d) > tot(a) ? d : a, qs[0]);
-    $("svcNote").innerHTML = `Every three months the government pays back part of what it owes, and pays interest. Over the four quarters to ${MV.mLabel(last)} it paid <b>${mvr(sum("gp"), last)}</b> in repayments and <b>${mvr(sum("gi"), last)}</b> in interest. `
-      + `State companies and others paid <b>${mvr(sum("sp") + sum("si"), last)}</b> on the debt the government guaranteed for them, <b>${mvr(sum("si"), last)}</b> of it interest: that interest is not in the clock's <i>interest accrued</i>, as the government doesn't pay it.`
-      + (peak ? ` The biggest quarter was ${MV.mLabel(peak)}, ${mvr(tot(peak), peak)}` + (peak === last && drops.length ? `. What was owed fell most for ${drops.slice(0, 2).map(([l, v]) => `${esc(l)} (down ${mvr(v, last)})`).join(" and ")}.` : ".") : "");
+    const d = qNow(), S = o.service, qs = Object.keys(S).sort(), tot = q => ["gp", "gi", "sp", "si"].reduce((a, k) => a + (S[q][k] || 0), 0);
+    // repayments: the four quarters to the one chosen
+    const upto = qs.filter(q => q <= d), yr = upto.slice(-4), sum = k => yr.reduce((a, q) => a + (S[q][k] || 0), 0);
+    const i = o.quarters.indexOf(d), prev = o.quarters[i - 1], drops = [];
+    if (prev) ["loans", "guarantees"].forEach(k => Object.entries(o[k]).forEach(([l, v]) => { const dlt = (v[prev] || 0) - (v[d] || 0); if (dlt > 300) drops.push([l, dlt]); }));
+    drops.sort((x, y) => y[1] - x[1]);
+    $("svcNote").innerHTML = !yr.length ? `The bulletins give repayments and interest from ${MV.mLabel(qs[0])}. Move the quarter forward to see them.`
+      : `Every three months the government pays back part of what it owes, and pays interest. In the ${yr.length === 4 ? "year" : `${yr.length} quarter${yr.length > 1 ? "s" : ""}`} to the end of ${MV.mLabel(yr[yr.length - 1])} it paid <b>${mvr(sum("gp"), d)}</b> in repayments and <b>${mvr(sum("gi"), d)}</b> in interest. `
+      + `State companies and others paid <b>${mvr(sum("sp") + sum("si"), d)}</b> on debt the government guaranteed for them, <b>${mvr(sum("si"), d)}</b> of it interest: that interest is not in the clock's <i>interest accrued</i>, as the government doesn't pay it.`
+      + (S[d] ? ` In ${MV.mLabel(d)} alone: ${mvr(tot(d), d)}.` : "")
+      + (drops.length ? ` What was owed abroad fell most for ${drops.slice(0, 2).map(([l, v]) => `${esc(l)} (down ${mvr(v, d)})`).join(" and ")}.` : "");
     const Wd = Math.max(300, $("lendSvc").clientWidth || 640), Hh = 150, bw = (Wd - 30) / qs.length, top = Math.max(...qs.map(tot), 1);
-    const COLS = { gp: "#3fb8b0", gi: "#9fe0d6", sp: "#f2a541", si: "#f8d49b" }, NAMES = { gp: "government repayments", gi: "government interest", sp: "guaranteed repayments", si: "guaranteed interest" };
+    const COLS = { gp: "#3fb8b0", gi: "#9fe0d6", sp: "#b39ddb", si: "#ddd2f2" }, NAMES = { gp: "government repayments", gi: "government interest", sp: "guaranteed repayments", si: "guaranteed interest" };
     $("lendSvc").innerHTML = `<svg viewBox="0 0 ${Wd} ${Hh + 22}" role="img" aria-label="Repayments and interest each quarter">`
-      + qs.map((d, i) => { let y = Hh; return ["gp", "gi", "sp", "si"].map(k => { const h = (S[d][k] || 0) / top * Hh; y -= h;
-          return `<rect x="${(15 + i * bw + 1).toFixed(1)}" y="${y.toFixed(1)}" width="${Math.max(1, bw - 2).toFixed(1)}" height="${h.toFixed(1)}" fill="${COLS[k]}"><title>${MV.mLabel(d)}: ${NAMES[k]} ${mvr(S[d][k] || 0, d)}</title></rect>`; }).join(""); }).join("")
-      + qs.map((d, i) => d.endsWith("03-31") && (bw > 14 || d.slice(0, 4) % 2 === 0) ? `<text x="${(15 + i * bw).toFixed(1)}" text-anchor="start" y="${Hh + 16}">${d.slice(0, 4)}</text>` : "").join("")
-      + `<line x1="15" x2="${Wd - 15}" y1="${Hh}" y2="${Hh}" stroke="rgba(169,205,214,.3)"/></svg><p class="hint">Each bar is three months. Tap or hover a bar for its figures.</p>`;
-    // still to come, and passed on
-    const cub = Object.entries(o.cub).sort((a, b) => b[1] - a[1]), sub = Object.entries(o.subsidiary).sort((a, b) => b[1] - a[1]);
-    const t = a => a.reduce((s, [, v]) => s + v, 0), list = a => a.slice(0, 3).map(([n, v]) => `${esc(n.replace(/ (Limited|Ltd|PLC|Private Limited)$/, ""))} ${mvr(v, last)}`).join(", ");
-    $("lendExtra").innerHTML = (cub.length ? `<div><b class="num">${mvr(t(cub), last)}</b><span>agreed with lenders abroad but not yet paid out, at the end of ${MV.mLabel(last)}. It becomes debt as it is drawn.</span><small>Largest: ${list(cub)}</small></div>` : "")
-      + (sub.length ? `<div><b class="num">${mvr(t(sub), last)}</b><span>borrowed by the government and lent on to state companies, which repay it to the government.</span><small>Largest: ${list(sub)}</small></div>` : "");
+      + qs.map((q, j) => { let y = Hh; const x = 15 + j * bw + 1, w = Math.max(1, bw - 2);
+          return `<g data-q="${q}" opacity="${q === d ? 1 : .55}" style="cursor:pointer">` + ["gp", "gi", "sp", "si"].map(k => { const h = (S[q][k] || 0) / top * Hh; y -= h;
+            return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" fill="${COLS[k]}"><title>${MV.mLabel(q)}: ${NAMES[k]} ${mvr(S[q][k] || 0, q)}</title></rect>`; }).join("")
+            + (q === d ? `<rect x="${x.toFixed(1)}" y="0" width="${w.toFixed(1)}" height="${Hh}" fill="none" stroke="#fff" stroke-width="1.5"/>` : "") + `</g>`; }).join("")
+      + qs.map((q, j) => q.endsWith("03-31") && (bw > 14 || q.slice(0, 4) % 2 === 0) ? `<text x="${(15 + j * bw).toFixed(1)}" y="${Hh + 16}">${q.slice(0, 4)}</text>` : "").join("")
+      + `<line x1="15" x2="${Wd - 15}" y1="${Hh}" y2="${Hh}" stroke="rgba(169,205,214,.3)"/></svg><p class="hint">Each bar is three months. Tap a bar to move to that quarter.</p>`;
+    // still to come, and passed on, at the chosen quarter
+    const at = tbl => Object.entries(tbl).map(([n, v]) => [n, v[d]]).filter(([, v]) => v > 0).sort((x, y) => y[1] - x[1]);
+    const cub = at(o.cub), sub = at(o.subsidiary), t = a => a.reduce((s, [, v]) => s + v, 0);
+    const list = a => a.slice(0, 3).map(([n, v]) => `${esc(n.replace(/ (Limited|Ltd|PLC|Private Limited)$/, ""))} ${mvr(v, d)}`).join(", ");
+    $("lendExtra").innerHTML = (cub.length ? `<div><b class="num">${mvr(t(cub), d)}</b><span>agreed with lenders abroad but not yet paid out, at the end of ${MV.mLabel(d)}. It becomes debt as it is drawn.</span><small>Largest: ${list(cub)}</small></div>`
+        : `<div><b>–</b><span>Money agreed but not yet paid out is in the bulletins from ${MV.mLabel(Object.values(o.cub).flatMap(Object.keys).sort()[0])}.</span></div>`)
+      + (sub.length ? `<div><b class="num">${mvr(t(sub), d)}</b><span>borrowed by the government and lent on to state companies, which repay it to the government.</span><small>Largest: ${list(sub)}</small></div>`
+        : `<div><b>–</b><span>Loans passed on to state companies are in the bulletins from ${MV.mLabel(Object.values(o.subsidiary).flatMap(Object.keys).sort()[0])}.</span></div>`);
     // guaranteed for whom
-    const ben = Object.entries(o.guaranteed_for).map(([n, v]) => [n, (v.ext || 0) + (v.dom || 0), v]).sort((a, b) => b[1] - a[1]), bm = ben[0]?.[1] || 1;
-    $("lendFor").innerHTML = ben.map(([n, v, p]) => `<div class="lb" role="img" aria-label="${esc(n)}: ${mvr(v, last)}"><span class="n">${esc(n.replace(/ (Limited|Ltd|PLC|Private Limited|Pvt Ltd)$/, ""))}</span><span class="t"><i style="width:${v / bm * 100}%;background:#f2a541"></i></span><span class="v num">${mvr(v, last)}${p.dom ? `<small>${p.ext ? `${mvr(p.dom, last)} of it` : "all"} at home</small>` : ""}</span></div>`).join("")
-      + `<p class="hint">Still owed at the end of ${MV.mLabel(last)}. The Maldives Monetary Authority's is the currency swap with the Reserve Bank of India.</p>`;
-    $("bulSrc").innerHTML = `Source: Ministry of Finance, <a href="${esc(o.sources[o.sources.length - 1].url || "https://www.finance.gov.mv/publications/reports-and-analyses/quarterly-debt-bulletin")}" target="_blank" rel="noopener">Quarterly Debt Bulletin, ${MV.mLabel(last)}</a>, and earlier bulletins back to ${MV.mLabel(o.quarters[0])}. Where a later bulletin revised a quarter, the later figure is used.`;
+    const ben = Object.entries(o.guaranteed_for).map(([n, v]) => [n, v[d]]).filter(([, v]) => v).map(([n, v]) => [n, (v.ext || 0) + (v.dom || 0), v]).sort((x, y) => y[1] - x[1]), bm = ben[0]?.[1] || 1;
+    $("lendFor").innerHTML = ben.map(([n, v, p]) => `<div class="lb" role="img" aria-label="${esc(n)}: ${mvr(v, d)}"><span class="n">${esc(n.replace(/ (Limited|Ltd|PLC|Private Limited|Pvt Ltd)$/, ""))}</span><span class="t"><i style="width:${v / bm * 100}%;background:${KC.guarantees}"></i></span><span class="v num">${mvr(v, d)}${p.dom ? `<small>${p.ext ? `${mvr(p.dom, d)} of it` : "all"} at home</small>` : ""}</span></div>`).join("")
+      + `<p class="hint">${ben.length ? `Still owed at the end of ${MV.mLabel(d)}.${ben.some(([n]) => /Monetary Authority/.test(n)) ? " Maldives Monetary Authority's is its currency swap with Reserve Bank of India." : ""}` : "Not given for this quarter."}</p>`;
+    $("bulSrc").innerHTML = `Source: Ministry of Finance, Quarterly Debt Bulletins, ${MV.mLabel(o.sources[0].q)} to ${MV.mLabel(o.latest)}. Where a later bulletin revised a quarter, the later figure is used.`;
   }
 
   // ---------- "What's in this number?" ----------
@@ -193,7 +275,8 @@
     const open = $("lendPanel").hidden;
     $("lendPanel").hidden = !open; $("lendBtn").setAttribute("aria-expanded", open);
     $("lendBtn").querySelector(".t").textContent = open ? "Hide the loans and guarantees" : "See every external loan and sovereign guarantee";
-    if (open && !L) Promise.all([MV.getJSON("lenders.json"), MV.getJSON("assets/worldmap.json").catch(() => null)]).then(([j, w]) => { L = j; W = w; asof = j.versions[j.versions.length - 1]; mbasis = j.owed ? "owed" : "signed"; mq = Math.max(0, QS().length - 1); draw(); drawBul(); })
+    if (open && !L) Promise.all([MV.getJSON("lenders.json"), MV.getJSON("assets/worldmap.json").catch(() => null)]).then(([j, w]) => { L = j; W = w; asof = j.versions[j.versions.length - 1]; mbasis = j.owed ? "owed" : "signed"; mq = Math.max(0, QS().length - 1); draw(); drawBul();
+      const h = location.hash.slice(1); if (/^(lender|signed)=/.test(h)) render(h); })
       .catch(() => { $("lendNote").textContent = "The lists couldn't be loaded. Please try again later."; });
   }
   const rowsNow = () => {
@@ -207,9 +290,14 @@
     $("lendAsof").innerHTML = L.versions.slice().reverse().map(v => `<option value="${v}"${v === asof ? " selected" : ""}>${day(v)}</option>`).join("");
     const tot = rows.reduce((s, r) => s + (r.usd || 0), 0), open = rows.filter(r => /ongoing/i.test(r.s || "")).length;
     $("lendNote").innerHTML = kind === "loans"
-      ? `Every external loan the government still has on its books, as the Ministry of Finance lists them, as of <b>${day(asof)}</b>. Amounts are <b>what was originally borrowed</b>, not what is still owed: many have been partly repaid.`
-      : `Every loan the government has guaranteed for others, as the Ministry of Finance lists them, as of <b>${day(asof)}</b>. If the borrower can't repay, the government has promised to. Amounts are <b>what was originally guaranteed</b>, not what is still owed.`;
-    history(rows, word);
+      ? `Every external loan the government still has on its books, as Ministry of Finance lists them, as of <b>${day(asof)}</b>. Amounts are <b>what was originally borrowed</b>, not what is still owed: many have been partly repaid.`
+      : `Every loan the government has guaranteed for others, as Ministry of Finance lists them, as of <b>${day(asof)}</b>. If the borrower can't repay, the government has promised to. Amounts are <b>what was originally guaranteed</b>, not what is still owed.`;
+    listHistory(rows, word);
+    // the list's country filter: countries, then each development bank
+    const opts = {}; rowsNow().forEach(r => { const k = whoOf(r); opts[k] = (opts[k] || 0) + 1; });
+    if (only && !opts[only]) only = null;
+    $("lendC").innerHTML = `<option value="">Every country and lender</option>` + Object.keys(opts).sort((a, b) => (isInst(a) - isInst(b)) || a.localeCompare(b))
+      .map(k => `<option value="${esc(k)}"${k === only ? " selected" : ""}>${esc(nameOf(k))}${isInst(k) ? "" : ""} (${opts[k]})</option>`).join("");
     // summary
     const by = {}; rows.forEach(r => { by[r.c] = (by[r.c] || 0) + (r.usd || 0); });
     let groups = Object.entries(by).sort((a, b) => b[1] - a[1]);
@@ -223,18 +311,18 @@
     const none = v => v > 0 ? usd(v) : "none";
     if (o && group === "all") Object.keys(ow).forEach(c => { if (!(c in by) && !only) groups.push([c, 0]); });   // owed to a lender not on the Ministry's list
     const hasOw = o && group === "all", max = Math.max(groups[0]?.[1] || 1, ...Object.values(ow));
-    $("lendBars").innerHTML = groups.map(([c, v]) => `<button type="button" class="lb${only === c ? " on" : ""}" data-c="${esc(c)}" aria-pressed="${only === c}">
-      <span class="n">${esc(c)}</span><span class="t">${hasOw ? `<i class="f" style="width:${v / max * 100}%;background:${colour(c)}"></i><i style="width:${(ow[c] || 0) / max * 100}%;background:${colour(c)}"></i>` : `<i style="width:${v / max * 100}%;background:${colour(c)}"></i>`}</span>
+    $("lendBars").innerHTML = groups.map(([c, v]) => `<button type="button" class="lb" data-c="${esc(c)}">
+      <span class="n">${flag(c)}${esc(nameOf(c))}</span><span class="t">${hasOw ? `<i class="f" style="width:${v / max * 100}%;background:${colour(c)}"></i><i style="width:${(ow[c] || 0) / max * 100}%;background:${colour(c)}"></i>` : `<i style="width:${v / max * 100}%;background:${colour(c)}"></i>`}</span>
       <span class="v num">${hasOw ? `${none(ow[c] || 0)}<small>of ${none(v)}</small>` : usd(v)}</span></button>`).join("")
-      + `<p class="hint">${hasOw ? `Solid: still owed at the end of ${MV.mLabel(oq)}, from the Debt Bulletin. Faint: originally ${kind === "loans" ? "borrowed" : "guaranteed"}, from the Ministry's list. ` : ""}Tap a lender to list only its ${word}s.${only ? ` <a href="#" id="lendAll">Show all lenders</a>` : ""}</p>`;
+      + `<p class="hint">${hasOw ? `Solid: still owed at the end of ${MV.mLabel(oq)}, from the Debt Bulletin. Faint: originally ${kind === "loans" ? "borrowed" : "guaranteed"}, from the Ministry's list. ` : ""}Tap one for everything about it.</p>`;
     // signed each year
     const yrs = {}; rows.forEach(r => { if (r.d) { const y = r.d.slice(0, 4); yrs[y] = (yrs[y] || 0) + (r.usd || 0); } });
     const ys = Object.keys(yrs).sort(), y0 = +ys[0], y1 = +ys[ys.length - 1], ym = Math.max(...Object.values(yrs), 1);
     const W = Math.max(300, $("lendYears").clientWidth || 640), Hh = 140, bw = (W - 40) / (y1 - y0 + 1), step = W < 500 ? 10 : 5;
     $("lendYears").innerHTML = ys.length ? `<svg viewBox="0 0 ${W} ${Hh + 22}" role="img" aria-label="${word}s signed each year, in US dollars">`
-      + ys.map(y => { const h = yrs[y] / ym * Hh; return `<rect x="${20 + (y - y0) * bw + 1}" y="${Hh - h}" width="${Math.max(1, bw - 2)}" height="${h}" fill="#3fb8b0"><title>${y}: ${usd(yrs[y])}</title></rect>`; }).join("")
+      + ys.map(y => { const h = yrs[y] / ym * Hh; return `<rect data-yr="${y}" tabindex="0" role="button" aria-label="${y}: ${usd(yrs[y])}, see the ${word}s" x="${20 + (y - y0) * bw + 1}" y="${Math.min(Hh - h, Hh - 3)}" width="${Math.max(1, bw - 2)}" height="${Math.max(h, 3)}" fill="${KC[kind]}"><title>${y}: ${usd(yrs[y])}. Tap to see them.</title></rect>`; }).join("")
       + Array.from({ length: y1 - y0 + 1 }, (_, i) => y0 + i).filter(y => y % step === 0).map(y => `<text x="${20 + (y - y0 + .5) * bw}" y="${Hh + 16}" text-anchor="middle">${y}</text>`).join("")
-      + `<line x1="20" x2="${W - 20}" y1="${Hh}" y2="${Hh}" stroke="rgba(169,205,214,.3)"/></svg><p class="hint">Highest year: ${Object.entries(yrs).sort((a, b) => b[1] - a[1])[0][0]}, ${usd(ym)}. Tap or hover a bar for its year.</p>` : "";
+      + `<line x1="20" x2="${W - 20}" y1="${Hh}" y2="${Hh}" stroke="rgba(169,205,214,.3)"/></svg><p class="hint">Highest year: ${Object.entries(yrs).sort((a, b) => b[1] - a[1])[0][0]}, ${usd(ym)}. Tap a bar to see that year's ${word}s.</p>` : "";
     drawTable(); drawMap();
     // exchange rates
     const fx = L.fx[asof] || {}, cur = [...new Set(rowsNow().map(r => r.cur))].sort();
@@ -243,10 +331,10 @@
       + `</ul><p class="hint">${esc(fx.source || "")}.</p>`;
   }
   // each list the Ministry publishes is kept: an older one stays here as history when a new one comes in
-  function history(rows, word) {
+  function listHistory(rows, word) {
     const ks = Object.keys(L.lists[kind]).sort(), i = ks.indexOf(asof), latest = ks[ks.length - 1], el = $("lendHist");
     if (!el) return;
-    if (ks.length < 2) { el.innerHTML = `This is the first ${word} list saved here. When the Ministry of Finance publishes a new one, this list will be kept as history: pick its date under <b>As of</b> to see it again.`; return; }
+    if (ks.length < 2) { el.innerHTML = `This is the first ${word} list saved here. When Ministry of Finance publishes a new one, this list will be kept as history: pick its date under <b>As of</b> to see it again.`; return; }
     const key = r => [r.l, r.d, r.cur, r.a, r.b].join("|"), sum = a => a.reduce((s, r) => s + (r.usd || 0), 0);
     let t = asof !== latest ? `This is an older list. <a href="#" data-asof="${latest}">See the latest, ${day(latest)}</a>. ` : "";
     if (i > 0) {
@@ -260,22 +348,22 @@
   function paid(l) {
     const o = O(); if (!o) return false;
     const vs = ["loans", "guarantees", "guarantees_home"].map(k => (o[k] || {})[l]).filter(Boolean);
-    return vs.length > 0 && vs.every(v => !(v[o.latest] > 0));
+    return vs.length > 0 && vs.every(v => v[o.latest] === 0);   // listed, with nothing owed (a lender simply missing from it isn't counted)
   }
   function drawTable() {
-    let rows = rowsNow().filter(r => (!only || r.c === only) && (!onlyPl || r.pl === onlyPl));
+    let rows = rowsNow().filter(r => (!only || matches(only)(r)) && (status === "all" || (status === "paid" ? paid(r.l) : status === "Completed" ? r.s === "Completed" : r.s === status)));
     if (q) { const k = q.toLowerCase(); rows = rows.filter(r => [r.l, r.c, r.p, r.b, r.cur, r.d].some(x => String(x || "").toLowerCase().includes(k))); }
     const val = r => sortBy === "usd" ? (r.usd || 0) : sortBy === "l" ? r.l : (r.d || "");
     rows.sort((a, b) => (val(a) < val(b) ? -1 : val(a) > val(b) ? 1 : 0) * (desc ? -1 : 1));
     const show = all ? rows : rows.slice(0, 12), g = kind === "guarantees";
     const th = (k, t) => `<th${k ? ` data-sort="${k}" aria-sort="${sortBy === k ? (desc ? "descending" : "ascending") : "none"}"` : ""}>${t}${sortBy === k ? (desc ? " ↓" : " ↑") : ""}</th>`;
-    $("lendTbl").innerHTML = `<thead><tr>${th("d", "Signed")}${th("l", "Lender")}<th>${g ? "For whom, and what" : "What for"}</th><th class="r">Amount</th>${th("usd", "In US$")}<th class="st">Status</th></tr></thead><tbody>`
+    $("lendTbl").innerHTML = `<thead><tr>${th("d", "Signed")}${th("l", "Lender")}<th>${g ? "For whom, and what" : "What for"}</th><th class="r">Amount</th>${th("usd", "In US$")}<th class="st">Project</th></tr></thead><tbody>`
       + show.map(r => `<tr><td class="num sg">${r.d ? r.d.slice(0, 4) : "–"}<small>${r.d ? MV.dayLabel(r.d).replace(/ \d{4}$/, "") : ""}</small></td>
-        <td>${esc(r.l)}${paid(r.l) ? `<span class="lend-flag" title="The Debt Bulletin for ${MV.mLabel(O().latest)} shows nothing owed to this lender">nothing owed now</span>` : ""}<small>${esc(r.c)}</small></td>
+        <td>${esc(r.l)}${paid(r.l) ? `<span class="lend-flag" title="Debt Bulletin for ${MV.mLabel(O().latest)} shows nothing owed to this lender">nothing owed now</span>` : ""}<small><button type="button" class="cty" data-who="${esc(whoOf(r))}">${flag(r.c, r.pl)}${esc(isInst(r.pl) ? r.c.replace("Multilateral institutions", "Development bank or fund") : nameOf(r.c))}</button></small></td>
         <td>${g && r.b ? `<b>${esc(r.b)}</b><small>${esc(r.p)}</small>` : esc(r.p)}</td>
-        <td class="r num am">${esc(r.cur)} ${r.a == null ? "–" : MV.short(r.a)}</td><td class="r num us">${usd(r.usd)}</td><td class="st">${esc(r.s && r.s !== "NA" ? r.s : "–")}</td></tr>`).join("")
+        <td class="r num am">${esc(r.cur)} ${r.a == null ? "–" : MV.short(r.a)}</td><td class="r num us">${usd(r.usd)}</td><td class="st">${r.s === "Ongoing" ? "Under way" : r.s === "Completed" ? "Finished" : esc(r.s && r.s !== "NA" ? r.s : "–")}</td></tr>`).join("")
       + `</tbody>`;
-    $("lendCount").innerHTML = `${fmt(rows.length)} ${rows.length === 1 ? "item" : "items"}${only ? ` from ${esc(only)}` : ""}${onlyPl ? ` from ${esc(L.places[onlyPl]?.kind === "institution" ? onlyPl : L.places[onlyPl]?.label || onlyPl)} <a href="#" id="lendAllPl">show all</a>` : ""}`;
+    $("lendCount").innerHTML = `${fmt(rows.length)} ${rows.length === 1 ? "item" : "items"}, ${usd(rows.reduce((s, r) => s + (r.usd || 0), 0))}`;
     $("lendMore").hidden = rows.length <= 12; $("lendMore").textContent = all ? "Show fewer" : `Show all ${fmt(rows.length)}`;
   }
 
@@ -284,29 +372,32 @@
     if (e.target.closest("#lendBtn")) { toggle(); return; }
     const k = e.target.closest("[data-lk]"); if (k) { kind = k.dataset.lk; group = "all"; only = null; all = false; k.parentElement.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b === k)); document.querySelectorAll("[data-lg]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lg === "all")); draw(); return; }
     const gb = e.target.closest("[data-lg]"); if (gb) { group = gb.dataset.lg; only = null; gb.parentElement.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b === gb)); draw(); return; }
-    const c = e.target.closest(".lb"); if (c) { only = only === c.dataset.c ? null : c.dataset.c; all = false; draw(); return; }
-    if (e.target.closest("#lendAll")) { e.preventDefault(); only = null; draw(); return; }
+    const c = e.target.closest(".lb[data-c]"); if (c) { go("lender=" + encodeURIComponent(c.dataset.c)); return; }
     const s = e.target.closest("[data-sort]"); if (s) { if (sortBy === s.dataset.sort) desc = !desc; else { sortBy = s.dataset.sort; desc = sortBy !== "l"; } drawTable(); return; }
     if (e.target.closest("#lendMore")) { all = !all; drawTable(); return; }
     const mz = e.target.closest("[data-mz]"); if (mz) { mzoom = mz.dataset.mz; mz.parentElement.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b === mz)); drawMap(); return; }
-    const mb = e.target.closest("[data-mb]"); if (mb) { mbasis = mb.dataset.mb; stopPlay(); mb.parentElement.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b === mb)); drawMap(); return; }
+    const mb = e.target.closest("[data-mb]"); if (mb) { mbasis = mb.dataset.mb; stopPlay(); document.querySelectorAll("#mapBasis [data-mb]").forEach(b => b.setAttribute("aria-pressed", b.dataset.mb === mbasis)); drawMap(); return; }
     if (e.target.closest("#mapPlay")) { if (playing) { stopPlay(); return; } if (mq >= QS().length - 1) mq = 0; $("mapPlay").textContent = "❚❚"; $("mapPlay").setAttribute("aria-label", "Pause");
-      playing = setInterval(() => { if (mq >= QS().length - 1) { stopPlay(); return; } mq++; drawMap(); }, 650); drawMap(); return; }
+      playing = setInterval(() => { if (mq >= QS().length - 1) { stopPlay(); return; } mq++; drawMap(); drawBul(); }, 650); drawMap(); drawBul(); return; }
     const ms = e.target.closest("[data-ms]"); if (ms) { mshow = ms.dataset.ms; ms.parentElement.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b === ms)); drawMap(); return; }
-    const pl = e.target.closest("#lendMap [data-pl]"); if (pl) { mpick = mpick === pl.dataset.pl ? null : pl.dataset.pl; drawMap(); return; }
-    if (e.target.closest(".mc-x")) { mpick = null; drawMap(); return; }
-    const go = e.target.closest("[data-go]"); if (go) { const k = go.dataset.go; kind = k; group = "all"; only = null; onlyPl = mpick; all = true;
-      document.querySelectorAll("[data-lk]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lk === k)); document.querySelectorAll("[data-lg]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lg === "all"));
-      draw(); $("lendQ").scrollIntoView({ behavior: "smooth", block: "center" }); return; }
+    const pl = e.target.closest("#lendMap [data-pl]"); if (pl) { stopPlay(); mpick = pl.dataset.pl; drawMap(); go("lender=" + encodeURIComponent(pl.dataset.pl)); return; }
+    const who = e.target.closest("[data-who]"); if (who) { e.preventDefault(); go("lender=" + encodeURIComponent(who.dataset.who)); return; }
+    const yr = e.target.closest("[data-yr]"); if (yr) { go(`signed=${yr.dataset.yr}-${kind}`); return; }
+    if (e.target.closest(".sheet-back")) { back(); return; }
+    const cp = e.target.closest("[data-copy]"); if (cp && sheetEl) { copy(cp, cp.dataset.copy === "cite" ? sheetEl._cite() : sheetEl._link); return; }
+    const gq = e.target.closest("#lendSvc [data-q]"); if (gq) { const j = QS().indexOf(gq.dataset.q); if (j >= 0) { stopPlay(); mq = j; drawMap(); drawBul(); } return; }
+    const qs = e.target.closest("[data-qs]"); if (qs) { stopPlay(); mq = Math.max(0, Math.min(QS().length - 1, mq + +qs.dataset.qs)); drawMap(); drawBul(); return; }
+    const st = e.target.closest("[data-st]"); if (st) { status = st.dataset.st; all = false; st.parentElement.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b === st)); drawTable(); return; }
+    if (e.target.closest("#oweCta")) { openPanel(true); return; }
     const av = e.target.closest("[data-asof]"); if (av) { e.preventDefault(); asof = av.dataset.asof; draw(); return; }
-    if (e.target.closest("#lendAllPl")) { e.preventDefault(); onlyPl = null; drawTable(); }
   });
   document.addEventListener("input", e => { if (e.target.id === "lendQ") { q = e.target.value.trim(); all = false; drawTable(); } });
   function stopPlay() { clearInterval(playing); playing = null; if ($("mapPlay")) { $("mapPlay").textContent = "▶"; $("mapPlay").setAttribute("aria-label", "Play the years"); } }
-  document.addEventListener("input", e => { if (e.target.id === "mapQ") { stopPlay(); mq = +e.target.value; drawMap(); } });
-  document.addEventListener("change", e => { if (e.target.id === "lendAsof") { asof = e.target.value; draw(); } if (e.target.id === "mapInst") { minst = e.target.checked; drawMap(); } });
-  document.addEventListener("keydown", e => { const n = e.target.closest?.("#lendMap .node"); if (n && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); n.dispatchEvent(new MouseEvent("click", { bubbles: true })); } });
+  document.addEventListener("input", e => { if (e.target.id === "mapQ") { stopPlay(); mq = +e.target.value; drawMap(); drawBul(); } });
+  document.addEventListener("change", e => { if (e.target.id === "lendC") { only = e.target.value || null; all = false; drawTable(); } if (e.target.id === "lendAsof") { asof = e.target.value; draw(); } if (e.target.id === "mapInst") { minst = e.target.checked; drawMap(); } });
+  document.addEventListener("keydown", e => { const n = e.target.closest?.("#lendMap .node, [data-yr]"); if (n && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); n.dispatchEvent(new MouseEvent("click", { bubbles: true })); } });
   document.querySelectorAll("[data-mz]").forEach(b => b.setAttribute("aria-pressed", b.dataset.mz === mzoom));
+  if (/^#(lender|signed)=/.test(location.hash)) addEventListener("load", () => openPanel(false));   // a shared link to a lender or year
   MV.onPrefs?.(() => { draw(); drawBul(); });
   let rw = 0; addEventListener("resize", () => { if (L && Math.abs(innerWidth - rw) > 40) { rw = innerWidth; draw(); } });
 })();

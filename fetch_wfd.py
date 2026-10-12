@@ -2,7 +2,7 @@
 Keeps the Weekly Fiscal Developments (WFD) dataset up to date, and builds budget.json for the budget page.
 
 Runs every morning in GitHub Actions, straight after fetch_data.py. Each run it:
-  1. reads the list of reports on the Ministry of Finance website,
+  1. reads the list of reports on Ministry of Finance website,
   2. downloads only reports it hasn't read yet (on the first run, the whole history from 2018),
   3. reads the tables (using wfd_extract.py) and checks the totals add up,
   4. adds them to the dataset in data/wfd/ and rebuilds budget.json.
@@ -143,7 +143,7 @@ def main():
     try:
         listing = W.list_reports()
     except Exception as e:
-        print(f"Couldn't read the Ministry of Finance website ({e}). Keeping the existing data.")
+        print(f"Couldn't read Ministry of Finance website ({e}). Keeping the existing data.")
         listing = []
     best = choose(listing)
     todo = [d for d in sorted(best) if processed.get(d, {}).get("url") != best[d]["url"]]

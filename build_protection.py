@@ -1,7 +1,7 @@
 """
 Builds protection.json for the protection page: spending by the police and the agencies that
 protect families, children, human rights and people affected by drugs, set against government
-interest costs, with reported case counts from the Maldives Police Service.
+interest costs, with reported case counts from Maldives Police Service.
 
 Runs every morning in GitHub Actions, after fetch_wfd.py and fetch_police.py. Reads:
   data/wfd/wfd_long.csv           every row of every Weekly Fiscal Developments table

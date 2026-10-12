@@ -153,7 +153,7 @@ def imf_rates(d, need):
 
 
 def fx_on(d, currencies, usd_mvr, before=None):
-    """Units of each currency per US dollar for day d: the IMF's end-of-month rate. MVR uses the MMA rate."""
+    """Units of each currency per US dollar for day d: the IMF's end-of-month rate. MVR uses MMA rate."""
     need = sorted(c for c in currencies if c not in ("USD", "MVR"))
     rates, notes = {"USD": 1.0} if "USD" in currencies else {}, {}
     imf, used = imf_rates(d, need) if need else ({}, d)

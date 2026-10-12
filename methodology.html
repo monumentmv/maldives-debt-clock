@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261013g">
+<link rel="stylesheet" href="assets/site.css?v=20261013h">
 <title>Methodology · Maldives National Debt Clock</title>
 <meta property="og:title" content="Methodology · Maldives National Debt Clock">
 <meta property="og:description" content="Where every number on Maldives National Debt Clock comes from, how it is calculated, and what it leaves out.">
@@ -139,19 +139,19 @@
 </nav>
 
 <h2 id="sources">1. Where the data comes from</h2>
-<p>All economic figures come from the <a href="https://database.mma.gov.mv" rel="noopener">Maldives Monetary Authority (MMA) Statistics Database</a>, which publishes data compiled by MMA, the Ministry of Finance and Planning, Maldives Bureau of Statistics (MBS), Maldives Customs Service and the World Bank.</p>
+<p>All economic figures come from the <a href="https://database.mma.gov.mv" rel="noopener">Maldives Monetary Authority (MMA) Statistics Database</a>, which publishes data compiled by MMA, Ministry of Finance and Planning, Maldives Bureau of Statistics (MBS), Maldives Customs Service and the World Bank.</p>
 <p>Every morning at 08:00 Malé time, an automated script downloads the latest figures through MMA's official API and saves them to a file the website reads. Nothing is typed in by hand, with one exception, the population estimate, explained in <a href="#population">section 6</a>.</p>
-<p>The <a href="revenue.html">revenue page</a> also uses the monthly revenue collection files published by the Maldives Inland Revenue Authority (MIRA). Every morning a script checks MIRA's website for new versions, downloads them and reads them, without retyping any figures. See <a href="#revenue">section 12</a>.</p>
-<p>The <a href="budget.html">budget page</a> uses the Ministry of Finance's Weekly Fiscal Developments reports. The same morning script checks the Ministry's website for a new report, downloads it and reads its tables. See <a href="#budget">section 13</a>.</p>
-<p>The <a href="priorities.html">Interest Bill page</a> also uses the case counts the Maldives Police Service publishes in its crime statistics. They are collected automatically every morning, without retyping. See <a href="#priorities">section 14</a>.</p>
-<p>This site is independent. It is not produced or endorsed by MMA, the Ministry of Finance or any government body.</p>
+<p>The <a href="revenue.html">revenue page</a> also uses the monthly revenue collection files published by Maldives Inland Revenue Authority (MIRA). Every morning a script checks MIRA's website for new versions, downloads them and reads them, without retyping any figures. See <a href="#revenue">section 12</a>.</p>
+<p>The <a href="budget.html">budget page</a> uses Ministry of Finance's Weekly Fiscal Developments reports. The same morning script checks the Ministry's website for a new report, downloads it and reads its tables. See <a href="#budget">section 13</a>.</p>
+<p>The <a href="priorities.html">Interest Bill page</a> also uses the case counts Maldives Police Service publishes in its crime statistics. They are collected automatically every morning, without retyping. See <a href="#priorities">section 14</a>.</p>
+<p>This site is independent. It is not produced or endorsed by MMA, Ministry of Finance or any government body.</p>
 
 <h2 id="debt">2. What counts as debt</h2>
 <p>The clock shows <b>public and publicly guaranteed debt of the central government</b> (MMA series 4514), measured in rufiyaa at the end of each quarter. It is made up of three parts.</p>
 <ul>
   <li><b>Domestic debt</b> is money the government has borrowed inside Maldives, such as treasury bills, treasury bonds and loans from local banks and MMA.</li>
   <li><b>External debt</b> is money borrowed from abroad, including loans from other governments, development banks and commercial lenders, and international bonds and sukuk.</li>
-  <li><b>Guaranteed debt</b> is loans taken mostly by state-owned companies, from foreign and local banks and some private lenders, where the government has promised to repay if the borrower can't. The Ministry of Finance publishes the list of active guarantees. These are counted in full, even though the companies are expected to repay them themselves.</li>
+  <li><b>Guaranteed debt</b> is loans taken mostly by state-owned companies, from foreign and local banks and some private lenders, where the government has promised to repay if the borrower can't. Ministry of Finance publishes the list of active guarantees. These are counted in full, even though the companies are expected to repay them themselves.</li>
 </ul>
 <p>It does <b>not</b> include borrowing by state-owned companies that the government has not guaranteed, or the debts of private businesses and households.</p>
 
@@ -178,7 +178,7 @@
   <b>Check</b>
   <p><span data-k="dLatest">…</span> ÷ <span data-k="gdpYear">…</span> GDP of <span class="v" data-k="gdpVal">…</span> = <span class="v" data-k="gdpCheck">…</span>. MMA's published figure is <span class="v" data-k="ratio">…</span>.</p>
 </div>
-<p><b>Note that</b> GDP for the current year has not happened yet, so the current ratio uses a GDP <i>forecast</i>. According to MMA's notes, figures for 2026 use nominal GDP projections made in October 2025 by MMA and the Ministry of Finance. Earlier years use actual GDP as revised by the MBS on 1 September 2026. If the forecast turns out too high or too low, the ratio will be revised.</p>
+<p><b>Note that</b> GDP for the current year has not happened yet, so the current ratio uses a GDP <i>forecast</i>. According to MMA's notes, figures for 2026 use nominal GDP projections made in October 2025 by MMA and Ministry of Finance. Earlier years use actual GDP as revised by the MBS on 1 September 2026. If the forecast turns out too high or too low, the ratio will be revised.</p>
 <p>Domestic and external debt as shares of GDP use MMA series 4523 and 4526 in the same way.</p>
 
 <h2 id="owed">5. Who the debt is owed to</h2>
@@ -288,7 +288,7 @@
 <h2 id="usd">9. US dollar figures</h2>
 <p>MMA records debt in rufiyaa. When you switch to US dollars, figures are converted using MMA's reference rate (series 4039, rufiyaa per US dollar, end of month). Current figures use the latest rate. Each past quarter on the chart uses the rate for that month.</p>
 <div class="live"><b>Rate in use</b><p><span class="v" data-k="usd">…</span> per US dollar</p></div>
-<p>Much of the external debt was originally borrowed in dollars or other currencies and converted to rufiyaa by the Ministry of Finance. The site's dollar figures convert the rufiyaa totals back, so they will not exactly match the original currency amounts.</p>
+<p>Much of the external debt was originally borrowed in dollars or other currencies and converted to rufiyaa by Ministry of Finance. The site's dollar figures convert the rufiyaa totals back, so they will not exactly match the original currency amounts.</p>
 
 
 <h2 id="real">10. Adjusting for inflation</h2>
@@ -330,9 +330,9 @@
 <p>For each crisis, the impact figures compare the average monthly fuel bill during the shaded period with the average of the 12 months before it began, and do the same for the crude oil price. This is a simple before-and-after comparison. It shows what happened during each crisis, not how much the crisis itself caused, since tourism, the season and other factors also move the fuel bill.</p>
 
 <h2 id="revenue">12. Revenue collected by MIRA</h2>
-<p>The <a href="revenue.html">revenue page</a> shows the taxes, fees and rents collected by the Maldives Inland Revenue Authority (MIRA) each month since January 2010, and the part paid in US dollars since January 2011. It uses two MIRA files, the monthly revenue collection in rufiyaa, which already includes dollar payments converted to rufiyaa, and the monthly collection paid in US dollars. Zakat and donations, which MIRA lists below its totals, are left out.</p>
+<p>The <a href="revenue.html">revenue page</a> shows the taxes, fees and rents collected by Maldives Inland Revenue Authority (MIRA) each month since January 2010, and the part paid in US dollars since January 2011. It uses two MIRA files, the monthly revenue collection in rufiyaa, which already includes dollar payments converted to rufiyaa, and the monthly collection paid in US dollars. Zakat and donations, which MIRA lists below its totals, are left out.</p>
 <h3>What MIRA's figures cover</h3>
-<p>MIRA collects most taxes, but not all government revenue. Import duties are collected by Maldives Customs Service, and the government also receives dividends from state companies, other income and grants. The revenue figures on the main clock page use MMA's total revenue and grants (series 1999), which covers all of these. MIRA's collections have been between about 68% and 81% of that total since 2017. MIRA's figures are also collections, recorded when money comes in, while the Ministry of Finance records revenue when it reaches the government's accounts, so the two can differ for any given month.</p>
+<p>MIRA collects most taxes, but not all government revenue. Import duties are collected by Maldives Customs Service, and the government also receives dividends from state companies, other income and grants. The revenue figures on the main clock page use MMA's total revenue and grants (series 1999), which covers all of these. MIRA's collections have been between about 68% and 81% of that total since 2017. MIRA's figures are also collections, recorded when money comes in, while Ministry of Finance records revenue when it reaches the government's accounts, so the two can differ for any given month.</p>
 <h3>How the dollar part is worked out</h3>
 <p>MIRA's rufiyaa totals convert dollar payments at MIRA's own rate, about 15.36 rufiyaa per dollar in recent years, which is slightly below MMA's reference rate. This page converts each month's dollar figures at that month's MMA reference rate (series 4039), the same rate used everywhere else on the site. For taxes paid almost entirely in dollars, that can give a dollar amount slightly above MIRA's own rufiyaa total, so the dollar part of each tax is capped at its total. The part paid in rufiyaa is the total minus the dollar part.</p>
 <div class="formula"><math display="block"><mtext>dollar share</mtext><mo>=</mo><mfrac><mrow><munder><mo>∑</mo><mi>t</mi></munder><mo>min</mo><mo>(</mo><msub><mi>T</mi><mi>t</mi></msub><mo>,</mo><msub><mi>D</mi><mi>t</mi></msub><mo>×</mo><msub><mi>r</mi><mi>m</mi></msub><mo>)</mo></mrow><mrow><munder><mo>∑</mo><mi>t</mi></munder><msub><mi>T</mi><mi>t</mi></msub></mrow></mfrac></math><dl class="where"><div><dt><math><msub><mi>T</mi><mi>t</mi></msub></math></dt><dd>MIRA's rufiyaa total for tax <i>t</i> in the month</dd></div><div><dt><math><msub><mi>D</mi><mi>t</mi></msub></math></dt><dd>the amount of tax <i>t</i> paid in US dollars</dd></div><div><dt><math><msub><mi>r</mi><mi>m</mi></msub></math></dt><dd>MMA's reference rate for that month</dd></div></dl></div>
@@ -360,7 +360,7 @@
 <p>MIRA updates these files around the middle of each month. Recent months are provisional until MIRA reconciles them, so figures can change slightly. MIRA's weekly revenue file isn't used, because it is provisional, runs several weeks behind and repeats the dollar figures inside its rufiyaa totals.</p>
 
 <h2 id="budget">13. Weekly budget figures</h2>
-<p>The <a href="budget.html">budget page</a> uses the Weekly Fiscal Developments report, which the Ministry of Finance has published most weeks since December 2018. Each report gives running totals from 1 January to its date for revenue, spending, the overall balance, interest costs, loan repayments and other items, with the approved budget for the full year and the figures for the same date a year earlier. It also lists revenue and spending line by line, the budget used by each government office, and, every two weeks, the government securities outstanding.</p>
+<p>The <a href="budget.html">budget page</a> uses the Weekly Fiscal Developments report, which Ministry of Finance has published most weeks since December 2018. Each report gives running totals from 1 January to its date for revenue, spending, the overall balance, interest costs, loan repayments and other items, with the approved budget for the full year and the figures for the same date a year earlier. It also lists revenue and spending line by line, the budget used by each government office, and, every two weeks, the government securities outstanding.</p>
 <h3>How the reports are read</h3>
 <p>Every morning the site checks the Ministry's list of reports. Any report it hasn't read yet is downloaded and its tables are read by a script, without retyping. Where the Ministry has published a revised version of a report, the revised one is used. The script checks that each report's totals add up, so that total spending equals recurrent plus capital spending, and the overall balance equals revenue minus spending. A report that fails these checks isn't used. The previous figures stay on the site until the problem is resolved. Every figure read is kept in a public dataset alongside the site, with a note of any report that couldn't be used.</p>
 <p>The layout of the reports has changed over the years. Reports from 2018 and 2019 give only the approved budget and the year so far. Later reports add the same date a year earlier. Some reports from 2020 list that year before the previous one, while most list them the other way round, so the script reads the years in each table's heading to put every figure in the right column.</p>
@@ -374,7 +374,7 @@
 <h2 id="priorities">14. Interest compared with other spending</h2>
 <p>The <a href="priorities.html">Interest Bill page</a> sets what the government pays in interest beside what it spends on policing, justice and protecting people's rights, and on some of the largest services. The point is scale. Interest pays lenders for borrowing already done, so it buys no service in the year it is paid.</p>
 <h3>Which offices are included</h3>
-<p>Policing and justice covers the Maldives Police Service, Maldives Correctional Services, the Prosecutor General's Office and the Anti-Corruption Commission. Protection and rights covers the Family Protection Authority, the Children's Ombudsperson's Office, the Human Rights Commission and the National Drug Agency. For a wider view the page also shows the Ministry of Education, the Ministry of Health together with every public hospital listed in the reports, and the Maldives National Defence Force.</p>
+<p>Policing and justice covers Maldives Police Service, Maldives Correctional Services, the Prosecutor General's Office and the Anti-Corruption Commission. Protection and rights covers the Family Protection Authority, the Children's Ombudsperson's Office, the Human Rights Commission and the National Drug Agency. For a wider view the page also shows the Ministry of Education, the Ministry of Health together with every public hospital listed in the reports, and Maldives National Defence Force.</p>
 <h3>Where the figures come from</h3>
 <p>Each office's spending is its line in the Weekly Fiscal Developments table of budget utilisation by office, from 1 January to the report's date. Interest is the report's "Financing and Interest Costs", which the Ministry counts within recurrent spending. Loan principal repayments are not included. Every weekly report since January 2019 is kept, so the page can show any earlier week, and the year-by-year chart uses the last report of each year, as on the budget page.</p>
 <p>Offices are matched by name, and names change as ministries are merged or split. The National Drug Agency first appears as its own office in 2024 and the Children's Ombudsperson's Office in 2020. Where an office isn't listed for a year, that year is left out for it. The combined groups add up whichever of their offices are listed. In 2026 the Ministry of Education also took on higher education, so its spending from then is not strictly comparable with earlier years.</p>
@@ -390,7 +390,7 @@
 <h2 id="time">15. Time and updates</h2>
 <p>The time shown on the clock is Malé time (UTC+5), whatever time zone the visitor is in.</p>
 <p>The <a href="updates.html">What's new</a> page writes a short summary of every new release, one for each weekly budget report, each month of fuel imports, MIRA collections and police cases, and each quarter of official debt. The summaries are worked out automatically from the same figures used across the site, and every one links to the page showing that period in full.</p>
-<p>The site checks MMA and the Ministry of Finance for new data every morning at 08:00 Malé time. MMA publishes debt figures quarterly and government finance figures monthly, and the Ministry publishes its budget report weekly, so most days nothing changes. MIRA's revenue files are checked every morning too, and replaced when MIRA publishes a new version. The footer of each page shows when its data was last updated.</p>
+<p>The site checks MMA and Ministry of Finance for new data every morning at 08:00 Malé time. MMA publishes debt figures quarterly and government finance figures monthly, and the Ministry publishes its budget report weekly, so most days nothing changes. MIRA's revenue files are checked every morning too, and replaced when MIRA publishes a new version. The footer of each page shows when its data was last updated.</p>
 <h3>If the data stops updating</h3>
 <p>The latest data is saved alongside the website, so the site keeps working even if MMA's data service is unavailable. The clock keeps estimating from the last official figure. To make sure that isn't misleading, the site shows a warning at the top of every page in any of these cases.</p>
 <ul>
@@ -448,8 +448,8 @@
   <span id="fetched">Figures from Maldives Monetary Authority Statistics Database.</span>
   <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with MMA.</span></span>
 </div></footer>
-<script src="assets/site.js?v=20261013g"></script>
-<script src="assets/motion.js?v=20261013g" defer></script>
+<script src="assets/site.js?v=20261013h"></script>
+<script src="assets/motion.js?v=20261013h" defer></script>
 <script>
 (() => {
   const SEC_YEAR = 365.25 * 86400;

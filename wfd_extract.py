@@ -1,5 +1,5 @@
 """
-Downloads every Weekly Fiscal Developments (WFD) report from the Ministry of Finance website
+Downloads every Weekly Fiscal Developments (WFD) report from Ministry of Finance website
 and turns the tables into spreadsheets.
 
 Setup (once):
@@ -66,7 +66,7 @@ def list_reports():
 
 def download():
     PDFS.mkdir(parents=True, exist_ok=True)
-    print("Reading the list of reports from the Ministry of Finance website...")
+    print("Reading the list of reports from Ministry of Finance website...")
     reports = list_reports()
     if not reports:
         sys.exit("No report links found. The Ministry may have changed its website. Send the error to Claude.")
