@@ -3,7 +3,8 @@ Ministry of Finance lists of active external loans and active sovereign guarante
 
 Every new version of each file is kept in inputs/mof/, named by its "as of" date, so the history builds up
 over time (the Ministry replaces the files on its website). Every version is read into
-data/lenders/raw.json, with the exchange rates on each version's "as of" date in data/lenders/fx.json.
+data/lenders/raw.json, with the IMF exchange rates on each version's "as of" date in data/lenders/fx.json
+(the IMF tables used are kept in inputs/imf/).
 build_lenders.py then turns that into lenders.json for the home page.
 
 Runs every morning in GitHub Actions. To run it yourself:
@@ -13,7 +14,7 @@ Runs every morning in GitHub Actions. To run it yourself:
 import io
 import json
 import re
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 import openpyxl
@@ -95,25 +96,120 @@ def parse(kind, content):
     return asof, items
 
 
-def fx_on(d, currencies, usd_mvr):
-    """Units of each currency per US dollar on day d. Pegged currencies use their peg, MVR the MMA rate."""
-    rates, source = {}, None
-    need = sorted(c for c in currencies if c not in PEGS and c != "MVR")
-    if need:
+IMF = "https://www.imf.org/external/np/fin/data/rms_mth.aspx?SelectDate={d}&reportType={r}&tsvflag=Y"
+IMF_SAVE = HERE / "inputs" / "imf"
+# IMF currency names -> ISO codes
+IMF_NAMES = [("chinese yuan", "CNY"), ("renminbi", "CNY"), ("euro", "EUR"), ("indian rupee", "INR"), ("japanese yen", "JPY"),
+             ("kuwaiti dinar", "KWD"), ("saudi arabian riyal", "SAR"), ("saudi riyal", "SAR"), ("u.a.e. dirham", "AED"),
+             ("emirati dirham", "AED"), ("u.k. pound", "GBP"), ("pound sterling", "GBP"), ("swiss franc", "CHF"),
+             ("korean won", "KRW"), ("singapore dollar", "SGD"), ("australian dollar", "AUD"), ("u.s. dollar", "USD")]
+
+
+def _imf_day(t):
+    t = t.strip()
+    for f in ("%B %d, %Y", "%d-%b-%Y", "%Y-%m-%d", "%m/%d/%Y", "%b %d, %Y"):
+        try:
+            return datetime.strptime(t, f).date().isoformat()
+        except ValueError:
+            pass
+    return None
+
+
+def imf_table(d, report):
+    """{ISO: (mode, {day: value})} from the IMF's monthly table that contains day d.
+    mode says which way round the numbers are: per_usd, usd_per or per_sdr."""
+    r = requests.get(IMF.format(d=d, r=report), headers=H, timeout=60)
+    r.raise_for_status()
+    IMF_SAVE.mkdir(parents=True, exist_ok=True)
+    (IMF_SAVE / f"{report}_{d[:7]}.tsv").write_text(r.text)   # kept, so every rate used can be checked later
+    out, mode, cols = {}, "per_usd" if report == "REP" else "per_sdr", []
+    for line in r.text.splitlines():
+        cells = [c.strip() for c in line.split("\t")]
+        low = line.lower()
+        if "dollars per currency unit" in low or "u.s.$ per" in low:
+            mode = "usd_per"
+        elif "units per u.s. dollar" in low or "per u.s.$" in low or "currency units per us dollar" in low:
+            mode = "per_usd"
+        elif "per sdr" in low:
+            mode = "per_sdr"
+        days = [_imf_day(c) for c in cells[1:]]
+        if cells and cells[0].lower().startswith("currency") and any(days):
+            cols = days
+            continue
+        name = cells[0].lower() if cells else ""
+        code = next((c for n, c in IMF_NAMES if n in name), None)
+        if not code or not cols:
+            continue
+        vals = {}
+        for day_, v in zip(cols, cells[1:]):
+            try:
+                vals[day_] = float(v.replace(",", ""))
+            except ValueError:
+                pass
+        if vals:
+            out.setdefault(code, (mode, vals))
+    return out
+
+
+def imf_rates(d):
+    """Units of each currency per US dollar on day d (or the last day before it the IMF has a rate), from the IMF."""
+    prev = (date.fromisoformat(d[:8] + "01") - timedelta(days=1)).isoformat()
+    rates, used = {}, {}
+    for report in ("REP", "CVSDR"):
+        tables = []
+        for when in (d, prev):
+            try:
+                tables.append(imf_table(when, report))
+            except Exception as e:
+                print(f"  IMF {report} table for {when[:7]} not available ({e})")
+        for t in tables:
+            for code, (mode, vals) in t.items():
+                ok = sorted(k for k in vals if k and k <= d)
+                if not ok or (code in used and used[code] >= ok[-1]):
+                    continue
+                v = vals[ok[-1]]
+                if report == "CVSDR":
+                    if code != "USD":
+                        continue
+                    code, v = "XDR", 1 / v   # SDRs per US dollar
+                elif mode == "usd_per":
+                    v = 1 / v
+                rates[code], used[code] = v, ok[-1]
+    return rates, used
+
+
+def fx_on(d, currencies, usd_mvr, before=None):
+    """Units of each currency per US dollar on day d, from the IMF. MVR uses the MMA rate."""
+    need = sorted(c for c in currencies if c not in ("USD", "MVR"))
+    rates, notes = {"USD": 1.0} if "USD" in currencies else {}, {}
+    imf, used = imf_rates(d) if need else ({}, {})
+    for c in need:
+        if c in imf:
+            v = imf[c]
+            old = (before or {}).get(c)
+            if old and abs(v / old - 1) > .2 and abs((1 / v) / old - 1) < .05:   # a table read the other way round
+                v = 1 / v
+            rates[c] = v
+            if used[c] != d:
+                notes[c] = f"IMF rate on {date.fromisoformat(used[c]):%-d %B %Y}, the last day before with a rate"
+    missing = [c for c in need if c not in rates]
+    for c in missing:   # not in the IMF's tables: fixed pegs, else the open currency-api dataset
+        if c in PEGS:
+            rates[c], notes[c] = PEGS[c], f"fixed to the US dollar at {PEGS[c]}"
+            continue
         for url in (f"https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@{d}/v1/currencies/usd.json",
                     f"https://{d}.currency-api.pages.dev/v1/currencies/usd.json"):
             try:
-                j = requests.get(url, timeout=60).json()["usd"]
-                rates = {c: float(j[c.lower()]) for c in need if c.lower() in j}
-                source = "Exchange rates on that day from the open currency-api dataset (fawazahmed0), which compiles central bank and market rates"
+                rates[c] = float(requests.get(url, timeout=60).json()["usd"][c.lower()])
+                notes[c] = "not in the IMF's tables; open currency-api dataset"
                 break
-            except Exception as e:
-                print(f"  exchange rates for {d} not available from {url.split('/')[2]} ({e})")
-    rates.update({c: v for c, v in PEGS.items() if c in currencies})
+            except Exception:
+                pass
     if "MVR" in currencies and usd_mvr:
-        rates["MVR"] = usd_mvr
-    return {"date": d, "per_usd": rates, "source": source,
-            "notes": {"SAR": "fixed to the US dollar at 3.75", "AED": "fixed to the US dollar at 3.6725", "MVR": "MMA reference rate"}}
+        rates["MVR"], notes["MVR"] = usd_mvr, "MMA reference rate"
+    from_imf = any(c in imf for c in need)
+    return {"date": d, "per_usd": rates, "notes": notes, "imf": from_imf,
+            "source": "Representative exchange rates published by the International Monetary Fund (IMF) for that day" if from_imf else None}
 
 
 def mma_rate(d):
@@ -159,8 +255,9 @@ def main():
     # exchange rates on each "as of" day, for every currency used that day (looked up once, then kept)
     for asof in sorted({a for k in raw for a in raw[k]}):
         cur = {i["currency"] for k in raw for i in raw[k].get(asof, []) if i["currency"]}
-        if not cur <= set(fx.get(asof, {}).get("per_usd", {})):
-            fx[asof] = fx_on(asof, cur, mma_rate(asof))
+        if not fx.get(asof, {}).get("imf") or not cur <= set(fx[asof].get("per_usd", {})):
+            fx[asof] = fx_on(asof, cur, mma_rate(asof), fx.get(asof, {}).get("per_usd"))
+            print(f"  exchange rates for {asof}: " + ", ".join(f"{c} {v:.4f}" for c, v in sorted(fx[asof]['per_usd'].items())))
             missing = sorted(cur - set(fx[asof]["per_usd"]))
             if missing:
                 print(f"  no exchange rate for {', '.join(missing)} on {asof}")

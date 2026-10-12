@@ -13,7 +13,7 @@
   let onlyPl = null, W = null, mshow = "both", minst = true, mpick = null, mzoom = innerWidth < 700 ? "region" : "world";   // map: what to show, and the place picked
   const KC = { loans: "#3fb8b0", guarantees: "#f2a541" }, KW = { loans: "loan", guarantees: "guarantee" };
 
-  // ---------- the map: every lender, with a line to Malé, thicker for more money ----------
+  // ---------- the map: every lender, with a line to Malé ----------
   function rowsAll(k) { const v = L.lists[k], a = v[asof] ? asof : Object.keys(v).sort().pop(); return v[a] || []; }
   function curMix(rows) {   // amounts in their own currencies, largest first
     const m = {}; rows.forEach(r => { if (r.a != null) m[r.cur] = (m[r.cur] || 0) + r.a; });
@@ -45,7 +45,7 @@
       const dx = mx - n.x, dy = my - n.y, len = Math.hypot(dx, dy) || 1;
       let nx = -dy / len, ny = dx / len; if (ny > 0) { nx = -nx; ny = -ny; }        // bow towards the north
       const bend = (k === "guarantees" && n.lu ? -1 : 1) * Math.min(120, len * .22);  // two lines bow apart when a place has both
-      const cx = (n.x + mx) / 2 + nx * bend, cy = (n.y + my) / 2 + ny * bend, w = (.9 + 4 * Math.sqrt(v / max)) * px;
+      const cx = (n.x + mx) / 2 + nx * bend, cy = (n.y + my) / 2 + ny * bend, w = 2 * px;
       return `<path class="arc ${k}${mpick && mpick !== n.key ? " dim" : ""}" data-pl="${esc(n.key)}" d="M${n.x.toFixed(1)} ${n.y.toFixed(1)} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${mx.toFixed(1)} ${my.toFixed(1)}" style="stroke-width:${w.toFixed(2)};stroke-dasharray:${(6 * px).toFixed(1)} ${(5 * px).toFixed(1)}"><title>${esc(n.label)}: ${usd(v)} in ${KW[k]}s</title></path>`;
     };
     list.sort((a, b) => (b.lu + b.gu) - (a.lu + a.gu));
@@ -137,6 +137,7 @@
     $("lendNote").innerHTML = kind === "loans"
       ? `Every external loan the government still has on its books, as the Ministry of Finance lists them, as of <b>${day(asof)}</b>. Amounts are <b>what was originally borrowed</b>, not what is still owed: many have been partly repaid.`
       : `Every loan the government has guaranteed for others, as the Ministry of Finance lists them, as of <b>${day(asof)}</b>. If the borrower can't repay, the government has promised to. Amounts are <b>what was originally guaranteed</b>, not what is still owed.`;
+    history(rows, word);
     // summary
     const by = {}; rows.forEach(r => { by[r.c] = (by[r.c] || 0) + (r.usd || 0); });
     const groups = Object.entries(by).sort((a, b) => b[1] - a[1]);
@@ -161,7 +162,21 @@
     const fx = L.fx[asof] || {}, cur = [...new Set(rowsNow().map(r => r.cur))].sort();
     $("lendFx").innerHTML = `<p>Each amount is converted to US dollars at the rate on <b>${day(fx.date)}</b>, the date of the Ministry's list, so all ${word}s are compared at the same rates.</p><ul>`
       + cur.map(c => `<li><b>${c}</b> ${c === "USD" ? "US dollar" : `${fmt(fx.per_usd?.[c], fx.per_usd?.[c] < 10 ? 4 : 2)} per US dollar${fx.notes?.[c] ? `, ${fx.notes[c]}` : ""}`}${c === "XDR" ? " (the IMF's Special Drawing Right, used by IDA, IFAD and others)" : ""}</li>`).join("")
-      + `</ul><p class="hint">${esc(fx.source || "")}. The rufiyaa rate is MMA's reference rate.</p>`;
+      + `</ul><p class="hint">${esc(fx.source || "")}.</p>`;
+  }
+  // each list the Ministry publishes is kept: an older one stays here as history when a new one comes in
+  function history(rows, word) {
+    const ks = Object.keys(L.lists[kind]).sort(), i = ks.indexOf(asof), latest = ks[ks.length - 1], el = $("lendHist");
+    if (!el) return;
+    if (ks.length < 2) { el.innerHTML = `This is the first ${word} list saved here. When the Ministry of Finance publishes a new one, this list will be kept as history: pick its date under <b>As of</b> to see it again.`; return; }
+    const key = r => [r.l, r.d, r.cur, r.a, r.b].join("|"), sum = a => a.reduce((s, r) => s + (r.usd || 0), 0);
+    let t = asof !== latest ? `This is an older list. <a href="#" data-asof="${latest}">See the latest, ${day(latest)}</a>. ` : "";
+    if (i > 0) {
+      const prev = (L.lists[kind][ks[i - 1]] || []).filter(r => group === "all" || r.g === group), was = new Set(prev.map(key)), now = new Set(rows.map(key));
+      const added = rows.filter(r => !was.has(key(r))), gone = prev.filter(r => !now.has(key(r)));
+      t += `Since the list of ${day(ks[i - 1])}: <b>${fmt(added.length)}</b> added${added.length ? ` (${esc([...new Set(added.map(r => r.l))].slice(0, 3).join(", "))}${added.length > 3 ? "…" : ""})` : ""}, <b>${fmt(gone.length)}</b> no longer listed. Total ${usd(sum(prev))} then, ${usd(sum(rows))} now.`;
+    } else t += `This is the oldest list saved here.`;
+    el.innerHTML = t;
   }
   function drawTable() {
     let rows = rowsNow().filter(r => (!only || r.c === only) && (!onlyPl || r.pl === onlyPl));
@@ -196,6 +211,7 @@
     const go = e.target.closest("[data-go]"); if (go) { const k = go.dataset.go; kind = k; group = "all"; only = null; onlyPl = mpick; all = true;
       document.querySelectorAll("[data-lk]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lk === k)); document.querySelectorAll("[data-lg]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lg === "all"));
       draw(); $("lendQ").scrollIntoView({ behavior: "smooth", block: "center" }); return; }
+    const av = e.target.closest("[data-asof]"); if (av) { e.preventDefault(); asof = av.dataset.asof; draw(); return; }
     if (e.target.closest("#lendAllPl")) { e.preventDefault(); onlyPl = null; drawTable(); }
   });
   document.addEventListener("input", e => { if (e.target.id === "lendQ") { q = e.target.value.trim(); all = false; drawTable(); } });

@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261013d">
+<link rel="stylesheet" href="assets/site.css?v=20261013e">
 <title>Maldives National Debt Clock</title>
 <meta property="og:url" content="https://mvdebtclock.org/">
 <meta property="og:type" content="website">
@@ -210,6 +210,8 @@
   .lend-years svg { height: 160px; }
   .what-in .wi td { white-space: nowrap; }
   .what-in .wi td:first-child { white-space: normal; }
+  .lend-hist { margin: -.25rem 0 1rem; font-size: .88rem; color: var(--mist); border-left: 3px solid rgba(244,201,93,.6); padding: .35rem .7rem; }
+  .lend-hist a { color: var(--foam); }
   .lend-fx { margin-top: 1.5rem; color: var(--mist); font-size: .9rem; }
   .lend-fx summary { cursor: pointer; font-weight: 700; color: var(--foam); }
   .lend-fx ul { margin: .5rem 0; padding-left: 1.1rem; }
@@ -348,7 +350,7 @@
           <label class="chk"><input type="checkbox" id="mapInst" checked> Development banks and funds</label>
         </div>
         <div class="lend-map" id="lendMap"></div>
-        <div class="map-key"><span><i style="background:#3fb8b0"></i>Loans to the government</span><span><i style="background:#f2a541"></i>Loans the government guaranteed</span><span><i class="dot"></i>Country</span><span><i class="dia"></i>Development bank or fund</span><span>Thicker line, more money</span></div>
+        <div class="map-key"><span><i style="background:#3fb8b0"></i>Loans to the government</span><span><i style="background:#f2a541"></i>Loans the government guaranteed</span><span><i class="dot"></i>Country</span><span><i class="dia"></i>Development bank or fund</span><span>Tap a place for amounts</span></div>
         <div class="map-card" id="mapCard"></div>
         <p class="hint" id="mapOff"></p>
         <h4>Every loan and guarantee</h4>
@@ -358,6 +360,7 @@
           <label class="lend-asof">As of <select id="lendAsof" aria-label="As of"></select></label>
         </div>
         <p class="lend-note" id="lendNote">Loading the Ministry of Finance lists…</p>
+        <p class="lend-hist" id="lendHist"></p>
         <div class="lend-sum" id="lendSum"></div>
         <h4>By lender</h4>
         <div class="lend-bars" id="lendBars"></div>
@@ -536,10 +539,10 @@ window.MVSky = (() => {
   return { horizon(y) { hz = y; hero.style.setProperty("--hz", y + "px"); stars.style.bottom = "auto"; stars.style.height = y + "px"; draw(); }, draw };
 })();
 </script>
-<script src="assets/site.js?v=20261013d"></script>
-<script src="assets/motion.js?v=20261013d" defer></script>
-<script src="assets/updates.js?v=20261013d"></script>
-<script src="assets/lenders.js?v=20261013c" defer></script>
+<script src="assets/site.js?v=20261013e"></script>
+<script src="assets/motion.js?v=20261013e" defer></script>
+<script src="assets/updates.js?v=20261013e"></script>
+<script src="assets/lenders.js?v=20261013e" defer></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);

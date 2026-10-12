@@ -491,15 +491,16 @@ const MV = (() => {
       box.innerHTML = `<div class="src-card" role="dialog" aria-modal="true" aria-labelledby="srcT">
         <button type="button" class="x" aria-label="Close">×</button>
         <div class="src-ico" aria-hidden="true">✓</div>
-        <h3 id="srcT">Every figure here comes from official sources</h3>
-        <p>The numbers on this site are based on figures published by the <b>Maldives Monetary Authority</b>, the <b>Ministry of Finance</b>, the <b>Maldives Inland Revenue Authority</b> and the <b>Maldives Police Service</b>. Nothing is typed in by hand: they are read from the official releases automatically.</p>
+        <h3 id="srcT">All figures here are based on government data</h3>
+        <p>The numbers on this site are based on figures published by the <b>Maldives Monetary Authority</b>, the <b>Ministry of Finance</b>, the <b>Maldives Inland Revenue Authority</b> and the <b>Maldives Police Service</b>.</p>
+        <p>So how <b>accurate</b> and <b>complete</b> they are depends on the government: on the quality of its data, how openly it publishes it, and how often. Where official data is wrong, missing or late, so is this site.</p>
         <p class="src-small">The live debt clock is an estimate between official releases, worked out from the latest official figure. <a href="methodology.html">How every figure is worked out</a></p>
         <button type="button" class="src-ok">Got it</button></div>`;
       const close = () => { box.classList.add("out"); setTimeout(() => box.remove(), 250); try { sessionStorage.setItem("sourceNoticeSeen", "1"); } catch (e) {} };
       box.addEventListener("click", e => { if (e.target === box || e.target.closest(".x, .src-ok")) close(); });
       addEventListener("keydown", function k(e) { if (e.key === "Escape" && box.isConnected) { close(); removeEventListener("keydown", k); } });
       document.body.appendChild(box); box.querySelector(".src-ok").focus();
-    }, Math.max(0, 60000 - (Date.now() - arrived)));
+    }, Math.max(0, 30000 - (Date.now() - arrived)));
   }
 
   const boot = () => { headHeight(); navToCurrent(); themeButton(); realHelp(); ticker(); paintIcons(); backLink(); updatesBadge(); sourceNotice(); };
