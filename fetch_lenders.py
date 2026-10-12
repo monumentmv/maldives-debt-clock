@@ -99,8 +99,9 @@ def parse(kind, content):
 # IMF exchange rates (dataset ER on the IMF's data service): end-of-month rates, national currency per US dollar
 IMF = "https://api.imf.org/external/sdmx/2.1/data/IMF.STA,ER/{key}?startPeriod={start}"
 IMF_SAVE = HERE / "inputs" / "imf"
-IMF_COUNTRY = {"CNY": "CHN", "INR": "IND", "JPY": "JPN", "KWD": "KWT", "SAR": "SAU", "AED": "ARE", "EUR": "DEU",
-               "GBP": "GBR", "CHF": "CHE", "KRW": "KOR", "SGD": "SGP", "AUD": "AUS", "XDR": "USA"}
+IMF_COUNTRY = {"CNY": "CHN", "INR": "IND", "JPY": "JPN", "KWD": "KWT", "SAR": "SAU", "AED": "ARE",
+               "GBP": "GBR", "CHF": "CHE", "KRW": "KOR", "SGD": "SGP", "AUD": "AUS"}
+IMF_VS_USD = {"EUR": "EUR_XDC", "XDR": "XDR_USD"}   # euros and SDRs per US dollar, from the US series
 
 
 def month_end(d):
@@ -134,21 +135,18 @@ def imf_rates(d, need):
     """Units of each currency per US dollar at the last month-end on or before day d, from the IMF."""
     month, day_ = month_end(d)
     rates = {}
-    plain = [c for c in need if c in IMF_COUNTRY and c != "XDR"]
+    plain = [c for c in need if c in IMF_COUNTRY]
     try:
         if plain:
             back = {v: k for k, v in IMF_COUNTRY.items() if k in plain}
             for country, ind, name, obs in imf_series("+".join(IMF_COUNTRY[c] for c in plain) + ".XDC_USD.EOP_RT.M", month):
                 if month in obs and country in back:
                     rates[back[country]] = obs[month]
-        if "XDR" in need:   # the SDR: from the US dollar's rate against it
-            for country, ind, name, obs in imf_series("USA..EOP_RT.M", month):
-                print(f"  IMF USA indicator {ind}: {name} = {obs.get(month)}")
-                n = name.lower()
-                if month in obs and "sdr" in n and "per" in n and "eur" not in n:
-                    v = obs[month]
-                    rates["XDR"] = 1 / v if n.index("per") < n.index("sdr") else v   # "... per SDR" is US$ per SDR
-                    break
+        vs = {IMF_VS_USD[c]: c for c in need if c in IMF_VS_USD}
+        if vs:
+            for country, ind, name, obs in imf_series("USA." + "+".join(vs) + ".EOP_RT.M", month):
+                if month in obs and ind in vs:
+                    rates[vs[ind]] = obs[month]
     except Exception as e:
         print(f"  IMF exchange rates for {month} not available ({e})")
     return rates, day_
@@ -229,7 +227,7 @@ def main():
     # exchange rates on each "as of" day, for every currency used that day (looked up once, then kept)
     for asof in sorted({a for k in raw for a in raw[k]}):
         cur = {i["currency"] for k in raw for i in raw[k].get(asof, []) if i["currency"]}
-        if not fx.get(asof, {}).get("imf") or not cur <= set(fx[asof].get("per_usd", {})):
+        if not fx.get(asof, {}).get("imf") or any("not yet in the IMF" in n for n in fx[asof].get("notes", {}).values()) or not cur <= set(fx[asof].get("per_usd", {})):
             fx[asof] = fx_on(asof, cur, mma_rate(asof), fx.get(asof, {}).get("per_usd"))
             print(f"  exchange rates for {asof}: " + ", ".join(f"{c} {v:.4f}" for c, v in sorted(fx[asof]['per_usd'].items())))
             missing = sorted(cur - set(fx[asof]["per_usd"]))
