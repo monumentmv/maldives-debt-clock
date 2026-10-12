@@ -1,1 +1,16 @@
-{}
+{
+ "2026-06-30": {
+  "date": "2026-06-30",
+  "per_usd": {
+   "INR": 94.56443618,
+   "USD": 1.0,
+   "MVR": 15.42
+  },
+  "source": "Exchange rates on that day from the open currency-api dataset (fawazahmed0), which compiles central bank and market rates",
+  "notes": {
+   "SAR": "fixed to the US dollar at 3.75",
+   "AED": "fixed to the US dollar at 3.6725",
+   "MVR": "MMA reference rate"
+  }
+ }
+}
