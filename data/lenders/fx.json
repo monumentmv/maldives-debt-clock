@@ -1,0 +1,23 @@
+{
+ "2026-06-30": {
+  "date": "2026-06-30",
+  "rate_date": "2026-06-30",
+  "per_usd": {
+   "USD": 1.0,
+   "AED": 3.6725,
+   "CNY": 6.7845,
+   "EUR": 0.877654906090925,
+   "INR": 94.5975,
+   "JPY": 162.2,
+   "KWD": 0.3079,
+   "SAR": 3.75,
+   "XDR": 0.7374069999999999,
+   "MVR": 15.42
+  },
+  "notes": {
+   "MVR": "MMA reference rate"
+  },
+  "imf": true,
+  "source": "International Monetary Fund (IMF) exchange rates, end of month (30 June 2026)"
+ }
+}

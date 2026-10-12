@@ -286,3 +286,21 @@ html:is([data-theme="light"],[data-theme="sand"],[data-theme="lagoon"]) .upd { b
 .cases-pick label { display: inline-flex; align-items: center; gap: .5rem; font-weight: 700; color: var(--foam); }
 .cases-pick label span { color: var(--sun); }
 @media (max-width: 600px) { .period-pick .step { padding: .35rem .6rem; } .yr-chip { font-size: 1.15rem; } }
+
+/* ---------- the notice about official sources, after a minute on the site ---------- */
+.src-notice { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; padding: 1.25rem; background: rgba(2, 20, 28, .7); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); animation: src-in .35s ease both; }
+.src-notice.out { opacity: 0; transition: opacity .25s; }
+.src-card { position: relative; max-width: 30rem; width: 100%; background: #072f40; color: #fff; border: 3px solid #f4c95d; border-radius: 16px; padding: 1.7rem 1.6rem 1.5rem; box-shadow: 0 0 0 6px rgba(244,201,93,.18), 0 24px 70px rgba(0,0,0,.5); text-align: center; animation: src-pop .45s cubic-bezier(.2,.8,.2,1.15) both; }
+.src-ico { width: 3.2rem; height: 3.2rem; margin: 0 auto .8rem; border-radius: 50%; background: #f4c95d; color: #072f40; display: grid; place-items: center; font: 800 1.6rem var(--display); }
+.src-card h3 { margin: 0 0 .7rem; font: 800 1.45rem/1.15 var(--display); font-variation-settings: "wdth" 80; color: #fff; }
+.src-card p { margin: 0 0 .8rem; color: #cfe6ea; font-size: .98rem; line-height: 1.55; }
+.src-card p b { color: #fff; }
+.src-card .src-small { font-size: .85rem; color: #a9cdd6; }
+.src-card .src-small a { color: #f4c95d; font-weight: 700; }
+.src-card .x { position: absolute; top: .6rem; right: .6rem; width: 2.2rem; height: 2.2rem; border-radius: 50%; border: 0; background: rgba(255,255,255,.1); color: #fff; font-size: 1.3rem; cursor: pointer; }
+.src-ok { margin-top: .4rem; font: 800 1rem var(--body); background: #f4c95d; color: #072f40; border: 0; border-radius: 999px; padding: .7rem 2.2rem; cursor: pointer; }
+.src-ok:hover { background: #ffd97a; }
+@keyframes src-in { from { opacity: 0; } }
+@keyframes src-pop { from { opacity: 0; transform: translateY(16px) scale(.94); } }
+@media (prefers-reduced-motion: reduce) { .src-notice, .src-card { animation: none; } }
+
