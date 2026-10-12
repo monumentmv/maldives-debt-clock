@@ -59,7 +59,7 @@ jobs:
           git config user.name "debt-clock-bot"
           git config user.email "actions@users.noreply.github.com"
           for p in data.json revenue.json budget.json budget-detail assets/share.png priorities.json protection.json data/police data/wfd data/master inputs/mira; do if [ -e "$p" ]; then git add -A "$p"; fi; done
-          git diff --cached --quiet || (git commit -m "Update data $(date -u +%F)" && git pull --rebase --autostash && git push)
+          git diff --cached --quiet || (git commit -m "Update data $(date -u +%F)" && git pull --rebase --autostash -X theirs && git push)
       - name: Publish the downloads
         if: always()
         env:

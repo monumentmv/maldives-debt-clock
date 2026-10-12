@@ -26,7 +26,9 @@ except ImportError:
 PAGE = "https://www.mira.gov.mv/Publications/Categories/310"
 HERE = Path(__file__).resolve().parent
 INPUTS = HERE / "inputs" / "mira"
-HEADERS = {"User-Agent": "Mozilla/5.0 (Maldives Debt Clock data update)"}
+# MIRA's site turns away requests that don't look like a browser, so ask like one
+HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36",
+           "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", "Accept-Language": "en-GB,en;q=0.9"}
 FILES = {  # kind: (heading on MIRA's page, title inside the spreadsheet, file name we keep)
     "all": ("Total Revenue Collection", "TOTAL REVENUE COLLECTION", "mira_total_revenue_collection.xlsx"),
     "usd": ("USD Revenue Collection", "USD REVENUE COLLECTION", "mira_usd_revenue_collection.xlsx"),
@@ -60,15 +62,71 @@ def existing(kind):
     return None
 
 
-def main():
-    INPUTS.mkdir(parents=True, exist_ok=True)
-    try:
+class Plain:
+    """Plain requests, with a browser's headers."""
+    def page(self):
         r = requests.get(PAGE, headers=HEADERS, timeout=60)
         r.raise_for_status()
+        return r.text
+
+    def file(self, url):
+        r = requests.get(url, headers=HEADERS, timeout=120)
+        r.raise_for_status()
+        return r.content
+
+    def close(self):
+        pass
+
+
+class Browser:
+    """A headless browser, for when MIRA's site refuses plain requests (GitHub Actions installs it for fetch_police.py)."""
+    def __init__(self):
+        from playwright.sync_api import sync_playwright
+        self.pw = sync_playwright().start()
+        self.browser = self.pw.chromium.launch()
+        self.ctx = self.browser.new_context(user_agent=HEADERS["User-Agent"], locale="en-GB")
+
+    def page(self):
+        pg = self.ctx.new_page()
+        resp = pg.goto(PAGE, wait_until="networkidle", timeout=90000)
+        if resp and resp.status >= 400:
+            raise RuntimeError(f"{resp.status} from MIRA's page in a browser too")
+        return pg.content()
+
+    def file(self, url):
+        r = self.ctx.request.get(url, timeout=120000)   # shares the page's cookies
+        if not r.ok:
+            raise RuntimeError(f"{r.status} for the download")
+        return r.body()
+
+    def close(self):
+        self.browser.close()
+        self.pw.stop()
+
+
+def main():
+    INPUTS.mkdir(parents=True, exist_ok=True)
+    web = Plain()
+    try:
+        html = web.page()
     except Exception as e:
-        print(f"Couldn't read MIRA's Revenue Series page ({e}). Keeping the existing files.")
-        return
-    links = find_links(r.text)
+        print(f"MIRA's page refused a plain request ({e}). Trying a browser.")
+        try:
+            web = Browser()
+            html = web.page()
+        except Exception as e2:
+            print(f"Couldn't read MIRA's Revenue Series page ({e2}). Keeping the existing files.")
+            if isinstance(web, Browser):
+                web.close()
+            return
+    try:
+        update(web, html)
+    finally:
+        web.close()
+
+
+def update(web, html):
+    links = find_links(html)
     if len(links) < 2:
         print(f"Found {len(links)} of 2 download links on MIRA's page. The page may have changed. Keeping the existing files.")
         return
@@ -76,9 +134,7 @@ def main():
     for kind, url in links.items():
         heading, title, name = FILES[kind]
         try:
-            resp = requests.get(url, headers=HEADERS, timeout=120)
-            resp.raise_for_status()
-            content = resp.content
+            content = web.file(url)
             if not content.startswith(b"PK"):
                 raise RuntimeError("not an Excel file")
             if title not in title_of(content):
