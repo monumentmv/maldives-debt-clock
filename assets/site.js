@@ -412,7 +412,7 @@ const MV = (() => {
   const THEMES = [["", "Ocean"], ["light", "Daylight"], ["contrast", "High contrast"]];
   function setTheme(t) {
     if (t) document.documentElement.dataset.theme = t; else delete document.documentElement.dataset.theme;
-    try { t ? localStorage.setItem("theme", t) : localStorage.removeItem("theme"); } catch (e) {}
+    try { t ? localStorage.setItem("theme2", t) : localStorage.removeItem("theme2"); } catch (e) {}
     const b = document.querySelector(".theme-btn"), name = (THEMES.find(x => x[0] === t) || THEMES[0])[1];
     if (b) { b.setAttribute("aria-label", `Colour theme, ${name}. Change theme`); b.title = `Theme, ${name}`; }
     listeners.forEach(fn => fn());
