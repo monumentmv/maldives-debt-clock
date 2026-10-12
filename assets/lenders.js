@@ -101,13 +101,13 @@
       const d = qNow(), src = pdfOf(d);
       $("mapQ").max = QS().length - 1; $("mapQ").value = mq; $("mapQl").textContent = qLabel(d);
       document.querySelectorAll("[data-qs]").forEach(b => { b.disabled = b.dataset.qs < 0 ? mq <= 0 : mq >= QS().length - 1; });
-      $("qSrc").innerHTML = src ? `Figures for this quarter: Ministry of Finance, <a href="${esc(src.url)}" target="_blank" rel="noopener">Quarterly Debt Bulletin, ${MV.mLabel(d)} (PDF)</a>.`
+      $("qSrc").innerHTML = src ? `Figures for this quarter come from Ministry of Finance's <a href="${esc(src.url)}" target="_blank" rel="noopener">Quarterly Debt Bulletin, ${MV.mLabel(d)} (PDF)</a>.`
         : `Figures for this quarter come from later Quarterly Debt Bulletins, which go back to ${MV.mLabel(QS()[0])}. <a href="https://www.finance.gov.mv/publications/reports-and-analyses/quarterly-debt-bulletin" target="_blank" rel="noopener">All bulletins</a>.`;
     }
     if (owed) {
       const d = qNow(), sum = k => owedRows(k, d).reduce((s, r) => s + r.m, 0);
       $("mapTot").className = "map-tot";
-      $("mapTot").innerHTML = `Still owed abroad at the end of ${MV.mLabel(d)}: <b>${mvr(sum("loans"), d)}</b> by the government, <b>${mvr(sum("guarantees"), d)}</b> by others with a government guarantee. Press ▶ to watch it change since ${MV.mLabel(QS()[0])}.`;
+      $("mapTot").innerHTML = `At the end of ${MV.mLabel(d)}, the government still owed <b>${mvr(sum("loans"), d)}</b> abroad, and others owed <b>${mvr(sum("guarantees"), d)}</b> abroad with a government guarantee. Press ▶ to watch it change since ${MV.mLabel(QS()[0])}.`;
     } else {
       $("mapTot").className = "map-tot map-warn";
       $("mapTot").innerHTML = `<b>This is not what is owed today.</b> It shows what was agreed for every loan and guarantee on Ministry of Finance's lists as of ${day(asof)}, including loans for finished projects that are still being repaid, and a few repaid since.${O() ? ` <button type="button" class="linkish" data-mb="owed">Show what is still owed</button>` : ""}`;
@@ -119,7 +119,7 @@
     drawCard();
   }
   function drawCard() {
-    $("mapCard").innerHTML = `<p class="hint">Tap a country or a development bank to see everything about it: what is still owed, how that has changed, and every loan and guarantee.</p>`;
+    $("mapCard").innerHTML = `<p class="hint">Tap a country or a development bank to see everything about it, including what is still owed, how that has changed, and every loan and guarantee.</p>`;
   }
 
   // ---------- a full page for one lender or year, with a way back to exactly where you were ----------
@@ -179,7 +179,7 @@
           + qs.map((q, i) => { const [a, b] = ser[i], ha = a / top * H, hb = b / top * H, x = 10 + i * bw + 1, w = Math.max(1, bw - 2), sel = q === d;
             return `<g${sel ? ' opacity="1"' : ' opacity=".75"'}><rect x="${x.toFixed(1)}" y="${(H - ha).toFixed(1)}" width="${w.toFixed(1)}" height="${ha.toFixed(1)}" fill="${KC.loans}"><title>${MV.mLabel(q)}: ${mvr(a, q)} owed by the government</title></rect><rect x="${x.toFixed(1)}" y="${(H - ha - hb).toFixed(1)}" width="${w.toFixed(1)}" height="${hb.toFixed(1)}" fill="${KC.guarantees}"><title>${MV.mLabel(q)}: ${mvr(b, q)} guaranteed</title></rect>${sel ? `<rect x="${x.toFixed(1)}" y="0" width="${w.toFixed(1)}" height="${H}" fill="none" stroke="#fff" stroke-width="1.5"/>` : ""}</g>`; }).join("")
           + qs.map((q, i) => q.endsWith("03-31") ? `<text x="${(10 + i * bw).toFixed(1)}" y="${H + 15}">${q.slice(0, 4)}</text>` : "").join("")
-          + `</svg></div><p class="hint">Teal: owed by the government. Lavender: owed by others with a government guarantee. Tap or hover a bar for its figures.</p>`;
+          + `</svg></div><p class="hint">Teal is what the government owes. Lavender is what others owe with a government guarantee. Tap or hover a bar for its figures.</p>`;
       }
     }
     // every loan and guarantee signed
@@ -198,10 +198,10 @@
   function yearPage(y, k) {
     const v = L.lists[k], a = v[asof] ? asof : Object.keys(v).sort().pop(), rs = (v[a] || []).filter(r => r.d && r.d.slice(0, 4) === y).sort((x, z) => (z.usd || 0) - (x.usd || 0));
     const word = k === "loans" ? "loan" : "guarantee";
-    showSheet(`${esc(y)}: ${rs.length} ${word}${rs.length === 1 ? "" : "s"} signed`,
+    showSheet(`${rs.length} ${word}${rs.length === 1 ? "" : "s"} signed in ${esc(y)}`,
       `<div class="sh-tot"><div style="--kc:${KC[k]}"><span>${k === "loans" ? "Borrowed" : "Guaranteed"} in ${esc(y)}, as agreed</span><b>${usd(rs.reduce((s, r) => s + (r.usd || 0), 0))}</b><span>${rs.length} ${word}${rs.length === 1 ? "" : "s"} still on Ministry of Finance's list as of ${day(a)}</span></div></div>
        <h3>Largest first</h3><div class="sh-list">${rs.map(r => itemHTML(r, k).replace('<div class="w">', `<div class="w"><button type="button" class="cty" data-who="${esc(whoOf(r))}">${flag(r.c, r.pl)}</button>`)).join("")}</div>
-       <p class="hint">Only ${word}s still on the Ministry's list are counted: ones fully repaid before the list was made are not included.</p>
+       <p class="hint">Only ${word}s still on the Ministry's list are counted. Ones fully repaid before the list was made are not included.</p>
        <div class="sheet-acts"><button type="button" data-copy="link">Copy a link to this page</button></div>`);
     sheetEl._link = `${location.origin}${location.pathname}#signed=${y}-${k}`;
   }
@@ -211,9 +211,16 @@
     const gl = L.lists.guarantees, ga = gl[asof] ? asof : Object.keys(gl).sort().pop(), rows = (gl[ga] || []).filter(r => bkey(r.b) === bkey(name)).sort((x, y) => (y.d || "").localeCompare(x.d || ""));
     const now = ser[d] || {}, owed = (now.ext || 0) + (now.dom || 0), agreedUSD = rows.reduce((t, r) => t + (r.usd || 0), 0), agreed = agreedUSD * rate / 1e6, showA = d >= ga && agreed > 0;
     const swap = /Monetary Authority/.test(name);
+    // what the bulletins show: owed now, against the first quarter they cover (and, for the swaps, the most ever owed)
+    const tq = q => { const x = ser[q] || {}; return (x.ext || 0) + (x.dom || 0); }, known = qs.filter(q => q <= d && tq(q) > 0);
+    const first = known[0], peakQ = known.reduce((p, q) => tq(q) > tq(p) ? q : p, first);
     let h = `<p class="lead-in">${swap ? `${esc(short(name))}, the central bank, has currency swaps with Reserve Bank of India, India's central bank. Ministry of Finance lists them among its sovereign guarantees and counts what has been drawn as government-guaranteed debt.`
-        : `${esc(short(name))} borrowed with a government guarantee: if it can't repay, the government has promised to.`}`
-      + (showA ? ` The ${swap ? "swaps" : "loans"} on Ministry of Finance's list add up to <b>${usd(agreedUSD)}</b> (about ${mvr(agreed, d)}). At the end of ${MV.mLabel(d)} it still owed <b>${mvr(owed, d)}</b>${owed < agreed ? `. The other ${mvr(agreed - owed, d)} has been repaid, or was never drawn` : ""}.` : ` At the end of ${MV.mLabel(d)} it still owed <b>${mvr(owed, d)}</b>.`) + `</p>`;
+        : `${esc(short(name))} borrowed with a government guarantee. If it can't repay, the government has promised to.`}`
+      + (showA ? ` ${swap ? "The swaps on its list were agreed for" : "The guarantees on Ministry of Finance's list cover loans of"} <b>${usd(agreedUSD)}</b>, about ${mvr(agreed, d)}.` : "")
+      + ` At the end of ${MV.mLabel(d)} it owed <b>${mvr(owed, d)}</b>${swap ? " on them" : ""}.`
+      + (swap && peakQ && peakQ !== d && tq(peakQ) > owed ? ` The most it has owed was ${mvr(tq(peakQ), peakQ)}, at the end of ${MV.mLabel(peakQ)}.`
+        : !swap && first && first !== d && Math.abs(tq(first) - owed) > 1 ? ` That is ${tq(first) > owed ? "down" : "up"} from ${mvr(tq(first), first)} at the end of ${MV.mLabel(first)}${tq(first) > owed ? ", as it has been repaying" : ""}.` : "")
+      + `</p>`;
     h += `<div class="sh-tot"><div style="--kc:${KC.guarantees}"><span>Still owed, end of ${MV.mLabel(d)}</span><b>${mvr(owed, d)}</b>${now.dom ? `<span>${now.ext ? `${mvr(now.dom, d)} of it to banks in Maldives` : "all to banks in Maldives"}</span>` : ""}</div>`
       + (showA ? `<div style="--kc:#7f9aa5"><span>Agreed, on the Ministry's list</span><b>${mvr(agreed, d)}</b><span>${usd(agreedUSD)}, ${rows.length} loan${rows.length === 1 ? "" : "s"}</span></div>` : "") + `</div>`;
     // what it owed, quarter by quarter
@@ -234,7 +241,7 @@
     const link = `${location.origin}${location.pathname}#borrower=${encodeURIComponent(name)}`;
     showSheet(esc(short(name)), `${h}<div class="sheet-acts"><button type="button" data-copy="cite">Copy these figures, with source</button><button type="button" data-copy="link">Copy a link to this page</button></div>`);
     sheetEl._link = link;
-    sheetEl._cite = () => `At the end of ${MV.mLabel(d)}, ${short(name)} owed ${mvr(owed, d)} on loans guaranteed by Maldives government${showA ? `, out of ${usd(agreedUSD)} (about ${mvr(agreed, d)}) agreed` : ""}. Sources: Ministry of Finance, Quarterly Debt Bulletin${pdfOf(d) ? ` (${pdfOf(d).url})` : ""}, and list of active sovereign guarantees. Via Maldives National Debt Clock, ${link}`;
+    sheetEl._cite = () => `At the end of ${MV.mLabel(d)}, ${short(name)} owed ${mvr(owed, d)} on debt counted as guaranteed by Maldives government${showA ? `. The guarantees on Ministry of Finance's list total ${usd(agreedUSD)}, about ${mvr(agreed, d)}` : ""}. Sources: Ministry of Finance, Quarterly Debt Bulletin${pdfOf(d) ? ` (${pdfOf(d).url})` : ""}, and list of active sovereign guarantees. Via Maldives National Debt Clock, ${link}`;
   }
 
   // ---------- from the Debt Bulletins: repayments, money still to come, loans passed on ----------
@@ -251,8 +258,8 @@
     drops.sort((x, y) => y[1] - x[1]);
     $("svcNote").innerHTML = !yr.length ? `The bulletins give repayments and interest from ${MV.mLabel(qs[0])}. Move the quarter forward to see them.`
       : `The government repays its loans and pays interest at different times through the year. Ministry of Finance reports the payments for each quarter, shown here as one bar per quarter. In the ${yr.length === 4 ? "year" : `${yr.length} quarter${yr.length > 1 ? "s" : ""}`} to the end of ${MV.mLabel(yr[yr.length - 1])} it paid <b>${mvr(sum("gp"), d)}</b> in repayments and <b>${mvr(sum("gi"), d)}</b> in interest. `
-      + `State companies and others paid <b>${mvr(sum("sp") + sum("si"), d)}</b> on debt the government guaranteed for them, <b>${mvr(sum("si"), d)}</b> of it interest: that interest is not in the clock's <i>interest accrued</i>, as the government doesn't pay it.`
-      + (S[d] ? ` In ${qSpan(d)} alone: ${mvr(tot(d), d)}.` : "")
+      + `State companies and others paid <b>${mvr(sum("sp") + sum("si"), d)}</b> on debt the government guaranteed for them, <b>${mvr(sum("si"), d)}</b> of it interest. That interest is not in the clock's <i>interest accrued</i>, as the government doesn't pay it.`
+      + (S[d] ? ` Payments in ${qSpan(d)} alone came to ${mvr(tot(d), d)}.` : "")
       + (drops.length ? ` What was owed abroad fell most for ${drops.slice(0, 2).map(([l, v]) => `${esc(l)} (down ${mvr(v, d)})`).join(" and ")}.` : "");
     const Wd = Math.max(300, $("lendSvc").clientWidth || 640), Hh = 150, bw = (Wd - 30) / qs.length, top = Math.max(...qs.map(tot), 1);
     const COLS = { gp: "#3fb8b0", gi: "#9fe0d6", sp: "#b39ddb", si: "#ddd2f2" }, NAMES = { gp: "government repayments", gi: "government interest", sp: "guaranteed repayments", si: "guaranteed interest" };
@@ -267,9 +274,9 @@
     const at = tbl => Object.entries(tbl).map(([n, v]) => [n, v[d]]).filter(([, v]) => v > 0).sort((x, y) => y[1] - x[1]);
     const cub = at(o.cub), sub = at(o.subsidiary), t = a => a.reduce((s, [, v]) => s + v, 0);
     const list = a => a.slice(0, 3).map(([n, v]) => `${esc(n.replace(/ (Limited|Ltd|PLC|Private Limited)$/, ""))} ${mvr(v, d)}`).join(", ");
-    $("lendExtra").innerHTML = (cub.length ? `<div><b class="num">${mvr(t(cub), d)}</b><span>in loans the government has signed with lenders abroad but not yet received, at the end of ${MV.mLabel(d)}. It becomes debt as the money is drawn.</span><small>Largest: ${list(cub)}</small><small>Debt Bulletin table: Committed Undisbursed Balance (CUB) of BCG External Loans.</small></div>`
+    $("lendExtra").innerHTML = (cub.length ? `<div><b class="num">${mvr(t(cub), d)}</b><span>in loans the government has signed with lenders abroad but not yet received, at the end of ${MV.mLabel(d)}. It becomes debt as the money is drawn.</span><small>Largest: ${list(cub)}</small><small>Source: Debt Bulletin table "Committed Undisbursed Balance (CUB) of BCG External Loans".</small></div>`
         : `<div><b>–</b><span>Money agreed but not yet paid out is in the bulletins from ${MV.mLabel(Object.values(o.cub).flatMap(Object.keys).sort()[0])}.</span></div>`)
-      + (sub.length ? `<div><b class="num">${mvr(t(sub), d)}</b><span>borrowed by the government and lent on to state companies, which repay it to the government. It is part of the government's own debt, not extra.</span><small>Largest: ${list(sub)}</small><small>Debt Bulletin table: Outstanding under Subsidiary Loans.</small></div>`
+      + (sub.length ? `<div><b class="num">${mvr(t(sub), d)}</b><span>in "subsidiary loans": in Ministry of Finance's words, "loans borrowed by the Government and on-lent to an institution", mostly state companies. The government is the borrower, so this is already part of its debt, not extra.</span><small>Largest: ${list(sub)}</small><small>Source: Debt Bulletin table "Outstanding under Subsidiary Loans", and its definitions page.</small></div>`
         : `<div><b>–</b><span>Loans passed on to state companies are in the bulletins from ${MV.mLabel(Object.values(o.subsidiary).flatMap(Object.keys).sort()[0])}.</span></div>`);
     // guaranteed for whom: still owed (Debt Bulletin) against what was agreed (Ministry's list of guarantees)
     const gl = L.lists.guarantees, ga = gl[asof] ? asof : Object.keys(gl).sort().pop(), agreed = {}, rate = o.rate[d] || 15.42;
@@ -280,14 +287,14 @@
     $("lendFor").innerHTML = ben.map(([n, v, p]) => { const a = agr(n);
       return `<button type="button" class="lb" data-ben="${esc(n)}" aria-label="${esc(n)}: ${mvr(v, d)} still owed${a ? `, ${mvr(a, d)} agreed` : ""}. See its loans"><span class="n">${esc(n.replace(/ (Limited|Ltd|PLC|Private Limited|Pvt Ltd)$/, ""))}</span><span class="t">${a ? `<i class="f" style="width:${a / bm * 100}%;background:${KC.guarantees}"></i>` : ""}<i style="width:${v / bm * 100}%;background:${KC.guarantees}"></i></span><span class="v num">${mvr(v, d)}${a ? `<small>of ${mvr(a, d)} agreed</small>` : ""}${p.dom ? `<small>${p.ext ? `${mvr(p.dom, d)} of it` : "all"} at home</small>` : ""}</span></button>`; }).join("")
       + (!showA ? `<p class="hint">Still owed at the end of ${MV.mLabel(d)}, from the Debt Bulletin.</p>` : "")
-      + (!showA ? "" : `<p class="hint">Solid: still owed at the end of ${MV.mLabel(d)}, from the Debt Bulletin. Faint: the total of the guarantees on Ministry of Finance's list as of ${day(ga)}, at the bulletin's exchange rate. A guarantee covers a loan up to an agreed amount; the borrower may not have drawn all of it, or may have repaid some. Tap a name for its loans and repayments.</p>`)
+      + (!showA ? "" : `<p class="hint">The solid bar is what was still owed at the end of ${MV.mLabel(d)}, from the Debt Bulletin. The faint bar is the total of the guarantees on Ministry of Finance's list as of ${day(ga)}, at the bulletin's exchange rate. Tap a name for its loans and repayments.</p>`)
       + (ben.length ? "" : `<p class="hint">Not given for this quarter.</p>`);
     $("forHead").textContent = `Who owes the guaranteed debt, at the end of ${MV.mLabel(d)}`;
-    $("forNote").innerHTML = `These are the state companies and others that borrowed with a government guarantee, and how much each still owed on that date. It is not what they borrowed during the quarter: it is everything still owed, from loans taken over many years. If they can't repay, the government has promised to.`
+    $("forNote").innerHTML = `These are the state companies and others that borrowed with a government guarantee, and how much each still owed on that date. It is not what they borrowed during the quarter. It is everything still owed, from loans taken over many years. If they can't repay, the government has promised to.`
       + (() => { const m = ben.find(([n]) => /Monetary Authority/.test(n)); if (!m) return ""; const sw = agreed[bkey(m[0])] || [];
           return ` <b>Maldives Monetary Authority</b>, the central bank, is here because of its currency swaps with Reserve Bank of India, India's central bank. They are usually described simply as currency swaps between the two central banks. Ministry of Finance lists them among its sovereign guarantees and counts what MMA has drawn as government-guaranteed debt, so they are shown here the same way.`
-            + (sw.length && showA ? ` The swaps were agreed for ${sw.map(r => `${esc(r.cur)} ${MV.short(r.a)}`).join(" and ")}, about ${mvr(agr(m[0]), d)} together. They have not all been drawn at once: what was owed at the end of ${MV.mLabel(d)} was ${mvr(m[1], d)}.` : ""); })();
-    $("bulSrc").innerHTML = `Source: Ministry of Finance, Quarterly Debt Bulletins, ${MV.mLabel(o.sources[0].q)} to ${MV.mLabel(o.latest)}. Where a later bulletin revised a quarter, the later figure is used.`;
+            + (sw.length && showA ? ` The swaps were agreed for ${sw.map(r => `${esc(r.cur)} ${MV.short(r.a)}`).join(" and ")}, about ${mvr(agr(m[0]), d)} together. At the end of ${MV.mLabel(d)}, ${mvr(m[1], d)} was owed on them.` : ""); })();
+    $("bulSrc").innerHTML = `Source: Ministry of Finance's Quarterly Debt Bulletins, ${MV.mLabel(o.sources[0].q)} to ${MV.mLabel(o.latest)}. Where a later bulletin revised a quarter, the later figure is used.`;
   }
 
   // ---------- "What's in this number?" ----------
@@ -300,7 +307,7 @@
     const box = document.createElement("div"); box.className = "explain"; box.setAttribute("role", "presentation");
     box.innerHTML = `<div class="explain-box what-in" role="dialog" aria-modal="true" aria-labelledby="wiT"><button type="button" class="x" aria-label="Close">×</button>
       <h3 id="wiT">What's in this number</h3>
-      <p>The clock counts all public debt, the standard measure: what the government owes itself, plus what it has guaranteed for others. Official figures at the end of ${MV.mLabel(tot.date)}:</p>
+      <p>The clock counts all public debt, the standard measure. That is what the government owes itself, plus what it has guaranteed for others. Official figures at the end of ${MV.mLabel(tot.date)}:</p>
       <table class="wi"><tr><th></th><th>At home</th><th>Abroad</th><th>Total</th></tr>
         <tr><td>Owed by the government</td><td>${bn(dcg.value)}</td><td>${bn(ecg.value)}</td><td><b>${bn(gov)}</b></td></tr>
         <tr><td>Guaranteed by the government</td><td>${bn(dg.value)}</td><td>${bn(eg.value)}</td><td><b>${bn(gu)}</b></td></tr>
@@ -340,7 +347,7 @@
     $("lendAsof").innerHTML = L.versions.slice().reverse().map(v => `<option value="${v}"${v === asof ? " selected" : ""}>${day(v)}</option>`).join("");
     const tot = rows.reduce((s, r) => s + (r.usd || 0), 0), open = rows.filter(r => /ongoing/i.test(r.s || "")).length;
     $("lendNote").innerHTML = kind === "loans"
-      ? `Every external loan the government still has on its books, as Ministry of Finance lists them, as of <b>${day(asof)}</b>. Amounts are <b>what was originally borrowed</b>, not what is still owed: many have been partly repaid.`
+      ? `Every external loan the government still has on its books, as Ministry of Finance lists them, as of <b>${day(asof)}</b>. Amounts are <b>what was originally borrowed</b>, not what is still owed. Many have been partly repaid.`
       : `Every loan the government has guaranteed for others, as Ministry of Finance lists them, as of <b>${day(asof)}</b>. If the borrower can't repay, the government has promised to. Amounts are <b>what was originally guaranteed</b>, not what is still owed.`;
     listHistory(rows, word);
     // the list's country filter: countries, then each development bank
@@ -364,7 +371,7 @@
     $("lendBars").innerHTML = groups.map(([c, v]) => `<button type="button" class="lb" data-c="${esc(c)}">
       <span class="n">${flag(c)}${esc(nameOf(c))}</span><span class="t">${hasOw ? `<i class="f" style="width:${v / max * 100}%;background:${colour(c)}"></i><i style="width:${(ow[c] || 0) / max * 100}%;background:${colour(c)}"></i>` : `<i style="width:${v / max * 100}%;background:${colour(c)}"></i>`}</span>
       <span class="v num">${hasOw ? `${none(ow[c] || 0)}<small>of ${none(v)}</small>` : usd(v)}</span></button>`).join("")
-      + `<p class="hint">${hasOw ? `Solid: still owed at the end of ${MV.mLabel(oq)}, from the Debt Bulletin. Faint: originally ${kind === "loans" ? "borrowed" : "guaranteed"}, from the Ministry's list. ` : ""}Tap one for everything about it.</p>`;
+      + `<p class="hint">${hasOw ? `The solid bar is what was still owed at the end of ${MV.mLabel(oq)}, from the Debt Bulletin. The faint bar is what was originally ${kind === "loans" ? "borrowed" : "guaranteed"}, from the Ministry's list. ` : ""}Tap one for everything about it.</p>`;
     // signed each year
     const yrs = {}; rows.forEach(r => { if (r.d) { const y = r.d.slice(0, 4); yrs[y] = (yrs[y] || 0) + (r.usd || 0); } });
     const ys = Object.keys(yrs).sort(), y0 = +ys[0], y1 = +ys[ys.length - 1], ym = Math.max(...Object.values(yrs), 1);
@@ -372,7 +379,7 @@
     $("lendYears").innerHTML = ys.length ? `<svg viewBox="0 0 ${W} ${Hh + 22}" role="img" aria-label="${word}s signed each year, in US dollars">`
       + ys.map(y => { const h = yrs[y] / ym * Hh; return `<rect data-yr="${y}" tabindex="0" role="button" aria-label="${y}: ${usd(yrs[y])}, see the ${word}s" x="${20 + (y - y0) * bw + 1}" y="${Math.min(Hh - h, Hh - 3)}" width="${Math.max(1, bw - 2)}" height="${Math.max(h, 3)}" fill="${KC[kind]}"><title>${y}: ${usd(yrs[y])}. Tap to see them.</title></rect>`; }).join("")
       + Array.from({ length: y1 - y0 + 1 }, (_, i) => y0 + i).filter(y => y % step === 0).map(y => `<text x="${20 + (y - y0 + .5) * bw}" y="${Hh + 16}" text-anchor="middle">${y}</text>`).join("")
-      + `<line x1="20" x2="${W - 20}" y1="${Hh}" y2="${Hh}" stroke="rgba(169,205,214,.3)"/></svg><p class="hint">Highest year: ${Object.entries(yrs).sort((a, b) => b[1] - a[1])[0][0]}, ${usd(ym)}. Tap a bar to see that year's ${word}s.</p>` : "";
+      + `<line x1="20" x2="${W - 20}" y1="${Hh}" y2="${Hh}" stroke="rgba(169,205,214,.3)"/></svg><p class="hint">The highest year was ${Object.entries(yrs).sort((a, b) => b[1] - a[1])[0][0]}, with ${usd(ym)}. Tap a bar to see that year's ${word}s.</p>` : "";
     drawTable(); drawMap();
     // exchange rates
     const fx = L.fx[asof] || {}, cur = [...new Set(rowsNow().map(r => r.cur))].sort();
@@ -384,13 +391,13 @@
   function listHistory(rows, word) {
     const ks = Object.keys(L.lists[kind]).sort(), i = ks.indexOf(asof), latest = ks[ks.length - 1], el = $("lendHist");
     if (!el) return;
-    if (ks.length < 2) { el.innerHTML = `This is the first ${word} list saved here. When Ministry of Finance publishes a new one, this list will be kept as history: pick its date under <b>As of</b> to see it again.`; return; }
+    if (ks.length < 2) { el.innerHTML = `This is the first ${word} list saved here. When Ministry of Finance publishes a new one, this list will be kept as history, and you can pick its date under <b>As of</b> to see it again.`; return; }
     const key = r => [r.l, r.d, r.cur, r.a, r.b].join("|"), sum = a => a.reduce((s, r) => s + (r.usd || 0), 0);
     let t = asof !== latest ? `This is an older list. <a href="#" data-asof="${latest}">See the latest, ${day(latest)}</a>. ` : "";
     if (i > 0) {
       const prev = (L.lists[kind][ks[i - 1]] || []).filter(r => group === "all" || r.g === group), was = new Set(prev.map(key)), now = new Set(rows.map(key));
       const added = rows.filter(r => !was.has(key(r))), gone = prev.filter(r => !now.has(key(r)));
-      t += `Since the list of ${day(ks[i - 1])}: <b>${fmt(added.length)}</b> added${added.length ? ` (${esc([...new Set(added.map(r => r.l))].slice(0, 3).join(", "))}${added.length > 3 ? "…" : ""})` : ""}, <b>${fmt(gone.length)}</b> no longer listed. Total ${usd(sum(prev))} then, ${usd(sum(rows))} now.`;
+      t += `Since the list of ${day(ks[i - 1])}, <b>${fmt(added.length)}</b> added${added.length ? ` (${esc([...new Set(added.map(r => r.l))].slice(0, 3).join(", "))}${added.length > 3 ? "…" : ""})` : ""}, <b>${fmt(gone.length)}</b> no longer listed. Total ${usd(sum(prev))} then, ${usd(sum(rows))} now.`;
     } else t += `This is the oldest list saved here.`;
     el.innerHTML = t;
   }

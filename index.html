@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261013k">
+<link rel="stylesheet" href="assets/site.css?v=20261013m">
 <title>Maldives National Debt Clock</title>
 <meta property="og:url" content="https://mvdebtclock.org/">
 <meta property="og:type" content="website">
@@ -18,7 +18,7 @@
 <meta property="og:image" content="https://mvdebtclock.org/assets/share.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="An island above a sea, with a dashed line deep below the surface: what the Maldivian government owes, and the debt as a share of GDP.">
+<meta property="og:image:alt" content="An island above a sea, with a dashed line deep below the surface, showing what the Maldivian government owes and the debt as a share of GDP.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://mvdebtclock.org/assets/share.png">
 <meta name="description" content="A live estimate of Maldives' public and publicly guaranteed debt, built from Maldives Monetary Authority statistics.">
@@ -240,6 +240,8 @@
   @media (prefers-reduced-motion: reduce) { .owe-cta, .owe-globe svg { animation: none; } }
   @media (max-width: 600px) { .owe-cta { padding: .5rem .9rem .5rem .5rem; gap: .55rem; } .owe-t b { font-size: .92rem; } .owe-t small { font-size: .74rem; } }
   .q-nav { display: flex; align-items: center; gap: .6rem; margin: .3rem 0 0; padding: .6rem .7rem; border-radius: 12px; background: rgba(255,255,255,.05); }
+  .q-zone > .q-nav, .l-zone > .l-pick { position: sticky; top: var(--headH, 60px); z-index: 20; background: var(--abyss); border: 1px solid rgba(169,205,214,.18); box-shadow: 0 8px 16px -10px rgba(0,0,0,.7); }
+  .l-zone > .l-pick { margin: 0 -.5rem; padding: .5rem; border-radius: 0 0 10px 10px; }
   .q-step { border: 1px solid rgba(169,205,214,.4); background: transparent; color: var(--foam); border-radius: 999px; padding: .35rem .8rem; font: 700 .85rem var(--body); cursor: pointer; flex: none; }
   .q-step:disabled { opacity: .35; cursor: default; }
   .q-mid { flex: 1; display: grid; gap: .2rem; min-width: 0; } .q-lbl { font-weight: 800; color: var(--foam); text-align: center; font-size: .98rem; }
@@ -369,7 +371,7 @@
     <h1>Maldives National Debt Clock</h1>
     <p class="clock num"><span class="cur" id="clockCur">MVR</span><span id="clock">…</span></p>
     <p class="asof">As of <time id="mvTime">…</time> in Malé <button type="button" class="what-in-btn" id="whatIn">What's in this number?</button></p>
-    <button type="button" class="owe-cta" id="oweCta"><span class="owe-globe" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><ellipse cx="12" cy="12" rx="4.2" ry="9.5"/><path d="M2.5 12h19M4.2 7h15.6M4.2 17h15.6"/></svg></span><span class="owe-t"><b>Who is this money owed to?</b><small>Explore the map: every lender, every loan</small></span><span class="owe-arr" aria-hidden="true">→</span></button>
+    <button type="button" class="owe-cta" id="oweCta"><span class="owe-globe" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><ellipse cx="12" cy="12" rx="4.2" ry="9.5"/><path d="M2.5 12h19M4.2 7h15.6M4.2 17h15.6"/></svg></span><span class="owe-t"><b>Who is this money owed to?</b><small>Explore the map of every lender and every loan</small></span><span class="owe-arr" aria-hidden="true">→</span></button>
     <p class="sub" id="sub">Loading the latest figures from Maldives Monetary Authority.</p>
     <div id="fresh"></div>
     <div id="since"></div>
@@ -404,6 +406,7 @@
     <div class="lenders">
       <button type="button" class="lend-btn" id="lendBtn" aria-expanded="false" aria-controls="lendPanel"><span class="t">See every external loan and sovereign guarantee</span><span aria-hidden="true">▾</span></button>
       <div id="lendPanel" hidden>
+        <div class="q-zone">
         <div class="q-nav" id="qNav" hidden>
           <button type="button" class="q-step" data-qs="-1" aria-label="Earlier quarter">‹ <span>Earlier</span></button>
           <div class="q-mid"><span class="q-lbl" id="mapQl"></span><input type="range" id="mapQ" min="0" max="0" value="0" aria-label="Quarter"></div>
@@ -426,7 +429,7 @@
         <div id="lendBul" hidden>
           <h4>Paying it back</h4>
           <p class="lend-note" id="svcNote"></p>
-          <div class="svc-key"><span><i style="background:#3fb8b0"></i>Government: repayments</span><span><i style="background:#9fe0d6"></i>Government: interest</span><span><i style="background:#b39ddb"></i>Guaranteed: repayments</span><span><i style="background:#ddd2f2"></i>Guaranteed: interest</span></div>
+          <div class="svc-key"><span><i style="background:#3fb8b0"></i>Government repayments</span><span><i style="background:#9fe0d6"></i>Government interest</span><span><i style="background:#b39ddb"></i>Guaranteed debt repayments</span><span><i style="background:#ddd2f2"></i>Guaranteed debt interest</span></div>
           <div class="lend-years" id="lendSvc"></div>
           <h4>Still to come, and passed on</h4>
           <div class="lend-sum lend-cards" id="lendExtra"></div>
@@ -435,8 +438,10 @@
           <div class="lend-bars lend-for" id="lendFor"></div>
           <p class="hint" id="bulSrc"></p>
         </div>
+        </div>
         <h4>Every loan and guarantee</h4>
-        <div class="lend-top">
+        <div class="l-zone">
+        <div class="lend-top l-pick">
           <div class="subtoggle" role="group" aria-label="List"><button type="button" data-lk="loans" aria-pressed="true">External loans</button><button type="button" data-lk="guarantees" aria-pressed="false">Sovereign guarantees</button></div>
           <div class="subtoggle" role="group" aria-label="Guaranteed for" id="lendG" hidden><button type="button" data-lg="all" aria-pressed="true">All</button><button type="button" data-lg="soe" aria-pressed="false">State companies</button><button type="button" data-lg="private" aria-pressed="false">Private</button></div>
           <label class="lend-asof">As of <select id="lendAsof" aria-label="As of"></select></label>
@@ -453,11 +458,12 @@
           <select id="lendC" aria-label="Country or lender"></select>
           <input type="search" id="lendQ" placeholder="Search a lender, project or company" aria-label="Search"><span id="lendCount"></span>
         </div>
-        <p class="hint" id="lendStNote">"Project finished" is the Ministry's status for the project the money paid for. The loan itself is usually still being repaid: see what is still owed above.</p>
+        <p class="hint" id="lendStNote">"Project finished" is the Ministry's status for the project the money paid for. The loan itself is usually still being repaid. See what is still owed above.</p>
         <div class="tbl-wrap"><table class="lend-tbl" id="lendTbl"></table></div>
         <button type="button" class="pill lend-more" id="lendMore" hidden></button>
+        </div>
         <details class="lend-fx"><summary>Exchange rates used</summary><div id="lendFx"></div></details>
-        <p class="hint">Sources: Ministry of Finance, Debt Management Department: the lists of active external borrowings and active sovereign guarantees (a new version is saved each time the Ministry updates them, so earlier dates can be picked above), and the Quarterly Debt Bulletins for what is still owed.</p>
+        <p class="hint">Sources: Ministry of Finance, Debt Management Department. The amounts agreed come from its lists of active external borrowings and active sovereign guarantees, saved each time the Ministry updates them, so earlier dates can be picked above. What is still owed comes from its Quarterly Debt Bulletins.</p>
       </div>
     </div>
   
@@ -544,11 +550,6 @@
     <div class="plain-grid" id="plain"></div>
   </section>
 
-  <section class="latest-upd" id="latestSec" hidden>
-    <h2>Latest updates</h2>
-    <p>New official figures come out every week, month and quarter. Here are the newest, in plain words. <a href="updates.html">See every update, and go back in time</a>.</p>
-    <div class="upd-list" id="latestUpd" style="margin-top:1.5rem"></div>
-  </section>
 
 </div>
 </main>
@@ -638,10 +639,9 @@ window.MVSky = (() => {
   return { horizon(y) { hz = y; hero.style.setProperty("--hz", y + "px"); stars.style.bottom = "auto"; stars.style.height = y + "px"; draw(); }, draw };
 })();
 </script>
-<script src="assets/site.js?v=20261013k"></script>
-<script src="assets/motion.js?v=20261013k" defer></script>
-<script src="assets/updates.js?v=20261013k"></script>
-<script src="assets/lenders.js?v=20261013k" defer></script>
+<script src="assets/site.js?v=20261013m"></script>
+<script src="assets/motion.js?v=20261013m" defer></script>
+<script src="assets/lenders.js?v=20261013m" defer></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -672,7 +672,7 @@ window.MVSky = (() => {
   if (location.hash.startsWith("#ch-")) openChapter(location.hash.slice(1), true);
 
   Promise.all([MV.getJSON("data.json"), MV.getJSON("population.json").catch(() => null)])
-    .then(([d, p]) => { try { MV.checkStale(d); } catch (e) { console.error(e); } init(d, p); latestUpdates(d); })
+    .then(([d, p]) => { try { MV.checkStale(d); } catch (e) { console.error(e); } init(d, p); latestUpdates(); })
     .catch(err => {
       console.error("Debt clock could not start:", err);
       const n = $("notice");
@@ -680,16 +680,9 @@ window.MVSky = (() => {
       n.classList.add("on"); $("sub").textContent = "";
     });
 
-  function latestUpdates(d) {
-    if (!window.MVUpdates) return;
-    Promise.all([MV.getJSON("budget.json").catch(() => null), MV.getJSON("revenue.json").catch(() => null), MV.getJSON("priorities.json").catch(() => null)]).then(([budget, revenue, priorities]) => {
-      if (priorities) { window.MV_PRI = priorities; dispatchEvent(new Event("mv:pri")); }
-      let lenders = null;
-      const draw = () => { const list = MVUpdates.latestOfEach(MVUpdates.build({ data: d, budget, revenue, priorities, lenders })).slice(0, 4);
-        $("latestUpd").innerHTML = list.map(e => MVUpdates.card(e, "home")).join(""); MV.paintIcons($("latestUpd")); $("latestSec").hidden = !list.length; };
-      draw(); MV.onPrefs(draw);
-      MV.getJSON("lenders.json").then(j => { lenders = j; draw(); }).catch(() => {});   // adds the biggest repayments to the debt update
-    }).catch(e => console.error("Latest updates skipped:", e));
+  // police figures, used by the comparison with interest further down
+  function latestUpdates() {
+    MV.getJSON("priorities.json").then(p => { window.MV_PRI = p; dispatchEvent(new Event("mv:pri")); }).catch(() => {});
   }
 
   function init(data, POP) {
