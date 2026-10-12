@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261013p">
+<link rel="stylesheet" href="assets/site.css?v=20261013r">
 <title>Maldives National Debt Clock</title>
 <meta property="og:url" content="https://mvdebtclock.org/">
 <meta property="og:type" content="website">
@@ -244,7 +244,9 @@
   .l-zone > .l-pick { margin: 0 -.5rem; padding: .5rem; border-radius: 0 0 10px 10px; }
   .parts { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; margin: 1rem 0 .4rem; }
   .part { display: block; text-align: left; border: 1px solid rgba(169,205,214,.2); background: rgba(255,255,255,.04); border-left: 4px solid var(--kc); border-radius: 10px; padding: .9rem 1rem; color: var(--foam); font: inherit; cursor: pointer; }
-  .part:hover { background: rgba(255,255,255,.07); }
+  .part .go { border: 0; background: none; padding: 0; cursor: pointer; text-align: left; }
+  .why-fx { display: block; margin-top: .55rem; padding: .5rem .7rem; border-radius: 8px; background: rgba(244,201,93,.1); border-left: 3px solid #f4c95d; color: var(--foam); font-size: .88rem; line-height: 1.5; }
+  .why-fx.big { font-size: .98rem; margin: 0 0 .9rem; padding: .75rem .95rem; } .why-fx b { color: var(--sun); }
   .part .k { font: 800 1.05rem var(--body); color: var(--foam); } .part b { display: block; font: 800 1.9rem var(--display); color: var(--foam); margin: .15rem 0; }
   .part .s { display: block; font-size: .86rem; color: var(--mist); line-height: 1.45; } .part .go { display: inline-block; margin-top: .45rem; font: 700 .85rem var(--body); color: var(--sun); }
   @media (max-width: 640px) { .parts { grid-template-columns: 1fr; } }
@@ -659,9 +661,9 @@ window.MVSky = (() => {
   return { horizon(y) { hz = y; hero.style.setProperty("--hz", y + "px"); stars.style.bottom = "auto"; stars.style.height = y + "px"; draw(); }, draw };
 })();
 </script>
-<script src="assets/site.js?v=20261013p"></script>
-<script src="assets/motion.js?v=20261013p" defer></script>
-<script src="assets/lenders.js?v=20261013p" defer></script>
+<script src="assets/site.js?v=20261013r"></script>
+<script src="assets/motion.js?v=20261013r" defer></script>
+<script src="assets/lenders.js?v=20261013r" defer></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);

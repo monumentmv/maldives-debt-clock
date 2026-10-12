@@ -98,7 +98,8 @@
     const owed = mbasis === "owed" && O();
     $("qNav").hidden = !O(); $("mapBasis").hidden = !O();
     if (O()) { const d = qNow(), sm = k => Object.values(O()[k] || {}).reduce((t, v) => t + (v[d] || 0), 0);
-      $("foreignNote").innerHTML = `Foreign debt is money owed to lenders abroad, such as other governments, development banks and international bond holders. At the end of ${MV.mLabel(d)} the government owed <b>${mvr(sm("loans"), d)}</b> abroad, and state companies and others owed <b>${mvr(sm("guarantees"), d)}</b> abroad with a government guarantee.`; }
+      $("foreignNote").innerHTML = `<span class="why-fx big"><b>Why foreign debt matters more than its size.</b> It has to be repaid in foreign currency, mostly US dollars, and Maldives cannot issue (print) foreign currency. Neither the government nor Maldives Monetary Authority can create it. It has to be earned, mostly from tourism, or borrowed again from abroad. <button type="button" class="linkish" data-term="foreign">Read more</button></span>`
+        + `Foreign debt is money owed to lenders abroad, such as other governments, development banks and international bond holders. At the end of ${MV.mLabel(d)} the government owed <b>${mvr(sm("loans"), d)}</b> abroad, and state companies and others owed <b>${mvr(sm("guarantees"), d)}</b> abroad with a government guarantee.`; }
     if (O()) {
       const d = qNow(), src = pdfOf(d);
       $("mapQ").max = QS().length - 1; $("mapQ").value = mq; $("mapQl").textContent = qLabel(d);
@@ -252,11 +253,12 @@
     const d = qNow(), sum = k => Object.values(o[k] || {}).reduce((t, v) => t + (v[d] || 0), 0);
     const hg = o.home?.total?.[d] || 0, hgu = sum("guarantees_home"), fg = sum("loans"), fgu = sum("guarantees"), all = hg + hgu + fg + fgu;
     if (!all) { $("parts").innerHTML = ""; return; }
-    const card = (id, kc, name, total, gov, gu, who) => `<button type="button" class="part" data-part="${id}" style="--kc:${kc}"><span class="k">${name}</span><b class="num">${mvr(total, d)}</b>
-      <span class="s">${mvr(gov, d)} owed by the government, and ${mvr(gu, d)} owed by state companies and others with a government guarantee.</span><span class="s">${who}</span><span class="go">See the details ↓</span></button>`;
+    const card = (id, kc, name, total, gov, gu, who, why) => `<div class="part" style="--kc:${kc}"><span class="k">${name}</span><b class="num">${mvr(total, d)}</b>
+      <span class="s">${mvr(gov, d)} owed by the government, and ${mvr(gu, d)} owed by state companies and others with a government guarantee.</span><span class="s">${who}</span>${why || ""}<button type="button" class="go" data-part="${id}">See the details ↓</button></div>`;
     $("parts").innerHTML = `<p class="parts-lead">All public debt, <b>${mvr(all, d)}</b> at the end of ${MV.mLabel(d)}, is in two parts. Domestic debt is owed to lenders in Maldives. Foreign debt is owed to lenders abroad.</p>`
       + card("partHome", "#f4c95d", "1. Domestic debt", hg + hgu, hg, hgu, "Mostly owed to banks, the pension fund and Maldives Monetary Authority.")
-      + card("partForeign", "#3fb8b0", "2. Foreign debt", fg + fgu, fg, fgu, "Owed to other countries, development banks and international bond holders.");
+      + card("partForeign", "#3fb8b0", "2. Foreign debt", fg + fgu, fg, fgu, "Owed to other countries, development banks and international bond holders.",
+        `<span class="why-fx">Smaller, but harder to repay. It must be paid in US dollars or other foreign currencies, which Maldives cannot issue (print). <button type="button" class="linkish" data-term="foreign">Why it matters</button></span>`);
   }
 
   // ---------- owed at home: who holds the government's domestic debt ----------

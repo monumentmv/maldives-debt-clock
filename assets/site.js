@@ -346,6 +346,7 @@ const MV = (() => {
     clock: ["How the clock works", "Official debt figures come out once every three months. Between releases, the clock starts from the latest official figure and adds debt at the average pace of the last year, so the number is an estimate. When a new official figure is published, the clock resets to it."],
     gdp: ["Debt compared with the economy", "GDP is the value of everything the country produces in a year. Comparing debt with GDP shows how big the debt is next to the size of the economy. Above 100% means the debt is bigger than a whole year of the country's output."],
     owed: ["Who the debt is owed to", "Domestic debt is owed to lenders inside Maldives, mostly banks, MMA and the pension fund. Foreign debt is owed abroad, to other governments, development banks and investors, and has to be paid back in foreign currency."],
+    foreign: ["Why foreign debt matters more than its size", "Foreign debt has to be repaid in foreign currency, mostly US dollars. Maldives cannot issue (print) foreign currency. Neither the government nor Maldives Monetary Authority can create it. It has to be earned, mostly from tourism, or borrowed again from abroad. Domestic debt is mostly in rufiyaa, the country's own money, and can usually be repaid by borrowing rufiyaa again at home. So even though foreign debt is the smaller part, it is the riskier one. When large foreign payments fall due, they have to come out of the country's foreign currency reserves, and if those run short, the country can fall behind on what it owes abroad. The same problem applies to the part of domestic debt that is in US dollars."],
     guaranteed: ["Guaranteed debt", "Guaranteed debt is money borrowed by someone other than the government, mostly state-owned companies such as the housing, electricity and trading companies, where the government has promised to pay if the borrower can't. The lenders include foreign and local banks and some private companies. It counts towards public debt because, if things go wrong, the government is on the hook."],
     interest: ["Interest", "Interest is the extra paid to lenders for using their money, on top of paying back what was borrowed. It builds up every day on everything owed. It is a cost that pays for no school, road or salary."],
     deficit: ["Deficit", "A deficit is when the government spends more than it collects. The gap is filled by borrowing, so each year's deficit adds to the debt."],
@@ -365,7 +366,7 @@ const MV = (() => {
       document.addEventListener("keydown", ev => { if (ev.key === "Escape" && !dlg.hidden) close(); });
     }
     dlg.querySelector("h3").textContent = e[0]; dlg.querySelector("p").textContent = e[1];
-    dlg.querySelector(".more").href = "methodology.html#" + (anchor || { deficit: "fiscal", guaranteed: "debt" }[key] || key);
+    dlg.querySelector(".more").href = "methodology.html#" + (anchor || { deficit: "fiscal", guaranteed: "debt", foreign: "owed" }[key] || key);
     dlg._from = document.activeElement; dlg.hidden = false; dlg.querySelector(".x").focus();
     return true;
   }
