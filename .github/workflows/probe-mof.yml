@@ -1,12 +1,12 @@
-name: Probe Ministry of Finance debt files (one-off, branch only)
+name: Ministry of Finance loans and guarantees (branch only, for review)
 on:
   push:
     branches: [claude/focused-cori-qvem0w]
-    paths: [tools/probe_mof.py, .github/workflows/probe-mof.yml]
+    paths: [fetch_lenders.py, .github/workflows/probe-mof.yml]
 permissions:
-  contents: read
+  contents: write
 jobs:
-  probe:
+  fetch:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -15,4 +15,10 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install requests openpyxl
-      - run: python tools/probe_mof.py
+      - run: python fetch_lenders.py
+      - name: Save to this branch only
+        run: |
+          git config user.name "debt-clock-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add inputs/mof data/lenders
+          git diff --cached --quiet || (git commit -m "Ministry of Finance loans and guarantees, first versions" && git push)
