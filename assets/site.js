@@ -387,7 +387,7 @@ const MV = (() => {
   addEventListener("resize", headHeight);
 
   // ---------- a way back, when someone followed a link from another page ----------
-  const FROM = { updates: "Back to Updates", home: "Back to the home page", priorities: "Back to Priorities" };
+  const FROM = { updates: "Back to Updates", home: "Back to the home page", priorities: "Back to Interest Bill" };
   function backLink() {
     let from = null; try { from = new URLSearchParams(location.search).get("from"); } catch (e) {}
     if (!from || !FROM[from] || document.querySelector(".back-to")) return;

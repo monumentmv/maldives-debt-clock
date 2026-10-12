@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261012g">
+<link rel="stylesheet" href="assets/site.css?v=20261012h">
 <title>Methodology · Maldives National Debt Clock</title>
 <meta property="og:title" content="Methodology · Maldives National Debt Clock">
 <meta property="og:description" content="Where every number on Maldives National Debt Clock comes from, how it is calculated, and what it leaves out.">
@@ -91,7 +91,7 @@
   <a class="brand" href="./">MV <span>Debt Clock</span></a>
   <nav class="site-nav" aria-label="Main">
     <a href="./" data-page="clock">Debt clock</a>
-    <a href="priorities.html" data-page="priorities">Priorities</a>
+    <a href="priorities.html" data-page="priorities">Interest Bill</a>
     <a href="budget.html" data-page="budget">Budget</a>
     <a href="revenue.html" data-page="revenue">Taxes</a>
     <a href="fuel.html" data-page="fuel">Fuel imports</a>
@@ -143,7 +143,7 @@
 <p>Every morning at 08:00 Malé time, an automated script downloads the latest figures through MMA's official API and saves them to a file the website reads. Nothing is typed in by hand, with one exception, the population estimate, explained in <a href="#population">section 6</a>.</p>
 <p>The <a href="revenue.html">revenue page</a> also uses the monthly revenue collection files published by the Maldives Inland Revenue Authority (MIRA). Every morning a script checks MIRA's website for new versions, downloads them and reads them, without retyping any figures. See <a href="#revenue">section 12</a>.</p>
 <p>The <a href="budget.html">budget page</a> uses the Ministry of Finance's Weekly Fiscal Developments reports. The same morning script checks the Ministry's website for a new report, downloads it and reads its tables. See <a href="#budget">section 13</a>.</p>
-<p>The <a href="priorities.html">priorities page</a> also uses the case counts the Maldives Police Service publishes in its crime statistics. They are collected automatically every morning, without retyping. See <a href="#priorities">section 14</a>.</p>
+<p>The <a href="priorities.html">Interest Bill page</a> also uses the case counts the Maldives Police Service publishes in its crime statistics. They are collected automatically every morning, without retyping. See <a href="#priorities">section 14</a>.</p>
 <p>This site is independent. It is not produced or endorsed by MMA, the Ministry of Finance or any government body.</p>
 
 <h2 id="debt">2. What counts as debt</h2>
@@ -367,7 +367,7 @@
 <p>Weekly figures are provisional. The Ministry notes that they change as accounts are reconciled, and that spending is counted when it is recorded rather than when cash is paid. MMA's monthly government finance series, used on the main page, is compiled later and can differ by several billion rufiyaa for a full year. Revenue figures also differ from MIRA's collections on the <a href="revenue.html">taxes page</a>, because MIRA records money when it is collected and the Ministry when it reaches the government's accounts, and because some revenue, such as import duty and dividends, isn't collected by MIRA.</p>
 
 <h2 id="priorities">14. Interest compared with other spending</h2>
-<p>The <a href="priorities.html">priorities page</a> sets what the government pays in interest beside what it spends on policing, justice and protecting people's rights, and on some of the largest services. The point is scale. Interest pays lenders for borrowing already done, so it buys no service in the year it is paid.</p>
+<p>The <a href="priorities.html">Interest Bill page</a> sets what the government pays in interest beside what it spends on policing, justice and protecting people's rights, and on some of the largest services. The point is scale. Interest pays lenders for borrowing already done, so it buys no service in the year it is paid.</p>
 <h3>Which offices are included</h3>
 <p>Policing and justice covers the Maldives Police Service, Maldives Correctional Services, the Prosecutor General's Office and the Anti-Corruption Commission. Protection and rights covers the Family Protection Authority, the Children's Ombudsperson's Office, the Human Rights Commission and the National Drug Agency. For a wider view the page also shows the Ministry of Education, the Ministry of Health together with every public hospital listed in the reports, and the Maldives National Defence Force.</p>
 <h3>Where the figures come from</h3>
@@ -429,8 +429,8 @@
   <tr><td>3486</td><td>Import of goods (total)</td><td>Monthly</td><td>Fuel's share of imports</td></tr>
   <tr><td>3787</td><td>Crude oil prices (World Bank average of Brent, Dubai and WTI)</td><td>Monthly</td><td>Oil price line</td></tr>
   <tr><td>n/a</td><td>Weekly Fiscal Developments (Ministry of Finance), every report since December 2018</td><td>Weekly</td><td>Budget page</td></tr>
-  <tr><td>n/a</td><td>Weekly Fiscal Developments, budget utilisation by office (Ministry of Finance)</td><td>Weekly</td><td>Priorities page</td></tr>
-  <tr><td>n/a</td><td>Crime statistics, cases reported by category (Maldives Police Service)</td><td>Monthly</td><td>Priorities page</td></tr>
+  <tr><td>n/a</td><td>Weekly Fiscal Developments, budget utilisation by office (Ministry of Finance)</td><td>Weekly</td><td>Interest Bill page</td></tr>
+  <tr><td>n/a</td><td>Crime statistics, cases reported by category (Maldives Police Service)</td><td>Monthly</td><td>Interest Bill page</td></tr>
   <tr><td>n/a</td><td>MIRA monthly revenue collection, all collections in rufiyaa (Maldives Inland Revenue Authority)</td><td>Monthly</td><td>Revenue page</td></tr>
   <tr><td>n/a</td><td>MIRA monthly revenue collection paid in US dollars (Maldives Inland Revenue Authority)</td><td>Monthly</td><td>Dollar share on the revenue page</td></tr>
   <tr><td>n/a</td><td>Registered Maldivian population, end of 2025 (Department of National Registration, via MBS)</td><td>Annual</td><td>Per-citizen figures</td></tr>
@@ -443,8 +443,8 @@
   <span id="fetched">Figures from Maldives Monetary Authority Statistics Database.</span>
   <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, not affiliated with MMA.</span></span>
 </div></footer>
-<script src="assets/site.js?v=20261012g"></script>
-<script src="assets/motion.js?v=20261012g" defer></script>
+<script src="assets/site.js?v=20261012h"></script>
+<script src="assets/motion.js?v=20261012h" defer></script>
 <script>
 (() => {
   const SEC_YEAR = 365.25 * 86400;
