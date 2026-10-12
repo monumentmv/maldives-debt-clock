@@ -404,7 +404,7 @@ const MV = (() => {
       const newest = P?.latest?.d; if (!newest) return;
       let seen = null; try { seen = localStorage.getItem("updatesSeen"); } catch (e) {}
       if (/updates\.html$/.test(location.pathname)) { try { localStorage.setItem("updatesSeen", newest); } catch (e) {} return; }
-      if (!seen || seen < newest) link.insertAdjacentHTML("beforeend", `<span class="badge">New</span>`);
+      if (!seen || seen < newest) link.insertAdjacentHTML("beforeend", `<span class="nav-new" role="img" aria-label="new since your last visit" title="New since your last visit"></span>`);
     }).catch(() => {});
   }
 
