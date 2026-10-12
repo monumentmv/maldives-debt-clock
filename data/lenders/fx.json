@@ -1,30 +1,24 @@
 {
  "2026-06-30": {
   "date": "2026-06-30",
+  "rate_date": "2026-06-30",
   "per_usd": {
    "USD": 1.0,
    "AED": 3.6725,
-   "CNY": 6.79231047,
-   "EUR": 0.8772645,
-   "INR": 94.56443618,
-   "JPY": 162.17946627,
-   "KWD": 0.30971002,
+   "CNY": 6.7845,
+   "INR": 94.5975,
+   "JPY": 162.2,
+   "KWD": 0.3079,
    "SAR": 3.75,
-   "XDR": 0.73732065,
+   "XDR": 0.7374069999999998,
+   "EUR": 0.8772645,
    "MVR": 15.42
   },
   "notes": {
-   "AED": "fixed to the US dollar at 3.6725",
-   "CNY": "not in the IMF's tables; open currency-api dataset",
-   "EUR": "not in the IMF's tables; open currency-api dataset",
-   "INR": "not in the IMF's tables; open currency-api dataset",
-   "JPY": "not in the IMF's tables; open currency-api dataset",
-   "KWD": "not in the IMF's tables; open currency-api dataset",
-   "SAR": "fixed to the US dollar at 3.75",
-   "XDR": "not in the IMF's tables; open currency-api dataset",
+   "EUR": "not yet in the IMF's data: open currency-api dataset",
    "MVR": "MMA reference rate"
   },
-  "imf": false,
-  "source": null
+  "imf": true,
+  "source": "International Monetary Fund (IMF) exchange rates, end of month (30 June 2026)"
  }
 }
