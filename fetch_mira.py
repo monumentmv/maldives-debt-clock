@@ -88,9 +88,11 @@ class Browser:
 
     def page(self):
         pg = self.ctx.new_page()
-        resp = pg.goto(PAGE, wait_until="networkidle", timeout=90000)
+        resp = pg.goto(PAGE, wait_until="domcontentloaded", timeout=90000)
         if resp and resp.status >= 400:
             raise RuntimeError(f"{resp.status} from MIRA's page in a browser too")
+        # wait for the download links rather than for the page to go quiet (some pages never do)
+        pg.wait_for_selector("a[href*='GetFile']", timeout=60000)
         return pg.content()
 
     def file(self, url):
