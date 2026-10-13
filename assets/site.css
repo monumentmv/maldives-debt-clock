@@ -320,6 +320,10 @@ html:is([data-theme="light"],[data-theme="sand"],[data-theme="lagoon"]) .upd { b
 
 /* commentary: the ribbon under the menu, and the commentary page */
 .cm-ribbon { position: relative; z-index: 40; display: flex; align-items: center; gap: .5rem; padding: .55rem var(--gutter); background: linear-gradient(90deg, #f4c95d, #f8d77f); color: #07303f; box-shadow: 0 4px 14px -8px rgba(0,0,0,.6); animation: cm-in .35s ease-out; }
+.site-head .cm-ribbon { flex: 0 0 calc(100% + 2 * var(--gutter)); order: 11; margin: .45rem calc(-1 * var(--gutter)) -.5rem; }
+.site-head.tight .cm-ribbon { margin-bottom: -.3rem; }
+@media (max-width: 860px) { .site-head .cm-ribbon { margin: .25rem calc(-1 * var(--gutter)) -.35rem; padding-top: .45rem; padding-bottom: .45rem; } }
+.cm-ribbon.still { animation: none; }
 @keyframes cm-in { from { transform: translateY(-100%); opacity: 0; } to { transform: none; opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .cm-ribbon { animation: none; } }
 .cm-r-link { flex: 1; display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .7rem; color: #07303f; text-decoration: none; max-width: 76rem; margin: 0 auto; }

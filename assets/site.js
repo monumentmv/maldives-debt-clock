@@ -504,16 +504,19 @@ const MV = (() => {
     const base = document.querySelector('script[src*="assets/site.js"]')?.src.replace(/assets\/site\.js.*$/, "") || "";
     fetch(base + "assets/commentary.json?v=" + Math.floor(Date.now() / 6e5)).then(r => r.ok ? r.json() : []).then(posts => {
       const p = (posts || []).sort((a, b) => b.date.localeCompare(a.date))[0]; if (!p) return;
-      const age = Date.now() - new Date(p.date).getTime(), key = "cmSeen-" + p.id;
-      let seen = false; try { seen = localStorage.getItem(key) === "1"; } catch (e) {}
-      if (age < 0 || age > 864e5 || seen) return;
+      // shown on every visit while the post is new, kept at the top of each page, until closed for this visit
+      const age = Date.now() - new Date(p.date).getTime(), key = "cmClosed-" + p.id;
+      let closed = false, shown = false; try { closed = sessionStorage.getItem(key) === "1"; shown = sessionStorage.getItem("cmShown") === p.id; } catch (e) {}
+      if (age < 0 || age > 864e5 || closed) return;
       const esc = x => String(x).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-      const bar = document.createElement("div"); bar.className = "cm-ribbon"; bar.setAttribute("role", "region"); bar.setAttribute("aria-label", "New commentary");
+      const bar = document.createElement("div"); bar.className = "cm-ribbon" + (shown ? " still" : ""); bar.setAttribute("role", "region"); bar.setAttribute("aria-label", "New commentary");
       bar.innerHTML = `<a class="cm-r-link" href="${base}commentary.html#${esc(p.id)}"><span class="cm-r-tag">New commentary</span><span class="cm-r-t">${esc(p.title)}</span><span class="cm-r-go">Read →</span></a><button type="button" class="cm-r-x" aria-label="Close">×</button>`;
-      const done = () => { try { localStorage.setItem(key, "1"); } catch (e) {} };
-      bar.querySelector(".cm-r-link").addEventListener("click", done);
-      bar.querySelector(".cm-r-x").addEventListener("click", () => { done(); bar.remove(); headHeight(); });
-      document.querySelector(".site-head")?.after(bar);
+      const close = () => { try { sessionStorage.setItem(key, "1"); } catch (e) {} };
+      try { sessionStorage.setItem("cmShown", p.id); } catch (e) {}
+      bar.querySelector(".cm-r-link").addEventListener("click", close);
+      bar.querySelector(".cm-r-x").addEventListener("click", () => { close(); bar.remove(); headHeight(); });
+      const head = document.querySelector(".site-head"); if (!head) return;
+      head.appendChild(bar); headHeight();
     }).catch(() => {});
   }
 
