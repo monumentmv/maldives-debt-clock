@@ -346,4 +346,10 @@ main.dark .cm-post .cm-title, main.dark .cm-post .cm-body p, main.dark .cm-post 
 main.dark .cm-post p.cm-meta, main.dark .cm-post p.cm-label, main.dark .cm-post p.cm-src { color: #4d6a74; } main.dark .cm-post .cm-meta { border-color: rgba(7,47,64,.15); }
 main.dark .cm-post a, main.dark .cm-post .cm-sign a { color: #0b6f8a; } main.dark .cm-post .cm-body .term { border-color: #0b6f8a; }
 main.dark .cm-post .cm-acts button { color: #0b2f3d; border-color: rgba(7,47,64,.3); }
+.cm-b { padding: .85rem 1rem .1rem; border-radius: 10px; margin: 0 0 .8rem; border-left: 4px solid; }
+.cm-n { background: #fffdf7; border-color: #d8ccaa; } .cm-g { background: #dcf0df; border-color: #3f9a5c; } .cm-r { background: #f8dcd5; border-color: #cf634d; }
+.cm-key { display: inline-flex; align-items: center; gap: .35rem; font-size: .8rem; color: #4d6a74; }
+.cm-key i { display: inline-block; width: .8rem; height: .8rem; border-radius: 3px; margin-left: .45rem; border-left: 3px solid; }
+.cm-key .k-n { background: #fffdf7; border-color: #d8ccaa; } .cm-key .k-g { background: #dcf0df; border-color: #3f9a5c; } .cm-key .k-r { background: #f8dcd5; border-color: #cf634d; }
+main.dark .cm-post p.cm-meta { align-items: center; } main.dark .cm-post .cm-meta .cm-key { color: #4d6a74; font-weight: 600; }
 .cm-acts { margin-top: 1rem; } .cm-acts button { border: 1px solid rgba(169,205,214,.4); background: transparent; color: var(--foam); border-radius: 999px; padding: .4rem .95rem; font: 700 .85rem var(--body); cursor: pointer; }
