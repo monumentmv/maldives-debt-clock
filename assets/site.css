@@ -39,6 +39,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .toggle button[aria-pressed="true"] { background: var(--sun); color: var(--abyss); }
 .toggle[hidden] { display: none; }
 
+.site-head.tight { flex-wrap: wrap; row-gap: .2rem; padding-bottom: .3rem; }
+.site-head.tight .brand { order: 1; flex: 1; } .site-head.tight .prefs { order: 2; }
+.site-head.tight .site-nav { order: 3; flex-basis: 100%; flex-wrap: wrap; margin: 0 calc(-.7rem); }
 @media (max-width: 860px) {
   :root { --head-h: 5.6rem; }
   .site-head { flex-wrap: wrap; row-gap: .35rem; padding-bottom: .35rem; }

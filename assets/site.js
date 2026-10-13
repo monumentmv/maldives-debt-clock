@@ -396,8 +396,15 @@ const MV = (() => {
   }
 
   // ---------- the header's height, so pickers can stick just below it ----------
-  function headHeight() { const h = document.querySelector(".site-head"); if (h) document.documentElement.style.setProperty("--headH", h.offsetHeight + "px"); }
+  function headHeight() {
+    const h = document.querySelector(".site-head"); if (!h) return;
+    // when the tabs don't fit beside the brand and buttons, move them onto their own row
+    const nav = h.querySelector(".site-nav");
+    if (nav && innerWidth > 860) { h.classList.remove("tight"); if (nav.scrollWidth > nav.clientWidth + 1) h.classList.add("tight"); }
+    document.documentElement.style.setProperty("--headH", h.offsetHeight + "px");
+  }
   addEventListener("resize", headHeight);
+  addEventListener("load", headHeight);   // again once the fonts have loaded
 
   // ---------- a way back, when someone followed a link from another page ----------
   const FROM = { updates: "Back to Updates", home: "Back to the home page", priorities: "Back to Interest Bill" };
