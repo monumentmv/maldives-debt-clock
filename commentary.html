@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>try{var t=localStorage.getItem("theme2");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#072f40">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css?v=20261013z">
+<title>Commentary · Maldives National Debt Clock</title>
+<meta property="og:title" content="Commentary · Maldives National Debt Clock">
+<meta property="og:description" content="A closer look at recent events in Maldives public finance, with views on what they mean.">
+<meta property="og:url" content="https://mvdebtclock.org/about">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MV Debt Clock">
+<meta property="og:image" content="https://mvdebtclock.org/assets/share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="An island above a sea, with a dashed line deep below the surface, showing what the Maldivian government owes and the debt as a share of GDP.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://mvdebtclock.org/assets/share.png">
+<meta name="description" content="A closer look at recent events in Maldives public finance, with views on what they mean.">
+<style>
+  .cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3rem 4rem; align-items: start; }
+  @media (max-width: 820px) { .cols { grid-template-columns: 1fr; } }
+  form { display: grid; gap: 1.1rem; background: rgba(255,255,255,.04); border: 1px solid rgba(169,205,214,.18); border-radius: 8px; padding: 1.5rem; }
+  label { display: grid; gap: .35rem; font-weight: 700; font-size: .95rem; }
+  label span.opt { font-weight: 400; color: var(--mist); }
+  input, select, textarea { font: 1rem var(--body); color: var(--ink); background: var(--foam); border: 2px solid transparent; border-radius: 6px; padding: .7rem .8rem; width: 100%; }
+  input:focus, select:focus, textarea:focus { border-color: var(--sun); outline: none; }
+  textarea { min-height: 9rem; resize: vertical; }
+  .hp { position: absolute; left: -9999px; }
+  button.send { font: 700 1rem var(--body); background: var(--sun); color: var(--abyss); border: 0; border-radius: 6px; padding: .85rem 1.2rem; cursor: pointer; justify-self: start; min-height: 2.75rem; }
+  button.send:disabled { opacity: .55; cursor: not-allowed; }
+  .status { font-size: .95rem; min-height: 1.4em; }
+  .status.ok { color: var(--lagoon); } .status.err { color: var(--coral); }
+  .small { font-size: .875rem; color: var(--mist); }
+</style>
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="./">MV <span>Debt Clock</span></a>
+  <nav class="site-nav" aria-label="Main">
+    <a href="./" data-page="clock">Debt clock</a>
+    <a href="priorities.html" data-page="priorities">Interest Bill</a>
+    <a href="budget.html" data-page="budget">Budget</a>
+    <a href="revenue.html" data-page="revenue">Taxes</a>
+    <a href="fuel.html" data-page="fuel">Fuel imports</a>
+    <a href="updates.html" data-page="updates">Updates</a>
+    <a href="commentary.html" data-page="commentary" aria-current="page">Commentary</a>
+    <a href="methodology.html" data-page="method">Methodology</a>
+    <a href="about.html" data-page="about">About</a>
+  </nav>
+  <div class="prefs">
+    <div class="toggle" data-pref="cur" role="group" aria-label="Currency"><button type="button" data-v="MVR" aria-pressed="true">MVR</button><button type="button" data-v="USD" aria-pressed="false">US$</button></div>
+    <div class="toggle" data-pref="real" role="group" aria-label="Inflation adjustment" title="Real shows past amounts in today's prices, adjusted for inflation"><button type="button" data-v="0" aria-pressed="true">Nominal</button><button type="button" data-v="1" aria-pressed="false">Real</button></div>
+  </div>
+  <div class="real-note" role="status"></div>
+</header>
+
+<main class="dark">
+<div class="wrap">
+  <section class="cm-page">
+    <h1>Commentary</h1>
+    <p class="cm-intro">A closer look at recent events in Maldives public finance, with views on what they mean.</p>
+    <div id="posts"><p>Loading…</p></div>
+  </section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <span id="fetched">Figures from Maldives Monetary Authority Statistics Database.</span>
+  <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, and not affiliated with any state institution.</span></span>
+</div></footer>
+
+<script src="assets/site.js?v=20261013z"></script>
+<script src="assets/motion.js?v=20261013z" defer></script>
+<script>
+(() => {
+  document.querySelectorAll("[data-pref]").forEach(t => t.hidden = true);
+  const esc = x => String(x ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const when = d => { const x = new Date(d), o = { timeZone: "Indian/Maldives" };
+    return `${x.toLocaleDateString("en-GB", { ...o, day: "numeric", month: "long", year: "numeric" })}, ${x.toLocaleTimeString("en-GB", { ...o, hour: "2-digit", minute: "2-digit", hour12: false })} Malé time`; };
+  fetch("assets/commentary.json?v=" + Date.now()).then(r => r.json()).then(posts => {
+    posts.sort((a, b) => b.date.localeCompare(a.date));
+    document.getElementById("posts").innerHTML = posts.map(p => `<article class="cm-post" id="${esc(p.id)}">
+      <p class="cm-meta"><time datetime="${esc(p.date)}">${when(p.date)}</time></p>
+      <h2 class="cm-title">${esc(p.title)}</h2>
+      <div class="cm-body">${p.body}</div>
+      <p class="cm-sign">Shaheed<a href="https://x.com/AShaheed121" rel="me noopener" target="_blank">@AShaheed121</a></p>
+      <p class="cm-label">These are my views, based on official figures and published ratings.</p>
+      ${p.sources?.length ? `<p class="cm-src">Sources: ${p.sources.map(x => `<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.name)}</a>`).join(", ")}.</p>` : ""}
+      <div class="cm-acts"><button type="button" data-share="${esc(p.id)}">Copy a link to this</button></div>
+    </article>`).join("") || "<p>No commentary yet.</p>";
+    if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
+    // reading a piece means its ribbon needn't show again
+    posts.forEach(p => { try { localStorage.setItem("cmSeen-" + p.id, "1"); } catch (e) {} });
+  }).catch(() => { document.getElementById("posts").innerHTML = "<p>Commentary couldn't be loaded. Please try again later.</p>"; });
+  document.addEventListener("click", e => { const b = e.target.closest("[data-share]"); if (!b) return;
+    const url = location.origin + location.pathname + "#" + b.dataset.share;
+    (navigator.clipboard?.writeText(url) || Promise.reject()).then(() => { b.textContent = "Copied"; setTimeout(() => { b.textContent = "Copy a link to this"; }, 1800); }).catch(() => {}); });
+})();
+</script>
+</body>
+</html>

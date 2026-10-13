@@ -352,20 +352,32 @@ const MV = (() => {
     deficit: ["Deficit", "A deficit is when the government spends more than it collects. The gap is filled by borrowing, so each year's deficit adds to the debt."],
     real: ["Nominal and real", "Nominal shows amounts as they were at the time. Real adjusts older amounts for price rises, so a rufiyaa from ten years ago can be compared fairly with a rufiyaa today."],
     taxrev: ["Taxes are not all of the government's income", "MIRA's figures cover the taxes, fees and rents MIRA collects. Total government revenue is bigger. It also includes import duties collected by Customs, dividends from state-owned companies, airport and other fees, rents, and grants from abroad. So MIRA's total will always be less than the revenue shown on the budget page."],
+    rating: ["Credit rating", "A credit rating is an outside opinion on how likely a borrower is to repay on time. Lenders use it to decide whether to lend, and at what interest rate. Moody's has 21 steps. The top ten are called investment grade. Everything below is seen as speculative, and the lower the step, the higher the risk.", "rating", false],
+    governance: ["Governance score", "Moody's also scores how much a country's governance affects its credit. This covers how public money is managed, how open and accountable the budget is, and control of corruption and financial crime. The scale has five steps, from 1, where governance helps the rating, to 5, where it hurts it most.", "governance", false],
     usd: ["US dollar figures", "Amounts can be shown in US dollars using MMA's official exchange rate. Past amounts use the rate of the time, so changes in the exchange rate don't distort the history."],
   };
+  const SCALES = {
+    rating: { you: "Caa1", note: "Maldives moved up from Caa2 to Caa1 on 8 October 2026. That is step 17 of 21.", line: 4, rows: [
+      ["Aaa", "Highest quality, lowest risk"], ["Aa1 to Aa3", "High quality, very low risk"], ["A1 to A3", "Low risk"], ["Baa1 to Baa3", "Moderate risk"],
+      ["Ba1 to Ba3", "Substantial risk"], ["B1 to B3", "High risk"], ["Caa1 to Caa3", "Very high risk"], ["Ca", "Very near default"], ["C", "Usually in default"]] },
+    governance: { you: "G-4", note: "Moody's scores Maldives G-4.", rows: [
+      ["G-1", "Positive"], ["G-2", "Neutral to low"], ["G-3", "Moderately negative"], ["G-4", "Highly negative"], ["G-5", "Very highly negative"]] },
+  };
+  const scaleHTML = k => { const c = SCALES[k]; if (!c) return "";
+    const mine = g => g.slice(0, 3) === c.you.slice(0, 3);
+    return `<ol class="scale">${c.rows.map(([g, m], i) => `${i === c.line ? '<li class="scale-line">Investment grade above this line</li>' : ""}<li${mine(g) ? ' class="here"' : ""}><b>${g}</b><span>${m}</span>${mine(g) ? "<em>Maldives</em>" : ""}</li>`).join("")}</ol><p class="scale-note">${c.note}</p>`; };
   function explain(key, anchor) {
     const e = EXPLAIN[key]; if (!e) return false;
     let dlg = document.getElementById("explain");
     if (!dlg) {
       dlg = document.createElement("div"); dlg.id = "explain"; dlg.className = "explain"; dlg.hidden = true;
-      dlg.innerHTML = `<div class="explain-box" role="dialog" aria-modal="true" aria-labelledby="explainT"><button type="button" class="x" aria-label="Close">×</button><h3 id="explainT"></h3><p></p><a class="more" href="#">Read more in the methodology</a></div>`;
+      dlg.innerHTML = `<div class="explain-box" role="dialog" aria-modal="true" aria-labelledby="explainT"><button type="button" class="x" aria-label="Close">×</button><h3 id="explainT"></h3><p></p><div class="explain-x"></div><a class="more" href="#">Read more in the methodology</a></div>`;
       document.body.appendChild(dlg);
       const close = () => { dlg.hidden = true; dlg._from?.focus?.(); };
       dlg.addEventListener("click", ev => { if (ev.target === dlg || ev.target.closest(".x")) close(); });
       document.addEventListener("keydown", ev => { if (ev.key === "Escape" && !dlg.hidden) close(); });
     }
-    dlg.querySelector("h3").textContent = e[0]; dlg.querySelector("p").textContent = e[1];
+    dlg.querySelector("h3").textContent = e[0]; dlg.querySelector("p").textContent = e[1]; dlg.querySelector(".explain-x").innerHTML = e[2] ? scaleHTML(e[2]) : ""; dlg.querySelector(".more").hidden = e[3] === false;
     dlg.querySelector(".more").href = "methodology.html#" + (anchor || { deficit: "fiscal", guaranteed: "debt", foreign: "owed" }[key] || key);
     dlg._from = document.activeElement; dlg.hidden = false; dlg.querySelector(".x").focus();
     return true;
@@ -479,6 +491,25 @@ const MV = (() => {
     nav.scrollLeft = Math.max(0, cur.offsetLeft - nav.offsetLeft - (nav.clientWidth - cur.offsetWidth) / 2);
   }
 
+  // ---------- a slim ribbon for 24 hours after new commentary, closed for good once read or dismissed ----------
+  function commentaryRibbon() {
+    if (/commentary(\.html)?\/?$/.test(location.pathname)) return;
+    const base = document.querySelector('script[src*="assets/site.js"]')?.src.replace(/assets\/site\.js.*$/, "") || "";
+    fetch(base + "assets/commentary.json?v=" + Math.floor(Date.now() / 6e5)).then(r => r.ok ? r.json() : []).then(posts => {
+      const p = (posts || []).sort((a, b) => b.date.localeCompare(a.date))[0]; if (!p) return;
+      const age = Date.now() - new Date(p.date).getTime(), key = "cmSeen-" + p.id;
+      let seen = false; try { seen = localStorage.getItem(key) === "1"; } catch (e) {}
+      if (age < 0 || age > 864e5 || seen) return;
+      const esc = x => String(x).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+      const bar = document.createElement("div"); bar.className = "cm-ribbon"; bar.setAttribute("role", "region"); bar.setAttribute("aria-label", "New commentary");
+      bar.innerHTML = `<a class="cm-r-link" href="${base}commentary.html#${esc(p.id)}"><span class="cm-r-tag">New commentary</span><span class="cm-r-t">${esc(p.title)}</span><span class="cm-r-go">Read →</span></a><button type="button" class="cm-r-x" aria-label="Close">×</button>`;
+      const done = () => { try { localStorage.setItem(key, "1"); } catch (e) {} };
+      bar.querySelector(".cm-r-link").addEventListener("click", done);
+      bar.querySelector(".cm-r-x").addEventListener("click", () => { done(); bar.remove(); headHeight(); });
+      document.querySelector(".site-head")?.after(bar);
+    }).catch(() => {});
+  }
+
   // ---------- after a minute on the site, say plainly where the figures come from ----------
   function sourceNotice() {
     let seen = false, arrived = Date.now();
@@ -504,7 +535,7 @@ const MV = (() => {
     }, Math.max(0, 30000 - (Date.now() - arrived)));
   }
 
-  const boot = () => { headHeight(); navToCurrent(); themeButton(); realHelp(); ticker(); paintIcons(); backLink(); updatesBadge(); sourceNotice(); };
+  const boot = () => { headHeight(); navToCurrent(); themeButton(); realHelp(); ticker(); paintIcons(); backLink(); updatesBadge(); sourceNotice(); commentaryRibbon(); };
   addEventListener("load", navToCurrent);   // again once the fonts have set the tab widths
   document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", boot) : boot();
 
