@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261013r">
+<link rel="stylesheet" href="assets/site.css?v=20261013s">
 <title>Methodology · Maldives National Debt Clock</title>
 <meta property="og:title" content="Methodology · Maldives National Debt Clock">
 <meta property="og:description" content="Where every number on Maldives National Debt Clock comes from, how it is calculated, and what it leaves out.">
@@ -139,7 +139,7 @@
 </nav>
 
 <h2 id="sources">1. Where the data comes from</h2>
-<p>All economic figures come from the <a href="https://database.mma.gov.mv" rel="noopener">Maldives Monetary Authority (MMA) Statistics Database</a>, which publishes data compiled by MMA, Ministry of Finance and Planning, Maldives Bureau of Statistics (MBS), Maldives Customs Service and the World Bank.</p>
+<p>All economic figures come from <a href="https://database.mma.gov.mv" rel="noopener">Maldives Monetary Authority (MMA) Statistics Database</a>, which publishes data compiled by MMA, Ministry of Finance and Planning, Maldives Bureau of Statistics (MBS), Maldives Customs Service and the World Bank.</p>
 <p>Every morning at 08:00 Malé time, an automated script downloads the latest figures through MMA's official API and saves them to a file the website reads. Nothing is typed in by hand, with one exception, the population estimate, explained in <a href="#population">section 6</a>.</p>
 <p>The <a href="revenue.html">revenue page</a> also uses the monthly revenue collection files published by Maldives Inland Revenue Authority (MIRA). Every morning a script checks MIRA's website for new versions, downloads them and reads them, without retyping any figures. See <a href="#revenue">section 12</a>.</p>
 <p>The <a href="budget.html">budget page</a> uses Ministry of Finance's Weekly Fiscal Developments reports. The same morning script checks the Ministry's website for a new report, downloads it and reads its tables. See <a href="#budget">section 13</a>.</p>
@@ -380,7 +380,7 @@
 <p>Each office's spending is its line in the Weekly Fiscal Developments table of budget utilisation by office, from 1 January to the report's date. Interest is the report's "Financing and Interest Costs", which the Ministry counts within recurrent spending. Loan principal repayments are not included. Every weekly report since January 2019 is kept, so the page can show any earlier week, and the year-by-year chart uses the last report of each year, as on the budget page.</p>
 <p>Offices are matched by name, and names change as ministries are merged or split. The National Drug Agency first appears as its own office in 2024 and the Children's Ombudsperson's Office in 2020. Where an office isn't listed for a year, that year is left out for it. The combined groups add up whichever of their offices are listed. In 2026 the Ministry of Education also took on higher education, so its spending from then is not strictly comparable with earlier years.</p>
 <h3>Cases reported to the police</h3>
-<p>Case counts come from the <a href="https://www.police.gov.mv/crime-statistics" rel="noopener">Maldives Police Service crime statistics</a>, which are taken from the police case reporting platform. They are collected automatically every morning. Every month of every year published is collected, and the latest two years are checked again each morning in case figures are revised. Each month is checked to make sure the categories add up to the published total. They are cases reported, not crimes proven, and include traffic accidents and lost items. Older years may be lower partly because fewer cases were recorded on the platform.</p>
+<p>Case counts come from <a href="https://www.police.gov.mv/crime-statistics" rel="noopener">Maldives Police Service crime statistics</a>, which are taken from the police case reporting platform. They are collected automatically every morning. Every month of every year published is collected, and the latest two years are checked again each morning in case figures are revised. Each month is checked to make sure the categories add up to the published total. They are cases reported, not crimes proven, and include traffic accidents and lost items. Older years may be lower partly because fewer cases were recorded on the platform.</p>
 <p>Cases shown beside an office cover 1 January to the end of the month of the report shown, so they can run a few days past the spending figures. Where the monthly figures for those months aren't all available, the year so far as published is used instead. Placing an office next to a type of case shows scale only. It does not mean the office handles every such case, or that spending and cases are linked.</p>
 <p>"How often" figures spread the cases over waking hours only, from 6 am to midnight, which is 18 hours a day, because few people would picture a report every so many minutes through the night. So "one every 2 hours" means one every 2 waking hours. Daily figures, such as "about 9 a day", still use the whole day. The number of days is the days in the period shown. For the current year that is the days from 1 January to the date the figures were taken. They are averages, so they say nothing about the time of day or week when cases happen. Every type of case is shown against the police, except domestic violence, sexual offences and drug cases, which are also shown against the Family Protection Authority, the Children's Ombudsperson's Office and the National Drug Agency.</p>
 <h3>Where interest goes</h3>
@@ -449,8 +449,8 @@
   <span id="fetched">Figures from Maldives Monetary Authority Statistics Database.</span>
   <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, and not affiliated with any state institution.</span></span>
 </div></footer>
-<script src="assets/site.js?v=20261013r"></script>
-<script src="assets/motion.js?v=20261013r" defer></script>
+<script src="assets/site.js?v=20261013s"></script>
+<script src="assets/motion.js?v=20261013s" defer></script>
 <script>
 (() => {
   const SEC_YEAR = 365.25 * 86400;

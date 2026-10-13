@@ -493,7 +493,7 @@ const MV = (() => {
         <button type="button" class="x" aria-label="Close">×</button>
         <div class="src-ico" aria-hidden="true">✓</div>
         <h3 id="srcT">All figures here are based on government data</h3>
-        <p>The numbers on this site are based on figures published by the <b>Maldives Monetary Authority</b>, the <b>Ministry of Finance</b>, the <b>Maldives Inland Revenue Authority</b> and the <b>Maldives Police Service</b>.</p>
+        <p>The numbers on this site are based on figures published by <b>Maldives Monetary Authority</b>, <b>Ministry of Finance</b>, <b>Maldives Inland Revenue Authority</b> and <b>Maldives Police Service</b>.</p>
         <p>So how <b>accurate</b> and <b>complete</b> they are depends on the government, on the quality of its data, how openly it publishes it, and how often. Where official data is wrong, missing or late, so is this site.</p>
         <p class="src-small">The live debt clock is an estimate between official releases, worked out from the latest official figure. <a href="methodology.html">How every figure is worked out</a></p>
         <button type="button" class="src-ok">Got it</button></div>`;
