@@ -362,8 +362,8 @@ main.dark .cm-post p.cm-meta { align-items: center; } main.dark .cm-post .cm-met
 @font-face { font-family: "Noto Sans Thaana"; src: url("fonts/noto-sans-thaana-thaana-400-normal.woff2") format("woff2"); font-weight: 300 599; font-display: swap; unicode-range: U+0780-07BF, U+060C, U+061B, U+061F, U+FDF2; }
 @font-face { font-family: "Noto Sans Thaana"; src: url("fonts/noto-sans-thaana-thaana-700-normal.woff2") format("woff2"); font-weight: 600 749; font-display: swap; unicode-range: U+0780-07BF, U+060C, U+061B, U+061F, U+FDF2; }
 @font-face { font-family: "Noto Sans Thaana"; src: url("fonts/noto-sans-thaana-thaana-800-normal.woff2") format("woff2"); font-weight: 750 900; font-display: swap; unicode-range: U+0780-07BF, U+060C, U+061B, U+061F, U+FDF2; }
-/* Faruma is used when the reader's device already has it (most Maldivian computers do); it isn't sent from the site, as its licence for web use is unclear. Only its Thaana letters are used. */
-@font-face { font-family: "DV Faruma"; src: local("Faruma"), local("MV Faruma"), local("Faruma Regular"); unicode-range: U+0780-07BF, U+060C, U+061B, U+061F, U+FDF2; }
+/* Faruma (The President's Office, 2002), cut down to its Thaana letters; numbers and English stay in the site's usual fonts */
+@font-face { font-family: "DV Faruma"; src: url("fonts/faruma-thaana.woff2") format("woff2"); font-display: swap; unicode-range: U+0780-07BF, U+060C, U+061B, U+061F, U+FDF2; }
 html[lang="dv"] { --display: "DV Faruma", "Noto Sans Thaana", "Archivo", "Arial Narrow", Arial, sans-serif; --body: "DV Faruma", "Noto Sans Thaana", "Atkinson Hyperlegible", "Segoe UI", Roboto, Arial, sans-serif; }
 html[lang="dv"] body { font-family: var(--body); }
 html[lang="dv"] :is(p, li, .chap-a, .pcard .x, .l, .lbl, .sub, .hint, .pop) { line-height: 1.85; }
