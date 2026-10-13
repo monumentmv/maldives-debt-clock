@@ -87,7 +87,7 @@
   fetch("assets/commentary.json?v=" + Date.now()).then(r => r.json()).then(posts => {
     posts.sort((a, b) => b.date.localeCompare(a.date));
     document.getElementById("posts").innerHTML = posts.map(p => `<article class="cm-post" id="${esc(p.id)}">
-      <p class="cm-meta"><time datetime="${esc(p.date)}">${when(p.date)}</time>${p.body.includes("cm-b ") ? `<span class="cm-key"><i class="k-n"></i>Facts <i class="k-g"></i>Positive <i class="k-r"></i>Concerns</span>` : ""}</p>
+      <p class="cm-meta"><time datetime="${esc(p.date)}">${when(p.date)}</time>${p.body.includes("cm-b ") ? `<span class="cm-key" style="color:#4d6a74;font-weight:600;font-size:.8rem"><i style="display:inline-block;width:.8rem;height:.8rem;border-radius:3px;margin:0 .3rem 0 .6rem;background:#fffdf7;border-left:3px solid #d8ccaa;vertical-align:-.05rem"></i>Facts<i style="display:inline-block;width:.8rem;height:.8rem;border-radius:3px;margin:0 .3rem 0 .6rem;background:#dcf0df;border-left:3px solid #3f9a5c;vertical-align:-.05rem"></i>Positive<i style="display:inline-block;width:.8rem;height:.8rem;border-radius:3px;margin:0 .3rem 0 .6rem;background:#f8dcd5;border-left:3px solid #cf634d;vertical-align:-.05rem"></i>Concerns</span>` : ""}</p>
       <h2 class="cm-title">${esc(p.title)}</h2>
       <div class="cm-body">${p.body}</div>
       ${p.sources?.length ? `<p class="cm-src">Sources: ${p.sources.map(x => `<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.name)}</a>`).join(", ")}.</p>` : ""}
