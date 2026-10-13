@@ -29,6 +29,11 @@ window.MV_DV = (() => {
       const go = () => { fix(document.body); new MutationObserver(ms => ms.forEach(m => m.type === "characterData" ? (m.target.parentElement && !m.target.parentElement.closest("bdi") && fix(m.target.parentElement)) : m.addedNodes.forEach(x => x.nodeType === 1 ? fix(x) : x.nodeType === 3 && x.parentElement && !x.parentElement.closest("bdi") && fix(x.parentElement)))).observe(document.body, { childList: true, subtree: true, characterData: true }); };
       document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", go) : go();
     },
+    page: h => { const m = { "./": "dv.html", "index.html": "dv.html" }; return m[h] || (/^(priorities|budget|revenue|fuel|updates|commentary|methodology|about)\.html/.test(h) ? "dv-" + h : h); },
+    stale: {
+      old: m => `ދަރަނީގެ އެންމެ ފަހުގެ ރަސްމީ އަދަދަކީ ${m} ގެ އަދަދެވެ. އެއީ ހަތް މަހަށްވުރެ ކުރީގެ އަދަދެކެވެ. ގަޑި މިހާރުވެސް ލަފާކުރަނީ އެ އަދަދުންނެވެ. އެހެންކަމުން، އިތުރު ސަމާލުކަމާއެކު ބައްލަވާ.`,
+      fetch: d => `${d} އަށްފަހު ޑޭޓާ އާކުރެވިފައެއް ނުވެއެވެ. ފެންނަނީ އެންމެ ފަހުން ލިބުނު އަދަދުތަކެވެ.`,
+    },
     t: {
       "Recent": "އާ",
       "Investment grade above this line": "މި ރޮނގުން މައްޗަށް ހުރީ އިންވެސްޓްމަންޓް ގްރޭޑް",
@@ -48,6 +53,10 @@ window.MV_DV = (() => {
       "Close": "ބަންދުކުރައްވާ",
       "new since your last visit": "ފަހުން ވަޑައިގެންނެވި ފަހަރަށްފަހު އާ",
       "New since your last visit": "ފަހުން ވަޑައިގެންނެވި ފަހަރަށްފަހު އާ",
+      "Back to Updates": "އާ މަޢުލޫމާތަށް އެނބުރި", "Back to the home page": "ފުރަތަމަ ޞަފްޙާއަށް އެނބުރި", "Back to Interest Bill": "އިންޓަރެސްޓް ޞަފްޙާއަށް އެނބުރި",
+      "Some figures couldn't be updated at the last refresh, so their previous values are shown.": "ފަހުން ޑޭޓާ އާކުރިއިރު ބައެއް އަދަދުތައް އާނުކުރެވުނެވެ. އެހެންކަމުން އެ އަދަދުތަކުގެ ކުރީގެ އަދަދުތައް ދައްކައެވެ.",
+      "Year shown": "ދައްކާ އަހަރު", "Earlier period": "ކުރީގެ މުއްދަތު", "Earlier": "ކުރީގެ", "Showing": "ދައްކަނީ", "Period shown": "ދައްކާ މުއްދަތު",
+      "Later period": "ފަހުގެ މުއްދަތު", "Later": "ފަހުގެ", "Back to the latest": "އެންމެ ފަހުގެ އަދަދަށް",
     },
     srcNotice: `<div class="src-card" role="dialog" aria-modal="true" aria-labelledby="srcT">
         <button type="button" class="x" aria-label="ބަންދުކުރައްވާ">×</button>
@@ -55,7 +64,7 @@ window.MV_DV = (() => {
         <h3 id="srcT">މި ސައިޓުގެ ހުރިހާ އަދަދެއް ބިނާކޮށްފައިވަނީ ސަރުކާރުގެ ޑޭޓާއަށް</h3>
         <p>މި ސައިޓުގައިވާ އަދަދުތައް ބިނާކޮށްފައިވަނީ <b>މޯލްޑިވްސް މަނިޓަރީ އޮތޯރިޓީ</b>، <b>މާލިއްޔަތު ވުޒާރާ</b>، <b>މޯލްޑިވްސް އިންލެންޑް ރެވެނިއު އޮތޯރިޓީ</b> އަދި <b>ދިވެހި ފުލުހުންގެ ޚިދުމަތް</b> ޝާއިޢުކުރާ އަދަދުތަކަށެވެ.</p>
         <p>އެހެންކަމުން، މި އަދަދުތައް <b>ޞައްޙަ</b> އަދި <b>ފުރިހަމަ</b> ވާނީ، ސަރުކާރުގެ ޑޭޓާގެ ފެންވަރާއި، ހާމަކޮށް ޝާއިޢުކުރާ މިންވަރާއި، ޝާއިޢުކުރާ ފަހަރުތަކުގެ މައްޗަށް ބިނާވެގެންނެވެ. ރަސްމީ ޑޭޓާ ގޯސްނަމަ، ނެތްނަމަ ނުވަތަ ލަސްވެއްޖެނަމަ، މި ސައިޓުގައި ވެސް ހުންނާނީ އެގޮތަށެވެ.</p>
-        <p class="src-small">ދަރަނީގެ ގަޑީގައި ފެންނަ އަދަދަކީ، ރަސްމީ އަދަދުތައް ނެރޭ ދެމެދު، އެންމެ ފަހުގެ ރަސްމީ އަދަދުން ލަފާކޮށްފައިވާ އަދަދެކެވެ. <a href="methodology.html">ކޮންމެ އަދަދެއް ހިސާބުކުރާ ގޮތް</a></p>
+        <p class="src-small">ދަރަނީގެ ގަޑީގައި ފެންނަ އަދަދަކީ، ރަސްމީ އަދަދުތައް ނެރޭ ދެމެދު، އެންމެ ފަހުގެ ރަސްމީ އަދަދުން ލަފާކޮށްފައިވާ އަދަދެކެވެ. <a href="dv-methodology.html">ކޮންމެ އަދަދެއް ހިސާބުކުރާ ގޮތް</a></p>
         <button type="button" class="src-ok">ރަނގަޅު</button></div>`,
     explain: {
       budget: ["ހަފްތާއިން ހަފްތާއަށް ބަޖެޓުގެ އަދަދުތައް", "ކޮންމެ ހަފްތާއަކު މާލިއްޔަތު ވުޒާރާއިން، އަހަރު ފެށުނީއްސުރެ ލިބުނު ފައިސާއާއި ހޭދަވި ފައިސާއާއި، އެ ދެމެދުގެ ތަފާތުގެ ޖުމްލަ އަދަދުތައް ޝާއިޢުކުރެއެވެ. މިއީ ފުރަތަމަ އަދަދުތަކެއް ކަމުން، ހިސާބުތައް ޗެކްކުރުމުން ކުޑަކޮށް ބަދަލުވެދާނެއެވެ. ސައިޓުން ކޮންމެ ދުވަހަކު ހެނދުނު އާ ރިޕޯޓެއް ނެރުނުތޯ ބަލައެވެ."],

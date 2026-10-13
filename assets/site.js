@@ -2,6 +2,7 @@
 const MV = (() => {
   const SEC_YEAR = 365.25 * 86400;
   const DV = window.MV_DV || null, tr = s => (DV && DV.t[s]) || s;   // Dhivehi pages load assets/dv.js first
+  const pg = h => DV ? DV.page(h) : h;   // a link to another page, in the reader's language
   const MONTHS = DV ? DV.months : ["January","February","March","April","May","June","July","August","September","October","November","December"];
   const MON = DV ? MONTHS : MONTHS.map(m => m.slice(0, 3));
 
@@ -214,9 +215,9 @@ const MV = (() => {
   function checkStale(data) {
     const msgs = [], now = Date.now(), day = 86400000;
     const tot = data.series?.total?.points; const L = tot?.length ? tot[tot.length - 1] : null;
-    if (L && now - ts(L.date) > 215 * day) msgs.push(`The latest official debt figure is for ${mLabel(L.date)}, more than seven months ago. The clock is still estimating from it, so treat it with extra caution.`);
-    if (data.fetched_at && now - new Date(data.fetched_at).getTime() > 8 * day) msgs.push(`The data hasn't been refreshed since ${fetched(data.fetched_at)}. Figures shown are the last ones received.`);
-    (data.carried_over || []).length && msgs.push("Some figures couldn't be updated at the last refresh, so their previous values are shown.");
+    if (L && now - ts(L.date) > 215 * day) msgs.push(DV ? DV.stale.old(mLabel(L.date)) : `The latest official debt figure is for ${mLabel(L.date)}, more than seven months ago. The clock is still estimating from it, so treat it with extra caution.`);
+    if (data.fetched_at && now - new Date(data.fetched_at).getTime() > 8 * day) msgs.push(DV ? DV.stale.fetch(fetched(data.fetched_at)) : `The data hasn't been refreshed since ${fetched(data.fetched_at)}. Figures shown are the last ones received.`);
+    (data.carried_over || []).length && msgs.push(tr("Some figures couldn't be updated at the last refresh, so their previous values are shown."));
     if (!msgs.length) return;
     const el = document.createElement("div"); el.className = "stale-note"; el.setAttribute("role", "status"); el.innerHTML = msgs.map(m => `<p>${m}</p>`).join("");
     document.querySelector(".site-head")?.after(el);
@@ -324,11 +325,11 @@ const MV = (() => {
     if (g != null) html += "</optgroup>";
     const idx = Math.max(0, options.findIndex(o => o.v === value)), cur = options[idx];
     el.className = "period-pick";
-    el.innerHTML = `<span class="yr-chip" title="Year shown">${cur.group ?? String(cur.v).slice(0, 4)}</span>` +
-      `<button type="button" class="step" data-d="1"${idx >= options.length - 1 ? " disabled" : ""} aria-label="Earlier period">‹ Earlier</button>` +
-      `<label><span>Showing</span> <select aria-label="Period shown">${html}</select></label>` +
-      `<button type="button" class="step" data-d="-1"${idx <= 0 ? " disabled" : ""} aria-label="Later period">Later ›</button>` +
-      `<button type="button" class="pill back"${value === latest ? " hidden" : ""}>Back to the latest</button>`;
+    el.innerHTML = `<span class="yr-chip" title="${tr("Year shown")}">${cur.group ?? String(cur.v).slice(0, 4)}</span>` +
+      `<button type="button" class="step" data-d="1"${idx >= options.length - 1 ? " disabled" : ""} aria-label="${tr("Earlier period")}">${DV ? tr("Earlier") + " ›" : "‹ Earlier"}</button>` +
+      `<label><span>${tr("Showing")}</span> <select aria-label="${tr("Period shown")}">${html}</select></label>` +
+      `<button type="button" class="step" data-d="-1"${idx <= 0 ? " disabled" : ""} aria-label="${tr("Later period")}">${DV ? "‹ " + tr("Later") : "Later ›"}</button>` +
+      `<button type="button" class="pill back"${value === latest ? " hidden" : ""}>${tr("Back to the latest")}</button>`;
     const sel = el.querySelector("select");
     const go = v => { onChange(v); asOf(el, options, v, onChange); try { const u = new URL(location.href); v === latest ? u.searchParams.delete("p") : u.searchParams.set("p", v); history.replaceState(null, "", u); } catch (e) {} };
     sel.onchange = () => go(sel.value);
@@ -383,14 +384,14 @@ const MV = (() => {
       document.addEventListener("keydown", ev => { if (ev.key === "Escape" && !dlg.hidden) close(); });
     }
     dlg.querySelector("h3").textContent = e[0]; dlg.querySelector("p").textContent = e[1]; dlg.querySelector(".explain-x").innerHTML = e[2] ? scaleHTML(e[2]) : ""; dlg.querySelector(".more").hidden = e[3] === false;
-    dlg.querySelector(".more").href = "methodology.html#" + (anchor || { deficit: "fiscal", guaranteed: "debt", foreign: "owed" }[key] || key);
+    dlg.querySelector(".more").href = pg("methodology.html") + "#" + (anchor || { deficit: "fiscal", guaranteed: "debt", foreign: "owed" }[key] || key);
     dlg._from = document.activeElement; dlg.hidden = false; dlg.querySelector(".x").focus();
     return true;
   }
   document.addEventListener("click", ev => {
     const t = ev.target.closest("[data-term]");
     if (t) { ev.preventDefault(); explain(t.dataset.term, t.dataset.anchor); return; }
-    const a = ev.target.closest('a[href^="methodology.html#"]');
+    const a = ev.target.closest(`a[href^="${pg("methodology.html")}#"]`);
     if (a && !a.closest(".explain") && !/\/methodology(\.html)?\/?$/.test(location.pathname)) { const k = a.getAttribute("href").split("#")[1]; if (explain(k)) ev.preventDefault(); }
   });
   document.addEventListener("keydown", ev => { const t = ev.target.closest?.("[data-term]"); if (t && (ev.key === "Enter" || ev.key === " ")) { ev.preventDefault(); explain(t.dataset.term, t.dataset.anchor); } });
@@ -412,12 +413,12 @@ const MV = (() => {
   addEventListener("load", headHeight);   // again once the fonts have loaded
 
   // ---------- a way back, when someone followed a link from another page ----------
-  const FROM = { updates: "Back to Updates", home: "Back to the home page", priorities: "Back to Interest Bill" };
+  const FROM = { updates: tr("Back to Updates"), home: tr("Back to the home page"), priorities: tr("Back to Interest Bill") };
   function backLink() {
     let from = null; try { from = new URLSearchParams(location.search).get("from"); } catch (e) {}
     if (!from || !FROM[from] || document.querySelector(".back-to")) return;
     const a = document.createElement("a");
-    a.className = "back-to"; a.href = from === "home" ? "./" : `${from}.html`; a.textContent = "← " + FROM[from];
+    a.className = "back-to"; a.href = from === "home" ? pg("./") : pg(`${from}.html`); a.textContent = (DV ? "→ " : "← ") + FROM[from];
     a.addEventListener("click", ev => { if (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) { ev.preventDefault(); history.back(); } });
     document.body.appendChild(a);
   }
@@ -473,7 +474,7 @@ const MV = (() => {
       setInterval(stillHere, 15000); addEventListener("pagehide", stillHere);
       const el = document.createElement("div");
       el.className = "ticker";
-      el.innerHTML = `<span class="dot" aria-hidden="true"></span><a href="priorities.html" title="${tr("The debt and the interest on it keep growing every second")}"><span class="lbl">${tr("Since you arrived")}</span><span class="pair">`
+      el.innerHTML = `<span class="dot" aria-hidden="true"></span><a href="${pg("priorities.html")}" title="${tr("The debt and the interest on it keep growing every second")}"><span class="lbl">${tr("Since you arrived")}</span><span class="pair">`
         + (debtSec != null ? `<span class="item"><span class="v num debt">…</span><span class="k">${tr(debtSec >= 0 ? "debt added" : "debt paid down")}</span></span>` : "")
         + `<span class="item"><span class="v num int">…</span><span class="k">${tr("interest accrued")}</span></span></span>`
         + (debtSec != null ? `<span class="now">${tr("Debt now")} <b class="num">…</b></span>` : "") + `</a><button type="button" aria-label="${tr("Hide the counter")}">×</button>`;
@@ -515,7 +516,7 @@ const MV = (() => {
       if (age < 0 || age > 864e5 || closed) return;
       const esc = x => String(x).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
       const bar = document.createElement("div"); bar.className = "cm-ribbon" + (shown ? " still" : ""); bar.setAttribute("role", "region"); bar.setAttribute("aria-label", "New commentary");
-      bar.innerHTML = `<a class="cm-r-link" href="${base}commentary.html#${esc(p.id)}"><span class="cm-r-tag">${tr("New commentary")}</span><span class="cm-r-t">${esc(DV && p.title_dv || p.title)}</span><span class="cm-r-go">${tr("Read →")}</span></a><button type="button" class="cm-r-x" aria-label="${tr("Close")}">×</button>`;
+      bar.innerHTML = `<a class="cm-r-link" href="${base}${pg("commentary.html")}#${esc(p.id)}"><span class="cm-r-tag">${tr("New commentary")}</span><span class="cm-r-t">${esc(DV && p.title_dv || p.title)}</span><span class="cm-r-go">${tr("Read →")}</span></a><button type="button" class="cm-r-x" aria-label="${tr("Close")}">×</button>`;
       const close = () => { try { sessionStorage.setItem(key, "1"); } catch (e) {} };
       try { sessionStorage.setItem("cmShown", p.id); } catch (e) {}
       bar.querySelector(".cm-r-link").addEventListener("click", close);
