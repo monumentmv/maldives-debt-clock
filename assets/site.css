@@ -357,3 +357,31 @@ main.dark .cm-post .cm-acts button { color: #0b2f3d; border-color: rgba(7,47,64,
 .cm-key .k-n { background: #fffdf7; border-color: #d8ccaa; } .cm-key .k-g { background: #dcf0df; border-color: #3f9a5c; } .cm-key .k-r { background: #f8dcd5; border-color: #cf634d; }
 main.dark .cm-post p.cm-meta { align-items: center; } main.dark .cm-post .cm-meta .cm-key { color: #4d6a74; font-weight: 600; }
 .cm-acts { margin-top: 1rem; } .cm-acts button { border: 1px solid rgba(169,205,214,.4); background: transparent; color: var(--foam); border-radius: 999px; padding: .4rem .95rem; font: 700 .85rem var(--body); cursor: pointer; }
+
+/* ---------- Dhivehi pages (draft): Thaana font, right-to-left layout ---------- */
+@font-face { font-family: "Noto Sans Thaana"; src: url("fonts/noto-sans-thaana-thaana-400-normal.woff2") format("woff2"); font-weight: 300 599; font-display: swap; unicode-range: U+0780-07BF, U+060C, U+061B, U+061F, U+FDF2; }
+@font-face { font-family: "Noto Sans Thaana"; src: url("fonts/noto-sans-thaana-thaana-700-normal.woff2") format("woff2"); font-weight: 600 749; font-display: swap; unicode-range: U+0780-07BF, U+060C, U+061B, U+061F, U+FDF2; }
+@font-face { font-family: "Noto Sans Thaana"; src: url("fonts/noto-sans-thaana-thaana-800-normal.woff2") format("woff2"); font-weight: 750 900; font-display: swap; unicode-range: U+0780-07BF, U+060C, U+061B, U+061F, U+FDF2; }
+html[lang="dv"] { --display: "Noto Sans Thaana", "Archivo", "Arial Narrow", Arial, sans-serif; --body: "Noto Sans Thaana", "Atkinson Hyperlegible", "Segoe UI", Roboto, Arial, sans-serif; }
+html[lang="dv"] body { font-family: var(--body); }
+html[lang="dv"] :is(p, li, .chap-a, .pcard .x, .l, .lbl, .sub, .hint, .pop) { line-height: 1.85; }
+html[lang="dv"] :is(h1, h2, h3, .chap-q, .pcard .t) { line-height: 1.5; letter-spacing: 0; }
+html[lang="dv"] svg { direction: ltr; }
+html[lang="dv"] :is(.chap-head, .lend-btn, .lb, .owe-cta) { text-align: right; }
+html[lang="dv"] .stat .n { text-align: right; }
+html[lang="dv"] .lang-sw { font-family: "Atkinson Hyperlegible", sans-serif; border: 1px solid rgba(169,205,214,.35); }
+html[lang="dv"] { font-size: 106.25%; }
+/* the depth gauge moves to the left, so right-to-left text has the right-hand side to itself */
+html[lang="dv"] .gauge { right: auto; left: max(.6rem, env(safe-area-inset-left)); }
+html[lang="dv"] .gauge .pole { right: auto; left: .4rem; }
+html[lang="dv"] .gauge .tick { right: auto; left: 1.15rem; }
+html[lang="dv"] .gauge .tick span { right: auto; left: 9px; }
+html[lang="dv"] .gauge .now { right: auto; left: 1.1rem; }
+html[lang="dv"] .gauge .now::after { right: auto; left: 0; }
+html[lang="dv"] .readout { padding: 0 var(--gutter) 0 calc(var(--gutter) + 3.2rem); }
+html[lang="dv"] .ratio-tag { left: auto; right: var(--gutter); }
+html[lang="dv"] .gdp-line span { left: auto; right: var(--gutter); }
+html[lang="dv"] .gdp-line span b { margin-right: 0; margin-left: .45rem; }
+html[lang="dv"] .ratio-tag b { margin-right: 0; margin-left: .25rem; }
+html[lang="dv"] .clock .cur { margin-right: 0; margin-left: .18em; }
+html[lang="dv"] bdi { unicode-bidi: isolate; direction: ltr; }

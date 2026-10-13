@@ -1,0 +1,993 @@
+<!doctype html>
+<html lang="dv" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<script>try{var t=localStorage.getItem("theme2");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#072f40">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css?v=20261014d">
+<title>ދިވެހިރާއްޖޭގެ ޤައުމީ ދަރަނީގެ ގަޑި</title>
+<meta property="og:url" content="https://mvdebtclock.org/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MV Debt Clock">
+<meta property="og:image" content="https://mvdebtclock.org/assets/share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="An island above a sea, with a dashed line deep below the surface, showing what the Maldivian government owes and the debt as a share of GDP.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://mvdebtclock.org/assets/share.png">
+<meta name="description" content="ދިވެހި ސަރުކާރުގެ ދަރަނި، ވަގުތުން ވަގުތަށް. ރަސްމީ އަދަދުތަކުން.">
+<meta property="og:title" content="Maldives National Debt Clock">
+<meta property="og:description" content="How much the Maldivian government owes, right now.">
+<style>
+  @property --sky-a { syntax: "<color>"; inherits: true; initial-value: #d7ecef; }
+  @property --sky-b { syntax: "<color>"; inherits: true; initial-value: #eef6f4; }
+  .hero { position: relative; min-height: 70svh; overflow: hidden; --sky-ink: #072f40; --sky-muted: #4a6b78;
+    background: linear-gradient(to bottom, var(--sky-a) 0, var(--sky-b) var(--hz, 210px)); transition: --sky-a 2.5s ease, --sky-b 2.5s ease; }
+  .hero.is-night { --sky-ink: #e6f3f5; --sky-muted: #a9cdd6; }
+  .water { position: absolute; left: 0; right: 0; bottom: 0; height: 0; background: linear-gradient(to bottom, var(--lagoon) 0, var(--deep) 6rem, var(--abyss) 100%); transition: height 2.4s cubic-bezier(.2,.7,.2,1); }
+  .wave { position: absolute; left: 0; top: -23px; width: 200%; height: 24px; animation: drift 14s linear infinite; }
+  .wave path { fill: var(--lagoon); }
+  .wave.back { top: -30px; height: 30px; animation-duration: 23s; animation-direction: reverse; opacity: .55; }
+  .wave.back path { fill: #2a9d96; }
+  @keyframes drift { to { transform: translateX(-50%); } }
+  .surface { position: absolute; left: 0; right: 0; height: 0; z-index: 3; pointer-events: none; transition: top 2.4s cubic-bezier(.2,.7,.2,1); }
+  .surface .front { position: absolute; left: 0; top: -10px; width: 200%; height: 22px; animation: drift 9s linear infinite; }
+  .surface .front path { fill: var(--lagoon); }
+  .surface .foam { position: absolute; left: 0; top: -12px; width: 200%; height: 8px; animation: drift 9s linear infinite; opacity: .7; }
+  .island { position: absolute; width: clamp(190px, 24vw, 330px); top: 0; left: 52%; transform: translateY(-76.5%); z-index: 3; }
+  .island .fronds { transform-box: fill-box; }
+  .sky { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .sun, .moon { transition: left 2.5s cubic-bezier(.2,.7,.2,1), top 2.5s cubic-bezier(.2,.7,.2,1), opacity 1.5s; }
+  .sun { position: absolute; top: 1.6rem; left: 74%; width: 3.4rem; height: 3.4rem; margin: -1.7rem 0 0 -1.7rem; border-radius: 50%; background: radial-gradient(circle, #fff6d6 0 45%, #ffe9a8 60%, rgba(255,233,168,0) 72%); box-shadow: 0 0 60px 30px rgba(255,240,190,.45); }
+  .sun.low { background: radial-gradient(circle, #fff1d0 0 40%, #ffb36b 58%, rgba(255,150,90,0) 72%); box-shadow: 0 0 70px 34px rgba(255,150,90,.4); }
+  .moon { position: absolute; width: 1.9rem; height: 1.9rem; margin: -.95rem 0 0 -.95rem; border-radius: 50%; background: #f3f1e4; box-shadow: inset -.45rem -.2rem 0 #d9d5c2, 0 0 28px 8px rgba(243,241,228,.18); opacity: 0; }
+  .stars { position: absolute; inset: 0; opacity: 0; transition: opacity 2.5s; }
+  .stars i { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #fff; }
+  .hero.is-night .cloud { opacity: .18 !important; }
+  .cloud { position: absolute; height: 1.4rem; border-radius: 999px; background: rgba(255,255,255,.85); filter: blur(.4px); animation: cloud 140s linear infinite; }
+  .cloud::before, .cloud::after { content: ""; position: absolute; background: inherit; border-radius: 50%; }
+  .cloud::before { width: 2.2rem; height: 2.2rem; left: 1rem; top: -1.1rem; }
+  .cloud::after { width: 1.6rem; height: 1.6rem; left: 2.8rem; top: -.7rem; }
+  .cloud.c1 { width: 6rem; top: 3.2rem; left: 30%; }
+  .cloud.c2 { width: 4.4rem; top: 1.6rem; left: 60%; opacity: .7; animation-duration: 190s; animation-delay: -70s; }
+  @keyframes cloud { from { transform: translateX(-60vw); } to { transform: translateX(70vw); } }
+  .rays { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+  .rays i { position: absolute; top: 0; width: 5rem; height: 26rem; background: linear-gradient(to bottom, rgba(255,255,255,.16), rgba(255,255,255,0)); transform: skewX(-18deg); transform-origin: top; animation: ray 9s ease-in-out infinite alternate; }
+  .rays i:nth-child(1) { left: 12%; } .rays i:nth-child(2) { left: 34%; width: 3rem; animation-delay: -3s; } .rays i:nth-child(3) { left: 63%; width: 6rem; animation-delay: -5s; } .rays i:nth-child(4) { left: 85%; width: 2.5rem; animation-delay: -7s; }
+  @keyframes ray { from { opacity: .35; } to { opacity: 1; } }
+  .island svg { display: block; width: 100%; height: auto; }
+  .critter { position: absolute; left: 0; top: 0; z-index: 4; will-change: transform; }
+  .critter.under { z-index: 1; }
+  .critter.boat { z-index: 2; }
+  .surface .front, .surface .foam { z-index: 2; }
+  .bubble { position: absolute; bottom: -10px; width: 6px; height: 6px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.35); animation: rise linear infinite; z-index: 1; }
+  @keyframes rise { to { transform: translateY(var(--rise)); opacity: 0; } }
+  .gauge { position: absolute; top: 0; bottom: 0; right: max(.6rem, env(safe-area-inset-right)); width: 3.4rem; z-index: 4; pointer-events: none; }
+  .gauge .pole { position: absolute; right: .4rem; top: 0; bottom: 0; width: 8px; background: repeating-linear-gradient(to bottom, #fff 0 10px, #e85a4f 10px 20px); border-radius: 2px; opacity: .9; box-shadow: 0 0 0 1px rgba(7,47,64,.25); }
+  .gauge .tick { position: absolute; right: 1.15rem; height: 0; border-top: 1px solid currentColor; width: 6px; }
+  .gauge .tick span { position: absolute; right: 9px; top: -.6rem; font-size: .72rem; font-weight: 700; white-space: nowrap; }
+  .gauge .now { position: absolute; right: 1.1rem; transform: translateY(calc(-100% - 4px)); background: var(--sun); color: var(--abyss); font: 800 .82rem var(--body); padding: .15rem .45rem; border-radius: 3px; white-space: nowrap; transition: top 2.4s cubic-bezier(.2,.7,.2,1); }
+  .gauge .now::after { content: ""; position: absolute; right: 0; bottom: -6px; border: 6px solid transparent; border-bottom: 0; border-top-color: var(--sun); }   /* points down at the line */
+  .gdp-line { position: absolute; left: 0; right: 0; height: 0; border-top: 2px dashed var(--sun); opacity: 0; transition: opacity .6s 1.8s; }
+  .gdp-line { z-index: 4; transition: opacity .6s 1.2s, top 2.4s cubic-bezier(.2,.7,.2,1); }
+  .gdp-line span b { font-size: 1.05rem; margin-right: .45rem; }
+  .gdp-line span { position: absolute; left: var(--gutter); top: -2.05rem; font-size: .8rem; font-weight: 700; color: var(--abyss); background: var(--sun); padding: .1rem .5rem; border-radius: 3px; white-space: nowrap; }
+  .ratio-tag { position: absolute; z-index: 5; top: 1rem; left: var(--gutter); font-size: .95rem; color: var(--sky-ink); transition: color 2.5s; max-width: 17rem; line-height: 1.35; }
+  .ratio-tag b { font-family: var(--display); font-size: 1.6rem; font-weight: 800; font-variation-settings: "wdth" 75; margin-right: .25rem; }
+  .ratio-tag small { display: block; font-size: .82rem; color: var(--sky-muted); margin-top: .2rem; }
+  .readout { position: absolute; z-index: 4; left: 0; right: 0; padding: 0 calc(var(--gutter) + 3.2rem) 0 var(--gutter); max-width: 76rem; margin: 0 auto; color: var(--foam); }
+  .readout.dry { color: var(--ink); }
+  .readout p, .readout strong { color: inherit; }
+  .readout h1 { font: 700 clamp(1rem, 2.4vw, 1.3rem) var(--body); margin: 0 0 .3rem; }
+  .clock { font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 66; font-size: clamp(2.5rem, 11.2vw, 8.5rem); line-height: .95; letter-spacing: -.01em; margin: 0; white-space: nowrap; text-shadow: 0 2px 24px rgba(7,47,64,.35); }
+  .clock .cur { font-weight: 400; font-size: .4em; vertical-align: .95em; margin-right: .18em; }
+  .asof { margin: .8rem 0 0; font-size: clamp(.95rem, 2.2vw, 1.15rem); }
+  .asof time { font-weight: 700; }
+  .sub { font-size: clamp(.95rem, 2vw, 1.1rem); margin: .35rem 0 0; max-width: 40rem; opacity: .85; }
+
+  /* the short version */
+  .plain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 1.1rem; margin-top: 1.75rem; }
+  .pcard { display: flex; flex-direction: column; gap: .35rem; padding: 1.35rem 1.35rem 1.15rem; border-radius: 14px; background: rgba(255,255,255,.05); border: 1px solid rgba(169,205,214,.12); color: var(--mist); }
+  .pcard .ico, .pcard .big { color: var(--c); }
+  .pcard .x { flex: 1; }
+  .pcard .ico { margin-bottom: .4rem; }
+  .pcard .big { font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 72; font-size: clamp(1.7rem, 3.4vw, 2.3rem); line-height: 1.05; }
+  .pcard .t { color: var(--foam); font-weight: 700; font-size: 1.02rem; }
+  .pcard .x { font-size: .95rem; line-height: 1.5; }
+  .pcard .go { margin-top: .6rem; font-weight: 700; font-size: .9rem; color: var(--sun); text-decoration: none; }
+  .pcard .go:hover { text-decoration: underline; }
+  .pcard .term { color: var(--foam); }
+  .pcard:hover { border-color: rgba(169,205,214,.35); }
+  /* questions that open up */
+  .chapters h2 { margin-bottom: .4rem; }
+  .chapters .chapter { margin: 0 !important; padding: 0 !important; border: 0 !important; min-height: 0; }
+  .chapter + .chapter { margin-top: 0; }
+  .chap-head { width: 100%; display: grid; grid-template-columns: 3rem 1fr auto; gap: 1rem; align-items: center; text-align: left; background: rgba(255,255,255,.04); border: 1px solid rgba(169,205,214,.14); border-radius: 12px; padding: 1rem 1.1rem; margin-top: .9rem; color: inherit; font: inherit; cursor: pointer; }
+  .chap-head:hover { border-color: rgba(169,205,214,.35); }
+  .chap-head .ico { margin: 0; }
+  .chap-q { display: block; font-family: var(--display); font-weight: 800; font-size: clamp(1.15rem, 2.4vw, 1.45rem); color: var(--foam); line-height: 1.2; }
+  .chap-a { display: block; margin-top: .25rem; color: var(--mist); font-size: .98rem; line-height: 1.45; }
+  .chap-a b { color: var(--foam); }
+  .chap-more { font-weight: 700; font-size: .88rem; color: var(--sun); white-space: nowrap; }
+  .chap-head[aria-expanded="true"] .show, .chap-head[aria-expanded="false"] .hide { display: none; }
+  .chap-head[aria-expanded="true"] { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+  .chap-body { border: 1px solid rgba(169,205,214,.14); border-top: 0; border-radius: 0 0 12px 12px; padding: 1.5rem 1.25rem 2rem; }
+  .chap-body > div > section, .chap-body section { padding: 0; }
+  @media (max-width: 600px) { .chap-head { grid-template-columns: 2.6rem 1fr; } .chap-more { grid-column: 2; } .chap-body { padding: 1.25rem .9rem 1.5rem; } }
+  html:is([data-theme="light"],[data-theme="sand"],[data-theme="lagoon"]) :is(.pcard, .chap-head) { background: rgba(7,47,64,.05); border-color: rgba(7,47,64,.12); }
+  .hero-stats { margin-top: 2.25rem; }
+  .hero-stats .l { color: #cfe6ea; }
+  .readout .fresh { background: rgba(5,34,47,.45); }
+  .readout .since { margin: 1.25rem 0 0; background: rgba(5,34,47,.55); }
+  .pop { font-size: .82rem; color: #a9cdd6; margin-top: .6rem; max-width: 22rem; line-height: 1.4; }
+  .pop a { color: var(--sun); }
+  .why { margin: 2.25rem 0 .5rem; padding: 1.4rem 1.5rem; border-radius: 8px; background: rgba(244,201,93,.07); border: 1px solid rgba(244,201,93,.35); max-width: 52rem; }
+  .why h3 { margin: 0 0 .6rem !important; font-size: 1.15rem; color: var(--sun); }
+  .why p { margin: 0 0 .9rem; }
+  .why .sbar { display: flex; height: 1.6rem; border-radius: 4px; overflow: hidden; gap: 2px; margin: 1rem 0 .9rem; }
+  .why ul { list-style: none; padding: 0; margin: 0 0 .9rem; display: grid; gap: .55rem; }
+  .why li { display: grid; grid-template-columns: .9rem 1fr; gap: .7rem; align-items: baseline; color: var(--mist); }
+  .why li i { width: .9rem; height: .9rem; border-radius: 2px; transform: translateY(.12rem); }
+  .why li b { color: var(--foam); }
+  .why .small { font-size: .85rem; color: var(--mist); margin: 0; }
+  .l12 { display: flex; flex-wrap: wrap; gap: .5rem 2rem; margin-top: 1.25rem; padding: .9rem 1.1rem; background: rgba(255,255,255,.05); border-radius: 6px; font-size: .95rem; color: var(--mist); }
+  .l12 b { color: var(--foam); } .l12 b.red { color: var(--red); }
+  .notice { position: absolute; inset: auto 1.25rem 2rem 1.25rem; max-width: 36rem; margin: 0 auto; background: var(--foam); color: var(--ink); padding: 1rem 1.25rem; border-radius: 6px; display: none; }
+  .notice.on { display: block; }
+
+  .bar { display: flex; height: 3.25rem; border-radius: 4px; overflow: hidden; margin: 1.5rem 0 1.25rem; gap: 2px; }
+  .what-in-btn { border: 0; background: none; padding: 0; margin-left: .5rem; color: var(--sun); font: 700 .9rem var(--body); text-decoration: underline dotted; cursor: pointer; }
+  .what-in table.wi { width: 100%; border-collapse: collapse; font-size: .88rem; margin: .5rem 0 1rem; }
+  .what-in .wi th, .what-in .wi td { text-align: right; padding: .3rem .4rem; border-bottom: 1px solid #e3eef0; }
+  .what-in .wi th:first-child, .what-in .wi td:first-child { text-align: left; }
+  .what-in .wi tr.t td { border-bottom: 0; }
+  .lenders { margin-top: 2rem; }
+  .lend-btn { display: flex; justify-content: space-between; align-items: center; gap: 1rem; width: 100%; font: 700 1rem var(--body); color: var(--foam); background: rgba(255,255,255,.06); border: 1px solid rgba(169,205,214,.3); border-radius: 10px; padding: .85rem 1rem; cursor: pointer; text-align: left; }
+  .lend-btn[aria-expanded="true"] span:last-child { transform: rotate(180deg); }
+  #lendPanel { margin-top: 1.25rem; }
+  #lendPanel h4 { margin: 1.75rem 0 .6rem; font-size: 1rem; color: var(--foam); }
+  .lend-top { display: flex; flex-wrap: wrap; gap: .6rem 1rem; align-items: center; }
+  .lend-asof { display: inline-flex; gap: .5rem; align-items: center; font-weight: 700; color: var(--foam); }
+  .lend-asof select { font: 700 .9rem var(--body); background: rgba(255,255,255,.08); color: var(--foam); border: 1px solid rgba(169,205,214,.3); border-radius: 6px; padding: .3rem .4rem; }
+  .lend-asof select option { color: #072f40; background: #fff; }
+  .lend-note { margin: 1rem 0 0 !important; font-size: .92rem; }
+  .lend-sum { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: .8rem; margin-top: 1.1rem; }
+  .lend-sum div { background: rgba(255,255,255,.05); border-radius: 8px; padding: .75rem .9rem; }
+  .lend-sum b { display: block; font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 75; font-size: 1.5rem; color: var(--foam); line-height: 1.1; }
+  .lend-sum span { font-size: .82rem; color: var(--mist); }
+  .lend-bars { display: grid; gap: .35rem; }
+  .lb { display: grid; grid-template-columns: minmax(8rem, 13rem) 1fr 6.5rem; gap: .8rem; align-items: center; background: none; border: 0; padding: .2rem .3rem; border-radius: 6px; color: var(--foam); font: .9rem var(--body); text-align: left; cursor: pointer; }
+  .lb:hover, .lb.on { background: rgba(255,255,255,.07); }
+  .lb .t { height: .7rem; background: rgba(255,255,255,.08); border-radius: 999px; position: relative; overflow: hidden; }
+  .lb .t i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; }
+  .lb .v { text-align: right; color: var(--mist); }
+  .lend-years svg { width: 100%; height: auto; display: block; }
+  .lend-years text { fill: var(--mist); font-size: 12px; }
+  .lend-tools { display: flex; flex-wrap: wrap; gap: .6rem 1rem; align-items: center; margin: 1.75rem 0 .75rem; }
+  .lend-tools input { flex: 1; min-width: 12rem; font: .95rem var(--body); padding: .5rem .7rem; border-radius: 8px; border: 1px solid rgba(169,205,214,.35); background: rgba(255,255,255,.06); color: var(--foam); }
+  .lend-tools span { font-size: .85rem; color: var(--mist); }
+  .lend-tbl { width: 100%; border-collapse: collapse; font-size: .88rem; }
+  .lend-tbl th { text-align: left; color: var(--mist); font-weight: 700; padding: .45rem .5rem; border-bottom: 1px solid rgba(169,205,214,.3); white-space: nowrap; }
+  .lend-tbl th[data-sort] { cursor: pointer; color: var(--foam); }
+  .lend-tbl td { padding: .5rem; border-bottom: 1px solid rgba(169,205,214,.12); vertical-align: top; color: var(--foam); }
+  .lend-tbl td small { display: block; color: var(--mist); font-size: .78rem; margin-top: .1rem; }
+  .lend-tbl .r { text-align: right; white-space: nowrap; }
+  .lend-map { margin-top: 1rem; border-radius: 12px; overflow: hidden; background: rgba(0,0,0,.18); }
+  .lend-map svg { display: block; width: 100%; height: auto; }
+  .lend-map .land { fill: rgba(169,205,214,.13); stroke: none; }
+  .lend-map .lc.loans { fill: rgba(63,184,176,.32); } .lend-map .lc.guarantees { fill: rgba(179,157,219,.32); }
+  .lend-map .arc { fill: none; stroke-linecap: butt; opacity: .9; cursor: pointer; animation: flow 1.6s linear infinite; }
+  .lend-map .arc.loans { stroke: #3fb8b0; } .lend-map .arc.guarantees { stroke: #b39ddb; }
+  .lend-map .arc.dim { opacity: .15; }
+  .lend-map .node { cursor: pointer; } .lend-map .labels text { cursor: pointer; fill: var(--foam); font-weight: 700; paint-order: stroke; stroke: rgba(7,47,64,.85); stroke-width: 3px; } .lend-map .node text { fill: var(--foam); font-weight: 700; paint-order: stroke; stroke: rgba(7,47,64,.85); stroke-width: 3px; }
+  .lend-map .node.on circle, .lend-map .node.on rect { stroke: #fff; stroke-width: 3px; }
+  .lend-map .male { fill: #ff5f56; stroke: #fff; stroke-width: 2px; } .lend-map .male-t { fill: #fff; font-weight: 800; paint-order: stroke; stroke: rgba(7,47,64,.85); stroke-width: 3px; }
+  @keyframes flow { to { stroke-dashoffset: -22; } }
+  @media (prefers-reduced-motion: reduce) { .lend-map .arc { animation: none; stroke-dasharray: none !important; } }
+  .chk { display: inline-flex; gap: .45rem; align-items: center; font-size: .9rem; color: var(--foam); cursor: pointer; }
+  .map-key { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; margin-top: .7rem; font-size: .82rem; color: var(--mist); }
+  .map-key i { display: inline-block; width: .9rem; height: .3rem; border-radius: 2px; margin-right: .35rem; vertical-align: middle; }
+  .map-key i.dot { width: .6rem; height: .6rem; border-radius: 50%; background: var(--mist); }
+  .map-key i.dia { width: .55rem; height: .55rem; border-radius: 2px; background: var(--mist); transform: rotate(45deg); }
+  .map-card { margin-top: .9rem; }
+  .mc-t { display: flex; align-items: baseline; gap: .6rem; font: 800 1.25rem var(--display); color: var(--foam); }
+  .mc-t small { font: .85rem var(--body); color: var(--mist); }
+  .mc-x { margin-left: auto; border: 0; background: rgba(255,255,255,.08); color: var(--mist); width: 1.9rem; height: 1.9rem; border-radius: 50%; cursor: pointer; font-size: 1.1rem; }
+  .mc-b { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: .8rem; margin-top: .6rem; }
+  .mc-k { background: rgba(255,255,255,.05); border-left: 3px solid var(--kc); border-radius: 8px; padding: .75rem .9rem; display: grid; gap: .2rem; }
+  .mc-h { font-size: .8rem; font-weight: 700; color: var(--kc); text-transform: uppercase; letter-spacing: .04em; }
+  .mc-k b { font: 800 1.4rem var(--display); color: var(--foam); }
+  .mc-n, .mc-l { font-size: .85rem; color: var(--mist); }
+  .mc-go { justify-self: start; margin-top: .35rem; font: 700 .82rem var(--body); color: var(--foam); background: transparent; border: 1px solid rgba(169,205,214,.4); border-radius: 999px; padding: .3rem .8rem; cursor: pointer; }
+  #mapOff { margin-top: .9rem; }
+  .lend-more { margin-top: .9rem; font: 700 .88rem var(--body); color: var(--foam); background: rgba(255,255,255,.06); border: 1px solid rgba(169,205,214,.35); border-radius: 999px; padding: .45rem 1rem; cursor: pointer; }
+  .lend-years svg { height: 160px; }
+  .what-in .wi td { white-space: nowrap; }
+  .what-in .wi td:first-child { white-space: normal; }
+  .lend-hist { margin: -.25rem 0 1rem; font-size: .88rem; color: var(--mist); border-left: 3px solid rgba(244,201,93,.6); padding: .35rem .7rem; }
+  .lend-hist a { color: var(--foam); }
+  .map-time { display: flex; align-items: center; gap: .7rem; margin-top: .8rem; }
+  .map-time input { flex: 1; accent-color: #f4c95d; }
+  .map-time span { font-weight: 700; color: var(--foam); min-width: 9.5rem; font-size: .92rem; }
+  .map-play { border: 1px solid rgba(169,205,214,.4); background: transparent; color: var(--foam); width: 2.2rem; height: 2.2rem; border-radius: 50%; cursor: pointer; font-size: .85rem; flex: none; }
+  .map-tot { margin: .5rem 0 0; font-size: .92rem; color: var(--mist); } .map-tot b { color: var(--foam); }
+  .map-warn { border-left: 3px solid #f4c95d; padding: .45rem .75rem; background: rgba(244,201,93,.08); border-radius: 0 8px 8px 0; }
+  .linkish { border: 0; background: none; padding: 0; color: var(--sun); font: inherit; font-weight: 700; text-decoration: underline; cursor: pointer; }
+  .svc-key { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; margin: .4rem 0 .2rem; font-size: .8rem; color: var(--mist); }
+  .svc-key i { display: inline-block; width: .8rem; height: .8rem; border-radius: 2px; margin-right: .35rem; vertical-align: -1px; }
+  .lend-cards small { display: block; margin-top: .3rem; font-size: .8rem; color: var(--mist); line-height: 1.4; }
+  .mc-spark { margin-top: .4rem; } .mc-spark svg { width: 100%; height: 46px; display: block; }
+  .mc-row { display: flex; justify-content: space-between; gap: .6rem; font-size: .85rem; color: var(--mist); } .mc-row b { font: 700 .85rem var(--body); color: var(--foam); }
+  .lb .t i.f { opacity: .3; }
+  .lend-for .lb { grid-template-columns: minmax(8rem, 13rem) 1fr 10.5rem; } .lend-for .lb .v small { white-space: nowrap; }
+  @media (max-width: 600px) { .lend-for .lb { grid-template-columns: 7rem 1fr 7.6rem; } .lend-for .lb .v small { white-space: normal; } }
+  .lb .v small { display: block; font-size: .72rem; color: var(--mist); font-weight: 400; }
+  .lend-flag { display: inline-block; margin-left: .35rem; padding: .05rem .45rem; border-radius: 999px; font-size: .72rem; font-weight: 700; background: rgba(255,95,86,.18); color: #ffb3ad; vertical-align: 1px; }
+  .owe-cta { display: inline-flex; align-items: center; gap: .75rem; margin: .9rem 0 1rem; padding: .6rem 1.1rem .6rem .65rem; border-radius: 999px; border: 2px solid #f4c95d; background: rgba(7,47,64,.92); color: #fff; cursor: pointer; text-align: left; box-shadow: 0 0 0 0 rgba(244,201,93,.55); animation: owe-pulse 2.6s ease-out infinite; font: inherit; }
+  .owe-cta:hover, .owe-cta:focus-visible { background: #0b3a4f; transform: translateY(-1px); }
+  .owe-globe { width: 2.3rem; height: 2.3rem; border-radius: 50%; background: #f4c95d; display: grid; place-items: center; flex: none; }
+  .owe-globe svg { width: 1.45rem; height: 1.45rem; fill: none; stroke: #07303f; stroke-width: 1.6; }
+  .owe-t b { display: block; font: 800 1.02rem var(--body); color: #fff; } .owe-t small { display: block; font-size: .8rem; color: #cfe6ec; }
+  .owe-arr { font-size: 1.3rem; color: #f4c95d; transition: transform .2s; } .owe-cta:hover .owe-arr { transform: translateX(3px); }
+  @keyframes owe-pulse { 0% { box-shadow: 0 0 0 0 rgba(244,201,93,.55); } 70% { box-shadow: 0 0 0 14px rgba(244,201,93,0); } 100% { box-shadow: 0 0 0 0 rgba(244,201,93,0); } }
+  @keyframes owe-spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .owe-cta, .owe-globe svg { animation: none; } }
+  @media (max-width: 600px) { .owe-cta { padding: .5rem .9rem .5rem .5rem; gap: .55rem; } .owe-t b { font-size: .92rem; } .owe-t small { font-size: .74rem; } }
+  .q-nav { display: flex; align-items: center; gap: .6rem; margin: .3rem 0 0; padding: .6rem .7rem; border-radius: 12px; background: rgba(255,255,255,.05); }
+  .q-zone > .q-nav, .l-zone > .l-pick { position: sticky; top: var(--headH, 60px); z-index: 20; background: var(--abyss); border: 1px solid rgba(169,205,214,.18); box-shadow: 0 8px 16px -10px rgba(0,0,0,.7); }
+  .l-zone > .l-pick { margin: 0 -.5rem; padding: .5rem; border-radius: 0 0 10px 10px; }
+  .parts { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; margin: 1rem 0 .4rem; }
+  .part { display: block; text-align: left; border: 1px solid rgba(169,205,214,.2); background: rgba(255,255,255,.04); border-left: 4px solid var(--kc); border-radius: 10px; padding: .9rem 1rem; color: var(--foam); font: inherit; cursor: pointer; }
+  .part .go { border: 0; background: none; padding: 0; cursor: pointer; text-align: left; }
+  .why-fx { display: block; margin-top: .55rem; padding: .5rem .7rem; border-radius: 8px; background: rgba(244,201,93,.1); border-left: 3px solid #f4c95d; color: var(--foam); font-size: .88rem; line-height: 1.5; }
+  .why-fx.big { font-size: .98rem; margin: 0 0 .9rem; padding: .75rem .95rem; } .why-fx b { color: var(--sun); }
+  .part .k { font: 800 1.05rem var(--body); color: var(--foam); } .part b { display: block; font: 800 1.9rem var(--display); color: var(--foam); margin: .15rem 0; }
+  .part .s { display: block; font-size: .86rem; color: var(--mist); line-height: 1.45; } .part .go { display: inline-block; margin-top: .45rem; font: 700 .85rem var(--body); color: var(--sun); }
+  @media (max-width: 640px) { .parts { grid-template-columns: 1fr; } }
+  .parts-lead { grid-column: 1 / -1; margin: 0; color: var(--foam); font-size: 1.02rem; line-height: 1.55; }
+  .part-h { display: flex; align-items: center; gap: .6rem; font: 800 1.3rem var(--body); color: var(--foam); margin: 2.2rem 0 .5rem; padding-top: 1rem; border-top: 1px solid rgba(169,205,214,.18); scroll-margin-top: calc(var(--headH, 60px) + 90px); }
+  .part-n { display: inline-grid; place-items: center; width: 1.8rem; height: 1.8rem; border-radius: 50%; background: #f4c95d; color: #07303f; font: 800 .95rem var(--body); flex: none; }
+  .q-step { border: 1px solid rgba(169,205,214,.4); background: transparent; color: var(--foam); border-radius: 999px; padding: .35rem .8rem; font: 700 .85rem var(--body); cursor: pointer; flex: none; }
+  .q-step:disabled { opacity: .35; cursor: default; }
+  .q-mid { flex: 1; display: grid; gap: .2rem; min-width: 0; } .q-lbl { font-weight: 800; color: var(--foam); text-align: center; font-size: .98rem; }
+  .q-mid input { width: 100%; accent-color: #f4c95d; }
+  .q-src { font-size: .82rem; color: var(--mist); margin: .45rem 0 0; } .q-src a { color: var(--sun); }
+  @media (max-width: 600px) { .q-step span { display: none; } .q-nav { gap: .4rem; padding: .5rem; } }
+  .flag { display: inline-block; width: 1.25em; height: .94em; border-radius: 2px; vertical-align: -.1em; margin-right: .35em; object-fit: cover; box-shadow: 0 0 0 1px rgba(255,255,255,.15); }
+  .flag + .flag { margin-left: -.15em; }
+  .flag-inst { display: inline-block; width: .7em; height: .7em; margin: 0 .45em 0 .2em; background: var(--mist); transform: rotate(45deg); border-radius: 2px; vertical-align: .05em; }
+  .flag-world { display: inline-block; width: 1em; height: 1em; margin-right: .35em; vertical-align: -.15em; }
+  .cty { border: 0; background: none; padding: 0; color: inherit; font: inherit; cursor: pointer; text-align: left; text-decoration: underline dotted rgba(169,205,214,.5); text-underline-offset: 3px; }
+  .cty:hover { color: #fff; }
+  .lend-tools { flex-wrap: wrap; }
+  .lend-tools select { background: rgba(255,255,255,.06); color: var(--foam); border: 1px solid rgba(169,205,214,.3); border-radius: 8px; padding: .45rem .6rem; font: inherit; font-size: .9rem; max-width: 100%; }
+  .lend-years rect { cursor: pointer; } .lend-years rect:hover { opacity: .8; }
+  /* a full page for one country, lender or year, over the map, with a way back */
+  body.sheet-open { overflow: hidden; }
+  .sheet { --abyss: #072f40; --foam: #ffffff; --mist: #a9cdd6; --sun: #f4c95d; }
+  .sheet { position: fixed; inset: 0; z-index: 60; background: var(--abyss, #072f40); color: var(--foam); overflow-y: auto; -webkit-overflow-scrolling: touch; animation: sheet-in .22s ease-out; }
+  @keyframes sheet-in { from { transform: translateX(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .sheet { animation: none; } }
+  .sheet-bar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: .7rem; padding: .7rem var(--gutter, 16px); background: rgba(6,42,57,.96); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(169,205,214,.15); }
+  .sheet-back { border: 1px solid rgba(169,205,214,.45); background: transparent; color: #fff; border-radius: 999px; padding: .45rem .95rem; font: 700 .9rem var(--body); cursor: pointer; flex: none; }
+  .sheet-ttl { font: 800 1.15rem var(--display); color: #fff; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sheet-ttl .flag { width: 1.5em; height: 1.12em; }
+  .sheet-body { max-width: 62rem; margin: 0 auto; padding: 1.1rem var(--gutter, 16px) 3rem; }
+  .sheet-body h3 { font: 800 1.15rem var(--body); color: #fff; margin: 1.6rem 0 .5rem; }
+  .sheet-acts { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .9rem; }
+  .sheet-acts button { border: 1px solid rgba(169,205,214,.4); background: rgba(255,255,255,.04); color: var(--foam); border-radius: 999px; padding: .4rem .9rem; font: 700 .85rem var(--body); cursor: pointer; }
+  .sheet-acts button.done { border-color: #7ddc7a; color: #7ddc7a; }
+  .lead-in { font-size: 1.05rem; line-height: 1.55; color: var(--foam); margin: .2rem 0 .4rem; }
+  .lend-for .lb { cursor: pointer; }
+  .sh-tot { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: .8rem; margin-top: .6rem; }
+  .sh-tot > div { background: rgba(255,255,255,.05); border-left: 3px solid var(--kc); border-radius: 8px; padding: .8rem .95rem; }
+  .sh-tot b { display: block; font: 800 1.6rem var(--display); color: #fff; } .sh-tot span { font-size: .85rem; color: var(--mist); }
+  .sh-tot .mc-row { margin-top: .3rem; } .sh-tot .mc-row b { display: inline; font: 700 .9rem var(--body); color: #fff; }
+  .sh-chart svg { width: 100%; display: block; } .sh-chart text { fill: var(--mist); font-size: 11px; }
+  .sh-list { display: grid; gap: .55rem; }
+  .sh-item { background: rgba(255,255,255,.04); border-radius: 8px; padding: .7rem .85rem; display: grid; grid-template-columns: 1fr auto; gap: .2rem .8rem; }
+  .sh-item .w { font-weight: 700; color: #fff; } .sh-item .p { grid-column: 1 / -1; font-size: .86rem; color: var(--mist); }
+  .sh-item .a { text-align: right; font-weight: 800; color: #fff; white-space: nowrap; } .sh-item .a small { display: block; font-weight: 400; font-size: .78rem; color: var(--mist); }
+  .sh-item .m { font-size: .8rem; color: var(--mist); }
+  .tag { display: inline-block; padding: .05rem .5rem; border-radius: 999px; font-size: .72rem; font-weight: 700; background: rgba(255,255,255,.08); color: var(--mist); margin-left: .3rem; }
+  .tag.on { background: rgba(63,184,176,.2); color: #9fe0d6; }
+  .lend-fx { margin-top: 1.5rem; color: var(--mist); font-size: .9rem; }
+  .lend-fx summary { cursor: pointer; font-weight: 700; color: var(--foam); }
+  .lend-fx ul { margin: .5rem 0; padding-left: 1.1rem; }
+  @media (max-width: 640px) {
+    .lb { grid-template-columns: 7.5rem 1fr 5.2rem; gap: .5rem; font-size: .82rem; }
+    /* on phones each loan is a small card: date and amounts on top, lender and purpose underneath */
+    .lend-tbl thead { display: none; }
+    .lend-tbl, .lend-tbl tbody, .lend-tbl tr, .lend-tbl td { display: block; width: 100%; }
+    .lend-tbl tr { display: grid; grid-template-columns: 1fr auto; gap: .15rem .8rem; padding: .7rem 0; border-bottom: 1px solid rgba(169,205,214,.15); }
+    .lend-tbl td { border: 0; padding: 0; }
+    .lend-tbl td.sg { grid-column: 1; font-size: .78rem; color: var(--mist); }
+    .lend-tbl td.sg small { display: inline; margin-left: .3rem; }
+    .lend-tbl td.us { grid-column: 2; grid-row: 1; font-weight: 700; }
+    .lend-tbl td.am { grid-column: 2; grid-row: 2; font-size: .78rem; color: var(--mist); }
+    .lend-tbl td:nth-child(2) { grid-column: 1; grid-row: 2; font-weight: 700; }
+    .lend-tbl td:nth-child(3) { grid-column: 1 / -1; font-size: .85rem; color: var(--mist); }
+    .lend-tbl td:nth-child(3) b { color: var(--foam); }
+    .lend-tbl .st { display: none; }
+  }
+  .legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem 2rem; list-style: none; padding: 0; margin: 0; }
+  .legend li { display: grid; grid-template-columns: .9rem 1fr; gap: .2rem .7rem; align-items: baseline; }
+  .legend i { width: .9rem; height: .9rem; border-radius: 2px; display: inline-block; transform: translateY(.1rem); }
+  .legend .v { grid-column: 2; color: var(--mist); font-size: .95rem; }
+  .split { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1.5rem 3rem; margin-top: 2rem; }
+  .split .big { font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 72; font-size: clamp(2.2rem, 5vw, 3rem); line-height: 1; }
+  .split .lbl { color: var(--mist); margin-top: .4rem; }
+  .hbars { display: grid; gap: .9rem; max-width: 46rem; }
+  .hbar .top { display: flex; justify-content: space-between; gap: 1rem; font-size: .95rem; }
+  .hbar .top span:last-child { color: var(--mist); white-space: nowrap; }
+  .hbar .track { height: .6rem; background: rgba(169,205,214,.12); border-radius: 3px; margin-top: .35rem; overflow: hidden; }
+  .hbar .fill { height: 100%; border-radius: 3px; }
+  .method-teaser { border-top: 1px solid rgba(169,205,214,.25); padding-top: 2rem; }
+  @media (max-width: 600px) {
+    .clock { font-size: clamp(2.2rem, 9.6vw, 8.5rem); }
+    .island { left: 40%; width: 190px; }
+    .sun { width: 2.4rem; height: 2.4rem; margin: -1.2rem 0 0 -1.2rem; }
+    .cloud.c1 { top: 2.6rem; }
+    .gdp-line span { font-size: .72rem; }
+    .ratio-tag b { font-size: 1.3rem; }
+    .legend { grid-template-columns: 1fr 1fr; gap: .9rem 1rem; }
+    .legend .v { font-size: .85rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { .wave, .surface .front, .surface .foam, .cloud, .rays i { animation: none !important; } .bubble { display: none; } }
+</style>
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="dv.html">MV <span>ދަރަނީގެ ގަޑި</span></a>
+  <nav class="site-nav" aria-label="މައި މެނޫ">
+    <a href="dv.html" data-page="clock" aria-current="page">ދަރަނީގެ ގަޑި</a>
+    <a href="priorities.html" data-page="priorities">އިންޓަރެސްޓް</a>
+    <a href="budget.html" data-page="budget">ބަޖެޓް</a>
+    <a href="revenue.html" data-page="revenue">ޓެކްސް</a>
+    <a href="fuel.html" data-page="fuel">ތެޔޮ އެތެރެކުރުން</a>
+    <a href="updates.html" data-page="updates">އާ މަޢުލޫމާތު</a>
+    <a href="commentary.html" data-page="commentary">ކޮމެންޓަރީ</a>
+    <a href="methodology.html" data-page="method">ހިސާބުކުރާ ގޮތް</a>
+    <a href="about.html" data-page="about">ސައިޓާ ބެހޭ</a>
+    <a href="./" lang="en" dir="ltr" class="lang-sw">English</a>
+  </nav>
+  <div class="prefs">
+    <div class="toggle" data-pref="cur" role="group" aria-label="ފައިސާ"><button type="button" data-v="MVR" aria-pressed="true">ރުފިޔާ</button><button type="button" data-v="USD" aria-pressed="false">ޑޮލަރު</button></div>
+    <div class="toggle" data-pref="real" role="group" aria-label="އިންފްލޭޝަން" title="ރިއަލް ގޮތަށް ކުރީގެ އަދަދުތައް ދައްކަނީ މިއަދުގެ އަގުތަކުން"><button type="button" data-v="0" aria-pressed="true">ނޮމިނަލް</button><button type="button" data-v="1" aria-pressed="false">ރިއަލް</button></div>
+  </div>
+  <div class="real-note" role="status"></div>
+</header>
+
+<section class="hero" id="hero" aria-label="ދަރަނީގެ ގަޑި">
+  <div class="ratio-tag" id="ratioTag" hidden><b id="ratioVal">…</b>ޖީޑީޕީގެ</div>
+  <div class="sky" id="sky" aria-hidden="true"><div class="stars" id="stars"></div><div class="moon" id="moon"></div><div class="sun" id="sun"></div><div class="cloud c1"></div><div class="cloud c2"></div></div>
+  <div class="water" id="water" aria-hidden="true">
+    <div class="rays"><i></i><i></i><i></i><i></i></div>
+    <svg class="wave back" viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0 16 Q 100 2 200 16 T 400 16 T 600 16 T 800 16 T 1000 16 T 1200 16 V30 H0Z"/></svg>
+    <svg class="wave" viewBox="0 0 1200 24" preserveAspectRatio="none"><path d="M0 12 Q 75 0 150 12 T 300 12 T 450 12 T 600 12 T 750 12 T 900 12 T 1050 12 T 1200 12 V24 H0Z"/></svg>
+    <div id="bubbles"></div>
+  </div>
+  <div class="surface" id="surface" aria-hidden="true">
+    <div class="island"><svg viewBox="0 0 340 120" aria-hidden="true"><defs><radialGradient id="lagoon" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#c4f5ec"/><stop offset=".55" stop-color="#7fdcd0"/><stop offset="1" stop-color="#3fb8b0" stop-opacity="0"/></radialGradient><linearGradient id="sandg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf4df"/><stop offset="1" stop-color="#ead9ae"/></linearGradient></defs><ellipse cx="160" cy="98" rx="165" ry="20" fill="url(#lagoon)"/><g stroke="#7a5a3a" stroke-width="2"><line x1="232" y1="84" x2="314" y2="84"/><line x1="252" y1="78" x2="252" y2="96"/><line x1="262" y1="78" x2="262" y2="96"/><line x1="280" y1="78" x2="280" y2="96"/><line x1="290" y1="78" x2="290" y2="96"/><line x1="306" y1="78" x2="306" y2="96"/><line x1="316" y1="78" x2="316" y2="96"/></g><rect x="248" y="68" width="18" height="11" fill="#f3e6c8"/><path d="M244 69 L257 58 L270 69 Z" fill="#b8874f"/><rect x="276" y="68" width="18" height="11" fill="#f3e6c8"/><path d="M272 69 L285 58 L298 69 Z" fill="#b8874f"/><rect x="302" y="68" width="18" height="11" fill="#f3e6c8"/><path d="M298 69 L311 58 L324 69 Z" fill="#b8874f"/><path d="M40 92 Q 70 74 120 72 Q 170 68 215 74 Q 240 80 250 92 Z" fill="url(#sandg)"/><path d="M70 80 q 8 -14 22 -10 q 8 -12 22 -6 q 12 -10 26 -2 q 12 -8 24 0 q 12 -4 18 8 q -60 6 -112 10 Z" fill="#3c8f4f"/><path d="M84 80 q 10 -10 22 -6 q 10 -8 22 -2 q 10 -6 20 2 q -30 6 -64 6 Z" fill="#4fa35c"/><g stroke-linecap="round" fill="none"><path d="M100 76 Q 92 46 104 18" stroke="#8a6a44" stroke-width="4.5"/><path d="M140 74 Q 146 44 132 10" stroke="#7a5a3a" stroke-width="5"/><path d="M176 76 Q 186 52 196 30" stroke="#8a6a44" stroke-width="4"/><path d="M120 75 Q 116 58 122 42" stroke="#7a5a3a" stroke-width="3.5"/><path d="M200 80 Q 214 64 226 54" stroke="#8a6a44" stroke-width="3.5"/></g><g class="fronds" fill="#2f8a5b"><g transform="translate(104,18)"><path d="M0 0 C -12 -8 -26 -6 -36 4 C -24 -2 -12 -1 0 2 Z"/><path d="M0 0 C 10 -12 26 -12 34 -2 C 22 -6 10 -4 0 2 Z"/><path d="M0 0 C -6 -14 -2 -24 6 -30 C 2 -20 2 -10 2 0 Z"/><path d="M0 0 C 14 2 24 10 28 20 C 18 12 8 8 0 4 Z"/><path d="M0 0 C -14 4 -22 12 -24 22 C -16 14 -8 8 0 4 Z"/></g><g transform="translate(132,10)" fill="#36985f"><path d="M0 0 C -12 -8 -28 -6 -40 6 C -26 -2 -12 -1 0 2 Z"/><path d="M0 0 C 12 -12 30 -12 40 0 C 26 -6 12 -4 0 2 Z"/><path d="M0 0 C -4 -14 2 -24 10 -28 C 4 -18 4 -8 2 0 Z"/><path d="M0 0 C 16 2 28 12 30 24 C 20 14 10 8 0 4 Z"/><path d="M0 0 C -16 4 -26 14 -28 26 C -18 16 -8 8 0 4 Z"/></g><g transform="translate(196,30)"><path d="M0 0 C -10 -8 -24 -6 -32 4 C -22 -2 -10 -1 0 2 Z"/><path d="M0 0 C 10 -10 24 -10 32 0 C 22 -4 10 -3 0 2 Z"/><path d="M0 0 C 12 2 20 10 22 18 C 14 12 6 7 0 4 Z"/><path d="M0 0 C -12 4 -18 10 -20 18 C -12 12 -6 7 0 4 Z"/></g><g transform="translate(122,42)" fill="#3f9f63"><path d="M0 0 C -8 -6 -18 -5 -24 3 C -16 -1 -8 0 0 2 Z"/><path d="M0 0 C 8 -8 18 -8 24 0 C 16 -3 8 -2 0 2 Z"/><path d="M0 0 C 8 2 14 7 16 13 C 10 9 4 6 0 4 Z"/></g><g transform="translate(226,54)" fill="#3f9f63"><path d="M0 0 C -8 -6 -18 -5 -24 3 C -16 -1 -8 0 0 2 Z"/><path d="M0 0 C 8 -8 18 -8 24 0 C 16 -3 8 -2 0 2 Z"/><path d="M0 0 C 8 2 14 7 16 13 C 10 9 4 6 0 4 Z"/></g></g><g fill="#6b4a2a"><circle cx="102" cy="21" r="2.4"/><circle cx="106" cy="22" r="2.4"/><circle cx="131" cy="13" r="2.6"/><circle cx="135" cy="14" r="2.6"/><circle cx="195" cy="33" r="2.2"/></g></svg></div>
+    <svg class="front" viewBox="0 0 1200 22" preserveAspectRatio="none"><path d="M0 10 Q 60 2 120 10 T 240 10 T 360 10 T 480 10 T 600 10 T 720 10 T 840 10 T 960 10 T 1080 10 T 1200 10 V22 H0Z"/></svg>
+    <svg class="foam" viewBox="0 0 1200 8" preserveAspectRatio="none"><path d="M0 6 Q 60 0 120 6 T 240 6 T 360 6 T 480 6 T 600 6 T 720 6 T 840 6 T 960 6 T 1080 6 T 1200 6" stroke="#fff" stroke-width="1.5" fill="none" stroke-dasharray="14 22"/></svg>
+  </div>
+  <div class="gauge" id="gauge" aria-hidden="true"><div class="pole"></div></div>
+  <div class="gdp-line" id="gdpLine"><span id="lineLabel"></span></div>
+  <div class="readout" id="readout">
+    <h1>ދިވެހިރާއްޖޭގެ ޤައުމީ ދަރަނީގެ ގަޑި</h1>
+    <p class="clock num"><span class="cur" id="clockCur">MVR</span><span id="clock">…</span></p>
+    <p class="asof">މާލޭ ވަގުތުން <time id="mvTime">…</time> <button type="button" class="what-in-btn" id="whatIn">މި އަދަދުގައި ހިމެނެނީ ކޮބާ؟</button></p>
+    <button type="button" class="owe-cta" id="oweCta"><span class="owe-globe" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><ellipse cx="12" cy="12" rx="4.2" ry="9.5"/><path d="M2.5 12h19M4.2 7h15.6M4.2 17h15.6"/></svg></span><span class="owe-t"><b>މި ދަރަނި ދައްކަންޖެހެނީ ކާކަށް؟</b><small>ދަރަނި ދިން ކޮންމެ ފަރާތަކާއި ކޮންމެ ލޯނެއް ފެންނަ ނަގުޝާ</small></span><span class="owe-arr" aria-hidden="true">←</span></button>
+    <p class="sub" id="sub">މޯލްޑިވްސް މަނިޓަރީ އޮތޯރިޓީގެ އެންމެ ފަހުގެ އަދަދުތައް ލޯޑުވަނީ…</p>
+    <div id="fresh"></div>
+    <div id="since"></div>
+    <div class="stats hero-stats">
+      <div class="stat hot" data-icon="person"><div class="n num" id="perPerson">…</div><div class="l">ކޮންމެ ދިވެހި ރައްޔިތަކަށް ބަހާލާއިރު ދަރަނި. ކޮންމެ ސިކުންތެއްގައި އިތުރުވަމުން</div><div class="pop" id="popLine"></div></div>
+      <div class="stat" data-icon="clock"><div class="n num" id="perSecond">…</div><div class="l" id="perSecondLbl">ކޮންމެ ސިކުންތެއްގައި ދަރަންޏަށް އިތުރުވާ މިންވަރު، ފާއިތުވި އަހަރުގެ މިންވަރުން</div></div>
+      <div class="stat warn" id="interestStat" data-icon="interest"><div class="n num" id="interest">…</div><div class="l" id="interestLbl">ކޮންމެ ދުވަހަކު އިންޓަރެސްޓާއި ފައިނޭންސިންގ ޚަރަދަށް ހޭދަވާ ފައިސާ</div></div>
+    </div>
+  </div>
+  <div class="notice" id="notice" role="status"></div>
+</section>
+
+<main class="dark">
+<div class="wrap">
+
+  <section class="chapters">
+    <h2>އިތުރަށް ބައްލަވަން ބޭނުންތޯ؟</h2>
+    <p>ކޮންމެ ސުވާލަކަށް ފިތާލުމުން، އޭގެ ފަހަތުގައިވާ ޗާޓުތަކާއި އަދަދުތައް ފެންނާނެއެވެ.</p>
+  <section class="chapter" id="ch-owed">
+    <button type="button" class="chap-head" aria-expanded="false" aria-controls="ch-owed-body">
+      <span class="chap-ico" data-ico="globe"></span>
+      <span class="chap-txt"><span class="chap-q">ދަރަނި ދައްކަންޖެހެނީ ކާކަށް؟</span><span class="chap-a" id="aOwed">ރާއްޖޭގައާއި ބޭރުގައި ދަރަނި ދިން ފަރާތްތަކަށް.</span></span>
+      <span class="chap-more"><span class="show">ތަފްސީލު ދައްކާ</span><span class="hide">ތަފްސީލު ފޮރުވާ</span></span>
+    </button>
+    <div class="chap-body" id="ch-owed-body" hidden>
+
+    
+    <p>ދާޚިލީ ދަރަނި ދައްކަންޖެހެނީ ރާއްޖޭގެ ތެރޭގެ ފަރާތްތަކަށެވެ. ގިނައިން ބޭންކުތަކާއި، މަރުކަޒީ ބޭންކާއި، ޕެންޝަން ފަންޑަށެވެ. ބޭރުގެ ދަރަނި ދައްކަންޖެހެނީ ބޭރުގެ ސަރުކާރުތަކާއި، ތަރައްޤީގެ ބޭންކުތަކާއި، ބޮންޑު ގަނެފައިވާ ފަރާތްތަކަށެވެ. <a href="#" class="term" data-term="guaranteed">ގެރެންޓީ ދީފައިވާ ދަރަނި</a> ނަގަނީ ގިނައިން ސަރުކާރު ކުންފުނިތަކުންނެވެ. އެ ކުންފުންޏަކަށް ދައްކާނުލެވިއްޖެނަމަ ސަރުކާރުން ދައްކާނެކަމަށް ސަރުކާރުން ވަޢުދުވެފައިވެއެވެ.</p>
+    <div class="bar" id="bar" role="img" aria-label="ދަރަނީގެ ބައިތައް"></div>
+    <ul class="legend" id="legend"></ul>
+    <div class="split" id="gdpSplit"></div>
+    <div class="lenders">
+      <button type="button" class="lend-btn" id="lendBtn" aria-expanded="false" aria-controls="lendPanel"><span class="t">ރާއްޖޭގައާއި ބޭރުގައި ދަރަނި ދައްކަންޖެހޭ ފަރާތްތައް ބައްލަވާ (މި ބައި އަދި އިނގިރޭސިން)</span><span aria-hidden="true">▾</span></button>
+      <div id="lendPanel" hidden>
+        <div class="q-zone">
+        <div class="q-nav" id="qNav" hidden>
+          <button type="button" class="q-step" data-qs="-1" aria-label="Earlier quarter">‹ <span>Earlier</span></button>
+          <div class="q-mid"><span class="q-lbl" id="mapQl"></span><input type="range" id="mapQ" min="0" max="0" value="0" aria-label="Quarter"></div>
+          <button type="button" class="q-step" data-qs="1" aria-label="Later quarter"><span>Later</span> ›</button>
+          <button type="button" class="map-play" id="mapPlay" aria-label="Play the years">▶</button>
+        </div>
+        <p class="q-src" id="qSrc"></p>
+        <div class="parts" id="parts"></div>
+        <div id="lendHome" hidden>
+          <h3 class="part-h" id="partHome"><span class="part-n">1</span><span id="homeHead">ދާޚިލީ ދަރަނި، ރާއްޖޭގައި ދައްކަންޖެހޭ</span></h3>
+          <p class="lend-note" id="homeNote"></p>
+          <div class="lend-bars" id="homeBars"></div>
+          <div class="svc-key" id="homeKey"></div>
+          <div class="lend-years" id="homeChart"></div>
+          <p class="hint" id="homeSrc"></p>
+        </div>
+        <h3 class="part-h" id="partForeign"><span class="part-n">2</span>ބޭރުގެ ދަރަނި، ބޭރަށް ދައްކަންޖެހޭ</h3>
+        <p class="lend-note" id="foreignNote"></p>
+        <div class="lend-top">
+          <div class="subtoggle" role="group" aria-label="Amounts on the map" id="mapBasis"><button type="button" data-mb="owed" aria-pressed="true">Still owed</button><button type="button" data-mb="signed" aria-pressed="false">Originally borrowed</button></div>
+          <div class="subtoggle" role="group" aria-label="Show on the map"><button type="button" data-ms="both" aria-pressed="true">Loans and guarantees</button><button type="button" data-ms="loans" aria-pressed="false">Loans</button><button type="button" data-ms="guarantees" aria-pressed="false">Guarantees</button></div>
+          <div class="subtoggle" role="group" aria-label="Map view"><button type="button" data-mz="region" aria-pressed="false">Closer view</button><button type="button" data-mz="world" aria-pressed="true">Whole world</button></div>
+          <label class="chk"><input type="checkbox" id="mapInst" checked> Development banks and funds</label>
+        </div>
+        <p class="map-tot" id="mapTot"></p>
+        <div class="lend-map" id="lendMap"></div>
+        <div class="map-key"><span><i style="background:#3fb8b0"></i>Loans to the government</span><span><i style="background:#b39ddb"></i>Loans the government guaranteed</span><span><i class="dot"></i>Country</span><span><i class="dia"></i>Development bank or fund</span><span>Tap a place for amounts</span></div>
+        <div class="map-card" id="mapCard"></div>
+        <p class="hint" id="mapOff"></p>
+        <h3 class="part-h"><span class="part-n">3</span>އަނބުރާ ދެއްކުން، އަދި ކުރިއަށް ދައްކަންޖެހޭ</h3>
+        <div id="lendBul" hidden>
+          <h4>Paying it back</h4>
+          <p class="lend-note" id="svcNote"></p>
+          <div class="svc-key"><span><i style="background:#3fb8b0"></i>Government repayments</span><span><i style="background:#9fe0d6"></i>Government interest</span><span><i style="background:#b39ddb"></i>Guaranteed debt repayments</span><span><i style="background:#ddd2f2"></i>Guaranteed debt interest</span></div>
+          <div class="lend-years" id="lendSvc"></div>
+          <h4>Still to come, and passed on</h4>
+          <div class="lend-sum lend-cards" id="lendExtra"></div>
+          <h4 id="forHead">Who owes the guaranteed debt</h4>
+          <p class="lend-note" id="forNote"></p>
+          <div class="lend-bars lend-for" id="lendFor"></div>
+          <p class="hint" id="bulSrc"></p>
+        </div>
+        </div>
+        <h4>ހުރިހާ ލޯނަކާއި ގެރެންޓީއެއް</h4>
+        <div class="l-zone">
+        <div class="lend-top l-pick">
+          <div class="subtoggle" role="group" aria-label="List"><button type="button" data-lk="loans" aria-pressed="true">Foreign loans</button><button type="button" data-lk="guarantees" aria-pressed="false">Sovereign guarantees</button></div>
+          <div class="subtoggle" role="group" aria-label="Guaranteed for" id="lendG" hidden><button type="button" data-lg="all" aria-pressed="true">All</button><button type="button" data-lg="soe" aria-pressed="false">State companies</button><button type="button" data-lg="private" aria-pressed="false">Private</button></div>
+          <label class="lend-asof">As of <select id="lendAsof" aria-label="As of"></select></label>
+        </div>
+        <p class="lend-note" id="lendNote">Loading Ministry of Finance lists…</p>
+        <p class="lend-hist" id="lendHist"></p>
+        <div class="lend-sum" id="lendSum"></div>
+        <h4>By lender</h4>
+        <div class="lend-bars" id="lendBars"></div>
+        <h4>Signed each year, in US dollars</h4>
+        <div class="lend-years" id="lendYears"></div>
+        <div class="lend-tools">
+          <div class="subtoggle" role="group" aria-label="Project" id="lendSt"><button type="button" data-st="all" aria-pressed="true">All</button><button type="button" data-st="Ongoing" aria-pressed="false">Project under way</button><button type="button" data-st="Completed" aria-pressed="false">Project finished</button><button type="button" data-st="paid" aria-pressed="false">Nothing owed now</button></div>
+          <select id="lendC" aria-label="Country or lender"></select>
+          <input type="search" id="lendQ" placeholder="Search a lender, project or company" aria-label="Search"><span id="lendCount"></span>
+        </div>
+        <p class="hint" id="lendStNote">"Project finished" is the Ministry's status for the project the money paid for. The loan itself is usually still being repaid. See what is still owed above.</p>
+        <div class="tbl-wrap"><table class="lend-tbl" id="lendTbl"></table></div>
+        <button type="button" class="pill lend-more" id="lendMore" hidden></button>
+        </div>
+        <details class="lend-fx"><summary>Exchange rates used</summary><div id="lendFx"></div></details>
+        <p class="hint">Sources: Ministry of Finance, Debt Management Department. The amounts agreed come from its lists of active external borrowings and active sovereign guarantees, saved each time the Ministry updates them, so earlier dates can be picked above. What is still owed comes from its Quarterly Debt Bulletins.</p>
+      </div>
+    </div>
+  
+    </div>
+  </section>
+  <section class="chapter" id="ch-history">
+    <button type="button" class="chap-head" aria-expanded="false" aria-controls="ch-history-body">
+      <span class="chap-ico" data-ico="trend"></span>
+      <span class="chap-txt"><span class="chap-q">ދަރަނި މިހާ ބޮޑުވީ ކިހިނެއް؟</span><span class="chap-a" id="aHist">އަހަރުން އަހަރަށް ބޮޑުވަމުން އައިސްފައި.</span></span>
+      <span class="chap-more"><span class="show">ތަފްސީލު ދައްކާ</span><span class="hide">ތަފްސީލު ފޮރުވާ</span></span>
+    </button>
+    <div class="chap-body" id="ch-history-body" hidden>
+<div id="growthSec" hidden>
+    <p class="callout" id="growthLine"></p>
+    <p id="quarterLine"></p>
+  </div>
+    <div class="chart-head">
+      <div><p id="chartNote" style="margin:0"></p></div>
+      <div class="subtoggle" role="group" aria-label="ޗާޓު ބައްލަވާ ގޮތް">
+        <button type="button" data-view="amount" aria-pressed="true">އަދަދު</button>
+        <button type="button" data-view="ratio" aria-pressed="false">ޖީޑީޕީގެ %</button>
+      </div>
+    </div>
+    <div class="chart-box" id="chart"></div>
+    <div class="hint">ކޮންމެ ކުއާޓަރެއް ބެލުމަށް ޗާޓަށް ފިތާލައްވާ.</div>
+  
+    </div>
+  </section>
+  <section class="chapter" id="ch-fiscal">
+    <button type="button" class="chap-head" aria-expanded="false" aria-controls="ch-fiscal-body">
+      <span class="chap-ico" data-ico="gap"></span>
+      <span class="chap-txt"><span class="chap-q">ސަރުކާރުން ދަރަނި ނަގަމުން ދަނީ ކީއްވެ؟</span><span class="chap-a" id="aFisc">ގިނަ އަހަރުތަކުގައި ލިބޭ އާމްދަނީއަށްވުރެ ޚަރަދު ބޮޑު.</span></span>
+      <span class="chap-more"><span class="show">ތަފްސީލު ދައްކާ</span><span class="hide">ތަފްސީލު ފޮރުވާ</span></span>
+    </button>
+    <div class="chap-body" id="ch-fiscal-body" hidden>
+<div id="fiscalSec" hidden>
+    
+    <p id="fiscalNote"></p>
+    <div class="stats">
+      <div class="stat" data-icon="moneyIn"><div class="n num" id="revPP">…</div><div class="l">އަހަރަކު ކޮންމެ ރައްޔިތަކަށް ބަހާލާއިރު ލިބޭ ފައިސާ (ޓެކްސް، ފީ އަދި އެހީ)</div></div>
+      <div class="stat red" data-icon="moneyOut"><div class="n num" id="expPP">…</div><div class="l">އަހަރަކު ކޮންމެ ރައްޔިތަކަށް ބަހާލާއިރު ހިނގާ ޚަރަދު</div></div>
+      <div class="stat red" data-icon="gap"><div class="n num" id="gapPP">…</div><div class="l" id="gapLbl">ކޮންމެ ރައްޔިތަކަށް ބަހާލާއިރު ތަފާތު، ދަރަނިން ފުރިހަމަކުރެވޭ</div></div>
+    </div>
+    <div class="why" id="why" hidden></div>
+    <h3>ކޮންމެ ސިކުންތެއްގައި</h3>
+    <div class="stats">
+      <div class="stat"><div class="n num" id="revSec">…</div><div class="l">ސަރުކާރަށް ލިބޭ</div></div>
+      <div class="stat red"><div class="n num" id="expSec">…</div><div class="l">ސަރުކާރުން ހޭދަކުރާ</div></div>
+    </div>
+
+    <h3>އަހަރުން އަހަރަށް</h3>
+    <p id="annualNote" style="margin-bottom:0"></p>
+    <div class="chart-box" id="annual"></div>
+    <div class="key"><span><i style="background:#3fb8b0"></i>އާމްދަނީ</span><span><i style="background:#ff5f56"></i>ޚަރަދު</span><span style="color:#ff5f56;font-weight:700">ކޮންމެ އަހަރެއްގެ ދަށުގައިވާ ރަތް އަދަދަކީ ޑެފިސިޓް</span></div>
+    <div class="l12 num" id="l12"></div>
+
+    <p class="callout" id="interestShare" style="margin-top:2.5rem"></p>
+    <h3 id="spendHead">އަހަރެއްގެ ޚަރަދު ހިނގަނީ ކޮންތާކަށް</h3>
+    <div class="hbars" id="hbars"></div>
+  </div>
+    </div>
+  </section>
+  <section class="chapter" id="ch-how">
+    <button type="button" class="chap-head" aria-expanded="false" aria-controls="ch-how-body">
+      <span class="chap-ico" data-ico="clock"></span>
+      <span class="chap-txt"><span class="chap-q">ގަޑި މަސައްކަތްކުރާ ގޮތް</span><span class="chap-a" id="aHow">އެންމެ ފަހުގެ ރަސްމީ އަދަދުން ފަށައި، ފަހުގެ މިންވަރުން ދަރަނި އިތުރުކުރޭ.</span></span>
+      <span class="chap-more"><span class="show">ތަފްސީލު ދައްކާ</span><span class="hide">ތަފްސީލު ފޮރުވާ</span></span>
+    </button>
+    <div class="chap-body" id="ch-how-body" hidden>
+
+    
+    <p>ދަރަނީގެ ރަސްމީ އަދަދުތައް ނެރެނީ ތިން މަހުން އެއްފަހަރެވެ. ގަޑި ފަށަނީ ޝާއިޢުކޮށްފައިވާ އެންމެ ފަހުގެ ޖުމްލަ އަދަދުންނެވެ. އަދި ފާއިތުވި ހަތަރު ކުއާޓަރުގެ އެވަރެޖް މިންވަރުން ދަރަނި އިތުރުކުރެއެވެ. އެހެންކަމުން، ރަސްމީ އަދަދުތައް ނެރޭ ދެމެދު ފެންނަ އަދަދަކީ <b>ލަފާކުރެވޭ</b> އަދަދެކެވެ. އާ ކުއާޓަރެއްގެ އަދަދު ނެރުމުން، ގަޑި ރަސްމީ އަދަދަށް ބަދަލުވެއެވެ. ކޮންމެ ދުވަހަކު ހެނދުނު ސައިޓުން އާ ޑޭޓާ ޗެކްކުރެއެވެ.</p>
+    <p id="methodDetail"></p>
+    <p id="popNote"></p>
+    <p>ކޮންމެ އަދަދެއް ލިބެނީ ކޮންތާކުންކަމާއި، ހިސާބުކުރާ ގޮތާއި، ނުހިމެނޭ ކަންތައްތައް <a href="methodology.html">ފުރިހަމަ މެތަޑޮލޮޖީ</a>ގައި ބަޔާންކޮށްފައިވެއެވެ.</p>
+  
+    </div>
+  </section>
+  </section>
+
+  <section class="plain">
+    <h2>ކުރުކޮށް</h2>
+    <p>ދެނެގަންނަންޖެހޭ ހަތަރު ކަމެއް، ފަސޭހަ ބަހުން. ތަފްސީލު ބެލުމަށް ކޮންމެ އެއްޗަކަށް ފިތާލައްވާ.</p>
+    <div class="plain-grid" id="plain"></div>
+  </section>
+
+
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <span id="fetched">އަދަދުތައް ނަގާފައިވަނީ މޯލްޑިވްސް މަނިޓަރީ އޮތޯރިޓީގެ ސްޓެޓިސްޓިކްސް ޑޭޓާބޭސްއިން.</span>
+  <span class="foot-links"><a href="methodology.html">ހިސާބުކުރާ ގޮތް</a> <a href="about.html">ސައިޓާ ބެހޭ، އަދި ގުޅުއްވުމަށް</a> <span>މިއީ މިނިވަން ސައިޓެކެވެ. ދައުލަތުގެ އެއްވެސް މުއައްސަސާއަކާ ގުޅުމެއް ނެތެވެ.</span></span>
+</div></footer>
+
+<script>
+// The sky over the island follows the real time in Malé: the sun rises at sunrise, crosses the sky
+// and sets into the sea at sunset; dawn and dusk turn the sky warm, and at night the moon and stars come out.
+// Add ?t=18:05 to the address to see any time of day.
+window.MVSky = (() => {
+  const LAT = 4.175, LON = 73.509, TZ = 300;                 // Malé, UTC+5
+  const rad = Math.PI / 180, hero = document.getElementById("hero");
+  const sun = document.getElementById("sun"), moon = document.getElementById("moon"), stars = document.getElementById("stars");
+  const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let hz = 210, first = true;
+
+  // sunrise and sunset in Malé, minutes after local midnight (NOAA's simplified formula)
+  function sunTimes(d) {
+    const n = Math.floor((Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()) - Date.UTC(d.getUTCFullYear(), 0, 0)) / 864e5);
+    const g = 2 * Math.PI / 365 * (n - 1);
+    const eq = 229.18 * (0.000075 + 0.001868 * Math.cos(g) - 0.032077 * Math.sin(g) - 0.014615 * Math.cos(2 * g) - 0.040849 * Math.sin(2 * g));
+    const dec = 0.006918 - 0.399912 * Math.cos(g) + 0.070257 * Math.sin(g) - 0.006758 * Math.cos(2 * g) + 0.000907 * Math.sin(2 * g) - 0.002697 * Math.cos(3 * g) + 0.00148 * Math.sin(3 * g);
+    const ha = Math.acos(Math.cos(90.833 * rad) / (Math.cos(LAT * rad) * Math.cos(dec)) - Math.tan(LAT * rad) * Math.tan(dec)) / rad;
+    return { rise: 720 - 4 * (LON + ha) - eq + TZ, set: 720 - 4 * (LON - ha) - eq + TZ };
+  }
+  function nowMin() {
+    const q = /[?&]t=(\d{1,2}):(\d{2})/.exec(location.search);
+    if (q) return +q[1] * 60 + +q[2];
+    const d = new Date(); return ((d.getUTCHours() * 60 + d.getUTCMinutes() + d.getUTCSeconds() / 60 + TZ) % 1440 + 1440) % 1440;
+  }
+
+  // sky colours (top, horizon) at minutes before or after sunrise and sunset
+  const NIGHT = ["#0b1a33", "#1f3a5c"], TWI = ["#2c3e6b", "#e98a6b"], GOLD = ["#8fb8d6", "#ffc99c"], DAY = ["#d7ecef", "#eef6f4"];
+  const RISE = [[-70, NIGHT], [-15, TWI], [20, GOLD], [80, DAY]], SET = [[-80, DAY], [-20, GOLD], [15, TWI], [70, NIGHT]];
+  const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+  const mix = (a, b, k) => "#" + hex(a).map((v, i) => Math.round(v + (hex(b)[i] - v) * k).toString(16).padStart(2, "0")).join("");
+  function along(keys, m) {
+    if (m <= keys[0][0]) return keys[0][1];
+    for (let i = 1; i < keys.length; i++) if (m <= keys[i][0]) {
+      const [m0, c0] = keys[i - 1], [m1, c1] = keys[i], k = (m - m0) / (m1 - m0);
+      return [mix(c0[0], c1[0], k), mix(c0[1], c1[1], k)];
+    }
+    return keys[keys.length - 1][1];
+  }
+  const lum = h => { const [r, g, b] = hex(h); return (r * 299 + g * 587 + b * 114) / 255000; };
+
+  // a body crossing the sky: k from 0 (rising, left) to 1 (setting, right)
+  function place(el, k, size) {
+    const W = hero.clientWidth, peak = Math.max(28, hz * .16);
+    const x = W * (.08 + .76 * k), y = hz + size - Math.sqrt(Math.sin(Math.PI * Math.min(1, Math.max(0, k)))) * (hz - peak + size);   // climbs quickly, stays clear of the gauge
+    return [x, y];
+  }
+  function move(el, [x, y], from) {
+    if (from && !calm) { el.style.transition = "none"; el.style.left = x + "px"; el.style.top = (hz + 60) + "px"; void el.offsetWidth; el.style.transition = ""; }
+    el.style.left = x + "px"; el.style.top = y + "px";
+  }
+
+  function draw() {
+    const m = nowMin(), { rise, set } = sunTimes(new Date());
+    const near = Math.abs(m - rise) < Math.abs(m - set) ? along(RISE, m - rise) : along(SET, m - set);
+    const day = m >= rise && m <= set, sky = m < rise - 70 || m > set + 70 ? NIGHT : near;
+    hero.style.setProperty("--sky-a", sky[0]); hero.style.setProperty("--sky-b", sky[1]);
+    hero.classList.toggle("is-night", lum(sky[0]) < .45);
+    const s = sun.offsetWidth / 2 || 20;
+    const ks = (m - rise) / (set - rise);
+    move(sun, place(sun, ks, s), first && day); sun.style.opacity = ks > -.05 && ks < 1.05 ? 1 : 0;
+    sun.classList.toggle("low", day && (m - rise < 50 || set - m < 50));
+    const night = 1440 - (set - rise), km = ((m - set + 1440) % 1440) / night;
+    move(moon, place(moon, km, 15), first && !day); moon.style.opacity = !day && km < 1 ? 1 : 0;
+    stars.style.opacity = Math.max(0, Math.min(1, (.5 - lum(sky[0])) * 4));
+    first = false;
+  }
+
+  // stars, scattered once
+  for (let i = 0; i < 60; i++) {
+    const st = document.createElement("i");
+    st.style.left = (Math.random() * 100).toFixed(2) + "%"; st.style.top = (Math.random() * 85).toFixed(2) + "%";
+    st.style.opacity = (.35 + Math.random() * .65).toFixed(2);
+    stars.appendChild(st);
+  }
+  setInterval(draw, 30000);
+  setTimeout(() => { if (first) draw(); }, 1500);   // if the figures never load, still show the sky
+  addEventListener("resize", draw);
+  return { horizon(y) { hz = y; hero.style.setProperty("--hz", y + "px"); stars.style.bottom = "auto"; stars.style.height = y + "px"; draw(); }, draw };
+})();
+</script>
+<script src="assets/dv.js?v=dv1"></script>
+<script src="assets/site.js?v=20261014d"></script>
+<script src="assets/motion.js?v=20261014d" defer></script>
+<script src="assets/lenders.js?v=20261014d" defer></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const { fmt, sym, short, money, moneyNow, moneyFull, conv, convNow, ts, mLabel, qLabel, last, row, SEC_YEAR } = MV;
+  const COLORS = { domestic_cg: "#3fb8b0", domestic_guaranteed: "#9fe0d6", external_cg: "#f4c95d", external_guaranteed: "#f7e2a6" };
+  const LABELS = { domestic_cg: "ދާޚިލީ، ސަރުކާރު", domestic_guaranteed: "ދާޚިލީ، ގެރެންޓީ", external_cg: "ބޭރު، ސަރުކާރު", external_guaranteed: "ބޭރު، ގެރެންޓީ" };
+  const pct = v => v == null ? null : (v < 5 ? v * 100 : v);   // MMA stores some ratios as 1.23 rather than 123
+
+  // live Malé time
+  const mvFmt = new Intl.DateTimeFormat("en-GB", { timeZone: "Indian/Maldives", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false, weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  const mvTick = () => { $("mvTime").textContent = MV_DV.clock(Date.now()); };
+  mvTick(); setInterval(mvTick, 1000);
+
+  // ---------- questions that open and close ----------
+  document.querySelectorAll(".chap-ico").forEach(el => { el.outerHTML = MV.icon(el.dataset.ico); });
+  const openChapter = (id, scroll) => {
+    const sec = document.getElementById(id); if (!sec) return;
+    const btn = sec.querySelector(".chap-head"), body = sec.querySelector(".chap-body");
+    btn.setAttribute("aria-expanded", "true"); body.hidden = false;
+    dispatchEvent(new Event("resize"));
+    if (scroll) sec.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  document.querySelectorAll(".chap-head").forEach(btn => btn.addEventListener("click", () => {
+    const open = btn.getAttribute("aria-expanded") === "true";
+    if (open) { btn.setAttribute("aria-expanded", "false"); btn.nextElementSibling.hidden = true; } else openChapter(btn.closest(".chapter").id);
+  }));
+  document.addEventListener("click", ev => { const a = ev.target.closest("[data-open]"); if (!a || ev.target.closest("[data-term]")) return; ev.preventDefault(); openChapter(a.dataset.open, true); });
+  if (location.hash.startsWith("#ch-")) openChapter(location.hash.slice(1), true);
+
+  Promise.all([MV.getJSON("data.json"), MV.getJSON("population.json").catch(() => null)])
+    .then(([d, p]) => { try { MV.checkStale(d); } catch (e) { console.error(e); } init(d, p); latestUpdates(); })
+    .catch(err => {
+      console.error("Debt clock could not start:", err);
+      const n = $("notice");
+      n.innerHTML = `އެންމެ ފަހުގެ އަދަދުތައް ލޯޑެއް ނުވި. ޞަފްޙާ ރިފްރެޝް ކުރައްވާ. <button type="button" onclick="location.reload()" style="margin-left:.5rem;font:700 .9rem var(--body);border:0;border-radius:999px;padding:.35rem .8rem;background:#072f40;color:#fff;cursor:pointer">ރިފްރެޝް</button>`;
+      n.classList.add("on"); $("sub").textContent = "";
+    });
+
+  // police figures, used by the comparison with interest further down
+  function latestUpdates() {
+    MV.getJSON("priorities.json").then(p => { window.MV_PRI = p; dispatchEvent(new Event("mv:pri")); }).catch(() => {});
+  }
+
+  function init(data, POP) {
+    const S = data.series; MV.setData(S); MV.paintPrefs(); window.MV_DATA = data;   // for the "What's in this number?" pop-up
+    const tot = S.total.points.filter(p => p.value > 0);
+    const latest = tot[tot.length - 1], back = tot[Math.max(0, tot.length - 5)];
+    const rate = (latest.value - back.value) / ((ts(latest.date) - ts(back.date)) / 1000 || 1);
+    const debtNow = () => latest.value + rate * (Date.now() - ts(latest.date)) / 1000;
+    try {
+    MV.fresh($("fresh"), { asOf: latest.date.slice(0, 10), what: "ދަރަނީގެ ރަސްމީ ކުއާޓަރުލީ އަދަދުތައް", cadence: "quarterly" });
+    MV.since("clock", [
+      { id: "q", value: latest.date.slice(0, 10), say: p => `<b>${MV.mLabel(latest.date)}</b> ގެ ނިޔަލަށް ދަރަނީގެ އާ ރަސްމީ އަދަދެއް ނެރެފިއެވެ. ކުރިން ފެނިވަޑައިގެންނެވީ ${MV.mLabel(p)} ގެ އަދަދެވެ.` },
+      { id: "debt", value: Math.round(debtNow()), say: p => debtNow() > p ? `އެއަށްފަހު ގަޑިން ދަރަންޏަށް ގާތްގަނޑަކަށް <b>${MV.moneyNow(debtNow() - p)}</b> އިތުރުކޮށްފިއެވެ.` : null },
+    ], $("since"));
+    } catch (e) { console.error("Extras skipped:", e); }
+    const popNow = POP ? () => POP.base * Math.exp(POP.annual_growth * (Date.now() - ts(POP.base_date)) / 1000 / SEC_YEAR) : () => null;
+    const ratioPts = (S.debt_to_gdp?.points || []).map(p => ({ date: p.date, value: pct(p.value) }));
+    const ratio = ratioPts.length ? ratioPts[ratioPts.length - 1].value : null;
+
+    // monthly fiscal: months up to the latest month that revenue and spending both have
+    const fk = ["revenue", "expenditure", "interest_costs", "salaries_pensions", "subsidies", "capital_exp"];
+    const fiscalOK = S.revenue?.points?.length >= 12 && S.expenditure?.points?.length >= 12;
+    const fEnd = fiscalOK ? ["revenue", "expenditure"].map(k => last(S[k]).date).sort()[0] : null;
+    const months = k => (S[k]?.points || []).filter(p => p.date <= fEnd);
+    const sumNow = pts => pts.reduce((a, p) => a + convNow(p.value, p.date), 0);   // current figures: never inflation-adjusted
+    const sumReal = pts => pts.reduce((a, p) => a + conv(p.value, p.date), 0);     // comparisons over time: "Real" applies
+    const last12 = (k, f = sumNow) => { const m = months(k).slice(-12); return m.length === 12 ? f(m) : null; };
+    const disp = v => sym() + " " + short(v), dispFull = (v, d = 0) => sym() + " " + fmt(v, d);
+
+    // tickers
+    const tick = () => {
+      const v = debtNow(); $("clock").textContent = fmt(convNow(v));
+      const pop = popNow();
+      if (pop) { const pp = convNow(v / pop), dd = MV.state.cur === "USD" ? 5 : 4, s = pp.toFixed(dd).split("."); $("perPerson").innerHTML = `${sym()} ${fmt(Number(s[0]))}<small>.${s[1]}</small>`; }
+    };
+    setInterval(tick, 60);
+
+    // hero layout
+    const SEA = 70;                                                          // the sea surface: 70% of GDP, the IMF's high-risk benchmark for emerging economies
+    const hero = $("hero"), water = $("water"), line = $("gdpLine"), readout = $("readout");
+    if (ratio) {
+      $("ratioVal").textContent = fmt(ratio, 1) + "%"; $("ratioTag").hidden = false;
+      $("lineLabel").innerHTML = `<b>ޖީޑީޕީގެ <bdi>${fmt(ratio, 1)}%</bdi></b>`;
+    }
+    // The sea surface is fixed at 70% of GDP, the level above which the IMF flags public debt in emerging economies as high risk.
+    // Debt above that sits below the surface: the further down the yellow line, the deeper underwater.
+    // 100% (debt equal to a full year of the economy) is well under the surface, so being "at sea level" never reads as fine.
+    // The hero is only as tall as it needs to be, with the readout just under the line.
+    function layout() {
+      const phone = innerWidth < 600, k = phone ? 2 : 4;                    // pixels per percentage point: shallower on phones, so the clock is on the first screen
+      const tag = $("ratioTag"), tagB = tag.offsetTop + tag.offsetHeight;
+      const y0 = Math.max(phone ? 130 : 210, tagB + (phone ? 70 : 100));          // the surface: 70% of GDP, with room in the sky for the scene
+      const markY = y0 + ((ratio || SEA) - SEA) * k;                         // today's debt
+      const rh = readout.offsetHeight, top = Math.max(markY, y0) + (phone ? 34 : 48);
+      const H = Math.max(520, Math.ceil(top + rh + 56));
+      hero.style.height = H + "px";
+      water.style.height = (H - y0) + "px";
+      surfaceY = y0; $("surface").style.top = y0 + "px";
+      line.style.top = markY + "px"; line.style.opacity = ratio ? 1 : 0;
+      readout.style.top = top + "px";
+      // depth gauge: 70% at the surface, counting down into the water (and up into the sky for lower debt)
+      const g = $("gauge"); g.querySelectorAll(".tick").forEach(t => t.remove());
+      const vTop = SEA - Math.floor(y0 / k / 10) * 10, vBot = SEA + Math.floor((H - y0) / k / 10) * 10;
+      for (let v = Math.max(0, vTop); v <= vBot; v += 5) {
+        const y = y0 + (v - SEA) * k, label = phone ? (v - SEA) % 30 === 0 : v % 20 === 0 || v === SEA || v === 100;   // phones: every 30 points from the surface, so 70% and 100% are always labelled
+        if (y < 12 || y > H - 8) continue;
+        const t = document.createElement("div"); t.className = "tick";
+        t.style.top = y + "px"; t.style.width = label ? "10px" : "5px";
+        t.style.color = y <= y0 ? "var(--sky-ink)" : "#cfe6ea";   // the surface label sits on light water, so it takes the sky colour
+        const near = y > markY - 30 && y < markY + 10;                      // the marker sits just above the line
+        if (label && !near) t.innerHTML = `<span>${v}%</span>`;
+        if (near) continue;
+        g.appendChild(t);
+      }
+      let now = g.querySelector(".now"); if (!now) { now = document.createElement("div"); now.className = "now"; g.appendChild(now); }
+      now.textContent = ratio ? fmt(ratio, 1) + "%" : ""; now.style.top = markY + "px"; now.hidden = !ratio;
+      if (window.MVSky) MVSky.horizon(y0);
+    }
+    let surfaceY = 0;
+
+    // sea life: every so often a dolphin leaps or a shark fin glides past
+    const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // spinner dolphin (two-tone), whale shark and dhoni, all drawn for this site
+    const DOLPHIN = `<svg width="92" height="38" viewBox="0 0 140 58"><path d="M10 31 C 24 21 48 15 76 16 C 88 12 100 12 110 17 C 117 18 126 20 135 22 C 129 25 121 26 113 26 C 106 32 92 37 74 38 C 54 39 32 37 18 34 C 13 38 8 43 3 46 C 6 40 7 35 6 31 C 7 27 6 22 3 16 C 8 20 12 25 14 30 Z" fill="#2f6f8a"/><path d="M113 26 C 106 32 92 37 74 38 C 56 39 40 37 28 35 C 46 33 70 31 92 28 C 100 27 107 26 113 26 Z" fill="#a9cfd9"/><path d="M62 17 C 64 11 68 5 75 2 C 73 8 73 13 77 17 Z" fill="#245a71"/><path d="M88 32 C 86 38 80 43 73 46 C 78 40 81 36 82 32 Z" fill="#245a71"/><circle cx="111" cy="21" r="1.6" fill="#0d2a36"/></svg>`;
+    const WHALESHARK = `<svg width="200" height="64" viewBox="0 0 230 74"><path d="M30 36 L 6 8 L 16 36 L 4 66 Z" fill="#244d5e"/><path d="M26 37 C 60 24 120 20 172 23 C 198 25 216 30 222 37 C 216 44 198 49 172 50 C 120 52 60 48 26 40 Z" fill="#2c5a6c"/><path d="M112 23 L 124 7 L 134 22 Z" fill="#244d5e"/><path d="M162 48 L 150 66 L 174 49 Z" fill="#244d5e"/><path d="M205 42 C 212 41 217 39 221 37" stroke="#1b3a47" stroke-width="2" fill="none"/><g fill="#d8f1f3" opacity=".75"><circle cx="190" cy="31" r="1.8"/><circle cx="178" cy="28" r="1.8"/><circle cx="184" cy="38" r="1.8"/><circle cx="166" cy="33" r="1.8"/><circle cx="152" cy="28" r="1.8"/><circle cx="158" cy="40" r="1.8"/><circle cx="140" cy="34" r="1.8"/><circle cx="126" cy="29" r="1.8"/><circle cx="130" cy="42" r="1.8"/><circle cx="112" cy="35" r="1.8"/><circle cx="98" cy="30" r="1.8"/><circle cx="100" cy="42" r="1.8"/><circle cx="84" cy="36" r="1.8"/><circle cx="70" cy="33" r="1.8"/><circle cx="58" cy="38" r="1.8"/></g><g stroke="#d8f1f3" stroke-width="1" opacity=".45"><line x1="146" y1="24" x2="146" y2="48"/><line x1="120" y1="23" x2="120" y2="48"/><line x1="92" y1="25" x2="92" y2="46"/><line x1="66" y1="28" x2="66" y2="44"/></g></svg>`;
+    const DHONI = `<svg width="104" height="76" viewBox="0 0 150 110"><path d="M62 10 L 62 74" stroke="#5a4030" stroke-width="2.5"/><path d="M64 14 L 64 66 L 100 66 Z" fill="#fbf7ec" stroke="#e2dccb" stroke-width="1"/><rect x="30" y="60" width="34" height="14" rx="1.5" fill="#f6efe0"/><rect x="27" y="56" width="40" height="5" rx="1" fill="#b83a2e"/><rect x="35" y="64" width="6" height="5" fill="#1d5f7a"/><rect x="45" y="64" width="6" height="5" fill="#1d5f7a"/><rect x="55" y="64" width="6" height="5" fill="#1d5f7a"/><path d="M6 74 L 114 74 C 122 74 126 66 128 50 C 130 36 134 28 140 24 C 143 23 144 25 142 27 C 137 32 135 42 134 54 C 132 76 124 90 108 92 L 26 92 C 16 92 9 84 6 74 Z" fill="#fdfbf5"/><path d="M10 82 C 40 84 90 84 126 80" stroke="#1d5f7a" stroke-width="3.5" fill="none"/></svg>`;
+    function splash(x) {
+      for (let i = 0; i < 8; i++) {
+        const d = document.createElement("div"); d.className = "critter";
+        d.style.cssText += "width:5px;height:5px;border-radius:50%;background:#e9f7f6;opacity:.9";
+        $("surface").appendChild(d);
+        const vx = (Math.random() - .5) * 60, vy = -40 - Math.random() * 50, t0 = performance.now();
+        (function step(t) { const k = (t - t0) / 700; if (k > 1) { d.remove(); return; }
+          d.style.transform = `translate(${x + vx * k}px, ${vy * k + 120 * k * k - 8}px)`; d.style.opacity = 1 - k; requestAnimationFrame(step); })(t0);
+      }
+    }
+    // one leap; spin = a full roll mid-air, as spinner dolphins do
+    function leap(x0, span, peak, delay, spin) {
+      setTimeout(() => {
+        const el = document.createElement("div"); el.className = "critter"; el.innerHTML = DOLPHIN; $("surface").appendChild(el);
+        const dur = 1500, t0 = performance.now(); splash(x0);
+        (function step(t) {
+          const k = (t - t0) / dur; if (k > 1) { el.remove(); splash(x0 + span); return; }
+          const x = x0 + span * k, y = -peak * Math.sin(Math.PI * k), ang = -Math.atan2(peak * Math.PI * Math.cos(Math.PI * k), span) * 180 / Math.PI;
+          const roll = spin ? Math.cos(Math.PI * 2 * Math.min(1, Math.max(0, (k - .2) / .6))) : 1;   // scaleY swings to -1 and back
+          el.style.transform = `translate(${x - 46}px, ${y - 24}px) rotate(${ang}deg) scaleY(${roll})`; requestAnimationFrame(step);
+        })(t0);
+      }, delay);
+    }
+    function dolphin() {   // a small pod, one of them spinning
+      const W = hero.clientWidth, x0 = W * (.06 + Math.random() * .2), n = W < 600 ? 2 : 3, spinner = Math.floor(Math.random() * n);
+      const maxPeak = Math.max(40, surfaceY - ($("ratioTag").offsetTop + $("ratioTag").offsetHeight) - 30);   // stay below the top label
+      for (let i = 0; i < n; i++) leap(x0 + i * 46, (W < 600 ? 170 : 220) + Math.random() * 60, Math.min(maxPeak, 64 + Math.random() * 34 + (i === spinner ? 16 : 0)), i * 320, i === spinner);
+    }
+    function glide(html, cls, dur, y, sway, flip) {
+      const W = hero.clientWidth, el = document.createElement("div"); el.className = "critter " + cls; el.innerHTML = html; $("surface").appendChild(el);
+      const w = el.firstChild.getAttribute("width") * 1, dir = flip ? -1 : 1, t0 = performance.now();
+      if (dir < 0) el.firstChild.style.transform = "scaleX(-1)";
+      (function step(t) {
+        const k = (t - t0) / dur; if (k > 1) { el.remove(); return; }
+        const x = dir > 0 ? -w - 20 + (W + w + 40) * k : W + 20 - (W + w + 40) * k;
+        el.style.transform = `translate(${x}px, ${y + Math.sin(t / 700) * sway}px)`; requestAnimationFrame(step);
+      })(t0);
+    }
+    const whaleShark = () => glide(WHALESHARK, "under", 30000, 26 + Math.random() * 30, 4, Math.random() < .5);
+    const dhoni = () => glide(DHONI, "boat", 38000, -58, 1.6, Math.random() < .5);
+    const shark = whaleShark;
+    window.__sea = { dolphin, whaleShark, dhoni };
+    if (!calm) {
+      const bb = $("bubbles");
+      for (let i = 0; i < 10; i++) { const b = document.createElement("div"); b.className = "bubble"; const sz = 4 + Math.random() * 6;
+        b.style.cssText = `left:${5 + Math.random() * 85}%;width:${sz}px;height:${sz}px;animation-duration:${9 + Math.random() * 10}s;animation-delay:${-Math.random() * 15}s;--rise:-${300 + Math.random() * 400}px`; bb.appendChild(b); }
+      const cast = [whaleShark, dolphin, dhoni, dolphin]; let turn = 0;
+      const next = () => setTimeout(() => { if (!document.hidden) cast[turn++ % cast.length](); next(); }, 18000 + Math.random() * 16000);
+      setTimeout(() => { dolphin(); next(); }, 4000);
+      setTimeout(() => { if (!document.hidden) dhoni(); }, 9000);
+    }
+
+    function render() {
+      $("clockCur").textContent = sym();
+      const other = MV.state.cur === "USD" ? short(debtNow()) + " ރުފިޔާ" : short(debtNow() / MV.USD) + " ޑޮލަރު";
+      $("sub").innerHTML = `${mLabel(latest.date)} ގެ ނިޔަލަށް ${moneyNow(latest.value, latest.date)} ގެ ރަސްމީ އަދަދުން ލަފާކޮށްފައި. މިއަދު ގާތްގަނޑަކަށް <strong>${other}</strong>.`;
+      $("perSecond").textContent = (rate < 0 ? "−" : "") + moneyFull(Math.abs(rate), MV.state.cur === "USD" ? 2 : 0);
+      $("perSecondLbl").textContent = rate >= 0 ? "ކޮންމެ ސިކުންތެއްގައި ދަރަންޏަށް އިތުރުވާ މިންވަރު، ފާއިތުވި އަހަރުގެ މިންވަރުން" : "ކޮންމެ ސިކުންތެއްގައި ދަރަނި މަދުވާ މިންވަރު، ފާއިތުވި އަހަރުގެ މިންވަރުން";
+
+      const int12 = fiscalOK ? last12("interest_costs") : null;
+      const PL = window.MV_PRI?.latest;
+      if (PL?.interest?.[2] && PL.days) { $("interest").textContent = sym() + " " + short(MV.convNow(PL.interest[2] * 1e6 / PL.days, PL.d)); $("interestLbl").textContent = `${PL.d.slice(0, 4)} ގައި މިހާތަނަށް ކޮންމެ ދުވަހަކު އިންޓަރެސްޓާއި ފައިނޭންސިންގ ޚަރަދަށް ހޭދަވި ފައިސާ`; $("interestStat").hidden = false; }
+      else if (int12) { $("interest").textContent = disp(int12 / 365.25); $("interestLbl").textContent = `${mLabel(fEnd)} އާ ހަމައަށް 12 މަހު، ކޮންމެ ދުވަހަކު އިންޓަރެސްޓާއި ފައިނޭންސިންގ ޚަރަދަށް ހޭދަވި ފައިސާ`; }
+      else $("interestStat").hidden = true;
+
+      // growth story
+      const first = tot[0], prev = tot[tot.length - 2];
+      const rev12 = fiscalOK ? last12("revenue") : null, exp12 = fiscalOK ? last12("expenditure") : null;
+      const realOn = MV.isReal(), mult = conv(latest.value, latest.date) / conv(first.value, first.date);
+      $("growthLine").innerHTML = `${mLabel(first.date)} އިން ފެށިގެން ސަރުކާރުގެ ދަރަނި <b>${fmt(mult, 1)} ގުނަ</b> ބޮޑުވެފައިވެއެވެ${realOn ? " (އިންފްލޭޝަން ބަލައިގެން)" : ""}. ${money(first.value, first.date)} އިން ${money(latest.value, latest.date)} އަށެވެ${realOn ? ` (${MV.baseLabel()})` : ""}.`
+        + (rev12 ? ` މިހާރު މި ދަރަނި އަކީ ސަރުކާރަށް ލިބޭ ހުރިހާ ފައިސާގެ <b>${fmt(convNow(latest.value, latest.date) / rev12, 1)} އަހަރު</b>ގެ އަދަދެވެ.` : "");
+      const ch = k => { const s = S[k]?.points; if (!s || s.length < 2) return null; const a = s[s.length - 2], b = s[s.length - 1]; return convNow(b.value, b.date) - convNow(a.value, a.date); };
+      const word = (v, up, down) => v >= 0 ? `${disp(v)} ${up}` : `${disp(-v)} ${down}`;
+      const dt = convNow(latest.value, latest.date) - convNow(prev.value, prev.date), dd = ch("domestic"), de = ch("external");
+      $("quarterLine").textContent = `${mLabel(latest.date)} އާ ހަމައަށް ތިން މަހު، ޖުމްލަ ދަރަނި ${word(dt, "އިތުރުވިއެވެ", "މަދުވިއެވެ")}.` + (dd != null && de != null ? ` ދާޚިލީ ދަރަނި ${word(dd, "އިތުރުވި", "މަދުވި")}، އަދި ބޭރުގެ ދަރަނި ${word(de, "އިތުރުވިއެވެ", "މަދުވިއެވެ")}.` : "");
+      $("growthSec").hidden = false;
+
+      // breakdown
+      const parts = ["domestic_cg", "domestic_guaranteed", "external_cg", "external_guaranteed"].map(k => ({ k, p: last(S[k]) })).filter(x => x.p?.value > 0);
+      const sum = parts.reduce((a, x) => a + x.p.value, 0);
+      $("bar").innerHTML = parts.map(x => `<div style="flex-grow:${x.p.value};background:${COLORS[x.k]}" title="${LABELS[x.k]}"></div>`).join("");
+      $("legend").innerHTML = parts.map(x => `<li><i style="background:${COLORS[x.k]}"></i><span>${LABELS[x.k]}</span><span class="v num">${moneyNow(x.p.value, x.p.date)}، ދަރަނީގެ ${fmt(100 * x.p.value / sum, 1)}%</span></li>`).join("");
+      const dg = pct(last(S.domestic_to_gdp)?.value), eg = pct(last(S.external_to_gdp)?.value), dv = last(S.domestic), ev = last(S.external);
+      $("gdpSplit").innerHTML = [
+        dv && dg ? `<div><div class="big num" style="color:${COLORS.domestic_cg}">${fmt(dg, 1)}%</div><div class="lbl">ޖީޑީޕީގެ ނިސްބަތުން ރާއްޖޭގައި ދައްކަންޖެހޭ ދަރަނި (${moneyNow(dv.value, dv.date)})</div></div>` : "",
+        ev && eg ? `<div><div class="big num" style="color:${COLORS.external_cg}">${fmt(eg, 1)}%</div><div class="lbl">ޖީޑީޕީގެ ނިސްބަތުން ބޭރަށް ދައްކަންޖެހޭ ދަރަނި (${moneyNow(ev.value, ev.date)})</div></div>` : "",
+        ratio ? `<div><div class="big num" style="color:var(--foam)">${fmt(ratio, 1)}%</div><div class="lbl">ޖީޑީޕީގެ ނިސްބަތުން ޖުމްލަ ދަރަނި، ${mLabel(latest.date)} ގެ ނިޔަލަށް</div></div>` : ""].join("");
+
+      // fiscal
+      const pop = popNow();
+      if (fiscalOK && pop && rev12 && exp12) {
+        const gap = exp12 - rev12, firstM = months("revenue").slice(-12)[0].date;
+        $("fiscalNote").innerHTML = `<b>${mLabel(firstM)} އިން ${mLabel(fEnd)} އަށް</b> 12 މަސްދުވަހެވެ. އެއީ ޝާއިޢުކޮށްފައިވާ އެންމެ ފަހުގެ މަހުން މަހަށް އަދަދުތަކެވެ. ކޮންމެ ރައްޔިތަކަށް ބަހާލާ އަދަދުތަކަށް ބޭނުންކުރަނީ ދަރަނީގެ ގަޑީގައި ބޭނުންކުރާ އާބާދީގެ އެ އަދަދެވެ. ހަފްތާއިން ހަފްތާއަށް އެންމެ ފަހުގެ އަދަދުތައް <a href="budget.html">ބަޖެޓް ޞަފްޙާ</a>ގައި ވެއެވެ. ފައިސާ ލިބެނީ ކޮން ޓެކްސްތަކުންކަމާއި، ޑޮލަރުން ދައްކާ މިންވަރު <a href="revenue.html">ޓެކްސް ޞަފްޙާ</a>ގައި ވެއެވެ.`;
+        $("revPP").textContent = disp(rev12 / pop); $("expPP").textContent = disp(exp12 / pop); $("gapPP").textContent = disp(Math.abs(gap) / pop);
+        $("gapLbl").textContent = gap >= 0 ? "ކޮންމެ ރައްޔިތަކަށް ބަހާލާއިރު ލިބޭ ފައިސާއަށްވުރެ ބޮޑަށް ހިނގާ ޚަރަދު، ދަރަނިން ފުރިހަމަކުރެވޭ" : "ކޮންމެ ރައްޔިތަކަށް ބަހާލާއިރު ޚަރަދަށްވުރެ ބޮޑަށް ލިބޭ ފައިސާ";
+        $("revSec").textContent = dispFull(rev12 / SEC_YEAR, MV.state.cur === "USD" ? 2 : 0);
+        $("expSec").textContent = dispFull(exp12 / SEC_YEAR, MV.state.cur === "USD" ? 2 : 0);
+        $("interestShare").hidden = true; if (false) $("interestShare").innerHTML = int12 ? `For every <b>${sym()} 100</b> the government collects, <b class="red">${sym()} ${fmt(100 * int12 / rev12, 0)}</b> goes on interest and financing costs.` : "";
+        const items = [["މުސާރަ، އުޖޫރަ އަދި ޕެންޝަން", last12("salaries_pensions"), "#3fb8b0"], ["އެހީ، ހިލޭ ދިނުން އަދި ސަބްސިޑީ", last12("subsidies"), "#9fe0d6"],
+          ["އިންޓަރެސްޓް އަދި ފައިނޭންސިންގ ޚަރަދު", int12, "#ff8a6b"], ["ކެޕިޓަލް ޚަރަދު (ބިނާކުރުމާއި ސާމާނު)", last12("capital_exp"), "#f4c95d"]].filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
+        $("hbars").innerHTML = items.map(([l, v, c]) => `<div class="hbar"><div class="top"><span>${l}</span><span class="num">${disp(v)}, ${fmt(100 * v / exp12, 0)}%</span></div><div class="track"><div class="fill" style="width:${100 * v / exp12}%;background:${c}"></div></div></div>`).join("");
+        $("spendHead").hidden = !items.length;
+        drawWhy(gap / pop);
+        $("fiscalSec").hidden = false;
+        drawAnnual();
+      }
+
+      // ---------- the short version, and one-line answers to each question ----------
+      try {
+        const popN = popNow(), dvv = last(S.domestic)?.value, evv = last(S.external)?.value, dsh = dvv && evv ? 100 * dvv / (dvv + evv) : null;
+        const cards = [];
+        if (mult > 1) cards.push(["trend", "var(--foam)", `${fmt(mult, 1)} ގުނަ ބޮޑު`, `${first.date.slice(0, 4)} އާ އަޅާބަލާއިރު`, `${mLabel(first.date)} ގެ ނިޔަލަށް ދަރަނި އޮތީ ${moneyNow(first.value, first.date)} އަށެވެ. އެއަށްފަހު ގާތްގަނޑަކަށް ކޮންމެ އަހަރަކު ދަރަނި އިތުރުވެފައިވެއެވެ.`, "ch-history", "ބޮޑުވި ގޮތް ބައްލަވާ"]);
+        if (rev12 && exp12 && exp12 > rev12) cards.push(["gap", "var(--red)", disp(exp12 - rev12), "ތަފާތު ފުރިހަމަކުރަން އަހަރަކު ނެގި ދަރަނި", `ފާއިތުވި 12 މަހު، ސަރުކާރަށް ލިބުނު ފައިސާއަށްވުރެ ޚަރަދު ބޮޑުވިއެވެ. އެ ތަފާތަށް ކިޔަނީ <span class="term" role="button" tabindex="0" data-term="deficit">ޑެފިސިޓް</span> އެވެ. އެ ފައިސާ ހޯދީ ދަރަނި ނަގައިގެންނެވެ.`, "ch-fiscal", "ދަރަނި ނަގާ ސަބަބު"]);
+        if (int12 && rev12) cards.push(["interest", "var(--coral)", `100 ން ${fmt(100 * int12 / rev12, 0)}`, "ލިބޭ ކޮންމެ 100 ރުފިޔާއިން އިންޓަރެސްޓަށް ދާ މިންވަރު", `ފާއިތުވި 12 މަހު، ސަރުކާރަށް ލިބުނު ކޮންމެ 100 ރުފިޔާއިން މި މިންވަރު ދަރަނި ދިން ފަރާތްތަކަށް <span class="term" role="button" tabindex="0" data-term="interest">އިންޓަރެސްޓް</span> ގޮތުގައި ދިޔައެވެ. އެ ފައިސާއިން ސްކޫލެއް، ހޮސްޕިޓަލެއް ނުވަތަ މުސާރައެއް ނުދެވެއެވެ.`, "priorities.html?from=home", "ފުލުހުންނާއި ޙައްޤުތަކާ އަޅާކިޔާލައްވާ"]);
+        if (dsh) cards.push(["globe", "var(--lagoon)", `${fmt(dsh, 0)}% ރާއްޖޭގައި`, "ދަރަނި ދައްކަންޖެހޭ ފަރާތްތައް", `ގިނަ ބައި ދައްކަންޖެހެނީ ރާއްޖޭގެ ބޭންކުތަކާއި ފަންޑުތަކަށެވެ. ބާކީ ${fmt(100 - dsh, 0)}% ދައްކަންޖެހެނީ ބޭރަށެވެ. އަދި އެ ދައްކަންޖެހެނީ ބޭރުގެ ފައިސާއިންނެވެ.`, "ch-owed", "ދަރަނި ދިން ފަރާތްތައް ބައްލަވާ"]);
+        $("plain").innerHTML = cards.map(([ic, col, big, t, x, to, go]) => `<div class="pcard" style="--c:${col}">${MV.icon(ic)}<span class="big">${big}</span><span class="t">${t}</span><span class="x">${x}</span><a class="go" href="${to.endsWith(".html") ? to : "#" + to}"${to.endsWith(".html") ? "" : ` data-open="${to}"`}>${go} ←</a></div>`).join("");
+        $("aOwed").textContent = "ރާއްޖޭގައި ބޭންކުތަކާއި، MMA އާއި ޕެންޝަން ފަންޑަށް. ބޭރުގައި ސަރުކާރުތަކާއި، ތަރައްޤީގެ ބޭންކުތަކާއި، އިންވެސްޓަރުންނަށް.";
+        $("aHist").textContent = "2015 އިން ފެށިގެން ކޮންމެ ކުއާޓަރަކަށް، ރުފިޔާއިން ނުވަތަ އިޤްތިޞާދުގެ ބޮޑުމިނާ އަޅާކިޔައިގެން.";
+        $("aFisc").textContent = "ލިބޭ ފައިސާއާއި ހިނގާ ޚަރަދު، އަދި ކޮންމެ އަހަރެއްގެ ތަފާތަށްވުރެ ދަރަނި ބޮޑަށް އިތުރުވަނީ ކީއްވެކަން.";
+        $("aHow").textContent = "އަދަދު ލިބެނީ ކޮންތާކުންކަމާއި، ރަސްމީ އަދަދުތައް ނެރޭ ދެމެދު އެއީ ލަފާކުރެވޭ އަދަދަކަށް ވަނީ ކީއްވެކަން.";
+      } catch (e) { console.error("Short version skipped:", e); }
+
+      $("methodDetail").innerHTML = `މިހާރު އެ މިންވަރަކީ <b>އަހަރަކު ${moneyNow(rate * SEC_YEAR)}</b> އެވެ. މި ހިސާބުކުރަނީ ${mLabel(back.date)} އާއި ${mLabel(latest.date)} އާ ދެމެދު އައި ބަދަލުންނެވެ. ޑޮލަރުން ދައްކާ އަދަދުތަކަށް ބޭނުންކުރަނީ MMA ގެ ރެފަރެންސް ރޭޓެވެ (މިއަދު އެއް ޑޮލަރަކީ ${fmt(MV.USD, 2)} ރުފިޔާ).`;
+      if (pop && POP) $("popLine").innerHTML = `ލަފާކުރެވޭ ގޮތުން ${fmt(Math.round(pop))} ރައްޔިތުން (${POP.base_date.slice(0, 4)} ގެ ނިޔަލަށް ނޭޝަނަލް ރަޖިސްޓަރީގައިވާ އަދަދު، އަހަރަކު ${fmt(POP.annual_growth * 100, 2)}% އިން އިތުރުކޮށްގެން). ސަރުކާރުން އާ އަދަދުތައް ޝާއިޢުކުރުމުން މި އަދަދު ބަދަލުކުރެވޭނެއެވެ. <a href="methodology.html#population">ލަފާކުރާ ގޮތް</a>`;
+      if (pop && POP) $("popNote").innerHTML = `ކޮންމެ ރައްޔިތަކަށް ބަހާލާ އަދަދުތައް ހިސާބުކުރަނީ މިއަދު ތިބިކަމަށް ލަފާކުރެވޭ <b>${fmt(Math.round(pop))}</b> ދިވެހި ރައްޔިތުންނަށް ބަހާލައިގެންނެވެ. އެއީ 2025 ގެ ނިޔަލަށް ނޭޝަނަލް ރަޖިސްޓަރީގައިވާ ${fmt(POP.base)} ރައްޔިތުން، އަހަރަކު ${fmt(POP.annual_growth * 100, 2)}% އިން އިތުރުކޮށްގެންނެވެ. އެއީ ފަހުގެ ދެ ސެންސަހުގެ ދެމެދު ދިވެހި އާބާދީ އިތުރުވި މިންވަރެވެ.`;
+      $("fetched").textContent = "އެންމެ ފަހުން ޑޭޓާ ހޯދީ " + MV.fetched(data.fetched_at) + " (މާލޭ ވަގުތު). އަދަދުތައް ނަގާފައިވަނީ MMA ގެ ސްޓެޓިސްޓިކްސް ޑޭޓާބޭސްއިން.";
+      tick(); drawChart();
+    }
+
+    // why debt per citizen is so much bigger than one year's gap: reconcile debt growth with the yearly gaps
+    function drawWhy(gapPP) {
+      const rv = S.revenue.points, ex = Object.fromEntries(S.expenditure.points.map(p => [p.date, p.value]));
+      const q0 = [...tot].reverse().find(p => p.date < rv[0].date);                 // last quarter before monthly data starts
+      const q1 = [...tot].reverse().find(p => p.date <= fEnd);                       // latest quarter the monthly data covers
+      if (!q0 || !q1 || q1.date <= q0.date) { $("why").hidden = true; return; }
+      const gaps = rv.filter(p => p.date > q0.date && p.date <= q1.date && ex[p.date] != null).reduce((a, p) => a + ex[p.date] - p.value, 0);
+      const gAt = d => ["domestic_guaranteed", "external_guaranteed"].reduce((a, k) => a + ((S[k]?.points || []).find(p => p.date === d)?.value || 0), 0);
+      const rise = q1.value - q0.value, guar = gAt(q1.date) - gAt(q0.date), other = rise - gaps - guar;
+      const n = v => moneyNow(v);
+      const segs = [["#ff5f56", gaps, `<b>${n(gaps)}</b> ކޮންމެ އަހަރެއްގެ ޚަރަދާއި އާމްދަނީގެ ތަފާތު، ޖަމާކޮށްގެން`],
+                    ["#f4c95d", guar, `<b>${n(guar)}</b> ސަރުކާރުގެ ގެރެންޓީއާއެކު ސަރުކާރު ކުންފުނިތަކުން ނެގި އިތުރު ދަރަނި. މިއީ ސަރުކާރުގެ ޚަރަދުގައި ނުފެންނަ ބައެކެވެ`],
+                    ["#9fe0d6", other, `<b>${n(other)}</b> ޚަރަދުގެ ގޮތުގައި ނުގުނާ އެހެން ދަރަނި. ސަރުކާރު ކުންފުނިތަކަށް ދަރަނި ދިނުމާއި އިންވެސްޓްކުރުމާއި، ސަރުކާރުގެ ނަގުދު ފައިސާގެ ބެލެންސް ބަދަލުވުން ފަދަ ކަންކަމެވެ`]].filter(x => x[1] > 0);
+      const pp = convNow(debtNow() / popNow());
+      $("why").innerHTML = `<h3>މި ތަފާތަށްވުރެ ދަރަނި މިހާ ބޮޑީ ކީއްވެ؟</h3>
+        <p>${sym()} ${fmt(convNow(Math.abs(gapPP)))} ގެ ތަފާތަކީ <b>އެއް އަހަރުގެ</b> ތަފާތެވެ. ކޮންމެ ރައްޔިތަކަށް ބަހާލާއިރު ${sym()} ${fmt(pp)} ގެ ދަރަނި އަކީ <b>ގިނަ އަހަރުތަކެއްގައި</b> ޖަމާވެފައިވާ ދަރަންޏެވެ. އެއީ އެއް މަހު ބޭނުންކުރި އިތުރު ފައިސާއާއި، ކްރެޑިޓް ކާޑުގައި ޖަމާވެފައިވާ ބެލެންސް ފަދަ ތަފާތެކެވެ. އަދި ބައެއް ދަރަނި ސަރުކާރުގެ ޚަރަދުގައި އެއްގޮތަކަށްވެސް ނުފެނެއެވެ.</p>
+        <p>${mLabel(q0.date)} އިން ފެށިގެން ދަރަނި <b>${n(rise)}</b> އިތުރުވެފައިވެއެވެ. އެ އައީ މި ގޮތަށެވެ.</p>
+        <div class="sbar" role="img" aria-label="ދަރަނި އިތުރުވި ސަބަބުތައް">${segs.map(x => `<div style="flex-grow:${x[1]};background:${x[0]}"></div>`).join("")}</div>
+        <ul>${segs.map(x => `<li><i style="background:${x[0]}"></i><span>${x[2]}</span></li>`).join("")}</ul>
+        <p class="small">${mLabel(q0.date)} ގައި އޮތް ${n(q0.value)} ގެ ދަރަނި އަކީ ކުރީގެ އަހަރުތަކުގެ ދަރަންޏެވެ. އަހަރުގެ ތަފާތުތައް ޖަމާކޮށްފައިވަނީ ${mLabel(S.revenue.points.find(p => p.date > q0.date).date)} އިން ${mLabel(q1.date)} އަށް މަހުން މަހަށް އަދަދުތަކުންނެވެ. <a href="methodology.html#fiscal">ހިސާބުކުރި ގޮތް</a>.</p>`;
+      $("why").hidden = false;
+    }
+
+    // annual revenue vs spending
+    function drawAnnual() {
+      const rv = months("revenue"), ex = months("expenditure");
+      const years = [...new Set(rv.map(p => p.date.slice(0, 4)))].filter(y => rv.filter(p => p.date.startsWith(y)).length === 12 && ex.filter(p => p.date.startsWith(y)).length === 12);
+      const cats = years.map(y => ({ label: y }));
+      const R = years.map(y => sumReal(rv.filter(p => p.date.startsWith(y)))), E = years.map(y => sumReal(ex.filter(p => p.date.startsWith(y))));
+      const bn = v => fmt(v / 1e9, 1) + " bn";
+      $("annualNote").textContent = `ކޮންމެ މީލާދީ އަހަރެއްގެ އާމްދަނީއާއި ޚަރަދު، ބިލިއަން ${MV.state.cur === "USD" ? "ޑޮލަރުން" : "ރުފިޔާއިން"}${MV.isReal() ? `، ${MV.baseLabel()}` : ""}. ކޮންމެ އަހަރެއްގެ ދަށުގައިވާ ރަތް އަދަދަކީ ޑެފިސިޓް.`;
+      const r12 = last12("revenue", sumReal), e12 = last12("expenditure", sumReal), firstM = months("revenue").slice(-12)[0].date;
+      $("l12").innerHTML = `<span>ފާއިތުވި 12 މަސް (${mLabel(firstM)} އިން ${mLabel(fEnd)} އަށް${MV.isReal() ? "، ޗާޓުގެ އަގުތަކުން" : ""})</span><span>އާމްދަނީ <b>${sym()} ${bn(r12)}</b></span><span>ޚަރަދު <b class="red">${sym()} ${bn(e12)}</b></span><span>${e12 >= r12 ? "ޑެފިސިޓް" : "ސަރޕްލަސް"} <b class="${e12 >= r12 ? "red" : ""}">${sym()} ${bn(Math.abs(e12 - r12))}</b></span>`;
+      MV.barChart($("annual"), {
+        cats, label: "އަހަރުން އަހަރަށް ސަރުކާރުގެ އާމްދަނީ އަދި ޚަރަދު",
+        groups: [{ color: "#3fb8b0", vals: R.map(v => v / 1e9) }, { color: "#ff5f56", vals: E.map(v => v / 1e9) }],
+        yFmt: v => fmt(v), below: i => { const g = E[i] - R[i]; return { text: (g >= 0 ? "−" : "+") + fmt(Math.abs(g) / 1e9, 1), color: g >= 0 ? "#ff5f56" : "#3fb8b0" }; },
+        tip: i => `<b>${cats[i].label}</b>` + row("އާމްދަނީ", sym() + " " + bn(R[i])) + row("ޚަރަދު", sym() + " " + bn(E[i])) +
+          row(E[i] >= R[i] ? "ޑެފިސިޓް" : "ސަރޕްލަސް", `<span style="color:${E[i] >= R[i] ? "#d63b33" : "#0b6b5f"}">${sym()} ${bn(Math.abs(E[i] - R[i]))}</span>`) + row("ލިބޭ ކޮންމެ 100 އަކަށް ޚަރަދު", fmt(100 * E[i] / R[i], 0))
+      });
+    }
+
+    // debt chart
+    let view = "amount";
+    const byDate = k => Object.fromEntries((S[k]?.points || []).map(p => [p.date, p.value]));
+    const domD = byDate("domestic"), extD = byDate("external"), ratD = Object.fromEntries(ratioPts.map(p => [p.date, p.value]));
+    const rows = tot.map(p => ({ date: p.date, total: p.value, dom: domD[p.date], ext: extD[p.date], ratio: ratD[p.date] }));
+    function drawChart() {
+      const useRatio = view === "ratio";
+      $("chartNote").textContent = useRatio ? "ކޮންމެ ކުއާޓަރެއްގައި ޖުމްލަ ދަރަނި، އިޤްތިޞާދުގެ (ޖީޑީޕީގެ) ނިސްބަތުން. މި ގޮތަށް ބަލާއިރު އިންފްލޭޝަނުގެ އަސަރެއް ނުކުރެއެވެ." :
+        `ކޮންމެ ކުއާޓަރެއްގެ ނިޔަލަށް ސަރުކާރުގެ ދަރަންޏާއި ސަރުކާރުން ގެރެންޓީ ދީފައިވާ ދަރަނި، ބިލިއަން ${MV.state.cur === "USD" ? "ޑޮލަރުން" : "ރުފިޔާއިން"}${MV.isReal() ? `، ${MV.baseLabel()}` : ""}.`;
+      MV.lineChart($("chart"), {
+        rows: useRatio ? rows.filter(r => r.ratio != null) : rows, label: "ކުއާޓަރުން ކުއާޓަރަށް ދަރަނި",
+        series: [{ val: r => useRatio ? r.ratio : conv(r.total, r.date) / 1e9, color: "#3fb8b0", area: true }],
+        ref: useRatio ? { value: 100, color: "#f4c95d" } : null, yFmt: v => fmt(v) + (useRatio ? "%" : ""),
+        tip: r => `<b>${qLabel(r.date)}</b>` + row("ޖުމްލަ", money(r.total, r.date)) + row("ދާޚިލީ", r.dom != null ? money(r.dom, r.date) : null) + row("ބޭރު", r.ext != null ? money(r.ext, r.date) : null) + row("ޖީޑީޕީގެ ނިސްބަތް", r.ratio != null ? fmt(r.ratio, 1) + "%" : null)
+      });
+    }
+    document.querySelectorAll("[data-view]").forEach(b => b.addEventListener("click", () => { view = b.dataset.view; document.querySelectorAll("[data-view]").forEach(x => x.setAttribute("aria-pressed", x === b)); drawChart(); }));
+    MV.onPrefs(render); addEventListener("mv:pri", render);
+    MV.onResize(() => { layout(); drawChart(); if (!$("fiscalSec").hidden) drawAnnual(); });
+    render(); requestAnimationFrame(layout); document.fonts?.ready.then(layout);
+  }
+})();
+</script>
+</body>
+</html>

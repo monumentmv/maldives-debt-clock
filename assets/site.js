@@ -1,8 +1,9 @@
 /* Maldives National Debt Clock: shared code for every page */
 const MV = (() => {
   const SEC_YEAR = 365.25 * 86400;
-  const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-  const MON = MONTHS.map(m => m.slice(0, 3));
+  const DV = window.MV_DV || null, tr = s => (DV && DV.t[s]) || s;   // Dhivehi pages load assets/dv.js first
+  const MONTHS = DV ? DV.months : ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const MON = DV ? MONTHS : MONTHS.map(m => m.slice(0, 3));
 
   // ---------- preferences (currency, inflation adjustment) ----------
   const state = { cur: "MVR", real: false };
@@ -41,16 +42,16 @@ const MV = (() => {
   /** for current figures: never inflation-adjusted, only converted to the chosen currency */
   const convNow = (mvr, date) => state.cur !== "USD" ? mvr : mvr / (date ? rateAt(date) : USD);
   const isReal = () => state.real && !!cpiBase;
-  const baseLabel = () => cpiLast ? `average prices of the 12 months to ${MONTHS[new Date(cpiLast.date).getUTCMonth()]} ${new Date(cpiLast.date).getUTCFullYear()}` : "";
+  const baseLabel = () => cpiLast && DV ? DV.baseLabel(MONTHS[new Date(cpiLast.date).getUTCMonth()], new Date(cpiLast.date).getUTCFullYear()) : cpiLast ? `average prices of the 12 months to ${MONTHS[new Date(cpiLast.date).getUTCMonth()]} ${new Date(cpiLast.date).getUTCFullYear()}` : "";
   /** for series recorded in US dollars (fuel): convert to rufiyaa at that month's rate if needed */
   const fromUSD = (usd, date) => state.cur === "USD" ? usd : usd * (date ? rateAt(date) : USD);
 
   // ---------- formatting ----------
   const fmt = (n, d = 0) => Number(n).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
-  const sym = () => state.cur === "USD" ? "US$" : "MVR";
+  const sym = () => DV ? DV.sym(state.cur) : state.cur === "USD" ? "US$" : "MVR";
   const short = n => { const a = Math.abs(n);
-    if (a >= 1e9) return fmt(n / 1e9, 1) + " bn";
-    if (a >= 1e6) return fmt(n / 1e6, 1) + " m";
+    if (a >= 1e9) return fmt(n / 1e9, 1) + (DV ? " " + DV.bn : " bn");
+    if (a >= 1e6) return fmt(n / 1e6, 1) + (DV ? " " + DV.m : " m");
     if (a >= 1e4) return fmt(n);
     return fmt(n, a < 10 ? 2 : 0); };
   const money = (mvr, date) => sym() + " " + short(conv(mvr, date));          // applies "Real"
@@ -60,11 +61,11 @@ const MV = (() => {
   const dt = d => new Date(d);
   const mLabel = d => MONTHS[dt(d).getUTCMonth()] + " " + dt(d).getUTCFullYear();
   const mShort = d => MON[dt(d).getUTCMonth()] + " " + dt(d).getUTCFullYear();
-  const qLabel = d => "Q" + (Math.floor(dt(d).getUTCMonth() / 3) + 1) + " " + dt(d).getUTCFullYear();
+  const qLabel = d => DV ? DV.q(Math.floor(dt(d).getUTCMonth() / 3) + 1, dt(d).getUTCFullYear()) : "Q" + (Math.floor(dt(d).getUTCMonth() / 3) + 1) + " " + dt(d).getUTCFullYear();
   const dayLabel = d => dt(d).getUTCDate() + " " + MONTHS[dt(d).getUTCMonth()] + " " + dt(d).getUTCFullYear();
   const last = s => s?.points?.length ? s.points[s.points.length - 1] : null;
   const getJSON = u => fetch(u, { cache: "no-store" }).then(r => { if (!r.ok) throw new Error(u + " " + r.status); return r.json(); });
-  const fetched = d => new Date(d).toLocaleString("en-GB", { timeZone: "Indian/Maldives", dateStyle: "long", timeStyle: "short" });
+  const fetched = d => DV ? DV.fetched(d) : new Date(d).toLocaleString("en-GB", { timeZone: "Indian/Maldives", dateStyle: "long", timeStyle: "short" });
 
   // ---------- header toggles ----------
   const listeners = [];
@@ -74,7 +75,8 @@ const MV = (() => {
     document.querySelectorAll('[data-pref="real"] button').forEach(b => b.setAttribute("aria-pressed", (b.dataset.v === "1") === state.real));
     document.body.classList.toggle("is-real", state.real && !!cpiBase && !document.querySelector('[data-pref="real"][hidden]'));
     const note = document.querySelector(".real-note");
-    if (note && cpiBase) note.innerHTML = `<span class="long">Real mode. Charts and comparisons over time are adjusted for inflation, in ${baseLabel()}. Current figures are always in today's money.</span><span class="short">Real mode, past amounts adjusted for inflation</span>`;
+    if (note && cpiBase && DV) note.innerHTML = DV.realNote(baseLabel());
+    else if (note && cpiBase) note.innerHTML = `<span class="long">Real mode. Charts and comparisons over time are adjusted for inflation, in ${baseLabel()}. Current figures are always in today's money.</span><span class="short">Real mode, past amounts adjusted for inflation</span>`;
   }
   document.addEventListener("click", e => {
     const b = e.target.closest("[data-pref] button"); if (!b) return;
@@ -283,13 +285,14 @@ const MV = (() => {
 
   // ---------- how recent the figures are, so visitors know when to come back ----------
   const daysAgo = d => Math.floor((Date.now() - new Date(String(d).length <= 10 ? d + "T12:00:00+05:00" : d)) / 86400000);
-  const ago = d => { const n = daysAgo(d); return n <= 0 ? "today" : n === 1 ? "yesterday" : n < 14 ? `${n} days ago` : n < 60 ? `${Math.round(n / 7)} weeks ago` : `${Math.round(n / 30.4)} months ago`; };
+  const ago = d => { const n = daysAgo(d); if (DV) return DV.ago(n); return n <= 0 ? "today" : n === 1 ? "yesterday" : n < 14 ? `${n} days ago` : n < 60 ? `${Math.round(n / 7)} weeks ago` : `${Math.round(n / 30.4)} months ago`; };
   const CADENCE = { weekly: ["every week", 10], monthly: ["every month", 45], quarterly: ["every three months", 120], daily: ["every day", 3] };
   /** el: where to write. asOf: date the figures run to. what: plain description. cadence: weekly, monthly, quarterly or daily */
   function fresh(el, { asOf, what, cadence = "weekly", next = "" }) {
     if (!el || !asOf) return;
     const [every, newDays] = CADENCE[cadence] || CADENCE.weekly, isNew = daysAgo(asOf) <= newDays;
     el.className = "fresh" + (isNew ? " is-new" : "");
+    if (DV) { el.innerHTML = `<span class="dot" aria-hidden="true"></span>${isNew ? `<span class="badge">${tr("Recent")}</span>` : ""}<span>${DV.fresh(what, dayLabel(asOf), ago(asOf), cadence)}</span>`; return; }
     el.innerHTML = `<span class="dot" aria-hidden="true"></span>${isNew ? `<span class="badge">Recent</span>` : ""}<span>${what} to <b>${dayLabel(asOf)}</b>, ${ago(asOf)}. New figures come out ${every}${next ? `, ${next}` : ""}, so check back for the latest.</span>`;
   }
 
@@ -305,7 +308,7 @@ const MV = (() => {
     if (!changes.length) return;
     const box = el || (() => { const b = document.createElement("div"); document.querySelector("main .wrap")?.prepend(b); return b; })();
     box.className = "since";
-    box.innerHTML = `<b>Since your last visit ${ago(new Date(prev.t).toISOString())}</b><ul>${changes.map(c => `<li>${c}</li>`).join("")}</ul><button type="button" aria-label="Close">×</button>`;
+    box.innerHTML = `<b>${DV ? DV.sinceVisit(ago(new Date(prev.t).toISOString())) : "Since your last visit " + ago(new Date(prev.t).toISOString())}</b><ul>${changes.map(c => `<li>${c}</li>`).join("")}</ul><button type="button" aria-label="Close">×</button>`;
     box.querySelector("button").onclick = () => box.remove();
   }
 
@@ -356,6 +359,7 @@ const MV = (() => {
     governance: ["Governance score", "Moody's also scores how much a country's governance affects its credit. This covers how public money is managed, how open and accountable the budget is, and control of corruption and financial crime. The scale has five steps, from 1, where governance helps the rating, to 5, where it hurts it most.", "governance", false],
     usd: ["US dollar figures", "Amounts can be shown in US dollars using MMA's official exchange rate. Past amounts use the rate of the time, so changes in the exchange rate don't distort the history."],
   };
+  if (DV) Object.assign(EXPLAIN, DV.explain);
   const SCALES = {
     rating: { you: "Caa1", note: "Maldives moved up from Caa2 to Caa1 on 8 October 2026. That is step 17 of 21.", line: 4, rows: [
       ["Aaa", "Highest quality, lowest risk"], ["Aa1 to Aa3", "High quality, very low risk"], ["A1 to A3", "Low risk"], ["Baa1 to Baa3", "Moderate risk"],
@@ -363,15 +367,16 @@ const MV = (() => {
     governance: { you: "G-4", note: "Moody's scores Maldives G-4.", rows: [
       ["G-1", "Positive"], ["G-2", "Neutral to low"], ["G-3", "Moderately negative"], ["G-4", "Highly negative"], ["G-5", "Very highly negative"]] },
   };
+  if (DV) Object.assign(SCALES, DV.scales);
   const scaleHTML = k => { const c = SCALES[k]; if (!c) return "";
     const mine = g => g.slice(0, 3) === c.you.slice(0, 3);
-    return `<ol class="scale">${c.rows.map(([g, m], i) => `${i === c.line ? '<li class="scale-line">Investment grade above this line</li>' : ""}<li${mine(g) ? ' class="here"' : ""}><b>${g}</b><span>${m}</span>${mine(g) ? "<em>Maldives</em>" : ""}</li>`).join("")}</ol><p class="scale-note">${c.note}</p>`; };
+    return `<ol class="scale">${c.rows.map(([g, m], i) => `${i === c.line ? '<li class="scale-line">${tr("Investment grade above this line")}</li>' : ""}<li${mine(g) ? ' class="here"' : ""}><b>${g}</b><span>${m}</span>${mine(g) ? `<em>${tr("Maldives")}</em>` : ""}</li>`).join("")}</ol><p class="scale-note">${c.note}</p>`; };
   function explain(key, anchor) {
     const e = EXPLAIN[key]; if (!e) return false;
     let dlg = document.getElementById("explain");
     if (!dlg) {
       dlg = document.createElement("div"); dlg.id = "explain"; dlg.className = "explain"; dlg.hidden = true;
-      dlg.innerHTML = `<div class="explain-box" role="dialog" aria-modal="true" aria-labelledby="explainT"><button type="button" class="x" aria-label="Close">×</button><h3 id="explainT"></h3><p></p><div class="explain-x"></div><a class="more" href="#">Read more in the methodology</a></div>`;
+      dlg.innerHTML = `<div class="explain-box" role="dialog" aria-modal="true" aria-labelledby="explainT"><button type="button" class="x" aria-label="Close">×</button><h3 id="explainT"></h3><p></p><div class="explain-x"></div><a class="more" href="#">${tr("Read more in the methodology")}</a></div>`;
       document.body.appendChild(dlg);
       const close = () => { dlg.hidden = true; dlg._from?.focus?.(); };
       dlg.addEventListener("click", ev => { if (ev.target === dlg || ev.target.closest(".x")) close(); });
@@ -392,7 +397,7 @@ const MV = (() => {
   function realHelp() {
     const t = document.querySelector('.toggle[data-pref="real"]');
     if (!t || t.nextElementSibling?.classList.contains("q")) return;
-    t.insertAdjacentHTML("afterend", `<button type="button" class="q" data-term="real" aria-label="What do nominal and real mean?">?</button>`);
+    t.insertAdjacentHTML("afterend", `<button type="button" class="q" data-term="real" aria-label="${tr("What do nominal and real mean?")}">?</button>`);
   }
 
   // ---------- the header's height, so pickers can stick just below it ----------
@@ -424,17 +429,17 @@ const MV = (() => {
       const newest = P?.latest?.d; if (!newest) return;   // the live site serves pages without ".html", so match both
       let seen = null; try { seen = localStorage.getItem("updatesSeen"); } catch (e) {}
       if (/\/updates(\.html)?\/?$/.test(location.pathname)) { try { localStorage.setItem("updatesSeen", newest); } catch (e) {} return; }
-      if (!seen || seen < newest) link.insertAdjacentHTML("beforeend", `<span class="nav-new" role="img" aria-label="new since your last visit" title="New since your last visit"></span>`);
+      if (!seen || seen < newest) link.insertAdjacentHTML("beforeend", `<span class="nav-new" role="img" aria-label="${tr("new since your last visit")}" title="${tr("New since your last visit")}"></span>`);
     }).catch(() => {});
   }
 
   // ---------- colour themes ----------
-  const THEMES = [["", "Ocean"], ["light", "Daylight"], ["contrast", "High contrast"]];
+  const THEMES = [["", tr("Ocean")], ["light", tr("Daylight")], ["contrast", tr("High contrast")]];
   function setTheme(t) {
     if (t) document.documentElement.dataset.theme = t; else delete document.documentElement.dataset.theme;
     try { t ? localStorage.setItem("theme2", t) : localStorage.removeItem("theme2"); } catch (e) {}
     const b = document.querySelector(".theme-btn"), name = (THEMES.find(x => x[0] === t) || THEMES[0])[1];
-    if (b) { b.setAttribute("aria-label", `Colour theme, ${name}. Change theme`); b.title = `Theme, ${name}`; }
+    if (b) { b.setAttribute("aria-label", DV ? DV.themeLabel(name) : `Colour theme, ${name}. Change theme`); b.title = DV ? name : `Theme, ${name}`; }
     listeners.forEach(fn => fn());
   }
   function themeButton() {
@@ -468,10 +473,10 @@ const MV = (() => {
       setInterval(stillHere, 15000); addEventListener("pagehide", stillHere);
       const el = document.createElement("div");
       el.className = "ticker";
-      el.innerHTML = `<span class="dot" aria-hidden="true"></span><a href="priorities.html" title="The debt and the interest on it keep growing every second"><span class="lbl">Since you arrived</span><span class="pair">`
-        + (debtSec != null ? `<span class="item"><span class="v num debt">…</span><span class="k">${debtSec >= 0 ? "debt added" : "debt paid down"}</span></span>` : "")
-        + `<span class="item"><span class="v num int">…</span><span class="k">interest accrued</span></span></span>`
-        + (debtSec != null ? `<span class="now">Debt now <b class="num">…</b></span>` : "") + `</a><button type="button" aria-label="Hide the counter">×</button>`;
+      el.innerHTML = `<span class="dot" aria-hidden="true"></span><a href="priorities.html" title="${tr("The debt and the interest on it keep growing every second")}"><span class="lbl">${tr("Since you arrived")}</span><span class="pair">`
+        + (debtSec != null ? `<span class="item"><span class="v num debt">…</span><span class="k">${tr(debtSec >= 0 ? "debt added" : "debt paid down")}</span></span>` : "")
+        + `<span class="item"><span class="v num int">…</span><span class="k">${tr("interest accrued")}</span></span></span>`
+        + (debtSec != null ? `<span class="now">${tr("Debt now")} <b class="num">…</b></span>` : "") + `</a><button type="button" aria-label="${tr("Hide the counter")}">×</button>`;
       document.body.appendChild(el);
       // on the home page, step aside only while the box would sit on top of the big clock (short phone screens)
       const big = document.getElementById("clock");
@@ -510,7 +515,7 @@ const MV = (() => {
       if (age < 0 || age > 864e5 || closed) return;
       const esc = x => String(x).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
       const bar = document.createElement("div"); bar.className = "cm-ribbon" + (shown ? " still" : ""); bar.setAttribute("role", "region"); bar.setAttribute("aria-label", "New commentary");
-      bar.innerHTML = `<a class="cm-r-link" href="${base}commentary.html#${esc(p.id)}"><span class="cm-r-tag">New commentary</span><span class="cm-r-t">${esc(p.title)}</span><span class="cm-r-go">Read →</span></a><button type="button" class="cm-r-x" aria-label="Close">×</button>`;
+      bar.innerHTML = `<a class="cm-r-link" href="${base}commentary.html#${esc(p.id)}"><span class="cm-r-tag">${tr("New commentary")}</span><span class="cm-r-t">${esc(DV && p.title_dv || p.title)}</span><span class="cm-r-go">${tr("Read →")}</span></a><button type="button" class="cm-r-x" aria-label="${tr("Close")}">×</button>`;
       const close = () => { try { sessionStorage.setItem(key, "1"); } catch (e) {} };
       try { sessionStorage.setItem("cmShown", p.id); } catch (e) {}
       bar.querySelector(".cm-r-link").addEventListener("click", close);
@@ -530,7 +535,7 @@ const MV = (() => {
       if (document.querySelector(".explain")) return setTimeout(sourceNotice, 15000);   // not on top of another pop-up
       const box = document.createElement("div");
       box.className = "src-notice"; box.setAttribute("role", "presentation");
-      box.innerHTML = `<div class="src-card" role="dialog" aria-modal="true" aria-labelledby="srcT">
+      box.innerHTML = DV ? DV.srcNotice : `<div class="src-card" role="dialog" aria-modal="true" aria-labelledby="srcT">
         <button type="button" class="x" aria-label="Close">×</button>
         <div class="src-ico" aria-hidden="true">✓</div>
         <h3 id="srcT">All figures here are based on government data</h3>
