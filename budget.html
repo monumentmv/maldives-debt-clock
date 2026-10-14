@@ -206,8 +206,8 @@
     <p id="cmpNote">Pick any two weekly reports. Each figure is the total from 1 January to that report's date, so compare weeks at the same point in their years, such as the latest week against the same week a year earlier.</p>
     <div class="cmp-bar" id="cmpBar">
     <div class="cmp">
-      <label><i style="background:#f4c95d"></i>This report <select id="cmpB" aria-label="This report"></select></label>
-      <label><i style="background:#6fb3c2"></i>Compared with <select id="cmpA" aria-label="Compared with"></select></label>
+      <label><i style="background:#6fb3c2"></i>Compare <select id="cmpA" aria-label="Compare"></select></label>
+      <label><i style="background:#f4c95d"></i>with <select id="cmpB" aria-label="With"></select></label>
     </div>
     <div class="pills" style="margin-top:1rem" id="cmpQuick">
       <button type="button" class="pill" data-q="yr">Same week a year earlier</button>
@@ -487,17 +487,18 @@
     $("cmpB").value = byD[q.get("b")] ? q.get("b") : L.d;
     $("cmpA").value = byD[q.get("a")] ? q.get("a") : (sameWeek(L, Ly - 1)?.d || R[0].d);
     function drawCmp() {
-      const b = byD[$("cmpB").value], a = byD[$("cmpA").value];
+      // whichever two reports are picked, the older one goes first and the change runs from it to the newer one
+      const [a, b] = [byD[$("cmpA").value], byD[$("cmpB").value]].sort((x, y) => x.d < y.d ? -1 : x.d > y.d ? 1 : 0);
       const rows = MEASURES.concat([["green_tax", "Green tax"], ["general_gst", "GST outside tourism"], ["import_duties", "Import duties"], ["rent_from_resorts", "Rent from resorts"], ["soe_dividends", "Dividends from state companies"], ["grants", "Grants received"]]);
       const cell = (x, k) => x == null ? "n/a" : !x ? "0" : (x < 0 ? "−" : k === "overall_balance" ? "+" : "") + short(Math.abs(x));
       const head = r => wk() ? (prevOf(r) ? `${r.w ? `Week ${r.w}` : daysOf(r) + " days"}<small>${period(r)} ${r.d.slice(0, 4)}</small>` : `1 January to ${dayLabel(r.d)}`) : dayLabel(r.d);
-      let h = `<tr><th>${wk() ? "That week alone" : "From 1 January to"}</th><th>${head(b)}</th><th>${head(a)}</th><th>Change</th></tr>`;
+      let h = `<tr><th>${wk() ? "That week alone" : "From 1 January to"}</th><th>${head(a)}</th><th>${head(b)}</th><th>Change</th></tr>`;
       $("cmpNote").textContent = (wk() ? "Pick any two weekly reports. Each figure is what came in or went out in that week alone, the change since the report before." : "Pick any two weekly reports. Each figure is the total from 1 January to that report's date, so compare weeks at the same point in their years, such as the latest week against the same week a year earlier.") + ` Amounts in ${sym()}.`;
       rows.forEach(([k, l]) => { const vb = mv(b, k), va = mv(a, k); if (vb == null && va == null) return;
         const cb = over(vb, b.d), ca = over(va, a.d); let c = "", cls = "";
         if (k === "overall_balance") { if (cb != null && ca != null) { const dlt = cb - ca; c = (dlt >= 0 ? "+" : "−") + short(Math.abs(dlt)); cls = dlt >= 0 ? "up" : "down"; } }
         else if (ca > 0 && cb != null && cb >= 0) { const p = (cb / ca - 1) * 100; c = (p >= 0 ? "+" : "−") + fmt(Math.abs(p), 1) + "%"; }
-        h += `<tr class="${["revenue_and_grants", "total_expenditure", "overall_balance"].includes(k) ? "l1" : "l2"}"><td>${l}</td><td>${cell(cb, k)}</td><td>${cell(ca, k)}</td><td class="${cls}">${c}</td></tr>`; });
+        h += `<tr class="${["revenue_and_grants", "total_expenditure", "overall_balance"].includes(k) ? "l1" : "l2"}"><td>${l}</td><td>${cell(ca, k)}</td><td>${cell(cb, k)}</td><td class="${cls}">${c}</td></tr>`; });
       $("cmpTbl").innerHTML = h;
       document.querySelectorAll("#cmpQuick .pill").forEach(p => p.setAttribute("aria-pressed", "false"));
       try { const u = new URLSearchParams(location.search); u.set("a", a.d); u.set("b", b.d); history.replaceState(null, "", "?" + u.toString()); } catch (e) {}
