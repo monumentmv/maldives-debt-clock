@@ -14,7 +14,7 @@ window.MV_DV = (() => {
     ago: n => n <= 0 ? "މިއަދު" : n === 1 ? "އިއްޔެ" : n < 14 ? `${n} ދުވަސް ކުރިން` : n < 60 ? `${Math.round(n / 7)} ހަފްތާ ކުރިން` : `${Math.round(n / 30.4)} މަސް ކުރިން`,
     fresh: (what, date, ago, cadence) => `${what}، <b>${date}</b> އާ ހަމައަށް (${ago}). އާ އަދަދުތައް ނެރެނީ ${EVERY[cadence] || EVERY.weekly}. އެންމެ ފަހުގެ އަދަދުތައް ބެލުމަށް އަނބުރާ ވަޑައިގަންނަވާ.`,
     sinceVisit: ago => `ފަހުން ވަޑައިގެންނެވި ފަހަރުން (${ago}) ފެށިގެން`,
-    baseLabel: (m, y) => `${m} ${y} އާ ހަމައަށް 12 މަހުގެ އެވަރެޖް އަގުތަކުން`,
+    baseLabel: (m, y) => `${m} ${y} ގެ އަގުތަކުން`,
     realNote: base => `<span class="long">ރިއަލް. ވަގުތާއެކު އަޅާކިޔާ ޗާޓުތަކާއި އަދަދުތައް އިންފްލޭޝަން ބަލައިގެން ދައްކަނީ ${base}. މިހާރުގެ އަދަދުތައް އަބަދުވެސް ދައްކަނީ މިއަދުގެ އަގުން.</span><span class="short">ރިއަލް، ކުރީގެ އަދަދުތައް އިންފްލޭޝަން ބަލައިގެން</span>`,
     themeLabel: name => `ކުލަ، ${name}. ކުލަ ބަދަލުކުރައްވާ`,
     /* percentages next to Thaana would otherwise show as "%63.3", so each one is kept left to right */
