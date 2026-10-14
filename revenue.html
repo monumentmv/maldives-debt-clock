@@ -83,6 +83,7 @@
     .period .who { min-width: 100%; }
   }
   #wkChart .tip .row span:last-child { white-space: nowrap; }
+  .wk-upto { display: block; width: fit-content; margin-bottom: .5rem; font-size: .78rem; font-weight: 700; letter-spacing: .03em; color: var(--abyss); background: var(--sun); padding: .15rem .55rem; border-radius: 999px; }
   #wkCheckTbl th small { display: block; font-weight: 400; color: var(--mist); font-size: .8rem; margin-top: .15rem; white-space: nowrap; }
   #wkCheckTbl th[colspan] { text-align: center; border-bottom: 0; }
 </style>
@@ -594,10 +595,10 @@
       const all = WK.end.map((e, i) => i).filter(has), last4 = all.slice(-4), prev4 = last4.map(yearBefore);
       if (last4.length === 4 && prev4.every(j => j != null && has(j))) {
         const a = last4.reduce((x, i) => x + T(i), 0), b = prev4.reduce((x, j) => x + T(j), 0), c = chg(a, b);
-        $("wkLead").innerHTML = `In the four weeks from ${dLabel(WK.start[last4[0]], WK.start[last4[0]].slice(0, 4) !== WK.end[last4[3]].slice(0, 4))} to ${dLabel(WK.end[last4[3]])}, MIRA collected <b>${money(a)}</b>${usdFile ? " in payments made in US dollars" : ""}, <b>${fmt(Math.abs(c), 0)}% ${c >= 0 ? "more" : "less"}</b> than in the same four weeks a year earlier (${money(b)}).`;
-      } else $("wkLead").innerHTML = "";
+        $("wkLead").innerHTML = `<span class="wk-upto">Latest available from MIRA, the week to ${dLabel(WK.end[WK.end.length - 1])}</span>In the four weeks from ${dLabel(WK.start[last4[0]], WK.start[last4[0]].slice(0, 4) !== WK.end[last4[3]].slice(0, 4))} to ${dLabel(WK.end[last4[3]])}, MIRA collected <b>${money(a)}</b>${usdFile ? " in payments made in US dollars" : ""}, <b>${fmt(Math.abs(c), 0)}% ${c >= 0 ? "more" : "less"}</b> than in the same four weeks a year earlier (${money(b)}).`;
+      } else $("wkLead").innerHTML = `<span class="wk-upto">Latest available from MIRA, the week to ${dLabel(WK.end[WK.end.length - 1])}</span>`;
       $("wkHint").textContent = `Many taxes are due at the end of the month, so the week that includes it is usually much bigger, and a single week can look very different from the same week last year just because a payment fell a few days earlier or later. These are MIRA's provisional weekly figures, published before they are reconciled, so they can change. The latest week in MIRA's file ends ${dLabel(WK.end[WK.end.length - 1])}, so the monthly figures above can be more recent. Hover or tap a week to see the figures${wsplit ? " for each tax" : ""}.`;
-      drawCheck();
+      // drawCheck() is ready but switched off until the MIRA and Finance differences are verified
     }
 
     // MIRA's weekly figures next to Ministry of Finance's weekly report, for the same taxes
