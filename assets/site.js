@@ -565,9 +565,13 @@ const MV = (() => {
       let seen = false; try { seen = localStorage.getItem(key) === "1"; } catch (e) {}
       if (age < 0 || age > 2 * 864e5 || seen) return;
       const [y, m, d] = n.d.split("-").map(Number), when = `${d} ${MONTHS[m - 1]} ${y}`;
+      // the day it came out, in Malé time (the site checks for new reports every four hours)
+      const male = t => new Date(t + 5 * 36e5).toISOString().slice(0, 10), out = male(new Date(n.added).getTime()), today = male(Date.now());
+      const [oy, om, od] = out.split("-").map(Number), outDay = `${od} ${MONTHS[om - 1]} ${oy}`;
+      const released = out === today ? `Released today, ${outDay}` : out === male(Date.now() - 864e5) ? `Released yesterday, ${outDay}` : `Released ${outDay}`;
       const onBudget = /budget(\.html)?\/?$/.test(location.pathname);
       const bar = document.createElement("div"); bar.className = "cm-ribbon wfd-ribbon"; bar.setAttribute("role", "region"); bar.setAttribute("aria-label", "New weekly figures");
-      bar.innerHTML = `<a class="cm-r-link" href="${onBudget ? "#top" : base + "budget.html"}"><span class="cm-r-tag">New figures</span><span class="cm-r-t">Ministry of Finance weekly report${n.w ? `, week ${n.w}` : ""}, up to ${when}</span>${onBudget ? "" : `<span class="cm-r-go">See the budget →</span>`}</a><button type="button" class="cm-r-x" aria-label="Close">×</button>`;
+      bar.innerHTML = `<a class="cm-r-link" href="${onBudget ? "#top" : base + "budget.html"}"><span class="cm-r-tag">${released}</span><span class="cm-r-t">Ministry of Finance weekly report${n.w ? `, week ${n.w}` : ""}, up to ${when}</span>${onBudget ? "" : `<span class="cm-r-go">See the budget →</span>`}</a><button type="button" class="cm-r-x" aria-label="Close">×</button>`;
       const done = () => { try { localStorage.setItem(key, "1"); } catch (e) {} };
       if (!onBudget) bar.querySelector(".cm-r-link").addEventListener("click", done);
       bar.querySelector(".cm-r-x").addEventListener("click", () => { done(); bar.remove(); headHeight(); });
