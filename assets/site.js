@@ -366,8 +366,7 @@ const MV = (() => {
   const scaleHTML = k => { const c = SCALES[k]; if (!c) return "";
     const mine = g => g.slice(0, 3) === c.you.slice(0, 3);
     return `<ol class="scale">${c.rows.map(([g, m], i) => `${i === c.line ? '<li class="scale-line">Investment grade above this line</li>' : ""}<li${mine(g) ? ' class="here"' : ""}><b>${g}</b><span>${m}</span>${mine(g) ? "<em>Maldives</em>" : ""}</li>`).join("")}</ol><p class="scale-note">${c.note}</p>`; };
-  function explain(key, anchor) {
-    const e = EXPLAIN[key]; if (!e) return false;
+  function dialog() {
     let dlg = document.getElementById("explain");
     if (!dlg) {
       dlg = document.createElement("div"); dlg.id = "explain"; dlg.className = "explain"; dlg.hidden = true;
@@ -377,11 +376,51 @@ const MV = (() => {
       dlg.addEventListener("click", ev => { if (ev.target === dlg || ev.target.closest(".x")) close(); });
       document.addEventListener("keydown", ev => { if (ev.key === "Escape" && !dlg.hidden) close(); });
     }
+    return dlg;
+  }
+  const openDialog = dlg => { dlg._from = document.activeElement; dlg.hidden = false; dlg.querySelector(".x").focus(); };
+  function explain(key, anchor) {
+    const e = EXPLAIN[key]; if (!e) return false;
+    const dlg = dialog();
     dlg.querySelector("h3").textContent = e[0]; dlg.querySelector("p").textContent = e[1]; dlg.querySelector(".explain-x").innerHTML = e[2] ? scaleHTML(e[2]) : ""; dlg.querySelector(".more").hidden = e[3] === false;
     dlg.querySelector(".more").href = "methodology.html#" + (anchor || { deficit: "fiscal", guaranteed: "debt", foreign: "owed" }[key] || key);
-    dlg._from = document.activeElement; dlg.hidden = false; dlg.querySelector(".x").focus();
+    openDialog(dlg);
     return true;
   }
+  /** a pop-up with any content: title, a lead sentence and more HTML below it */
+  function popup(title, lead, html = "") {
+    const dlg = dialog();
+    dlg.querySelector("h3").textContent = title; dlg.querySelector("p").textContent = lead; dlg.querySelector(".explain-x").innerHTML = html; dlg.querySelector(".more").hidden = true;
+    openDialog(dlg);
+  }
+
+  // ---------- weekly reports Ministry of Finance replaced after publishing: a badge that says so, and what changed ----------
+  let REV = {};
+  const setRevisions = r => { REV = r || {}; };
+  const sentence = l => /[a-z]/.test(l) ? l : l.charAt(0) + l.slice(1).toLowerCase();
+  function revBadge(d) {
+    const list = REV[d]; if (!list?.length) return "";
+    const changed = list.some(r => r.changes?.length);
+    return `<button type="button" class="rev-badge${changed ? " changed" : ""}" data-rev="${d}" aria-haspopup="dialog"><span class="rev-ico" aria-hidden="true">↻</span>${changed ? "Revised" : "Re-issued"}<span class="rev-q">${changed ? "What changed?" : "Details"}</span></button>`;
+  }
+  function showRevision(d) {
+    const list = REV[d]; if (!list?.length) return;
+    const r = list[list.length - 1], ch = r.changes || [], m1 = v => v == null ? "–" : fmt(v, 1);
+    const title = ch.length ? "This report was revised" : "This report was re-issued";
+    const lead = `Ministry of Finance replaced its weekly report as at ${dayLabel(d)} with a new version, found on ${dayLabel(r.found)}. ` + (ch.length ? "These are the figures that changed, in millions of rufiyaa. The site now uses the new figures." : "No figures changed. The new file has the same numbers as the one published before.");
+    let html = "";
+    if (ch.length) {
+      html += `<div class="rev-tbl"><table><thead><tr><th>${"Figure"}</th><th>${"Was"}</th><th>${"Now"}</th><th>${"Change"}</th></tr></thead><tbody>`
+        + ch.map(c => { const dlt = c.a != null && c.b != null ? c.b - c.a : null;
+          return `<tr><td>${sentence(c.l)}<small>${c.f}</small></td><td class="num">${m1(c.a)}</td><td class="num">${m1(c.b)}</td><td class="num">${dlt == null ? "" : (dlt > 0 ? "+" : "−") + fmt(Math.abs(dlt), 1)}</td></tr>`; }).join("")
+        + `</tbody></table></div>`;
+      if (r.lines_changed > ch.filter(c => c.t !== "summary").length) html += `<p class="rev-more">${r.lines_changed} lines changed in all. The largest are shown.</p>`;
+    }
+    html += `<p class="rev-links"><a href="${r.prev_url}" target="_blank" rel="noopener">${"Version published before (PDF)"}</a> <a href="${r.url}" target="_blank" rel="noopener">${"New version (PDF)"}</a></p>`;
+    popup(title, lead, html);
+  }
+  document.addEventListener("click", ev => { const b = ev.target.closest("[data-rev]"); if (b) { ev.preventDefault(); showRevision(b.dataset.rev); } });
+
   document.addEventListener("click", ev => {
     const t = ev.target.closest("[data-term]");
     if (t) { ev.preventDefault(); explain(t.dataset.term, t.dataset.anchor); return; }
@@ -547,6 +586,6 @@ const MV = (() => {
   document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", boot) : boot();
 
   return { SEC_YEAR, mini, setTheme, explain, wantedPeriod, icon, paintIcons, fresh, since, asOf, ago, daysAgo, MONTHS, state, setData, rateAt, cpiAt, realFactor, conv, convNow, isReal, baseLabel, checkStale, fromUSD, fmt, sym, short, money, moneyNow, moneyFull,
-    ts, mLabel, mShort, qLabel, dayLabel, last, getJSON, fetched, onPrefs, paintPrefs, lineChart, barChart, row, onResize,
+    ts, mLabel, mShort, qLabel, dayLabel, last, getJSON, popup, revBadge, setRevisions, fetched, onPrefs, paintPrefs, lineChart, barChart, row, onResize,
     get USD() { return USD; }, get cpiLast() { return cpiLast; } };
 })();

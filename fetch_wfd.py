@@ -19,7 +19,7 @@ import csv
 import json
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
@@ -32,6 +32,7 @@ CACHE = HERE / ".wfd_cache"          # downloaded PDFs, not kept in the repo
 OUT_JSON = HERE / "budget.json"
 DETAIL_DIR = HERE / "budget-detail"
 PROCESSED = DATA / "processed.csv"
+REVISIONS = DATA / "revisions.json"   # every time the Ministry replaced a report it had already published, and what changed
 HEADLINE = DATA / "wfd_headline.csv"
 LONG = DATA / "wfd_long.csv"
 PROC_COLS = ["as_at", "url", "title", "status", "problems", "checked_at"]
@@ -89,6 +90,44 @@ def num(v):
         return None
 
 
+HEAD_LABELS = {"revenue_and_grants": "Revenue and grants", "tax_revenue": "Tax revenue", "non_tax_revenue": "Non-tax revenue", "grants": "Grants",
+               "total_expenditure": "Total spending", "recurrent_expenditure": "Recurrent spending", "capital_expenditure": "Capital spending",
+               "salaries_wages_pensions": "Salaries, wages and pensions", "primary_balance": "Primary balance", "overall_balance": "Overall balance",
+               "interest_costs": "Interest and financing costs", "loan_repayment": "Loan repayments", "transfers_to_sdf": "Transfers to Sovereign Development Fund",
+               "psip": "Public Sector Investment Programme"}
+FIELDS = (("this_year", "so far this year"), ("approved", "approved budget"), ("last_year", "same date last year"))
+
+
+def compare(old_h, new_h, old_long, new_long):
+    """the figures that differ between the version already published and the replacement (in MVR million)"""
+    changes = []
+    def add(where, label, field, a, b):
+        a, b = num(a), num(b)
+        if a != b and not (a is not None and b is not None and abs(a - b) < 0.05):
+            changes.append({"t": where, "l": label, "f": field, "a": a, "b": b})
+    for col, label in HEAD_LABELS.items():
+        for suffix, field in (("", "so far this year"), ("_approved", "approved budget"), ("_last_year", "same date last year")):
+            add("summary", label, field, old_h.get(col + suffix), new_h.get(col + suffix))
+    key = lambda r: (r["table"], r["label"].strip())
+    old_rows, new_rows = {key(r): r for r in old_long}, {key(r): r for r in new_long}
+    for k in sorted(set(old_rows) | set(new_rows)):
+        if k[0] not in ("revenue", "expenditure", "agencies", "psip") or k[0] == "summary":
+            continue
+        o, n = old_rows.get(k, {}), new_rows.get(k, {})
+        for col, field in FIELDS:
+            add(k[0], k[1], field, o.get(col), n.get(col))
+    big = [c for c in changes if c["t"] == "summary"]
+    lines = sorted((c for c in changes if c["t"] != "summary"), key=lambda c: -abs((c["b"] or 0) - (c["a"] or 0)))
+    return big + lines[:40], len(lines)
+
+
+def read_revisions():
+    try:
+        return json.loads(REVISIONS.read_text(encoding="utf-8"))
+    except Exception:
+        return []
+
+
 def build_json(headline, long_rows):
     # "Grants, Contributions and Subsidies" for every report, used by the budget page's spending picture
     gcs = {}
@@ -115,8 +154,11 @@ def build_json(headline, long_rows):
         detail.setdefault(row["table"], []).append({"label": row["label"], "approved": num(row["approved"]),
                                                     "last": num(row["last_year"]), "now": num(row["this_year"]),
                                                     "memo": row.get("memo") == "1"})
+    revisions = {}
+    for r in read_revisions():
+        revisions.setdefault(r["as_at"], []).append(r)
     data = {"built_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-            "source": W.PAGE, "latest": latest, "reports": reports, "detail": detail}
+            "source": W.PAGE, "latest": latest, "reports": reports, "detail": detail, "revisions": revisions}
     OUT_JSON.write_text(json.dumps(data, separators=(",", ":")), encoding="utf-8")
     print(f"Wrote {OUT_JSON.name}: {len(reports)} reports, latest {latest}.")
 
@@ -150,9 +192,11 @@ def main():
     print(f"{len(best)} reports listed, {len(todo)} new or changed.")
 
     newest_failed = False
+    revisions = read_revisions()
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
     for d in todo:
         rep = best[d]
+        old_url = processed.get(d, {}).get("url") if processed.get(d, {}).get("status") == "published" else None
         pdf = CACHE / (d + ".pdf")
         print(f"  {d}: {rep['title']}")
         if not download(rep["url"], pdf):
@@ -167,8 +211,14 @@ def main():
         processed[d] = {"as_at": d, "url": rep["url"], "title": rep["title"], "status": "published" if ok else "not published",
                         "problems": "; ".join(problems), "checked_at": now}
         if ok:
+            new_long = [dict(zip(W.LONG_COLS, lr)) for lr in lrows]
+            if d in headline and old_url:   # a report already on the site was replaced: record what changed
+                changes, n_lines = compare(headline[d], h, [r for r in long_rows if r["as_at"] == d], new_long)
+                revisions.append({"as_at": d, "found": datetime.now(timezone(timedelta(hours=5))).date().isoformat(), "title": rep["title"],
+                                  "url": rep["url"], "prev_url": old_url, "revised": rep["revised"], "changes": changes, "lines_changed": n_lines})
+                print(f"    replaces the version published before: {len(changes)} figures changed" if changes else "    replaces the version published before: no figures changed")
             headline[d] = h
-            long_rows = [r for r in long_rows if r["as_at"] != d] + [dict(zip(W.LONG_COLS, lr)) for lr in lrows]
+            long_rows = [r for r in long_rows if r["as_at"] != d] + new_long
         else:
             print(f"    not published: {'; '.join(problems)}")
             if d == max(best):
@@ -177,6 +227,7 @@ def main():
 
     long_rows.sort(key=lambda r: (r["as_at"], int(float(r["row"]))))
     write_csv(PROCESSED, PROC_COLS, [processed[d] for d in sorted(processed)])
+    REVISIONS.write_text(json.dumps(revisions, ensure_ascii=False, indent=1), encoding="utf-8")
     write_csv(HEADLINE, W.HEAD_COLS, [headline[d] for d in sorted(headline)])
     write_csv(LONG, W.LONG_COLS, long_rows)
     build_json(list(headline.values()), long_rows)

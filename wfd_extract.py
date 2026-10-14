@@ -44,9 +44,10 @@ def list_reports():
     r = requests.get(PAGE, headers=HEADERS, timeout=60)
     r.raise_for_status()
     found, seen, last_year = [], set(), None
-    for href, text in re.findall(r'<a[^>]+href="([^"]+?\.pdf)"[^>]*>(.*?)</a>', r.text, flags=re.S | re.I):
+    # any link named "Weekly Fiscal Developments", whether or not its address ends in .pdf
+    for href, text in re.findall(r'<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>', r.text, flags=re.S | re.I):
         text = html.unescape(re.sub(r"<[^>]+>", "", text)).strip()
-        if "weekly fiscal" not in text.lower() or href in seen:
+        if "weekly fiscal" not in text.lower() or href in seen or not re.search(r"\.pdf|attachment|download|storage", href, flags=re.I):
             continue
         seen.add(href)
         m = re.search(r"as at\s+(\d{1,2})(?:st|nd|rd|th)?\s+([A-Za-z]+)(?:\s+(\d{4}))?", text, flags=re.I)
@@ -61,6 +62,8 @@ def list_reports():
         d = date(year, MONTHS[m.group(2).lower()], int(m.group(1)))
         url = href if href.startswith("http") else "https://www.finance.gov.mv" + href
         found.append({"as_at": d.isoformat(), "revised": "revised" in text.lower(), "title": text, "url": url})
+    newest = sorted(found, key=lambda x: x["as_at"])[-3:]
+    print("  newest on the Ministry's page: " + "; ".join(f"{x['as_at']} ({x['title']})" for x in reversed(newest)))
     return found
 
 

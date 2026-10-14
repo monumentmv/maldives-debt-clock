@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261014b">
+<link rel="stylesheet" href="assets/site.css?v=20261014r">
 <title>Budget · Maldives National Debt Clock</title>
 <meta property="og:title" content="Budget · Maldives National Debt Clock">
 <meta property="og:description" content="What the government has collected and spent so far this year, updated every week from Ministry of Finance, with every year since 2019 to compare.">
@@ -137,7 +137,7 @@
 
 
   <div class="period-zone">
-    <div class="period-bar"><div id="asof"></div><div class="subtoggle" role="group" aria-label="Figures shown"><button type="button" data-mode="ytd" aria-pressed="true">Year so far</button><button type="button" data-mode="week" aria-pressed="false">Each week</button></div></div>
+    <div class="period-bar"><div id="asof"></div><span id="revB"></span><div class="subtoggle" role="group" aria-label="Figures shown"><button type="button" data-mode="ytd" aria-pressed="true">Year so far</button><button type="button" data-mode="week" aria-pressed="false">Each week</button></div></div>
   <section>
     <h2 id="latestH">The week's figures</h2>
     <p id="latestNote"></p>
@@ -216,8 +216,8 @@
   <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, and not affiliated with any state institution.</span></span>
 </div></footer>
 
-<script src="assets/site.js?v=20261014b"></script>
-<script src="assets/motion.js?v=20261014b" defer></script>
+<script src="assets/site.js?v=20261014r"></script>
+<script src="assets/motion.js?v=20261014r" defer></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -238,6 +238,7 @@
   const pct = (a, b) => b ? 100 * a / b : null;
 
   Promise.all([MV.getJSON("data.json"), MV.getJSON("budget.json")]).then(([data, B]) => {
+    MV.setRevisions(B.revisions);   // reports Ministry of Finance replaced after publishing
     MV.setData(data.series); MV.paintPrefs(); MV.checkStale(data);
     const R = (B.reports || []).filter(r => r.v?.revenue_and_grants?.[0] != null);
     if (!R.length) { $("latestNote").textContent = "The weekly figures haven't been fetched yet. They appear after the next automatic update."; return; }
@@ -263,6 +264,7 @@
 
     // ---------- latest ----------
     function drawLatest() {
+      $("revB").innerHTML = MV.revBadge(SEL.d);
       if (wk()) return drawWeek();
       $("latestH").textContent = "The week's figures";
       const L = SEL, Ly = Number(SEL.d.slice(0, 4)), isLatest = SEL === R[R.length - 1];
