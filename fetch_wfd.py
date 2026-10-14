@@ -30,6 +30,7 @@ HERE = Path(__file__).resolve().parent
 DATA = HERE / "data" / "wfd"
 CACHE = HERE / ".wfd_cache"          # downloaded PDFs, not kept in the repo
 OUT_JSON = HERE / "budget.json"
+NEWEST = HERE / "wfd-latest.json"   # a few lines on the newest report, for the site-wide "new figures" ribbon
 DETAIL_DIR = HERE / "budget-detail"
 PROCESSED = DATA / "processed.csv"
 REVISIONS = DATA / "revisions.json"   # every time the Ministry replaced a report it had already published, and what changed
@@ -161,6 +162,11 @@ def build_json(headline, long_rows):
             "source": W.PAGE, "latest": latest, "reports": reports, "detail": detail, "revisions": revisions}
     OUT_JSON.write_text(json.dumps(data, separators=(",", ":")), encoding="utf-8")
     print(f"Wrote {OUT_JSON.name}: {len(reports)} reports, latest {latest}.")
+    # when the newest report first went on the site, so pages can point readers to it for a couple of days
+    if reports:
+        log = {r["as_at"]: r for r in read_csv(PROCESSED)}
+        newest = {"d": latest, "w": reports[-1]["w"], "added": log.get(latest, {}).get("checked_at") or data["built_at"]}
+        NEWEST.write_text(json.dumps(newest), encoding="utf-8")
 
     # every line of every report, one file per year, so the budget page can show any earlier week line by line
     by_year = {}

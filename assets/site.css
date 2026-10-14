@@ -405,3 +405,6 @@ html[lang="dv"] bdi { unicode-bidi: isolate; direction: ltr; }
 .explain-box .rev-links a { color: #0b6f8a; font-weight: 700; }
 html[lang="dv"] .explain-box .rev-tbl th, html[lang="dv"] .explain-box .rev-tbl td { text-align: left; }
 html[lang="dv"] .explain-box .rev-tbl th:first-child, html[lang="dv"] .explain-box .rev-tbl td:first-child { text-align: right; }
+/* the new weekly figures ribbon: sky blue, so it reads apart from the yellow commentary ribbon and the teal sea */
+.wfd-ribbon { background: linear-gradient(90deg, #5ea8e8, #8cc4f2); }
+.wfd-ribbon .cm-r-tag { color: #8cc4f2; }
