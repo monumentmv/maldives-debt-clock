@@ -1,8 +1,8 @@
 {
- "built_at": "2026-10-14 03:24",
+ "built_at": "2026-10-14 11:16",
  "series": 185,
- "observations": 51626,
- "weekly_table_rows": 91579,
+ "observations": 51695,
+ "weekly_table_rows": 91837,
  "first_date": "1980-01-31",
  "last_date": "2026-12-31",
  "xlsx": "https://mvdebtclock.org/downloads/maldives_public_finance.xlsx",
