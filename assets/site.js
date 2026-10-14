@@ -19,9 +19,8 @@ const MV = (() => {
     if (fx.length) USD = fx[fx.length - 1].value;
     cpi = (S.cpi?.points || []).filter(p => p.value > 0);
     cpiLast = cpi.length ? cpi[cpi.length - 1] : null;
-    // price base for "Real": the average CPI of the latest 12 months, which smooths out month-to-month swings
-    if (cpi.length >= 12) { const l12 = cpi.slice(-12); cpiBase = l12.reduce((a, p) => a + p.value, 0) / 12; baseFrom = l12[0].date; }
-    else if (cpiLast) { cpiBase = cpiLast.value; baseFrom = cpiLast.date; }
+    // price base for "Real": the latest month's CPI, so the latest figures read the same in Nominal and Real and older ones are raised to today's prices
+    if (cpiLast) { cpiBase = cpiLast.value; baseFrom = cpiLast.date; }
     if (!cpi.length) document.querySelectorAll('[data-pref="real"]').forEach(t => t.hidden = true);
   }
   const lastBefore = (arr, date) => { let r = null; for (const p of arr) { if (p.date <= date) r = p; else break; } return r; };
@@ -41,7 +40,7 @@ const MV = (() => {
   /** for current figures: never inflation-adjusted, only converted to the chosen currency */
   const convNow = (mvr, date) => state.cur !== "USD" ? mvr : mvr / (date ? rateAt(date) : USD);
   const isReal = () => state.real && !!cpiBase;
-  const baseLabel = () => cpiLast ? `average prices of the 12 months to ${MONTHS[new Date(cpiLast.date).getUTCMonth()]} ${new Date(cpiLast.date).getUTCFullYear()}` : "";
+  const baseLabel = () => cpiLast ? `${MONTHS[new Date(cpiLast.date).getUTCMonth()]} ${new Date(cpiLast.date).getUTCFullYear()} prices` : "";
   /** for series recorded in US dollars (fuel): convert to rufiyaa at that month's rate if needed */
   const fromUSD = (usd, date) => state.cur === "USD" ? usd : usd * (date ? rateAt(date) : USD);
 

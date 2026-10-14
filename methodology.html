@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261014v">
+<link rel="stylesheet" href="assets/site.css?v=20261014x">
 <title>Methodology · Maldives National Debt Clock</title>
 <meta property="og:title" content="Methodology · Maldives National Debt Clock">
 <meta property="og:description" content="Where every number on Maldives National Debt Clock comes from, how it is calculated, and what it leaves out.">
@@ -295,11 +295,11 @@
 
 <h2 id="real">10. Adjusting for inflation</h2>
 <p>Prices rise over time, so a rufiyaa in 2015 bought more than a rufiyaa today. The <b>Real</b> button at the top of the page restates past amounts in recent prices, so years can be compared fairly. <b>Nominal</b> shows amounts as they were actually recorded.</p>
-<p>The site uses the national consumer price index (CPI, MMA series 280), published monthly by Maldives Bureau of Statistics. Rather than one month, the base is the <b>average CPI of the latest 12 months</b>. The CPI can move a lot from one month to the next (it rose 3.8% in April 2026 alone), so a single-month base would make every adjusted figure jump around.</p>
-<div class="formula"><math display="block"><mover><mi>C</mi><mo>‾</mo></mover><mo>=</mo><mfrac><mrow><mn>1</mn></mrow><mrow><mn>12</mn></mrow></mfrac><munderover><mo>∑</mo><mrow><mi>m</mi><mo>=</mo><mn>1</mn></mrow><mn>12</mn></munderover><msub><mi>C</mi><mi>m</mi></msub></math><p class="eqlabel">Nominal to real</p><math display="block"><msubsup><mi>X</mi><mi>t</mi><mtext>real</mtext></msubsup><mo>=</mo><msubsup><mi>X</mi><mi>t</mi><mtext>nominal</mtext></msubsup><mo>×</mo><mfrac><mrow><mover><mi>C</mi><mo>‾</mo></mover></mrow><mrow><msub><mi>C</mi><mi>t</mi></msub></mrow></mfrac></math><p class="eqlabel">Real back to nominal</p><math display="block"><msubsup><mi>X</mi><mi>t</mi><mtext>nominal</mtext></msubsup><mo>=</mo><msubsup><mi>X</mi><mi>t</mi><mtext>real</mtext></msubsup><mo>×</mo><mfrac><mrow><msub><mi>C</mi><mi>t</mi></msub></mrow><mrow><mover><mi>C</mi><mo>‾</mo></mover></mrow></mfrac></math><p class="eqlabel">Growth after inflation</p><math display="block"><mfrac><mrow><msubsup><mi>D</mi><mi>q</mi><mtext>real</mtext></msubsup></mrow><mrow><msubsup><mi>D</mi><mn>0</mn><mtext>real</mtext></msubsup></mrow></mfrac><mo>=</mo><mfrac><mrow><msub><mi>D</mi><mi>q</mi></msub></mrow><mrow><msub><mi>D</mi><mn>0</mn></msub></mrow></mfrac><mo>×</mo><mfrac><mrow><msub><mi>C</mi><mn>0</mn></msub></mrow><mrow><msub><mi>C</mi><mi>q</mi></msub></mrow></mfrac></math><dl class="where"><div><dt><math><mrow><msub><mi>X</mi><mi>t</mi></msub></mrow></math></dt><dd>an amount recorded in month t</dd></div><div><dt><math><mrow><msub><mi>C</mi><mi>t</mi></msub></mrow></math></dt><dd>the consumer price index in month t</dd></div><div><dt><math><mrow><mover><mi>C</mi><mo>‾</mo></mover></mrow></math></dt><dd>the average CPI over the latest 12 months, the price base</dd></div><div><dt><math><mrow><msub><mi>D</mi><mn>0</mn></msub><mo>,</mo><msub><mi>D</mi><mi>q</mi></msub></mrow></math></dt><dd>the first and latest debt figures, with their CPIs <math><msub><mi>C</mi><mn>0</mn></msub></math> and <math><msub><mi>C</mi><mi>q</mi></msub></math></dd></div></dl></div>
+<p>The site uses the national consumer price index (CPI, MMA series 280), published monthly by Maldives Bureau of Statistics. The base is the <b>latest month's CPI</b>, so adjusted amounts are in today's prices. Amounts from the latest month are left as they are, and older amounts are raised by how much prices have risen since. The base moves forward each time a new month's CPI is published.</p>
+<div class="formula"><math display="block"><mover><mi>C</mi><mo>‾</mo></mover><mo>=</mo><msub><mi>C</mi><mtext>latest month</mtext></msub></math><p class="eqlabel">Nominal to real</p><math display="block"><msubsup><mi>X</mi><mi>t</mi><mtext>real</mtext></msubsup><mo>=</mo><msubsup><mi>X</mi><mi>t</mi><mtext>nominal</mtext></msubsup><mo>×</mo><mfrac><mrow><mover><mi>C</mi><mo>‾</mo></mover></mrow><mrow><msub><mi>C</mi><mi>t</mi></msub></mrow></mfrac></math><p class="eqlabel">Real back to nominal</p><math display="block"><msubsup><mi>X</mi><mi>t</mi><mtext>nominal</mtext></msubsup><mo>=</mo><msubsup><mi>X</mi><mi>t</mi><mtext>real</mtext></msubsup><mo>×</mo><mfrac><mrow><msub><mi>C</mi><mi>t</mi></msub></mrow><mrow><mover><mi>C</mi><mo>‾</mo></mover></mrow></mfrac></math><p class="eqlabel">Growth after inflation</p><math display="block"><mfrac><mrow><msubsup><mi>D</mi><mi>q</mi><mtext>real</mtext></msubsup></mrow><mrow><msubsup><mi>D</mi><mn>0</mn><mtext>real</mtext></msubsup></mrow></mfrac><mo>=</mo><mfrac><mrow><msub><mi>D</mi><mi>q</mi></msub></mrow><mrow><msub><mi>D</mi><mn>0</mn></msub></mrow></mfrac><mo>×</mo><mfrac><mrow><msub><mi>C</mi><mn>0</mn></msub></mrow><mrow><msub><mi>C</mi><mi>q</mi></msub></mrow></mfrac></math><dl class="where"><div><dt><math><mrow><msub><mi>X</mi><mi>t</mi></msub></mrow></math></dt><dd>an amount recorded in month t</dd></div><div><dt><math><mrow><msub><mi>C</mi><mi>t</mi></msub></mrow></math></dt><dd>the consumer price index in month t</dd></div><div><dt><math><mrow><mover><mi>C</mi><mo>‾</mo></mover></mrow></math></dt><dd>the CPI of the latest month published, the price base</dd></div><div><dt><math><mrow><msub><mi>D</mi><mn>0</mn></msub><mo>,</mo><msub><mi>D</mi><mi>q</mi></msub></mrow></math></dt><dd>the first and latest debt figures, with their CPIs <math><msub><mi>C</mi><mn>0</mn></msub></math> and <math><msub><mi>C</mi><mi>q</mi></msub></math></dd></div></dl></div>
 <div class="live">
   <b>Example</b>
-  <p>The first debt figure, <span class="v" data-k="rFirst">…</span> in <span data-k="rFirstDate">…</span>, is worth <span class="v" data-k="rFirstReal">…</span> in average prices of the 12 months to <span data-k="rBase">…</span> (CPI <span data-k="rCpiThen">…</span> then, average <span data-k="rCpiNow">…</span> now).</p>
+  <p>The first debt figure, <span class="v" data-k="rFirst">…</span> in <span data-k="rFirstDate">…</span>, is worth <span class="v" data-k="rFirstReal">…</span> in <span data-k="rBase">…</span> prices (CPI <span data-k="rCpiThen">…</span> then, <span data-k="rCpiNow">…</span> now).</p>
   <p>So debt has grown <span class="v" data-k="rMultNom">…</span> times in rufiyaa, but <span class="v" data-k="rMultReal">…</span> times after inflation.</p>
 </div>
 <h3>What Real changes, and what it doesn't</h3>
@@ -450,8 +450,8 @@
   <span id="fetched">Figures from Maldives Monetary Authority Statistics Database.</span>
   <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, and not affiliated with any state institution.</span></span>
 </div></footer>
-<script src="assets/site.js?v=20261014v"></script>
-<script src="assets/motion.js?v=20261014v" defer></script>
+<script src="assets/site.js?v=20261014x"></script>
+<script src="assets/motion.js?v=20261014x" defer></script>
 <script>
 (() => {
   const SEC_YEAR = 365.25 * 86400;
@@ -527,7 +527,7 @@
     const cp = (S.cpi?.points || []).filter(p => p.value > 0);
     if (cp.length) {
       const F = tot[0], cAt = d => { let r = null; for (const p of cp) { if (p.date <= d) r = p; else break; } return r?.value; };
-      const cThen = cAt(F.date), cNow = cp.slice(-12).reduce((a, p) => a + p.value, 0) / Math.min(12, cp.length), cNowL = cAt(L.date);
+      const cThen = cAt(F.date), cNow = cp[cp.length - 1].value, cNowL = cAt(L.date);
       if (cThen) {
         set("rFirst", bn(F.value)); set("rFirstDate", mon(F.date)); set("rBase", mon(cp[cp.length - 1].date));
         set("rFirstReal", bn(F.value * cNow / cThen)); set("rCpiThen", fmt(cThen, 1)); set("rCpiNow", fmt(cNow, 1));
