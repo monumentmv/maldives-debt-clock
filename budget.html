@@ -69,11 +69,22 @@
   /* on wider screens the tables need no sideways scroll, so their heading row can stay in view while scrolling */
   @media (min-width: 761px) {
     .tbl-wrap { overflow: visible; }
-    #detail tr:first-child th { position: sticky; top: calc(var(--headH, 60px) + var(--barH, 0px)); z-index: 6; background: var(--abyss); }
+    #detail tr:first-child th, #detail thead { position: sticky; top: calc(var(--headH, 60px) + var(--barH, 0px)); z-index: 6; background: var(--abyss); }
+    #detail thead th { position: static; }
     #cmpTbl tr:first-child th { position: sticky; top: calc(var(--headH, 60px) + var(--cmpH, 0px)); z-index: 6; background: var(--abyss); }
   }
   .cmp-bar { position: sticky; top: var(--headH, 60px); z-index: 7; background: color-mix(in srgb, var(--abyss) 94%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); margin: 0 -1.25rem; padding: .2rem 1.25rem .9rem; border-bottom: 1px solid rgba(169,205,214,.18); }
   .rev-table th.wk { color: var(--sun); }
+  /* weekly table: the year-so-far columns and the latest-week columns each carry their own tint */
+  .rev-table .ga { background: rgba(244,201,93,.11); }
+  .rev-table .gb { background: rgba(63,184,176,.13); }
+  .rev-table thead th { white-space: nowrap; }
+  #detail thead th.ga { background: color-mix(in srgb, var(--abyss) 86%, #f4c95d); }
+  #detail thead th.gb { background: color-mix(in srgb, var(--abyss) 84%, #3fb8b0); }
+  .rev-table th.gh { text-align: center; border-bottom: 0; font-size: 1.05rem; }
+  .rev-table th.gh.ga { color: var(--sun); } .rev-table th.gh.gb { color: var(--lagoon); }
+  .rev-table td.ytd { color: var(--foam); font-weight: 700; }
+  .rev-table .ga + .gb { border-left: 2px solid var(--abyss); }
   .rev-table th small { display: block; font-weight: 400; color: var(--mist); font-size: .8rem; margin-top: .15rem; white-space: nowrap; }
   .prog .row[data-tip] { cursor: help; }
   .prog .row[data-tip]:hover .bar, .prog .row[data-tip]:focus-visible .bar { box-shadow: 0 0 0 2px rgba(244,201,93,.55); }
@@ -560,7 +571,7 @@
       $("detail").innerHTML = h;
     }
 
-    // line by line, one week: each line's change since the report before, matched by its label
+    // line by line, one week: the year so far against the same dates a year earlier, then the latest week against the week before, matched by label
     function drawDetailWeek(D) {
       const L = SEL, p = prevOf(L), P = p ? detailFor(p) : {}, pp = p ? prevOf(p) : null, PP = pp ? detailFor(pp) : {};
       if (!P || !PP) { $("detailNote").textContent = `Loading the line-by-line figures for the weeks before ${dayLabel(L.d)}.`; $("detail").innerHTML = ""; return; }
@@ -568,33 +579,38 @@
       const index = T => { const seen = {}, out = {}; (T?.[tab] || []).forEach(r => { const key = r.label.trim().toLowerCase(); seen[key] = (seen[key] || 0) + 1; out[key + "#" + seen[key]] = r; }); return out; };
       const before = index(P), before2 = index(PP);
       const d = (a, b) => a == null || b == null ? null : Math.round((a - b) * 10) / 10;
-      const v = x => x == null ? "–" : !x ? "0" : sgn(x) + short(Math.abs(MV.convNow(M(x), L.d)));
-      const ch = (n, l) => { if (n == null || l == null || l <= 0 || n < 0) return ""; const c = (n / l - 1) * 100; return (c >= 0 ? "+" : "−") + fmt(Math.abs(c), 0) + "%"; };
-      // column headings give each period's week number and its exact dates, e.g. "Week 40, 2 to 8 October"
-      const yrAgo = Number(L.d.slice(0, 4)) - 1, wkName = r => r.w ? `Week ${r.w}` : daysOf(r) === 7 ? "Week" : `${daysOf(r)} days`;
-      const when = span(L), wkBefore = !p ? null : pp ? `${wkName(p)}<small>${period(p)}</small>` : null;
-      const thisWk = !p ? `1 January to ${dayLabel(L.d).replace(/ \d{4}$/, "")}` : `${wkName(L)}<small>${period(L)}</small>`;
+      const conv = x => { const n = Math.abs(MV.convNow(M(x), L.d)); return n >= 5e4 && n < 1e6 ? fmt(n / 1e6, 1) + " m" : short(n); };   // 500,000 reads as 0.5 m, like its neighbours
+      const v = x => x == null ? "–" : !x ? "0" : sgn(x) + conv(x);
+      const dv = x => x == null ? "–" : !x ? "0" : (x > 0 ? "+" : "−") + conv(x);
+      const ch = (n, l) => { if (n == null || l == null || l <= 0 || n < 0) return "–"; const c = (n / l - 1) * 100; return Math.abs(c) < .5 ? "0%" : (c > 0 ? "+" : "−") + fmt(Math.abs(c), 0) + "%"; };
+      const Ly = Number(L.d.slice(0, 4)), yrAgo = Ly - 1, wkName = r => r.w ? `Week ${r.w}` : daysOf(r) === 7 ? "The week" : `${daysOf(r)} days`;
       const cnt = {};
       const lines = (D[tab] || []).map(r => { const key = r.label.trim().toLowerCase(); cnt[key] = (cnt[key] || 0) + 1; const k = key + "#" + cnt[key];
-        const q = p ? before[k] : { now: 0, last: 0 }, q2 = pp ? before2[k] : null;
-        return { r, wn: d(r.now, q?.now ?? (p ? null : 0)), wl: d(r.last, q?.last ?? (p ? null : 0)), wb: pp ? d(q?.now, q2?.now) : null }; });
-      const headB = wkBefore ? `<th>${wkBefore}</th><th>Change from ${p.w ? `week ${p.w}` : "the week before"}</th>` : "";
-      const headY = `<th>Same days in ${yrAgo}<small>${period(L, 1)}</small></th><th>Change from ${yrAgo}</th>`;
-      const cellsB = x => wkBefore ? `<td>${v(x.wb)}</td><td>${ch(x.wn, x.wb)}</td>` : "";
+        const q = p ? before[k] : null, q2 = pp ? before2[k] : null;
+        // the week before is the report before's own week, or from 1 January when that was the year's first report
+        const wb = !p ? null : pp ? d(q?.now, q2?.now) : (q?.now ?? null);
+        return { r, ytd: r.now, yd: d(r.now, r.last), wn: p ? d(r.now, q?.now) : r.now, wb }; });
+      // headings: two groups of three columns, each group with its own tint
+      const head = `<thead><tr><th rowspan="2">${tab === "revenue" ? "Revenue" : tab === "agencies" ? "Office" : "Spending"}</th>`
+        + `<th colspan="3" class="ga gh">So far in ${Ly}<small>1 January to ${dayLabel(L.d)}</small></th>`
+        + `<th colspan="3" class="gb gh">${p ? wkName(L) : "Latest report"}<small>${p ? `${period(L)} ${Ly}` : `1 January to ${dayLabel(L.d)}`}</small></th></tr>`
+        + `<tr><th class="ga">Total</th><th class="ga">Change from ${yrAgo}</th><th class="ga">% change</th>`
+        + `<th class="gb">Amount</th><th class="gb">Change from ${p ? (p.w ? `week ${p.w}` : "the week before") : "the week before"}</th><th class="gb">% change</th></tr></thead>`;
+      const cells = x => `<td class="ga ytd">${v(x.ytd)}</td><td class="ga">${dv(x.yd)}</td><td class="ga">${ch(x.ytd, x.r.last)}</td>`
+        + `<td class="gb">${v(x.wn)}</td><td class="gb">${dv(d(x.wn, x.wb))}</td><td class="gb">${ch(x.wn, x.wb)}</td>`;
+      const how = `On the left, the year so far and how it compares with the same dates in ${yrAgo}. On the right, the latest week and how it compares with the week before. Amounts in ${sym()}.`;
       if (tab === "agencies") {
-        const list = lines.filter(x => !/^total$/i.test(x.r.label.trim()) && (x.r.approved || x.r.now)).sort((a, b) => (b.wn || 0) - (a.wn || 0));
-        $("detailNote").textContent = `What each government office spent ${when}, against the week before and the same days a year earlier, largest first. Amounts in ${sym()}.`;
-        $("detail").innerHTML = `<tr><th>Office</th><th class="wk">${thisWk}</th>${headB}${headY}</tr>`
-          + list.map(x => `<tr class="l2"><td>${x.r.label.replace(/^\d+\s+/, "")}</td><td>${v(x.wn)}</td>${cellsB(x)}<td>${v(x.wl)}</td><td>${ch(x.wn, x.wl)}</td></tr>`).join("");
+        const list = lines.filter(x => !/^total$/i.test(x.r.label.trim()) && (x.r.approved || x.r.now)).sort((a, b) => (b.ytd || 0) - (a.ytd || 0));
+        $("detailNote").textContent = `What each government office has spent, largest first. ${how}`;
+        $("detail").innerHTML = head + "<tbody>" + list.map(x => `<tr class="l2"><td>${x.r.label.replace(/^\d+\s+/, "")}</td>${cells(x)}</tr>`).join("") + "</tbody>";
         return;
       }
-      $("detailNote").textContent = (tab === "revenue" ? "Every revenue line" : "Every spending line") + ` ${when}, next to the week before and the same days in ${yrAgo}. Amounts in ${sym()}. Salaries are paid at the end of each month, so they show up in the week that includes the last days of the month. A minus means the Ministry corrected an earlier week.`;
-      const cols = 4 + (wkBefore ? 2 : 0);
-      let h = `<tr><th>${tab === "revenue" ? "Revenue" : "Spending"}</th><th class="wk">${thisWk}</th>${headB}${headY}</tr>`, memo = false;
-      lines.forEach(x => { if (x.r.memo && !memo) { memo = true; h += `<tr class="sec"><td colspan="${cols + 1}">Listed separately, not counted as spending</td></tr>`; }
+      $("detailNote").textContent = (tab === "revenue" ? "Every revenue line. " : "Every spending line. ") + how + " Salaries are paid at the end of each month, so they show up in the week that includes the last days of the month. A minus in a week means the Ministry corrected an earlier week.";
+      let h = head + "<tbody>", memo = false;
+      lines.forEach(x => { if (x.r.memo && !memo) { memo = true; h += `<tr class="sec"><td colspan="7">Listed separately, not counted as spending</td></tr>`; }
         const lv = x.r.memo ? 2 : level(x.r.label, tab);
-        h += `<tr class="l${lv}"><td>${clean(x.r.label)}</td><td>${v(x.wn)}</td>${cellsB(x)}<td>${v(x.wl)}</td><td>${ch(x.wn, x.wl)}</td></tr>`; });
-      $("detail").innerHTML = h;
+        h += `<tr class="l${lv}"><td>${clean(x.r.label)}</td>${cells(x)}</tr>`; });
+      $("detail").innerHTML = h + "</tbody>";
     }
 
     // how tall the sticky bars are, so table headings can stay just below them
