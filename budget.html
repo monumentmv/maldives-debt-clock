@@ -84,6 +84,7 @@
   .rev-table th.gh { text-align: center; border-bottom: 0; font-size: 1.05rem; }
   .rev-table th.gh.ga { color: var(--sun); } .rev-table th.gh.gb { color: var(--lagoon); }
   .rev-table td.ytd { color: var(--foam); font-weight: 700; }
+  .rev-table tr td.neg { color: var(--red); }
   .rev-table .ga + .gb { border-left: 2px solid var(--abyss); }
   .rev-table th small { display: block; font-weight: 400; color: var(--mist); font-size: .8rem; margin-top: .15rem; white-space: nowrap; }
   .prog .row[data-tip] { cursor: help; }
@@ -613,6 +614,10 @@
         h += `<tr class="l${lv}"><td>${clean(x.r.label)}</td>${cells(x)}</tr>`; });
       $("detail").innerHTML = h + "</tbody>";
     }
+
+    // minus figures in the tables show in red, so falls and corrections stand out (red here means minus, not bad)
+    const markNeg = t => t.querySelectorAll("td:not(:first-child)").forEach(td => td.classList.toggle("neg", /^−/.test(td.textContent.trim())));
+    ["detail", "cmpTbl"].forEach(id => { const t = $(id); new MutationObserver(() => markNeg(t)).observe(t, { childList: true, subtree: true }); });
 
     // how tall the sticky bars are, so table headings can stay just below them
     const barSizes = () => { const pb = document.querySelector(".period-zone > .period-bar"), cb = $("cmpBar");
