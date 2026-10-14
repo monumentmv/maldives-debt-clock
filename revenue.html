@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261014y">
+<link rel="stylesheet" href="assets/site.css?v=20261014z">
 <title>Taxes · Maldives National Debt Clock</title>
 <meta property="og:title" content="Taxes · Maldives National Debt Clock">
 <meta property="og:description" content="Taxes, fees and rents collected by Maldives Inland Revenue Authority since 2010, and how much of it is paid in US dollars.">
@@ -82,6 +82,7 @@
     .bar-share { display: none; } .rev-table { font-size: .875rem; } .rev-table th, .rev-table td { padding: .45rem .4rem; }
     .period .who { min-width: 100%; }
   }
+  #wkChart .tip .row span:last-child { white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -160,6 +161,17 @@
     <div class="hint" id="ytdHint"></div>
   </section>
 
+  <section id="weekly" hidden>
+    <div class="chart-head">
+      <div><h2>Week by week</h2><p id="wkNote" style="margin:0"></p></div>
+      <div class="controls"><div class="subtoggle" role="group" aria-label="Which collections"><button type="button" data-wwhich="all" aria-pressed="true">All collections</button><button type="button" data-wwhich="usd" aria-pressed="false">Paid in US dollars</button></div></div>
+    </div>
+    <div class="pills" id="wkYears" role="group" aria-label="Year" style="margin-top:1rem"></div>
+    <div class="chart-box" id="wkChart"></div>
+    <div class="key" id="wkKey"></div>
+    <div class="hint" id="wkHint"></div>
+  </section>
+
   <section>
     <div class="chart-head">
       <div><h2>The whole history</h2><p id="histNote" style="margin:0"></p></div>
@@ -206,8 +218,8 @@
   <span class="foot-links"><a href="methodology.html">Methodology</a> <a href="about.html">About and contact</a> <span>Independent, and not affiliated with any state institution.</span></span>
 </div></footer>
 
-<script src="assets/site.js?v=20261014y"></script>
-<script src="assets/motion.js?v=20261014y" defer></script>
+<script src="assets/site.js?v=20261014z"></script>
+<script src="assets/motion.js?v=20261014z" defer></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -226,7 +238,7 @@
     const pad = { l: 46, r: 8, t: opts.yTitle ? 26 : 14, b: opts.below ? 46 : 28 };
     const n = opts.cats.length;
     const totals = opts.cats.map((_, i) => opts.stacks.reduce((a, s) => a + (s.vals[i] || 0), 0));
-    const max = opts.max || (Math.max(...totals) * 1.08 || 1);
+    const max = opts.max || (Math.max(...totals, ...(opts.marks || []).filter(v => v != null)) * 1.08 || 1);
     const Y = v => Hc - pad.b - v / max * (Hc - pad.t - pad.b);
     const slot = (W - pad.l - pad.r) / n, bw = Math.max(4, Math.min(34, slot * .72));
     const mag = Math.pow(10, Math.floor(Math.log10(max / 4))); const step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(s => max / s <= (small ? 4 : 5));
@@ -238,6 +250,7 @@
       const cx = pad.l + slot * (i + .5); let base = 0;
       opts.stacks.forEach(s => { const v = s.vals[i]; if (!v) return;
         g += `<rect x="${cx - bw / 2}" y="${Y(base + v)}" width="${bw}" height="${Math.max(0, Y(base) - Y(base + v))}" fill="${s.color}"${c.partial ? ' fill-opacity=".5"' : ""}/>`; base += v; });
+      const mk = opts.marks?.[i]; if (mk != null) g += `<line x1="${cx - bw / 2 - 2}" x2="${cx + bw / 2 + 2}" y1="${Y(mk)}" y2="${Y(mk)}" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>`;
       const show = (n - 1 - i) % labEvery === 0;
       if (show) g += `<text x="${cx}" y="${Hc - pad.b + 16}" text-anchor="middle">${c.label}</text>`;
       if (opts.below && show) { const b = opts.below(i); if (b) g += `<text x="${cx}" y="${Hc - pad.b + 32}" text-anchor="middle" style="fill:${b.color};font-weight:700;font-size:11px">${b.text}</text>`; }
@@ -529,8 +542,46 @@
         + line("All MIRA collections", A, D, "total");
     }
 
+    // ---------- week by week, from MIRA's provisional weekly file ----------
+    const WK = R.weekly; let wwhich = "all", wYear = WK ? WK.end[WK.end.length - 1].slice(0, 4) : null;
+    const dLabel = (d, yr = true) => { const [y, m, dd] = d.split("-").map(Number); return `${dd} ${MV.MONTHS[m - 1]}${yr ? " " + y : ""}`; };
+    const wkSpan = i => { const a = WK.start[i], b = WK.end[i]; return a.slice(0, 7) === b.slice(0, 7) ? `${Number(a.slice(8))} to ${dLabel(b)}` : a.slice(0, 4) === b.slice(0, 4) ? `${dLabel(a, false)} to ${dLabel(b)}` : `${dLabel(a)} to ${dLabel(b)}`; };
+    const wkDays = i => Math.round((Date.parse(WK.end[i]) - Date.parse(WK.start[i])) / 864e5) + 1;
+    const wkIdx = WK ? Object.fromEntries(WK.end.map((e, i) => [e, i])) : {};
+    const yearBefore = i => wkIdx[new Date(Date.parse(WK.end[i]) - 364 * 864e5).toISOString().slice(0, 10)];   // the week ending 52 weeks earlier
+    // amounts in the chosen currency, in the money of the time: the rufiyaa file is converted at that week's rate, the dollar file the other way
+    const wkVal = (v, i, usdFile) => v == null ? null : usdFile ? (MV.state.cur === "USD" ? v : v * MV.rateAt(WK.end[i])) : MV.convNow(v, WK.end[i]);
+    function drawWeeks() {
+      if (!WK) return;
+      $("weekly").hidden = false;
+      const usdFile = wwhich === "usd", src = usdFile ? WK.usd : WK.mvr, tot = usdFile ? WK.total_usd : WK.total_mvr;
+      const has = i => tot[i] != null;
+      const yrs = [...new Set(WK.end.filter((e, i) => has(i)).map(e => e.slice(0, 4)))];
+      if (!yrs.includes(wYear)) wYear = yrs[yrs.length - 1];
+      $("wkYears").innerHTML = yrs.slice().reverse().map(y => `<button type="button" class="pill" data-wy="${y}" aria-pressed="${y === wYear}"${y === wYear ? ' style="color:var(--sun);border-color:var(--sun)"' : ""}>${y}</button>`).join("");
+      const ix = WK.end.map((e, i) => e.startsWith(wYear) && has(i) ? i : -1).filter(i => i >= 0);
+      const used = ORDER.filter(k => src[k] && ix.some(i => src[k][i]));
+      const T = i => wkVal(tot[i], i, usdFile), prevT = i => { const j = yearBefore(i); return j != null && has(j) ? T(j) : null; };
+      stackChart($("wkChart"), {
+        cats: ix.map(i => ({ label: dLabel(WK.end[i], false).replace(/(\d+) (\w{3})\w*/, "$1 $2"), partial: wkDays(i) < 7 })), label: `MIRA collections each week of ${wYear}, by tax`,
+        yTitle: `${sym()} m`, yFmt: v => fmt(v), marks: ix.map(i => { const p = prevT(i); return p == null ? null : p / 1e6; }),
+        stacks: used.map(k => ({ color: COLORS[k], vals: ix.map(i => Math.max(0, wkVal(src[k][i], i, usdFile) || 0) / 1e6) })),
+        tip: n => { const i = ix[n], t = T(i), p = prevT(i);
+          let h = `<b>${wkSpan(i)}</b>` + (wkDays(i) < 7 ? `<span class="tag" style="background:#3d7d8f">${wkDays(i)} days</span>` : "");
+          [...used].reverse().forEach(k => { const v = wkVal(src[k][i], i, usdFile); if (v) h += row(`<span style="color:${COLORS[k]}">■</span> ${LABEL[k]}`, money(v)); });
+          h += row("Total", money(t));
+          if (p != null) h += row(`Same week of ${Number(WK.end[i].slice(0, 4)) - 1}`, money(p)) + row("Change", `<span class="${chgCls(chg(t, p))}">${chgTxt(chg(t, p))}</span>`);
+          return h; }
+      });
+      $("wkKey").innerHTML = used.map(k => `<span><i style="background:${COLORS[k]}"></i>${LABEL[k]}</span>`).join("") + `<span><i style="background:#fff;height:3px;margin-top:.45rem"></i>Same week a year earlier</span>`;
+      const L = ix[ix.length - 1], lt = T(L), lp = prevT(L);
+      $("wkNote").textContent = `${usdFile ? "The part paid in US dollars" : "Everything MIRA collected"}, each week from Sunday to Saturday, split by tax. In ${sym()} million, in the money of the time.`
+        + (lt != null ? ` Week of ${wkSpan(L)}, ${money(lt)}${lp != null ? `, against ${money(lp)} in the same week a year earlier (${chgTxt(chg(lt, lp))})` : ""}.` : "");
+      $("wkHint").textContent = `These are MIRA's provisional weekly figures, published before they are reconciled, so they can change. The latest week in MIRA's file ends ${dLabel(WK.end[WK.end.length - 1])}, so the monthly figures above can be more recent. Many taxes are due at the end of the month, so the week that includes it is usually much bigger. Hover or tap a week to see each tax.`;
+    }
+
     function render() {
-      drawLatest(); drawCompare(); drawYtd(); drawHist(); drawTypes(); drawTable();
+      drawLatest(); drawCompare(); drawYtd(); drawWeeks(); drawHist(); drawTypes(); drawTable();
       const sh = years.map(y => [y, mmaShare(y)]).filter(([, s]) => s != null);
       if (sh.length) { const [y, s] = sh[sh.length - 1]; $("shareOfAll").textContent = `In ${y}, MIRA's collections were ${fmt(s, 0)}% of all government revenue and grants recorded by MMA (series 1999).`; }
     }
@@ -548,6 +599,8 @@
     });
     document.addEventListener("click", e => {
       const pr = e.target.closest("[data-preset]"); if (pr) { applyPreset(pr.dataset.preset); return; }
+      const wy = e.target.closest("[data-wy]"); if (wy) { wYear = wy.dataset.wy; drawWeeks(); return; }
+      const ww = e.target.closest("[data-wwhich]"); if (ww) { wwhich = ww.dataset.wwhich; ww.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === ww)); drawWeeks(); return; }
       const yy = e.target.closest("[data-yy]"); if (yy) { const y = yy.dataset.yy; yShown.has(y) ? yShown.delete(y) : yShown.add(y); drawYtd(); return; }
       const ym = e.target.closest("[data-ymode]"); if (ym) { ymode = ym.dataset.ymode; ym.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === ym)); drawYtd(); return; }
       const b = e.target.closest("[data-which],[data-as],[data-avg],[data-gran],[data-range]"); if (!b) return;
@@ -556,7 +609,7 @@
       b.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
       if (b.dataset.avg) drawCompare(); else if (b.dataset.gran || b.dataset.range) drawHist(); else drawTypes();
     });
-    MV.onPrefs(render); MV.onResize(() => { drawYtd(); drawHist(); drawTypes(); });
+    MV.onPrefs(render); MV.onResize(() => { drawYtd(); drawWeeks(); drawHist(); drawTypes(); });
     $("fetched").textContent = `MIRA figures to ${mLabel(lastM.date)}${R.source_note ? `, file updated ${R.source_note.replace(/^Updated on\s*/i, "").replace(/(\d+)(st|nd|rd|th)\b/, "$1")}` : ""}. Exchange rates and prices from MMA Statistics Database, last fetched ${MV.fetched(data.fetched_at)}, Malé time.`;
     render();
   }).catch(err => { console.error(err); $("latestNote").textContent = "Couldn't load the revenue data."; });

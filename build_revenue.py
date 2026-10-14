@@ -1,9 +1,10 @@
 """
 Turns MIRA's monthly revenue spreadsheets into revenue.json for the revenue page.
 
-Reads every .xlsx file in inputs/mira/ and recognises the two MIRA files by their title:
+Reads every .xlsx file in inputs/mira/ and recognises the MIRA files by their title:
   "REVENUE SERIES (MONTHLY) - TOTAL REVENUE COLLECTION"  all collections, in rufiyaa
   "REVENUE SERIES (MONTHLY) - USD REVENUE COLLECTION"    the part paid in US dollars
+  "REVENUE SERIES (WEEKLY) - REVENUE COLLECTION"          provisional weekly collections, in rufiyaa and in US dollars (optional)
 
 Runs in GitHub Actions whenever a file in inputs/mira/ changes. To run it yourself:
     pip install openpyxl
@@ -12,7 +13,7 @@ Runs in GitHub Actions whenever a file in inputs/mira/ changes. To run it yourse
 import json
 import re
 import sys
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 try:
@@ -102,13 +103,117 @@ def read_sheet(path):
     return {"kind": kind, "items": items, "total": total, "note": note, "file": path.name}
 
 
+# the weekly file's lines, sorted into the same groups as the monthly figures
+WEEK_GROUP = {"corporate income tax/business profit tax": "business", "non-resident withholding tax": "business",
+              "gst (tourism sector)": "tourism_gst", "gst (non-tourism sector)": "gst_other", "green tax": "green",
+              "departure tax / airport service charge": "airport", "airport development fee": "airport",
+              "tourism land rent": "resort_land", "other taxes and fees": "other"}
+MONTH_NO = {m: i + 1 for i, m in enumerate(MON)}
+
+
+def week_dates(head):
+    """'26th July 2026 to 1st August 2026', '9th Aug to 15th Aug 2020', '1st July - 04th July 2020' -> (first day, last day)"""
+    parts = re.findall(r"(\d{1,2})(?:st|nd|rd|th)?(?:\s+([A-Za-z]{3})[a-z]*\.?)?(?:\s+(\d{4}))?", str(head))
+    if len(parts) != 2:
+        return None
+    (d1, m1, y1), (d2, m2, y2) = parts
+    m1 = m1 or m2                       # '18th to 24th Apr 2021
+    if not y2 or m1.lower() not in MONTH_NO or m2.lower() not in MONTH_NO:
+        return None
+    end = date(int(y2), MONTH_NO[m2.lower()], int(d2))
+    start = date(int(y1 or y2), MONTH_NO[m1.lower()], int(d1))
+    if start > end:                     # a week running over new year, with the year written only once
+        start = start.replace(year=start.year - 1)
+    if (end - start).days > 6:          # a slip in the heading (MIRA wrote "04th July to 10th August 2024"): a week is the 7 days to its last day
+        start = end - timedelta(days=6)
+    return start, end
+
+
+def read_weekly(path):
+    """MIRA's weekly file: one sheet in rufiyaa, one for the part paid in US dollars. None if it isn't that file."""
+    wb = openpyxl.load_workbook(path, data_only=True, read_only=True)
+    out = {}
+    for ws in wb.worksheets:
+        rows = [list(r) for r in ws.iter_rows(values_only=True)]
+        rows = [r for r in rows if any(c not in (None, "") for c in r)]
+        if not rows or "WEEKLY" not in str(rows[0][0] or "").upper():
+            return None
+        kind = "usd" if "USD" in ws.title.upper() else "mvr"
+        weeks = {}
+        for j, h in enumerate(rows[1][1:], start=1):
+            w = week_dates(h) if h else None
+            if w:
+                weeks[j] = w
+            elif h:
+                print(f"{path.name} ({ws.title}): couldn't read the dates in column heading '{h}', skipping that week.")
+        lines, total = {}, None
+        for r in rows[2:]:
+            label = str(r[0] or "").strip()
+            if not label or label.lower().startswith("provisional"):
+                continue
+            vals = {weeks[j][1].isoformat(): (float(r[j]) if isinstance(r[j], (int, float)) else 0.0) for j in weeks if j < len(r)}
+            if label.upper() == "TOTAL":
+                total = vals
+            else:
+                lines[label] = vals
+        if total is None:
+            sys.exit(f"{path.name} ({ws.title}): no TOTAL row found")
+        out[kind] = {"weeks": {w[1].isoformat(): w[0].isoformat() for w in weeks.values()}, "lines": lines, "total": total}
+    return out if "mvr" in out else None
+
+
+def weekly_json(W, name):
+    """the weekly figures for revenue.json, grouped like the monthly ones, with checks that the lines add up"""
+    ends = sorted(W["mvr"]["weeks"])
+    problems, unknown = [], set()
+    def grouped(S):
+        g = {}
+        for label, vals in S["lines"].items():
+            k = WEEK_GROUP.get(re.sub(r"\s+", " ", label).lower())
+            if not k:
+                unknown.add(label); k = "other"
+            arr = g.setdefault(k, [0.0] * len(ends))
+            for i, e in enumerate(ends):
+                arr[i] += vals.get(e, 0.0)
+        return {k: [round(v) for v in arr] for k, arr in g.items()}
+    for kind, S in W.items():
+        for e in S["weeks"]:
+            s, t = sum(v.get(e, 0.0) for v in S["lines"].values()), S["total"].get(e, 0.0)
+            if abs(s - t) > max(1.0, abs(t) * 1e-6):
+                problems.append(f"weekly {kind}, week to {e}: lines add up to {s:,.0f} but TOTAL says {t:,.0f}")
+    U = W.get("usd")
+    usd_ends = sorted(U["weeks"]) if U else []
+    data = {"file": name, "start": [W["mvr"]["weeks"][e] for e in ends], "end": ends,
+            "mvr": grouped(W["mvr"]), "total_mvr": [round(W["mvr"]["total"].get(e, 0.0)) for e in ends],
+            "usd_from": usd_ends[0] if usd_ends else None}
+    if U:
+        g = grouped({"lines": {l: v for l, v in U["lines"].items()}})
+        data["usd"] = {k: [None if e < usd_ends[0] else v for e, v in zip(ends, arr)] for k, arr in g.items()}
+        data["total_usd"] = [None if e < usd_ends[0] else round(U["total"].get(e, 0.0)) for e in ends]
+        missing = [e for e in usd_ends if e not in W["mvr"]["weeks"]]
+        if missing:
+            problems.append(f"weekly usd: {len(missing)} weeks have no rufiyaa column ({missing[0]} first)")
+    gaps = [b for a, b in zip(ends, ends[1:]) if (date.fromisoformat(b) - date.fromisoformat(a)).days != 7]
+    if gaps:
+        problems.append(f"weekly: {len(gaps)} weeks don't follow on 7 days after the one before ({gaps[0]} first)")
+    if unknown:
+        print("Weekly lines counted as other taxes and fees: " + ", ".join(sorted(unknown)))
+    return data, problems
+
+
 def main():
     files = sorted(INPUTS.glob("*.xlsx"))
     if not files:
         print("No MIRA files in inputs/mira/, nothing to do.")
         return
-    found = {}
+    found, weekly = {}, None
     for f in files:
+        w = read_weekly(f)
+        if w:
+            if weekly:
+                sys.exit(f"Two weekly files in inputs/mira/ ({weekly[1]}, {f.name}). Delete the older one.")
+            weekly = (w, f.name)
+            continue
         s = read_sheet(f)
         if s:
             if s["kind"] in found:
@@ -182,6 +287,12 @@ def main():
         "other_lines": {"all": sorted(other_all), "usd": sorted(other_usd)},
         "warnings": problems,
     }
+    if weekly:
+        data["weekly"], wprob = weekly_json(*weekly)
+        problems += wprob
+        if wprob:
+            print("Warning, weekly figures:\n  " + "\n  ".join(wprob[:20]))
+        print(f"Weekly figures: {len(data['weekly']['end'])} weeks, to {data['weekly']['end'][-1]}.")
     OUT.write_text(json.dumps(data, separators=(",", ":")), encoding="utf-8")
     yr = months[-1][:4]
     ytd = sum(v for m, v in zip(months, total_mvr) if m.startswith(yr))
