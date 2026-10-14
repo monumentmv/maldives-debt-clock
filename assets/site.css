@@ -369,3 +369,6 @@ main.dark .cm-post p.cm-meta { align-items: center; } main.dark .cm-post .cm-met
 .explain-box .rev-more { font-size: .85rem; margin: 0 0 .6rem; }
 .explain-box .rev-links { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; font-size: .9rem; margin: 0; }
 .explain-box .rev-links a { color: #0b6f8a; font-weight: 700; }
+/* the new weekly figures ribbon: teal, so it reads apart from the yellow commentary ribbon */
+.wfd-ribbon { background: linear-gradient(90deg, #3fb8b0, #74d3cb); }
+.wfd-ribbon .cm-r-tag { color: #74d3cb; }

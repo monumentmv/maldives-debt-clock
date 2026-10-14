@@ -556,6 +556,26 @@ const MV = (() => {
     }).catch(() => {});
   }
 
+  // ---------- a ribbon for two days after a new weekly report from Ministry of Finance, closed for good once opened or dismissed ----------
+  function reportRibbon() {
+    const base = document.querySelector('script[src*="assets/site.js"]')?.src.replace(/assets\/site\.js.*$/, "") || "";
+    fetch(base + "wfd-latest.json?v=" + Math.floor(Date.now() / 6e5)).then(r => r.ok ? r.json() : null).then(n => {
+      if (!n?.d || !n.added) return;
+      const age = Date.now() - new Date(n.added).getTime(), key = "wfdSeen-" + n.d;
+      let seen = false; try { seen = localStorage.getItem(key) === "1"; } catch (e) {}
+      if (age < 0 || age > 2 * 864e5 || seen) return;
+      const [y, m, d] = n.d.split("-").map(Number), when = `${d} ${MONTHS[m - 1]} ${y}`;
+      const onBudget = /budget(\.html)?\/?$/.test(location.pathname);
+      const bar = document.createElement("div"); bar.className = "cm-ribbon wfd-ribbon"; bar.setAttribute("role", "region"); bar.setAttribute("aria-label", "New weekly figures");
+      bar.innerHTML = `<a class="cm-r-link" href="${onBudget ? "#top" : base + "budget.html"}"><span class="cm-r-tag">New figures</span><span class="cm-r-t">Ministry of Finance weekly report${n.w ? `, week ${n.w}` : ""}, up to ${when}</span>${onBudget ? "" : `<span class="cm-r-go">See the budget →</span>`}</a><button type="button" class="cm-r-x" aria-label="Close">×</button>`;
+      const done = () => { try { localStorage.setItem(key, "1"); } catch (e) {} };
+      if (!onBudget) bar.querySelector(".cm-r-link").addEventListener("click", done);
+      bar.querySelector(".cm-r-x").addEventListener("click", () => { done(); bar.remove(); headHeight(); });
+      const after = document.querySelector(".cm-ribbon:not(.wfd-ribbon)") || document.querySelector(".site-head");
+      after?.after(bar); headHeight();
+    }).catch(() => {});
+  }
+
   // ---------- after a minute on the site, say plainly where the figures come from ----------
   function sourceNotice() {
     let seen = false, arrived = Date.now();
@@ -581,7 +601,7 @@ const MV = (() => {
     }, Math.max(0, 30000 - (Date.now() - arrived)));
   }
 
-  const boot = () => { headHeight(); navToCurrent(); themeButton(); realHelp(); ticker(); paintIcons(); backLink(); updatesBadge(); sourceNotice(); commentaryRibbon(); };
+  const boot = () => { headHeight(); navToCurrent(); themeButton(); realHelp(); ticker(); paintIcons(); backLink(); updatesBadge(); sourceNotice(); commentaryRibbon(); reportRibbon(); };
   addEventListener("load", navToCurrent);   // again once the fonts have set the tab widths
   document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", boot) : boot();
 
