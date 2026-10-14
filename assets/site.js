@@ -404,13 +404,14 @@ const MV = (() => {
   let REV = {};
   const setRevisions = r => { REV = r || {}; };
   const sentence = l => /[a-z]/.test(l) ? l : l.charAt(0) + l.slice(1).toLowerCase();
+  // only reports where a figure actually changed get a badge; a file replaced with the same numbers is not mentioned
+  const revised = d => (REV[d] || []).filter(r => r.changes?.length);
   function revBadge(d) {
-    const list = REV[d]; if (!list?.length) return "";
-    const changed = list.some(r => r.changes?.length);
-    return `<button type="button" class="rev-badge${changed ? " changed" : ""}" data-rev="${d}" aria-haspopup="dialog"><span class="rev-ico" aria-hidden="true">↻</span>${changed ? tr("Revised") : tr("Re-issued")}<span class="rev-q">${changed ? tr("What changed?") : tr("Details")}</span></button>`;
+    if (!revised(d).length) return "";
+    return `<button type="button" class="rev-badge changed" data-rev="${d}" aria-haspopup="dialog"><span class="rev-ico" aria-hidden="true">↻</span>${tr("Revised")}<span class="rev-q">${tr("What changed?")}</span></button>`;
   }
   function showRevision(d) {
-    const list = REV[d]; if (!list?.length) return;
+    const list = revised(d); if (!list.length) return;
     const r = list[list.length - 1], ch = r.changes || [], m1 = v => v == null ? "–" : fmt(v, 1);
     const title = ch.length ? tr("This report was revised") : tr("This report was re-issued");
     const lead = DV ? DV.revLead(dayLabel(d), dayLabel(r.found), ch.length) : `Ministry of Finance replaced its weekly report as at ${dayLabel(d)} with a new version, found on ${dayLabel(r.found)}. ` + (ch.length ? "These are the figures that changed, in millions of rufiyaa. The site now uses the new figures." : "No figures changed. The new file has the same numbers as the one published before.");
