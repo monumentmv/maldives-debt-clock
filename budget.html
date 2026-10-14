@@ -74,6 +74,7 @@
   }
   .cmp-bar { position: sticky; top: var(--headH, 60px); z-index: 7; background: color-mix(in srgb, var(--abyss) 94%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); margin: 0 -1.25rem; padding: .2rem 1.25rem .9rem; border-bottom: 1px solid rgba(169,205,214,.18); }
   .rev-table th.wk { color: var(--sun); }
+  .rev-table th small { display: block; font-weight: 400; color: var(--mist); font-size: .8rem; margin-top: .15rem; white-space: nowrap; }
   .prog .row[data-tip] { cursor: help; }
   .prog .row[data-tip]:hover .bar, .prog .row[data-tip]:focus-visible .bar { box-shadow: 0 0 0 2px rgba(244,201,93,.55); }
   .ftip { position: fixed; z-index: 90; max-width: 20rem; background: #fff; color: #072f40; border-radius: 10px; padding: .7rem .85rem; font: .88rem/1.45 var(--body); box-shadow: 0 10px 30px rgba(0,0,0,.35); pointer-events: none; }
@@ -274,6 +275,11 @@
     const wv = (r, k, i = 0) => { const a = val(r, k, i), p = prevOf(r); if (a == null || !p) return a; const b = val(p, k, i); return b == null ? null : Math.round((a - b) * 10) / 10; };   // figures come in millions to one decimal
     const mv = (r, k, i = 0) => wk() ? wv(r, k, i) : val(r, k, i);       // i = 2 is the same date a year earlier, as given in each report
     const span = r => { const p = prevOf(r), n = daysOf(r); return !p ? `from 1 January to ${dayLabel(r.d)}, the first report of the year` : n === 7 ? `in the week to ${dayLabel(r.d)}` : `in the ${n} days from ${dayLabel(p.d)} to ${dayLabel(r.d)}`; };
+    const shiftY = (d, n) => `${Number(d.slice(0, 4)) - n}${d.slice(4)}`;
+    const nextDay = d => new Date(Date.parse(d + "T00:00:00Z") + 864e5).toISOString().slice(0, 10);
+    const period = (r, yearsBack = 0) => { const p = prevOf(r), a = shiftY(p ? nextDay(p.d) : r.d.slice(0, 4) + "-01-01", yearsBack), b = shiftY(r.d, yearsBack);
+      const [da, ma] = dayLabel(a).split(" "), [db, mb, yb] = dayLabel(b).split(" ");
+      return (ma === mb ? `${da} to ${db} ${mb}` : `${da} ${ma} to ${db} ${mb}`) + (yearsBack ? ` ${yb}` : ""); };
     const sameWeek = (r, y) => { const c = R.filter(x => x.d.startsWith(String(y))); if (!c.length) return null; const t = doy(r.d); return c.reduce((a, x) => Math.abs(doy(x.d) - t) < Math.abs(doy(a.d) - t) ? x : a); };
 
     // ---------- latest ----------
@@ -473,9 +479,9 @@
       const b = byD[$("cmpB").value], a = byD[$("cmpA").value];
       const rows = MEASURES.concat([["green_tax", "Green tax"], ["general_gst", "GST outside tourism"], ["import_duties", "Import duties"], ["rent_from_resorts", "Rent from resorts"], ["soe_dividends", "Dividends from state companies"], ["grants", "Grants received"]]);
       const cell = (x, k) => x == null ? "n/a" : !x ? "0" : (x < 0 ? "−" : k === "overall_balance" ? "+" : "") + short(Math.abs(x));
-      const head = r => wk() ? `${daysOf(r) === 7 || !prevOf(r) ? "Week" : daysOf(r) + " days"} to ${dayLabel(r.d)}` : dayLabel(r.d);
-      let h = `<tr><th>${wk() ? "That week alone" : "From 1 January to"}</th><th>${head(b)} (${sym()})</th><th>${head(a)} (${sym()})</th><th>Change</th></tr>`;
-      $("cmpNote").textContent = wk() ? "Pick any two weekly reports. Each figure is what came in or went out in that week alone, the change since the report before." : "Pick any two weekly reports. Each figure is the total from 1 January to that report's date, so compare weeks at the same point in their years, such as the latest week against the same week a year earlier.";
+      const head = r => wk() ? (prevOf(r) ? `${r.w ? `Week ${r.w}` : daysOf(r) + " days"}<small>${period(r)} ${r.d.slice(0, 4)}</small>` : `1 January to ${dayLabel(r.d)}`) : dayLabel(r.d);
+      let h = `<tr><th>${wk() ? "That week alone" : "From 1 January to"}</th><th>${head(b)}</th><th>${head(a)}</th><th>Change</th></tr>`;
+      $("cmpNote").textContent = (wk() ? "Pick any two weekly reports. Each figure is what came in or went out in that week alone, the change since the report before." : "Pick any two weekly reports. Each figure is the total from 1 January to that report's date, so compare weeks at the same point in their years, such as the latest week against the same week a year earlier.") + ` Amounts in ${sym()}.`;
       rows.forEach(([k, l]) => { const vb = mv(b, k), va = mv(a, k); if (vb == null && va == null) return;
         const cb = over(vb, b.d), ca = over(va, a.d); let c = "", cls = "";
         if (k === "overall_balance") { if (cb != null && ca != null) { const dlt = cb - ca; c = (dlt >= 0 ? "+" : "−") + short(Math.abs(dlt)); cls = dlt >= 0 ? "up" : "down"; } }
@@ -564,16 +570,16 @@
       const d = (a, b) => a == null || b == null ? null : Math.round((a - b) * 10) / 10;
       const v = x => x == null ? "–" : !x ? "0" : sgn(x) + short(Math.abs(MV.convNow(M(x), L.d)));
       const ch = (n, l) => { if (n == null || l == null || l <= 0 || n < 0) return ""; const c = (n / l - 1) * 100; return (c >= 0 ? "+" : "−") + fmt(Math.abs(c), 0) + "%"; };
-      // column headings name each period plainly, e.g. "This week, to 8 October" and "The week before, to 1 October"
-      const dm = d => dayLabel(d).replace(/ \d{4}$/, ""), yrAgo = Number(L.d.slice(0, 4)) - 1;
-      const when = span(L), wkBefore = !p ? null : pp ? (daysOf(p) === 7 ? `The week before, to ${dm(p.d)}` : `The ${daysOf(p)} days before, to ${dm(p.d)}`) : null;
-      const thisWk = !p ? `1 January to ${dm(L.d)}` : daysOf(L) === 7 ? `This week, to ${dm(L.d)}` : `These ${daysOf(L)} days, to ${dm(L.d)}`;
+      // column headings give each period's week number and its exact dates, e.g. "Week 40, 2 to 8 October"
+      const yrAgo = Number(L.d.slice(0, 4)) - 1, wkName = r => r.w ? `Week ${r.w}` : daysOf(r) === 7 ? "Week" : `${daysOf(r)} days`;
+      const when = span(L), wkBefore = !p ? null : pp ? `${wkName(p)}<small>${period(p)}</small>` : null;
+      const thisWk = !p ? `1 January to ${dayLabel(L.d).replace(/ \d{4}$/, "")}` : `${wkName(L)}<small>${period(L)}</small>`;
       const cnt = {};
       const lines = (D[tab] || []).map(r => { const key = r.label.trim().toLowerCase(); cnt[key] = (cnt[key] || 0) + 1; const k = key + "#" + cnt[key];
         const q = p ? before[k] : { now: 0, last: 0 }, q2 = pp ? before2[k] : null;
         return { r, wn: d(r.now, q?.now ?? (p ? null : 0)), wl: d(r.last, q?.last ?? (p ? null : 0)), wb: pp ? d(q?.now, q2?.now) : null }; });
-      const headB = wkBefore ? `<th>${wkBefore}</th><th>Change from the week before</th>` : "";
-      const headY = `<th>Same days in ${yrAgo}</th><th>Change from ${yrAgo}</th>`;
+      const headB = wkBefore ? `<th>${wkBefore}</th><th>Change from ${p.w ? `week ${p.w}` : "the week before"}</th>` : "";
+      const headY = `<th>Same days in ${yrAgo}<small>${period(L, 1)}</small></th><th>Change from ${yrAgo}</th>`;
       const cellsB = x => wkBefore ? `<td>${v(x.wb)}</td><td>${ch(x.wn, x.wb)}</td>` : "";
       if (tab === "agencies") {
         const list = lines.filter(x => !/^total$/i.test(x.r.label.trim()) && (x.r.approved || x.r.now)).sort((a, b) => (b.wn || 0) - (a.wn || 0));
