@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="dv" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<script>try{var t=localStorage.getItem("theme2");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#072f40">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css?v=20261014f">
+<title>ތެޔޮ އެތެރެކުރުން · ދިވެހިރާއްޖޭގެ ޤައުމީ ދަރަނީގެ ގަޑި</title>
+<meta property="og:title" content="ތެޔޮ އެތެރެކުރުން · ދިވެހިރާއްޖޭގެ ޤައުމީ ދަރަނީގެ ގަޑި">
+<meta property="og:description" content="ކޮންމެ މަހަކު ރާއްޖެއިން ތެޔޮ އެތެރެކުރުމަށް ހޭދަކުރާ ފައިސާ، އަދި ހަނގުރާމަތަކާއި ބުހުރާންތަކުން އެ ބިލަށް އަސަރުކުރި ގޮތް.">
+<meta property="og:url" content="https://mvdebtclock.org/fuel">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MV Debt Clock">
+<meta property="og:image" content="https://mvdebtclock.org/assets/share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ކަނޑުގެ މައްޗަށް ފެންނަ ރަށެއް، އަދި ފެނުގެ ފުނޔަށް ދަމާފައިވާ ރޮނގެއް. ދިވެހި ސަރުކާރުގެ ދަރަނި އަދި ޖީޑީޕީއާ އަޅާކިޔާއިރު ދަރަނި.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://mvdebtclock.org/assets/share.png">
+<meta name="description" content="ކޮންމެ މަހަކު ރާއްޖެއިން ތެޔޮ އެތެރެކުރުމަށް ހޭދަކުރާ ފައިސާ، އަދި ހަނގުރާމަތަކާއި ބުހުރާންތަކުން އެ ބިލަށް އަސަރުކުރި ގޮތް.">
+<style>
+  .lede { font-size: clamp(1.05rem, 2.2vw, 1.25rem); max-width: 44rem; }
+  .controls { display: flex; flex-wrap: wrap; gap: .75rem 1rem; align-items: center; margin-top: 1rem; }
+  .crises { display: grid; grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+  .crisis { border-left: 4px solid; background: rgba(255,255,255,.04); border-radius: 0 6px 6px 0; padding: 1rem 1.1rem; }
+  .crisis h3 { margin: 0 0 .2rem !important; font-size: 1.05rem; }
+  .crisis .when { color: var(--mist); font-size: .875rem; margin-bottom: .5rem; }
+  .crisis p { font-size: .95rem; margin: 0 0 .6rem !important; }
+  .crisis .impact { font-size: .95rem; color: var(--foam); }
+  .crisis .impact b.up { color: var(--red); } .crisis .impact b.down { color: var(--lagoon); }
+  .stat .d { font-size: .9rem; margin-top: .35rem; font-weight: 700; }
+  .stat .d.up { color: var(--red); } .stat .d.down { color: var(--lagoon); }
+  .pill { font: 700 .85rem var(--body); border: 1px solid rgba(244,201,93,.5); background: transparent; color: var(--mist); padding: .4rem .85rem; border-radius: 999px; cursor: pointer; min-height: 2.1rem; display: inline-flex; align-items: center; gap: .45rem; }
+  .pill .dot { width: .7rem; height: .7rem; border-radius: 2px; border: 2px solid var(--sun); }
+  .pill[aria-pressed="true"] { color: var(--foam); }
+  .pill[aria-pressed="true"] .dot { background: var(--sun); }
+  .marks { display: flex; flex-wrap: wrap; gap: .4rem 1.5rem; margin-top: .6rem; font-size: .9rem; color: var(--mist); }
+  .marks b.hi { color: var(--red); } .marks b.lo { color: #9fe0d6; }
+  .events { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: .5rem 1.5rem; font-size: .9rem; color: var(--mist); }
+  .events li { display: grid; grid-template-columns: 1.4rem 1fr; gap: .5rem; align-items: start; }
+  .events .num { width: 1.25rem; height: 1.25rem; border-radius: 50%; color: var(--abyss); font-weight: 800; font-size: .75rem; display: grid; place-items: center; margin-top: .1rem; }
+  .events b { color: var(--foam); }
+  .crisis h3 .num { display: inline-grid; place-items: center; width: 1.35rem; height: 1.35rem; border-radius: 50%; color: var(--abyss); font-size: .78rem; margin-right: .4rem; vertical-align: .1rem; }
+  .ctl-label { font-size: .875rem; font-weight: 700; color: var(--mist); margin-right: -.5rem; }
+  .l12 { margin-top: 1.25rem; padding: .9rem 1.1rem; background: rgba(255,255,255,.05); border-radius: 6px; font-size: .95rem; color: var(--mist); }
+  .l12 b { color: var(--foam); }
+  .caveat { border-top: 1px solid rgba(169,205,214,.25); padding-top: 2rem; }
+  /* Dhivehi (right to left) */
+  html[lang="dv"] .crisis { border-left: 0; border-right: 4px solid; border-radius: 6px 0 0 6px; }
+  html[lang="dv"] .crisis h3 .num { margin-right: 0; margin-left: .4rem; }
+  html[lang="dv"] .ctl-label { margin-right: 0; margin-left: -.5rem; }
+  html[lang="dv"] .tip .row span:last-child { direction: ltr; unicode-bidi: isolate; }
+</style>
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="dv.html">MV <span>ދަރަނީގެ ގަޑި</span></a>
+  <nav class="site-nav" aria-label="މައި މެނޫ">
+    <a href="dv.html" data-page="clock">ދަރަނީގެ ގަޑި</a>
+    <a href="dv-priorities.html" data-page="priorities">އިންޓަރެސްޓް</a>
+    <a href="dv-budget.html" data-page="budget">ބަޖެޓް</a>
+    <a href="dv-revenue.html" data-page="revenue">ޓެކްސް</a>
+    <a href="dv-fuel.html" data-page="fuel" aria-current="page">ތެޔޮ އެތެރެކުރުން</a>
+    <a href="dv-updates.html" data-page="updates">އާ މަޢުލޫމާތު</a>
+    <a href="dv-commentary.html" data-page="commentary">ކޮމެންޓަރީ</a>
+    <a href="dv-methodology.html" data-page="method">ހިސާބުކުރާ ގޮތް</a>
+    <a href="dv-about.html" data-page="about">ސައިޓާ ބެހޭ</a>
+    <a href="fuel.html" lang="en" dir="ltr" class="lang-sw">English</a>
+  </nav>
+  <div class="prefs">
+    <div class="toggle" data-pref="cur" role="group" aria-label="ފައިސާ"><button type="button" data-v="MVR" aria-pressed="true">ރުފިޔާ</button><button type="button" data-v="USD" aria-pressed="false">ޑޮލަރު</button></div>
+    <div class="toggle" data-pref="real" role="group" aria-label="އިންފްލޭޝަން" title="ރިއަލް ގޮތަށް ކުރީގެ އަދަދުތައް ދައްކަނީ މިއަދުގެ އަގުތަކުން"><button type="button" data-v="0" aria-pressed="true">ނޮމިނަލް</button><button type="button" data-v="1" aria-pressed="false">ރިއަލް</button></div>
+  </div>
+  <div class="real-note" role="status"></div>
+</header>
+
+<main class="dark">
+<div class="wrap">
+
+  <section>
+    <div id="since"></div>
+    <h1>ރާއްޖެއިން ތެޔޮ އެތެރެކުރުމަށް ހޭދަކުރާ ފައިސާ</h1>
+    <p class="lede">ދިވެހިރާއްޖެއަށް ބޭނުންވާ ހަކަތައިގެ ގާތްގަނޑަކަށް ހުރިހާ ބައެއް އެތެރެކުރަނީ ތެލުގެ ބާވަތްތަކުގެ ގޮތުގައެވެ. ބޭނުންކުރާ ތެލުގެ ބޮޑު ބައެއް ޑީސަލެވެ. ޤައުމުގެ ކަރަންޓުގެ ގިނަ ބައެއް އުފައްދަނީ ޑީސަލުންނެވެ. އަދި ގިނަ ސަވާރީތަކާއި، ދޯނިތަކާއި، މަސްވެރި އުޅަނދުތައް ދުއްވަނީ ވެސް ޑީސަލުންނެވެ. ކާރާއި، މޮޓަރުސައިކަލާއި، ކުދި ދޯނިތަކުގައި ޕެޓްރޯލް ވެސް ގިނައިން ބޭނުންކުރެއެވެ. ބާކީ ބައިގައި މަތިންދާބޯޓުތަކުގެ ތެޔޮއާއި، ކައްކާ ގޭހާއި، ތެލުގެ އެހެން ބާވަތްތައް ހިމެނެއެވެ. ހަނގުރާމަތަކާއި ދުނިޔޭގެ އެހެން ބުހުރާންތަކުގެ ސަބަބުން ތެލުގެ އަގު މައްޗަށް ދާއިރު، ޤައުމުގެ ތެޔޮ އެތެރެކުރުމުގެ ބިލު ވެސް ބޮޑުވެއެވެ. އަދި އެ އެތެރެކުރުމަށް ހޭދަކުރާ ބޭރުގެ ފައިސާ، އިޤްތިޞާދުން ބޭރަށް ދެއެވެ.</p>
+    <div id="fresh"></div>
+    <div class="period-zone">
+    <div id="asof"></div>
+    <div class="stats" style="margin-top:2.5rem">
+      <div class="stat hot" data-icon="fuel"><div class="n num" id="sLatest">…</div><div class="l" id="sLatestL">އެންމެ ފަހު މަސް</div><div class="d" id="sLatestD"></div></div>
+      <div class="stat red" data-icon="ship"><div class="n num" id="s12">…</div><div class="l" id="s12L">ފާއިތުވި 12 މަހު ތެޔޮ އެތެރެކުރުމަށް ހޭދަވި</div><div id="s12M"></div></div>
+      <div class="stat" data-icon="globe"><div class="n num" id="sShare">…</div><div class="l" id="sShareL">ރާއްޖެއަށް އެތެރެކުރާ ހުރިހާ މުދަލުގެ ތެރެއިން</div><div id="sShareM"></div></div>
+    </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="chart-head">
+      <div><h2><span id="sinceYr">2004</span> އިން ފެށިގެން ކޮންމެ މަހެއް</h2><p id="chartNote" style="margin:0"></p></div>
+      <div class="controls">
+        <div class="subtoggle" role="group" aria-label="މުއްދަތު"><button type="button" data-range="all" aria-pressed="true">ހުރިހާ</button><button type="button" data-range="2015" aria-pressed="false">2015 އިން ފެށިގެން</button><button type="button" data-range="5" aria-pressed="false">5 އަހަރު</button></div>
+        <div class="subtoggle" role="group" aria-label="ތަފްސީލު"><button type="button" data-split="0" aria-pressed="true">ޖުމްލަ</button><button type="button" data-split="1" aria-pressed="false">ބާވަތުން</button></div>
+        <button type="button" class="pill" id="crudeBtn" aria-pressed="true"><span class="dot"></span>ދުނިޔޭގެ ތެލުގެ އަގު</button>
+      </div>
+    </div>
+    <div class="chart-box" id="chart"></div>
+    <div class="marks num" id="marks"></div>
+    <div class="key" id="key"></div>
+    <ol class="events" id="events" aria-label="ޗާޓުގައި ކުލަ ޖަހާފައިވާ ބުހުރާންތައް"></ol>
+    <div class="hint">ކޮންމެ މަހެއް ބެއްލެވުމަށް ޗާޓުގެ މައްޗަށް މައުސް ގެންދަވާ، ނުވަތަ ފިއްތަވާ. ނަންބަރުތަކަކީ ތިރީގައިވާ ބުހުރާންތަކުގެ ނަންބަރުތަކެވެ.</div>
+  </section>
+
+  <section>
+    <h2>ބިލަށް އަސަރުކުރި ބުހުރާންތައް</h2>
+    <p>ކޮންމެ ބުހުރާނެއްގައި، ކުލަ ޖަހާފައިވާ މުއްދަތުގައި ތެޔޮ އެތެރެކުރުމަށް މަހަކަށް ހޭދަވި އެވަރެޖް ފައިސާ، އެ ބުހުރާން ފެށުމުގެ ކުރީގެ 12 މަހުގެ އެވަރެޖާ އަޅާކިޔާފައިވެއެވެ. އަދި އެ މަސްތަކުގައި ދުނިޔޭގެ ތެލުގެ އަގު ވެސް ދައްކާފައިވެއެވެ.</p>
+    <div class="crises" id="crises"></div>
+  </section>
+
+  <section>
+    <h2>އަހަރުން އަހަރަށް</h2>
+    <p id="annualNote"></p>
+    <div class="chart-box" id="annual"></div>
+    <div class="l12 num" id="l12"></div>
+  </section>
+
+  <section class="caveat">
+    <h2>މި އަދަދުތައް ކިޔާނެ ގޮތް</h2>
+    <p>ތެޔޮ އެތެރެކުރުމުގެ އަދަދުތައް ނަގާފައިވަނީ ދިވެހި ކަސްޓަމްސް އިންނެވެ (MMA ސީރީޒް 3503. ޕެޓްރޯލް 3504، ޑީސަލް 3505، އަދި އެހެން ބާވަތްތައް 3507). ތެލުގެ އަގަކީ ވޯލްޑް ބޭންކުން ހިސާބުކުރާ، Brent، Dubai އަދި WTI ކްރޫޑް އޮއިލްގެ މަހު އެވަރެޖެވެ (ސީރީޒް 3787). ތެޔޮ ގަނެ ރެކޯޑުކުރަނީ އެމެރިކާ ޑޮލަރުންނެވެ. އެހެންކަމުން، ޗާޓުތަކާއި ބުހުރާންތައް އަޅާކިޔާ ހިސާބުތައް ދައްކަނީ ޑޮލަރުންނެވެ. އެގޮތުން ތާރީޚު ބަދަލުނުވެ ހުރެއެވެ. 2011 ގެ މާރިޗާ ހަމައަށް ޑޮލަރަކަށް 12.80 ރުފިޔާގެ ރޭޓެއް ކަނޑައަޅާފައި އޮތެވެ. އޭގެފަހުން ރޭޓު ގާތްގަނޑަކަށް 15.40 އަށް ބަދަލުވިއެވެ. އެހެންކަމުން، ތާރީޚު ރުފިޔާއަށް ބަދަލުކުރިނަމަ، ތެލާ ގުޅުމެއް ނެތް ފުންމުމެއް ފެންނާނެއެވެ. ރުފިޔާ/ޑޮލަރު ސްވިޗާ އެއްގޮތަށް ބަދަލުވަނީ މަތީގައިވާ މައި އަދަދުތައް އެކަނިއެވެ. އެ އަދަދުތައް ބަދަލުކުރަނީ ކޮންމެ މަހެއްގެ MMA ގެ ރިފަރެންސް ރޭޓުންނެވެ.</p>
+    <p><b>2015 ގެ އެޕްރީލްގައި އައި ބަދަލު.</b> 1 އެޕްރީލް 2015 އިން ފެށިގެން ތެލުގެ ބާވަތްތަކަށް ޑިއުޓީ އަލުން ނެގުމަށްފަހު، މި ސީރީޒްގައި ހިމެނެނީ ރާއްޖޭގެ ތެރޭގައި ވިއްކާ ތެޔޮ އެކަނިއެވެ. ކުރީގެ މަސްތަކުގައި ރާއްޖޭގައި ނުވިއްކާ ތެޔޮ ވެސް ހިމެނެއެވެ. އެހެންކަމުން، ތިކި ރޮނގުގެ ކުރީގެ އަދަދުތަކާއި ފަހުގެ އަދަދުތައް ފުރިހަމައަށް އަޅާނުކިޔެވޭނެއެވެ.</p>
+    <p>އެތެރެކުރުމުގެ ބިލުގައި އަގާއި މިންވަރު ދެކަންވެސް ހިމެނެއެވެ. ބިލު ބޮޑުވުމުގެ މާނައަކީ ތެލުގެ އަގު ބޮޑުވުން ކަމުގައި ވެދާނެއެވެ. ނުވަތަ، މިސާލަކަށް ފަތުރުވެރިކަން ބޮޑުވާއިރު، ޤައުމުން ގަންނަ ތެލުގެ މިންވަރު ގިނަވުން ކަމުގައި ވެދާނެއެވެ. ތެލުގެ އަގު ކަނޑައަޅަނީ އެމެރިކާ ޑޮލަރުން ކަމުން، މި ޞަފްޙާގައި އިންފްލޭޝަން ("ރިއަލް") ބޭނުން ނުކުރެއެވެ. ރާއްޖޭގެ ކޮންސިއުމަރ އަގުތަކަކީ އެކަމަށް ރަނގަޅު މިންގަނޑެއް ނޫނެވެ. <a href="dv-methodology.html#fuel">މެތަޑޮލޮޖީގައި އިތުރަށް ކިޔުއްވާ</a>.</p>
+  </section>
+
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <span id="fetched">އަދަދުތައް ނަގާފައިވަނީ މޯލްޑިވްސް މަނިޓަރީ އޮތޯރިޓީގެ ސްޓެޓިސްޓިކްސް ޑޭޓާބޭސްއިން.</span>
+  <span class="foot-links"><a href="dv-methodology.html">ހިސާބުކުރާ ގޮތް</a> <a href="dv-about.html">ސައިޓާ ބެހޭ، އަދި ގުޅުއްވުމަށް</a> <span>މިއީ މިނިވަން ސައިޓެކެވެ. ދައުލަތުގެ އެއްވެސް މުއައްސަސާއަކާ ގުޅުމެއް ނެތެވެ.</span></span>
+</div></footer>
+
+<script src="assets/dv.js?v=dv1"></script>
+<script src="assets/site.js?v=20261014f"></script>
+<script src="assets/motion.js?v=20261014f" defer></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const { fmt, sym, short, fromUSD, ts, mLabel, mShort, last, row } = MV;
+  document.querySelectorAll('[data-pref="real"]').forEach(t => t.hidden = true);
+  const RED = "#ff5f56", AMBER = "#f2a541";
+  const CRISES = [
+    { from: "2004-12-01", to: "2005-06-30", label: "ސުނާމީ", kind: "shock", title: "ހިންދު ކަނޑުގެ ސުނާމީ", when: "26 ޑިސެމްބަރު 2004 އިން ފެށިގެން", text: "ސުނާމީ ރާއްޖޭގެ ގިނަ ރަށްރަށަށް ކައްސާލިއެވެ. އޭގެ ފަހުން މަސްތަކެއްވަންދެން އަލުން ބިނާކުރުމުގެ މަސައްކަތް ކުރިއަށް ދިޔައެވެ." },
+    { from: "2008-01-01", to: "2008-12-31", label: "2008 ގެ އަގު", kind: "shock", title: "ތެލުގެ އަގު އެރުމާއި މާލީ ބުހުރާން", when: "2008", text: "2008 ގެ މެދުތެރޭގައި ތެލުގެ އަގު ކުރިން ނުދާހާ މަތިވެގެން ދިޔައެވެ. ދެން ދުނިޔޭގެ މާލީ ބުހުރާން ފެށުމާއެކު އަގު ވަރަށް ބޮޑަށް ވެއްޓުނެވެ." },
+    { from: "2011-02-01", to: "2011-10-31", label: "ލީބިޔާ", kind: "war", title: "ލީބިޔާގެ ސިވިލް ހަނގުރާމައާއި އަރަބި ރަބީޢު", when: "ފެބުރުއަރީ އިން އޮކްޓޫބަރު 2011 އަށް", text: "ލީބިޔާގެ ހަނގުރާމައާއި މެދުއިރުމަތީގެ ހަލަބޮލިކަމާއެކު ތެލުގެ ސަޕްލައި މަދުވެ، ތެލުގެ އަގު ބެރަލަކަށް 100 ޑޮލަރަށްވުރެ މައްޗަށް ދިޔައެވެ." },
+    { from: "2014-07-01", to: "2016-02-29", label: "ތެޔޮ ގިނަވުން", kind: "shock", title: "ތެލުގެ އަގު ވެއްޓުން", when: "2014 ގެ މެދުން 2016 ގެ ފެށުމަށް", text: "އެމެރިކާގެ ޝޭލް އޮއިލް އާއި، ތެޔޮ އުފެއްދުން ކުޑަނުކުރުމަށް OPEC އިން ނިންމި ނިންމުމުގެ ސަބަބުން ދުނިޔޭގައި ތެޔޮ ގިނަވިއެވެ. އަދި ތެލުގެ އަގު ދެބައިކުޅަ އެއްބަޔަށްވުރެ ދަށަށް ވެއްޓުނެވެ." },
+    { from: "2020-03-01", to: "2020-07-31", label: "ކޮވިޑް-19", kind: "shock", title: "ކޮވިޑް-19 ގައި ބޯޑަރު ބަންދުކުރުން", when: "27 މާރިޗު އިން 15 ޖުލައި 2020 އަށް", text: "ދިވެހިރާއްޖޭގެ ބޯޑަރު ފަތުރުވެރިންނަށް ބަންދުކޮށް، ރިސޯޓުތައް ހުސްވިއެވެ. އަދި ދުނިޔޭގައި ތެޔޮ ބޭނުންވާ މިންވަރު ވަރަށް ބޮޑަށް ދަށްވިއެވެ." },
+    { from: "2022-02-01", to: "2022-08-31", label: "ރަޝިޔާ-ޔުކްރެއިން", kind: "war", title: "ރަޝިޔާ-ޔުކްރެއިން ހަނގުރާމަ", when: "24 ފެބުރުއަރީ 2022 އިން ފެށިގެން", text: "2022 ގެ ފެބުރުއަރީގައި ފުރިހަމަ ހަނގުރާމައެއް ފެށުމާއެކު، ތެލާއި، މުދާ ފޮނުވުމާއި، އިންޝުއަރަންސްގެ އަގުތައް ވަރަށް ބޮޑަށް މައްޗަށް ދިޔައެވެ." },
+    { from: "2025-06-01", to: "2025-06-30", label: "ބާރަ ދުވަހުގެ ހަނގުރާމަ", kind: "war", title: "ބާރަ ދުވަހުގެ ހަނގުރާމަ (އިސްރާއީލާއި އީރާން)", when: "13 އިން 24 ޖޫން 2025 އަށް", text: "ބާރަ ދުވަހުވަންދެން އިސްރާއީލާއި އީރާން ދެމެދު ހަމަލާތައް ދެވުނެވެ. ނިމުމާ ކައިރިކޮށް އެމެރިކާއިން އީރާނުގެ ނިއުކްލިއާ ތަންތަނަށް ބޮމު އެޅިއެވެ. މީގެ ސަބަބުން ކުރު މުއްދަތަކަށް ތެލުގެ އަގު މައްޗަށް ދިޔައެވެ." },
+    { from: "2026-03-01", to: "2026-06-30", label: "2026 ގެ އީރާން ހަނގުރާމަ", kind: "war", title: "2026 ގެ އީރާން ހަނގުރާމައާއި ހޯރމުޒް ކަނޑުއޮޅި ބަންދުކުރުން", when: "28 ފެބުރުއަރީ 2026 އިން ފެށިގެން", text: "އެމެރިކާއާއި އިސްރާއީލް، އީރާނާ ހަނގުރާމަ ފެށިއެވެ. އަދި ހޯރމުޒް ކަނޑުއޮޅި ބަންދުކުރެވުނެވެ. އިންޓަރނޭޝަނަލް އެނަރޖީ އޭޖެންސީން ބުނީ، މިއީ ތާރީޚުގައި ތެލުގެ ސަޕްލައިއަށް އެރި އެންމެ ބޮޑު ހުރަސް ކަމަށެވެ." },
+  ];
+  const colorOf = c => c.kind === "war" ? RED : AMBER;
+
+  MV.getJSON("data.json").then(data => {
+    const S = data.series; MV.setData(S); MV.paintPrefs(); MV.checkStale(data);
+    document.querySelectorAll('[data-pref="real"]').forEach(t => t.hidden = true);
+    if (!S.fuel_imports?.points?.length) { $("chartNote").textContent = "ތެޔޮ އެތެރެކުރުމުގެ އަދަދުތައް މިވަގުތު ނުލިބެއެވެ. ކުޑަ ވަގުތުކޮޅަކަށްފަހު އަނބުރާ ވަޑައިގަންނަވާ."; return; }
+    const map = k => Object.fromEntries((S[k]?.points || []).map(p => [p.date, p.value]));
+    const pet = map("fuel_petrol"), die = map("fuel_diesel"), oth = map("fuel_other"), imp = map("imports_goods"), crude = map("crude_price");
+    const all = S.fuel_imports.points.filter(p => p.value > 0).map(p => ({ date: p.date, v: p.value, pet: pet[p.date], die: die[p.date], oth: oth[p.date], imp: imp[p.date], crude: crude[p.date] }));
+    const crisisAt = d => CRISES.find(c => d >= c.from && d <= c.to);
+    const disp = (usd, date) => sym() + " " + short(fromUSD(usd, date));   // headline figures follow the currency switch
+    const usd = v => "$ " + short(v);                                      // charts and history always in US dollars
+    let range = "all", split = false, showCrude = true, sel = all.length - 1;
+
+    function render() {
+      const L = all[sel], P = all[sel - 1], Y = all.find(r => r.date.slice(0, 7) === (Number(L.date.slice(0, 4)) - 1) + L.date.slice(4, 7));
+      $("sLatest").textContent = disp(L.v, L.date);
+      $("sLatestL").textContent = `${mLabel(L.date)}${sel === all.length - 1 ? " (ޝާއިޢުކުރި އެންމެ ފަހު މަސް)" : ""} ގައި ތެޔޮ އެތެރެކުރުމަށް ހޭދަވި`;
+      const pc = (a, b) => (a / b - 1) * 100;
+      const parts = [];
+      if (P) parts.push(`<span class="${L.v >= P.v ? "up" : "down"}">${mShort(P.date)} އާ އަޅާކިޔާއިރު ${pc(L.v, P.v) >= 0 ? "+" : ""}${fmt(pc(L.v, P.v), 0)}%</span>`);
+      if (Y) parts.push(`<span class="${L.v >= Y.v ? "up" : "down"}">${mShort(Y.date)} އާ އަޅާކިޔާއިރު ${pc(L.v, Y.v) >= 0 ? "+" : ""}${fmt(pc(L.v, Y.v), 0)}%</span>`);
+      $("sLatestD").innerHTML = parts.join("<br>");
+      const l12 = all.slice(Math.max(0, sel - 11), sel + 1), s12 = l12.reduce((a, r) => a + fromUSD(r.v, r.date), 0), i12 = l12.every(r => r.imp) ? l12.reduce((a, r) => a + r.imp, 0) : null;
+      $("s12").textContent = sym() + " " + short(s12);
+      $("s12L").textContent = `${mLabel(L.date)} އާ ހަމައަށް 12 މަހު ތެޔޮ އެތެރެކުރުމަށް ހޭދަވި`;
+      if (i12) { $("sShare").textContent = fmt(100 * l12.reduce((a, r) => a + r.v, 0) / i12, 1) + "%"; $("sShareL").textContent = `އެ 12 މަހު އެތެރެކުރި ހުރިހާ މުދަލުގެ ތެރެއިން ތެލުގެ ބައި`; }
+      else $("sShare").closest(".stat").hidden = true;
+      const l13 = all.slice(Math.max(0, sel - 12), sel + 1), p12 = all.slice(Math.max(0, sel - 23), Math.max(0, sel - 11));
+      $("sLatestD").innerHTML += MV.mini.spark(l13.map(r => r.v), "var(--sun)", { ref: l13.length === 13 ? 0 : null, left: mShort(l13[0].date), right: mShort(L.date) });
+      if (p12.length === 12) { const sp = p12.reduce((a, r) => a + fromUSD(r.v, r.date), 0);
+        $("s12M").innerHTML = MV.mini.duo([[`${mShort(L.date)} އާ ހަމައަށް 12 މަސް`, s12, "var(--red)", sym() + " " + short(s12)], [`ކުރީގެ 12 މަސް`, sp, "var(--mist)", sym() + " " + short(sp)]]); }
+      if (i12) $("sShareM").innerHTML = MV.mini.waffle(100 * l12.reduce((a, r) => a + r.v, 0) / i12, "var(--foam)", "ކޮންމެ ހަތަރެސްކަނަކީ އެތެރެކުރި މުދަލުގެ 1%");
+      $("sinceYr").textContent = all[0].date.slice(0, 4);
+      drawChart(); drawCrises(); drawAnnual();
+    }
+
+    function drawChart() {
+      let rows = all;
+      if (range === "2015") rows = all.filter(r => r.date >= "2015-01-01");
+      if (range === "5") { const cut = (Number(all[all.length - 1].date.slice(0, 4)) - 5) + all[all.length - 1].date.slice(4); rows = all.filter(r => r.date > cut); }
+      const hi = rows.reduce((a, r) => r.v > a.v ? r : a), lo = rows.reduce((a, r) => r.v < a.v ? r : a);
+      const val = r => r.v / 1e6;
+      const series = split ? [
+        { val: r => r.die != null ? r.die / 1e6 : null, color: "#3fb8b0", width: 2 },
+        { val: r => r.pet != null ? r.pet / 1e6 : null, color: "#9fe0d6", width: 2 },
+        { val: r => r.oth != null ? r.oth / 1e6 : null, color: "#a98bd6", width: 2 }]
+        : [{ val, color: "#3fb8b0", area: true }];
+      if (showCrude && rows.some(r => r.crude)) series.push({ val: r => r.crude ?? null, color: "#f4c95d", axis: "right", width: 1.5, dash: "4 3" });
+      $("chartNote").textContent = "ކޮންމެ މަހަކު ރާއްޖެއަށް ތެލުގެ ބާވަތްތައް އެތެރެކުރި އަގު، މިލިއަން އެމެރިކާ ޑޮލަރުން. ތެޔޮ ގަންނަނީ ޑޮލަރުންނެވެ." + (showCrude ? " ކަށިކަށި ރޮނގަކީ ދުނިޔޭގެ ތެލުގެ އަގު، ބެރަލަކަށް ޑޮލަރުން (ކަނާތް ފަރާތުގައިވާ މިންގަނޑު)." : "");
+      const unit = "US$";
+      MV.lineChart($("chart"), {
+        rows, label: "ކޮންމެ މަހަކު ތެޔޮ އެތެރެކުރުން", series, noEndDot: split, maxH: 400,
+        bands: CRISES.map((c, i) => ({ from: c.from, to: c.to, color: colorOf(c), n: i + 1 })), yTitle: "$ މިލިއަން", yTitleR: showCrude ? "$ ބެރަލަކަށް" : null,
+        vlines: rows.some(r => r.date >= "2015-03-01") && rows[0].date < "2015-04-01" ? [{ date: "2015-03-31", label: "ހިމަނާ ބައި ބަދަލުވި" }] : [],
+        marks: split ? [] : [{ date: hi.date, value: val(hi), color: RED, label: `އެންމެ ބޮޑު: ${mShort(hi.date)}، $${fmt(val(hi), 0)} މިލިއަން` },
+                             { date: lo.date, value: val(lo), color: "#9fe0d6", label: `އެންމެ ކުޑަ: ${mShort(lo.date)}، $${fmt(val(lo), 0)} މިލިއަން`, below: true }],
+        yFmt: v => fmt(v), yFmtR: v => "$" + fmt(v),
+        tip: r => { const c = crisisAt(r.date);
+          return `<b>${mLabel(r.date)}</b>` + row("ރާއްޖެއަށް ތެޔޮ އެތެރެކުރުން", usd(r.v)) + (split ? row("ޑީސަލް", r.die != null ? usd(r.die) : null) + row("ޕެޓްރޯލް", r.pet != null ? usd(r.pet) : null) + row("އެހެނިހެން", r.oth != null ? usd(r.oth) : null) : "")
+            + row("ހުރިހާ އެތެރެކުރުމުގެ ބައި", r.imp ? fmt(100 * r.v / r.imp, 1) + "%" : null) + row("ދުނިޔޭގެ ތެލުގެ އަގު", r.crude ? "ބެރަލަކަށް $" + fmt(r.crude, 1) : null)
+            + (r === hi ? `<span class="tag" style="background:${RED}">ފެންނަ މުއްދަތުގެ އެންމެ ބޮޑު މަސް</span>` : "") + (r === lo ? `<span class="tag" style="background:#0b6b5f">ފެންނަ މުއްދަތުގެ އެންމެ ކުޑަ މަސް</span>` : "")
+            + (c ? `<br><span class="tag" style="background:${colorOf(c)}">${c.title}</span>` : ""); }
+      });
+      $("marks").innerHTML = split ? "" : `<span>އެންމެ ބޮޑު މަސް <b class="hi">${mLabel(hi.date)}، ${fmt(hi.v / 1e6, 0)} މިލިއަން ޑޮލަރު</b></span><span>އެންމެ ކުޑަ މަސް <b class="lo">${mLabel(lo.date)}، ${fmt(lo.v / 1e6, 1)} މިލިއަން ޑޮލަރު</b></span>`;
+      const short2 = d => MV.mShort(d);
+      $("events").innerHTML = CRISES.map((c, i) => `<li><span class="num" style="background:${colorOf(c)}">${i + 1}</span><span><b>${c.title}</b><br>${short2(c.from)}${c.from.slice(0, 7) === c.to.slice(0, 7) ? "" : " އިން " + short2(c.to) + " އަށް"}</span></li>`).join("");
+      $("key").innerHTML = (split ? `<span><i class="line" style="background:#3fb8b0"></i>ޑީސަލް އެތެރެކުރުން</span><span><i class="line" style="background:#9fe0d6"></i>ޕެޓްރޯލް އެތެރެކުރުން</span><span><i class="line" style="background:#a98bd6"></i>އެހެން ބާވަތްތައް</span>` : `<span><i class="line" style="background:#3fb8b0"></i>ތެޔޮ އެތެރެކުރުން</span>`)
+        + (showCrude ? `<span><i class="line" style="background:#f4c95d"></i>ދުނިޔޭގެ ތެލުގެ އަގު</span>` : "")
+        + `<span><i style="background:${RED};opacity:.6"></i>ހަނގުރާމަ ނުވަތަ ތަޅާފޮޅުން</span><span><i style="background:${AMBER};opacity:.6"></i>އެހެން ބުހުރާން</span>`;
+    }
+
+    function drawCrises() {
+      const avg = rs => rs.length ? rs.reduce((a, r) => a + r.v, 0) / rs.length : null;
+      const avgC = rs => { const c = rs.filter(r => r.crude); return c.length ? c.reduce((a, r) => a + r.crude, 0) / c.length : null; };
+      $("crises").innerHTML = CRISES.map(c => {
+        const during = all.filter(r => r.date >= c.from && r.date <= c.to);
+        const startIdx = all.findIndex(r => r.date >= c.from);
+        const before = startIdx > 0 ? all.slice(Math.max(0, startIdx - 12), startIdx) : [];
+        let impact = "";
+        if (during.length && before.length >= 6) {
+          const a = avg(during), b = avg(before), ch = (a / b - 1) * 100, pk = during.reduce((m, r) => r.v > m.v ? r : m);
+          impact = `މި މުއްދަތުގައި ތެޔޮ އެތެރެކުރުމަށް މަހަކަށް އެވަރެޖްކޮށް <b>${usd(a)}</b> ހޭދަވިއެވެ. އެއީ ކުރީގެ އަހަރާ އަޅާކިޔާއިރު <b class="${ch >= 0 ? "up" : "down"}">${ch >= 0 ? "+" : "−"}${fmt(Math.abs(ch), 0)}%</b> އެވެ. އެންމެ ބޮޑު މަހަކީ ${mShort(pk.date)} އެވެ (${usd(pk.v)}).`;
+          const ca = avgC(during), cb = avgC(before);
+          if (ca && cb) { const cc = (ca / cb - 1) * 100; impact += ` ދުނިޔޭގެ ތެލުގެ އަގަކީ ބެރަލަކަށް އެވަރެޖްކޮށް $${fmt(ca, 0)} އެވެ (<b class="${cc >= 0 ? "up" : "down"}">${cc >= 0 ? "+" : "−"}${fmt(Math.abs(cc), 0)}%</b>).`; }
+          if (during[during.length - 1].date < c.to) impact += ` <i>(${mShort(during[during.length - 1].date)} އާ ހަމައަށް ލިބިފައިވާ ޑޭޓާ.)</i>`;
+          if (before[0].date < "2015-04-01" && during[during.length - 1].date >= "2015-04-01") impact += ` <i>މި ބަދަލުގެ ބައެއް ވަނީ، އަގުތަކުގެ އިތުރުން، 2015 ގެ އެޕްރީލްގައި ތެލުގެ އަދަދުތަކުގައި ހިމަނާ ބައި ބަދަލުވުމުގެ ސަބަބުންނެވެ.</i>`;
+        } else if (!during.length) impact = "ޝާއިޢުކޮށްފައިވާ ޑޭޓާގައި އަދި ނުހިމެނެއެވެ.";
+        else impact = "އަޅާކިޔުމަށް ފުދޭވަރަށް ކުރީގެ ޑޭޓާ ނެތެވެ.";
+        return `<article class="crisis" style="border-color:${colorOf(c)}"><h3><span class="num" style="background:${colorOf(c)}">${CRISES.indexOf(c) + 1}</span>${c.title}</h3><div class="when">${c.when}</div><p>${c.text}</p><div class="impact">${impact}</div></article>`;
+      }).join("");
+    }
+
+    function drawAnnual() {
+      const years = [...new Set(all.map(r => r.date.slice(0, 4)))].filter(y => all.filter(r => r.date.startsWith(y)).length === 12);
+      const cats = years.map(y => ({ label: y })), vals = years.map(y => all.filter(r => r.date.startsWith(y)).reduce((a, r) => a + r.v, 0));
+      const shares = years.map(y => { const rs = all.filter(r => r.date.startsWith(y)); return rs.every(r => r.imp) ? 100 * rs.reduce((a, r) => a + r.v, 0) / rs.reduce((a, r) => a + r.imp, 0) : null; });
+      const L = all[all.length - 1], l12 = all.slice(-12), v12 = l12.reduce((a, r) => a + r.v, 0);
+      const maxI = vals.indexOf(Math.max(...vals));
+      $("annualNote").textContent = "ކޮންމެ ފުރިހަމަ އަހަރަކު ރާއްޖެއަށް ތެޔޮ އެތެރެކުރި ޖުމްލަ އަދަދު، މިލިއަން އެމެރިކާ ޑޮލަރުން. އެންމެ ބޮޑު އަހަރު ދައްކާފައިވަނީ ރަތް ކުލައިންނެވެ.";
+      $("l12").innerHTML = `ފާއިތުވި 12 މަހު (${mLabel(l12[0].date)} އިން ${mLabel(L.date)} އަށް) ރާއްޖެއިން ތެޔޮ އެތެރެކުރުމަށް <b>${usd(v12)}</b> ހޭދަކުރިއެވެ` + (l12.every(r => r.imp) ? `. އެއީ އެތެރެކުރި ހުރިހާ މުދަލުގެ ${fmt(100 * v12 / l12.reduce((a, r) => a + r.imp, 0), 1)}% އެވެ` : "") + (MV.state.cur === "MVR" ? `. ރުފިޔާއިން ގާތްގަނޑަކަށް ${short(l12.reduce((a, r) => a + fromUSD(r.v, r.date), 0))} ރުފިޔާއެވެ` : "") + ".";
+      MV.barChart($("annual"), {
+        cats, label: "އަހަރުން ތެޔޮ އެތެރެކުރުން",
+        groups: [{ color: "#3fb8b0", vals: vals.map(v => v / 1e6) }],
+        yFmt: v => fmt(v),
+        tip: i => `<b>${cats[i].label}</b>` + row("ރާއްޖެއަށް ތެޔޮ އެތެރެކުރުން", usd(vals[i])) + row("ހުރިހާ އެތެރެކުރުމުގެ ބައި", shares[i] != null ? fmt(shares[i], 1) + "%" : null)
+      });
+      // colour the highest year red
+      const rects = $("annual").querySelectorAll("svg rect[rx]"); if (rects[maxI]) rects[maxI].setAttribute("fill", RED);
+    }
+
+    document.addEventListener("click", e => {
+      if (e.target.closest("#crudeBtn")) { showCrude = !showCrude; $("crudeBtn").setAttribute("aria-pressed", showCrude); drawChart(); return; }
+      const b = e.target.closest("[data-range],[data-split]"); if (!b) return;
+      if (b.dataset.range) range = b.dataset.range; if (b.dataset.split) split = b.dataset.split === "1";
+      b.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); drawChart();
+    });
+    MV.onPrefs(render); MV.onResize(() => { drawChart(); drawAnnual(); });
+    $("fetched").textContent = "އެންމެ ފަހުން ޑޭޓާ ހޯދީ " + MV.fetched(data.fetched_at) + " (މާލޭ ވަގުތު). އަދަދުތައް ނަގާފައިވަނީ ދިވެހި ކަސްޓަމްސް އާއި ވޯލްޑް ބޭންކުން، MMA ގެ ސްޓެޓިސްޓިކްސް ޑޭޓާބޭސް މެދުވެރިކޮށެވެ.";
+    const LA = all[all.length - 1];
+    { const w = MV.wantedPeriod(), wi = w ? all.findIndex(r => r.date.slice(0, 7) === w) : -1; if (wi >= 0) sel = wi; }
+    MV.asOf($("asof"), all.slice().reverse().map((r, k) => ({ v: r.date.slice(0, 7), group: r.date.slice(0, 4), label: mLabel(r.date) + (k === 0 ? "، އެންމެ ފަހު" : "") })), all[sel].date.slice(0, 7), v => { sel = all.findIndex(r => r.date.slice(0, 7) === v); if (sel < 0) sel = all.length - 1; render(); });
+    MV.fresh($("fresh"), { asOf: LA.date.slice(0, 10), what: "ކޮންމެ މަހަކު ތެޔޮ އެތެރެކުރާ އަދަދުތައް", cadence: "monthly" });
+    $("fresh").querySelector("b").textContent = mLabel(LA.date);
+    MV.since("fuel", [{ id: "m", value: LA.date.slice(0, 7), say: p => `<b>${mLabel(LA.date)}</b> ގެ ތެޔޮ އެތެރެކުރުމުގެ އަދަދުތައް ނެރެފިއެވެ. ފަހުން ބެއްލެވި މަހަކީ ${mLabel(p + "-15")} އެވެ.` }], $("since"));
+    render();
+  }).catch(err => { console.error(err); $("chartNote").textContent = "ޑޭޓާ ލޯޑުނުކުރެވުނެވެ."; });
+})();
+</script>
+</body>
+</html>

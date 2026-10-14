@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="dv" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<script>try{var t=localStorage.getItem("theme2");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#072f40">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css?v=20261014f">
+<title>ސައިޓާ ބެހޭ، އަދި ގުޅުއްވުމަށް · ދިވެހިރާއްޖޭގެ ޤައުމީ ދަރަނީގެ ގަޑި</title>
+<meta property="og:title" content="ސައިޓާ ބެހޭ، އަދި ގުޅުއްވުމަށް · ދިވެހިރާއްޖޭގެ ޤައުމީ ދަރަނީގެ ގަޑި">
+<meta property="og:description" content="ދިވެހިރާއްޖޭގެ ޤައުމީ ދަރަނީގެ ގަޑި ހެދީ ކާކު، ކީއްވެ، އަދި ގުޅުއްވާނެ ގޮތް.">
+<meta property="og:url" content="https://mvdebtclock.org/about">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MV Debt Clock">
+<meta property="og:image" content="https://mvdebtclock.org/assets/share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="An island above a sea, with a dashed line deep below the surface, showing what the Maldivian government owes and the debt as a share of GDP.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://mvdebtclock.org/assets/share.png">
+<meta name="description" content="ދިވެހިރާއްޖޭގެ ޤައުމީ ދަރަނީގެ ގަޑި ހެދީ ކާކު، ކީއްވެ، އަދި ގުޅުއްވާނެ ގޮތް.">
+<style>
+  .cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 3rem 4rem; align-items: start; }
+  @media (max-width: 820px) { .cols { grid-template-columns: 1fr; } }
+  form { display: grid; gap: 1.1rem; background: rgba(255,255,255,.04); border: 1px solid rgba(169,205,214,.18); border-radius: 8px; padding: 1.5rem; }
+  label { display: grid; gap: .35rem; font-weight: 700; font-size: .95rem; }
+  label span.opt { font-weight: 400; color: var(--mist); }
+  input, select, textarea { font: 1rem var(--body); color: var(--ink); background: var(--foam); border: 2px solid transparent; border-radius: 6px; padding: .7rem .8rem; width: 100%; }
+  input:focus, select:focus, textarea:focus { border-color: var(--sun); outline: none; }
+  textarea { min-height: 9rem; resize: vertical; }
+  .hp { position: absolute; left: -9999px; }
+  button.send { font: 700 1rem var(--body); background: var(--sun); color: var(--abyss); border: 0; border-radius: 6px; padding: .85rem 1.2rem; cursor: pointer; justify-self: start; min-height: 2.75rem; }
+  button.send:disabled { opacity: .55; cursor: not-allowed; }
+  .status { font-size: .95rem; min-height: 1.4em; }
+  .status.ok { color: var(--lagoon); } .status.err { color: var(--coral); }
+  .small { font-size: .875rem; color: var(--mist); }
+  html[lang="dv"] .hp { left: auto; right: -9999px; }
+  html[lang="dv"] input[type="email"] { direction: ltr; text-align: right; }
+</style>
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="dv.html">MV <span>ދަރަނީގެ ގަޑި</span></a>
+  <nav class="site-nav" aria-label="މައި މެނޫ">
+    <a href="dv.html" data-page="clock">ދަރަނީގެ ގަޑި</a>
+    <a href="dv-priorities.html" data-page="priorities">އިންޓަރެސްޓް</a>
+    <a href="dv-budget.html" data-page="budget">ބަޖެޓް</a>
+    <a href="dv-revenue.html" data-page="revenue">ޓެކްސް</a>
+    <a href="dv-fuel.html" data-page="fuel">ތެޔޮ އެތެރެކުރުން</a>
+    <a href="dv-updates.html" data-page="updates">އާ މަޢުލޫމާތު</a>
+    <a href="dv-commentary.html" data-page="commentary">ކޮމެންޓަރީ</a>
+    <a href="dv-methodology.html" data-page="method">ހިސާބުކުރާ ގޮތް</a>
+    <a href="dv-about.html" data-page="about" aria-current="page">ސައިޓާ ބެހޭ</a>
+    <a href="about.html" lang="en" dir="ltr" class="lang-sw">English</a>
+  </nav>
+  <div class="prefs">
+    <div class="toggle" data-pref="cur" role="group" aria-label="ފައިސާ"><button type="button" data-v="MVR" aria-pressed="true">ރުފިޔާ</button><button type="button" data-v="USD" aria-pressed="false">ޑޮލަރު</button></div>
+    <div class="toggle" data-pref="real" role="group" aria-label="އިންފްލޭޝަން" title="ރިއަލް ގޮތަށް ކުރީގެ އަދަދުތައް ދައްކަނީ މިއަދުގެ އަގުތަކުން"><button type="button" data-v="0" aria-pressed="true">ނޮމިނަލް</button><button type="button" data-v="1" aria-pressed="false">ރިއަލް</button></div>
+  </div>
+  <div class="real-note" role="status"></div>
+</header>
+
+<main class="dark">
+<div class="wrap">
+  <section>
+    <h1>މި ސައިޓާ ބެހޭ</h1>
+    <div class="cols">
+      <div>
+        <p>ދިވެހިރާއްޖޭގެ ޤައުމީ ދަރަނީގެ ގަޑިން ދައްކަނީ ދިވެހި ސަރުކާރުން ދައްކަންޖެހޭ ދަރަނީގެ މިންވަރާއި، އެއީ ކޮންމެ ރައްޔިތަކަށް ކިހާވަރެއްކަމާއި، ސަރުކާރުގެ އާމްދަނީއާއި ޚަރަދު އަޅާކިޔާ ގޮތެވެ. މި ސައިޓު ހަދާފައިވަނީ މުޅިން ރަސްމީ ތަފާސްހިސާބުތަކުންނެވެ. އެއީ މޯލްޑިވްސް މަނިޓަރީ އޮތޯރިޓީ، މާލިއްޔަތު ވުޒާރާ، މޯލްޑިވްސް އިންލެންޑް ރެވެނިއު އޮތޯރިޓީ އަދި ދިވެހި ފުލުހުންގެ ޚިދުމަތުން ޝާއިޢުކުރާ ތަފާސްހިސާބުތަކެވެ. ކޮންމެ އަދަދެއް <a href="dv-methodology.html">ހިސާބުކުރާ ގޮތުގެ ޞަފްޙާ</a>ގައި ބަޔާންކޮށްފައިވެއެވެ.</p>
+        <p>ސަރުކާރުގެ ދަރަނީގެ އަސަރު ކޮންމެ މީހަކަށް ކުރެއެވެ. ސްކޫލުތަކާއި، ހޮސްޕިޓަލްތަކާއި، ރަށްތަކަށް ސަރުކާރަށް ހޭދަކުރެވޭނެ މިންވަރާއި، ކުރިއަށް އޮތް ޖީލުތަކަށް އަނބުރާ ދައްކަންޖެހޭނެ މިންވަރު ކަނޑައެޅެނީ ދަރަނީގެ ސަބަބުންނެވެ. މި ސައިޓުގެ މަޤްޞަދަކީ އެ އަދަދުތައް ފަސޭހައިން ފެނި، ވިސްނޭނެ ގޮތް ހެދުމެވެ.</p>
+        <p>މިއީ މިނިވަން ސައިޓެކެވެ. ދައުލަތުގެ އެއްވެސް މުއައްސަސާއަކާ ގުޅުމެއް ނެތެވެ.</p>
+        <h2>މި ސައިޓު ހެދި ސަބަބު</h2>
+        <p>މި އަދަދުތައް ހާމަ ނަމަވެސް، އެކި ވެބްސައިޓުތަކުގައި ފުރަގަސްވެފައި ހުރެއެވެ. އެހެންކަމުން، ސަރުކާރުން ދަރަނި ނަގާ މިންވަރާއި، ލިބޭ ފައިސާއާއި، ހޭދަކުރާ ފައިސާ، އެއް ތަނަކުން ބަލަހައްޓަން މި ސައިޓު ހެދީމެވެ.</p>
+        <p>ޝަހީދު (<a href="https://x.com/AShaheed121" dir="ltr" rel="me noopener" target="_blank">@AShaheed121</a>)</p>
+      </div>
+
+      <div>
+        <h2>ގުޅުއްވުމަށް</h2>
+        <p>ކުށެއް ފާހަގަކުރެއްވިންތޯ؟ ޑޭޓާއާ ބެހޭ ސުވާލެއް އެބައޮތްތޯ؟ ނުވަތަ މި އަދަދުތައް ބޭނުންކުރައްވަން ބޭނުންތޯ؟ ތިރީގައިވާ ފޯމުން މެސެޖެއް ފޮނުއްވާ.</p>
+        <form id="contact" novalidate>
+          <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <label>ނަން<input name="name" autocomplete="name" required maxlength="120"></label>
+          <label>އީމެއިލް<input name="email" type="email" autocomplete="email" required maxlength="200"></label>
+          <label>މެސެޖު ކޮން ކަމަކާ ބެހޭ؟
+            <select name="topic">
+              <option value="General question">އާންމު ސުވާލެއް</option>
+              <option value="Possible error in the data">ޑޭޓާގައި ކުށެއް ހުރިހެން ހީވޭ</option>
+              <option value="Media or research enquiry">މީޑިއާ ނުވަތަ ދިރާސާއާ ބެހޭ ސުވާލެއް</option>
+              <option value="Suggestion for the site">ސައިޓަށް ހުށަހަޅާ ޚިޔާލެއް</option>
+            </select>
+          </label>
+          <label>މެސެޖު<textarea name="message" required maxlength="5000"></textarea></label>
+          <button class="send" type="submit">މެސެޖު ފޮނުއްވާ</button>
+          <div class="status" id="status" role="status" aria-live="polite"></div>
+          <p class="small" style="margin:0">ތިޔަ ނަމާއި އީމެއިލް ބޭނުންކުރާނީ ހަމައެކަނި ޖަވާބު ދިނުމަށެވެ.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <span id="fetched">އަދަދުތައް ނަގާފައިވަނީ މޯލްޑިވްސް މަނިޓަރީ އޮތޯރިޓީގެ ސްޓެޓިސްޓިކްސް ޑޭޓާބޭސްއިން.</span>
+  <span class="foot-links"><a href="dv-methodology.html">ހިސާބުކުރާ ގޮތް</a> <a href="dv-about.html">ސައިޓާ ބެހޭ، އަދި ގުޅުއްވުމަށް</a> <span>މިއީ މިނިވަން ސައިޓެކެވެ. ދައުލަތުގެ އެއްވެސް މުއައްސަސާއަކާ ގުޅުމެއް ނެތެވެ.</span></span>
+</div></footer>
+
+<script src="assets/dv.js?v=dv1"></script>
+<script src="assets/site.js?v=20261014f"></script>
+<script src="assets/motion.js?v=20261014f" defer></script>
+<script>
+(() => {
+  // Paste the pre-filled link from your Google Form here (see the steps in the README).
+  // Fill the form's fields with NAME, EMAIL, TOPIC and MESSAGE when making the link.
+  const GOOGLE_FORM_LINK = "https://docs.google.com/forms/d/e/1FAIpQLScawNGILgMgKAYD7gZ_ad-2N-nGinpFilgtn-PWoNM25DPdxg/viewform?usp=pp_url&entry.504378510=NAME&entry.1205972041=EMAIL&entry.1615044897=TOPIC&entry.496400034=MESSAGE";
+
+  document.querySelectorAll("[data-pref]").forEach(t => t.hidden = true);
+  const form = document.getElementById("contact"), status = document.getElementById("status"), btn = form.querySelector("button.send");
+
+  // Work out the form's address and field IDs from the pre-filled link.
+  let action = null, ids = {};
+  try {
+    const u = new URL(GOOGLE_FORM_LINK);
+    action = u.origin + u.pathname.replace(/\/viewform$/, "/formResponse");
+    u.searchParams.forEach((v, k) => { if (k.startsWith("entry.")) ids[v.trim().toUpperCase()] = k; });
+  } catch (e) { action = null; }
+  const configured = !!action && ["NAME", "EMAIL", "MESSAGE"].every(k => ids[k]);
+  if (!configured) { status.textContent = "ގުޅުއްވާ ފޯމު އަދި ހުޅުވިފައެއް ނުވެއެވެ. ކުރިއަށް އަނބުރާ ބައްލަވާ."; status.className = "status err"; btn.disabled = true; }
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    if (!configured) return;
+    const f = new FormData(form);
+    if (f.get("botcheck")) return;
+    const name = (f.get("name") || "").trim(), email = (f.get("email") || "").trim(), message = (f.get("message") || "").trim(), topic = f.get("topic") || "";
+    if (!name || !message || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { status.textContent = "ނަމާއި، ރަނގަޅު އީމެއިލް އެޑްރެހަކާއި، މެސެޖެއް ލިޔުއްވާފައި އަލުން ފޮނުއްވާ."; status.className = "status err"; return; }
+    const body = new URLSearchParams();
+    body.append(ids.NAME, name); body.append(ids.EMAIL, email); body.append(ids.MESSAGE, message);
+    if (ids.TOPIC) body.append(ids.TOPIC, topic);
+    btn.disabled = true; btn.textContent = "ފޮނުވަނީ…"; status.textContent = ""; status.className = "status";
+    try {
+      // Google Forms doesn't report back to other websites, so a completed request is treated as sent.
+      await fetch(action, { method: "POST", mode: "no-cors", body });
+      form.reset(); status.textContent = "މެސެޖު ފޮނުވިއްޖެ. ޝުކުރިއްޔާ. ޖަވާބު އީމެއިލުން ލިބޭނެއެވެ."; status.className = "status ok";
+    } catch (err) {
+      status.textContent = "މެސެޖު ނުފޮނުވުނު. އިންޓަނެޓް ކަނެކްޝަން ޗެކްކޮށް އަލުން މަސައްކަތް ކުރައްވާ."; status.className = "status err";
+    } finally { btn.disabled = !configured; btn.textContent = "މެސެޖު ފޮނުއްވާ"; }
+  });
+})();
+</script>
+</body>
+</html>

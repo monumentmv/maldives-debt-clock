@@ -418,14 +418,14 @@
     <ul class="legend" id="legend"></ul>
     <div class="split" id="gdpSplit"></div>
     <div class="lenders">
-      <button type="button" class="lend-btn" id="lendBtn" aria-expanded="false" aria-controls="lendPanel"><span class="t">ރާއްޖޭގައާއި ބޭރުގައި ދަރަނި ދައްކަންޖެހޭ ފަރާތްތައް ބައްލަވާ (މި ބައި އަދި އިނގިރޭސިން)</span><span aria-hidden="true">▾</span></button>
+      <button type="button" class="lend-btn" id="lendBtn" aria-expanded="false" aria-controls="lendPanel"><span class="t">ރާއްޖޭގައާއި ބޭރުގައި ދަރަނި ދައްކަންޖެހޭ ފަރާތްތައް ބައްލަވާ</span><span aria-hidden="true">▾</span></button>
       <div id="lendPanel" hidden>
         <div class="q-zone">
         <div class="q-nav" id="qNav" hidden>
-          <button type="button" class="q-step" data-qs="-1" aria-label="Earlier quarter">‹ <span>Earlier</span></button>
-          <div class="q-mid"><span class="q-lbl" id="mapQl"></span><input type="range" id="mapQ" min="0" max="0" value="0" aria-label="Quarter"></div>
-          <button type="button" class="q-step" data-qs="1" aria-label="Later quarter"><span>Later</span> ›</button>
-          <button type="button" class="map-play" id="mapPlay" aria-label="Play the years">▶</button>
+          <button type="button" class="q-step" data-qs="-1" aria-label="ކުރީގެ ކުއާޓަރު"><span>ކުރީގެ</span> ›</button>
+          <div class="q-mid"><span class="q-lbl" id="mapQl"></span><input type="range" id="mapQ" min="0" max="0" value="0" aria-label="ކުއާޓަރު"></div>
+          <button type="button" class="q-step" data-qs="1" aria-label="ފަހުގެ ކުއާޓަރު">‹ <span>ފަހުގެ</span></button>
+          <button type="button" class="map-play" id="mapPlay" aria-label="އަހަރުން އަހަރަށް ދައްކާ">▶</button>
         </div>
         <p class="q-src" id="qSrc"></p>
         <div class="parts" id="parts"></div>
@@ -440,25 +440,25 @@
         <h3 class="part-h" id="partForeign"><span class="part-n">2</span>ބޭރުގެ ދަރަނި، ބޭރަށް ދައްކަންޖެހޭ</h3>
         <p class="lend-note" id="foreignNote"></p>
         <div class="lend-top">
-          <div class="subtoggle" role="group" aria-label="Amounts on the map" id="mapBasis"><button type="button" data-mb="owed" aria-pressed="true">Still owed</button><button type="button" data-mb="signed" aria-pressed="false">Originally borrowed</button></div>
-          <div class="subtoggle" role="group" aria-label="Show on the map"><button type="button" data-ms="both" aria-pressed="true">Loans and guarantees</button><button type="button" data-ms="loans" aria-pressed="false">Loans</button><button type="button" data-ms="guarantees" aria-pressed="false">Guarantees</button></div>
-          <div class="subtoggle" role="group" aria-label="Map view"><button type="button" data-mz="region" aria-pressed="false">Closer view</button><button type="button" data-mz="world" aria-pressed="true">Whole world</button></div>
-          <label class="chk"><input type="checkbox" id="mapInst" checked> Development banks and funds</label>
+          <div class="subtoggle" role="group" aria-label="ނަގުޝާގައިވާ އަދަދުތައް" id="mapBasis"><button type="button" data-mb="owed" aria-pressed="true">އަދިވެސް ދައްކަންޖެހޭ</button><button type="button" data-mb="signed" aria-pressed="false">ފުރަތަމަ ނެގި</button></div>
+          <div class="subtoggle" role="group" aria-label="ނަގުޝާގައި ދައްކާ"><button type="button" data-ms="both" aria-pressed="true">ލޯނާއި ގެރެންޓީ</button><button type="button" data-ms="loans" aria-pressed="false">ލޯން</button><button type="button" data-ms="guarantees" aria-pressed="false">ގެރެންޓީ</button></div>
+          <div class="subtoggle" role="group" aria-label="ނަގުޝާ ބައްލަވާ ގޮތް"><button type="button" data-mz="region" aria-pressed="false">ކައިރިން</button><button type="button" data-mz="world" aria-pressed="true">މުޅި ދުނިޔެ</button></div>
+          <label class="chk"><input type="checkbox" id="mapInst" checked> ތަރައްޤީގެ ބޭންކުތަކާއި ފަންޑުތައް</label>
         </div>
         <p class="map-tot" id="mapTot"></p>
         <div class="lend-map" id="lendMap"></div>
-        <div class="map-key"><span><i style="background:#3fb8b0"></i>Loans to the government</span><span><i style="background:#b39ddb"></i>Loans the government guaranteed</span><span><i class="dot"></i>Country</span><span><i class="dia"></i>Development bank or fund</span><span>Tap a place for amounts</span></div>
+        <div class="map-key"><span><i style="background:#3fb8b0"></i>ސަރުކާރަށް ދީފައިވާ ލޯން</span><span><i style="background:#b39ddb"></i>ސަރުކާރުން ގެރެންޓީ ދީފައިވާ ލޯން</span><span><i class="dot"></i>ޤައުމު</span><span><i class="dia"></i>ތަރައްޤީގެ ބޭންކެއް ނުވަތަ ފަންޑެއް</span><span>އަދަދުތައް ބެލުމަށް ތަނަކަށް ފިތާލައްވާ</span></div>
         <div class="map-card" id="mapCard"></div>
         <p class="hint" id="mapOff"></p>
         <h3 class="part-h"><span class="part-n">3</span>އަނބުރާ ދެއްކުން، އަދި ކުރިއަށް ދައްކަންޖެހޭ</h3>
         <div id="lendBul" hidden>
-          <h4>Paying it back</h4>
+          <h4>އަނބުރާ ދެއްކުން</h4>
           <p class="lend-note" id="svcNote"></p>
-          <div class="svc-key"><span><i style="background:#3fb8b0"></i>Government repayments</span><span><i style="background:#9fe0d6"></i>Government interest</span><span><i style="background:#b39ddb"></i>Guaranteed debt repayments</span><span><i style="background:#ddd2f2"></i>Guaranteed debt interest</span></div>
+          <div class="svc-key"><span><i style="background:#3fb8b0"></i>ސަރުކާރުން އަނބުރާ ދެއްކުން</span><span><i style="background:#9fe0d6"></i>ސަރުކާރުގެ އިންޓަރެސްޓް</span><span><i style="background:#b39ddb"></i>ގެރެންޓީ ދީފައިވާ ދަރަނި އަނބުރާ ދެއްކުން</span><span><i style="background:#ddd2f2"></i>ގެރެންޓީ ދީފައިވާ ދަރަނީގެ އިންޓަރެސްޓް</span></div>
           <div class="lend-years" id="lendSvc"></div>
-          <h4>Still to come, and passed on</h4>
+          <h4>އަދި ލިބެންހުރި، އަދި އެހެން ފަރާތްތަކަށް ދޫކުރި</h4>
           <div class="lend-sum lend-cards" id="lendExtra"></div>
-          <h4 id="forHead">Who owes the guaranteed debt</h4>
+          <h4 id="forHead">ގެރެންޓީ ދީފައިވާ ދަރަނި ދައްކަންޖެހޭ ފަރާތްތައް</h4>
           <p class="lend-note" id="forNote"></p>
           <div class="lend-bars lend-for" id="lendFor"></div>
           <p class="hint" id="bulSrc"></p>
@@ -467,28 +467,28 @@
         <h4>ހުރިހާ ލޯނަކާއި ގެރެންޓީއެއް</h4>
         <div class="l-zone">
         <div class="lend-top l-pick">
-          <div class="subtoggle" role="group" aria-label="List"><button type="button" data-lk="loans" aria-pressed="true">Foreign loans</button><button type="button" data-lk="guarantees" aria-pressed="false">Sovereign guarantees</button></div>
-          <div class="subtoggle" role="group" aria-label="Guaranteed for" id="lendG" hidden><button type="button" data-lg="all" aria-pressed="true">All</button><button type="button" data-lg="soe" aria-pressed="false">State companies</button><button type="button" data-lg="private" aria-pressed="false">Private</button></div>
-          <label class="lend-asof">As of <select id="lendAsof" aria-label="As of"></select></label>
+          <div class="subtoggle" role="group" aria-label="ލިސްޓު"><button type="button" data-lk="loans" aria-pressed="true">ބޭރުގެ ލޯން</button><button type="button" data-lk="guarantees" aria-pressed="false">ސަރުކާރުގެ ގެރެންޓީ</button></div>
+          <div class="subtoggle" role="group" aria-label="ގެރެންޓީ ދީފައިވަނީ" id="lendG" hidden><button type="button" data-lg="all" aria-pressed="true">ހުރިހާ</button><button type="button" data-lg="soe" aria-pressed="false">ސަރުކާރު ކުންފުނިތައް</button><button type="button" data-lg="private" aria-pressed="false">ޕްރައިވެޓް</button></div>
+          <label class="lend-asof">ތާރީޚު <select id="lendAsof" aria-label="ތާރީޚު"></select></label>
         </div>
-        <p class="lend-note" id="lendNote">Loading Ministry of Finance lists…</p>
+        <p class="lend-note" id="lendNote">މާލިއްޔަތު ވުޒާރާގެ ލިސްޓުތައް ލޯޑުވަނީ…</p>
         <p class="lend-hist" id="lendHist"></p>
         <div class="lend-sum" id="lendSum"></div>
-        <h4>By lender</h4>
+        <h4>ދަރަނި ދިން ފަރާތުން</h4>
         <div class="lend-bars" id="lendBars"></div>
-        <h4>Signed each year, in US dollars</h4>
+        <h4>ކޮންމެ އަހަރަކު ސޮއިކުރި، އެމެރިކާ ޑޮލަރުން</h4>
         <div class="lend-years" id="lendYears"></div>
         <div class="lend-tools">
-          <div class="subtoggle" role="group" aria-label="Project" id="lendSt"><button type="button" data-st="all" aria-pressed="true">All</button><button type="button" data-st="Ongoing" aria-pressed="false">Project under way</button><button type="button" data-st="Completed" aria-pressed="false">Project finished</button><button type="button" data-st="paid" aria-pressed="false">Nothing owed now</button></div>
-          <select id="lendC" aria-label="Country or lender"></select>
-          <input type="search" id="lendQ" placeholder="Search a lender, project or company" aria-label="Search"><span id="lendCount"></span>
+          <div class="subtoggle" role="group" aria-label="މަޝްރޫޢު" id="lendSt"><button type="button" data-st="all" aria-pressed="true">ހުރިހާ</button><button type="button" data-st="Ongoing" aria-pressed="false">މަޝްރޫޢު ކުރިއަށްދަނީ</button><button type="button" data-st="Completed" aria-pressed="false">މަޝްރޫޢު ނިމިފައި</button><button type="button" data-st="paid" aria-pressed="false">މިހާރު ދައްކަންޖެހޭ އެއްޗެއް ނެތް</button></div>
+          <select id="lendC" aria-label="ޤައުމު ނުވަތަ ދަރަނި ދިން ފަރާތް"></select>
+          <input type="search" id="lendQ" placeholder="ދަރަނި ދިން ފަރާތެއް، މަޝްރޫޢެއް ނުވަތަ ކުންފުންޏެއް ހޯއްދަވާ" aria-label="ހޯއްދަވާ"><span id="lendCount"></span>
         </div>
-        <p class="hint" id="lendStNote">"Project finished" is the Ministry's status for the project the money paid for. The loan itself is usually still being repaid. See what is still owed above.</p>
+        <p class="hint" id="lendStNote">"މަޝްރޫޢު ނިމިފައި" އަކީ ލޯނުގެ ފައިސާއިން ހިންގި މަޝްރޫޢުގެ ހާލަތު ވުޒާރާއިން ލިޔާ ގޮތެވެ. އާންމުކޮށް ލޯނު އަދިވެސް އަނބުރާ ދައްކަމުން ދެއެވެ. އަދިވެސް ދައްކަންޖެހޭ އަދަދު މަތީގައި ބައްލަވާ.</p>
         <div class="tbl-wrap"><table class="lend-tbl" id="lendTbl"></table></div>
         <button type="button" class="pill lend-more" id="lendMore" hidden></button>
         </div>
-        <details class="lend-fx"><summary>Exchange rates used</summary><div id="lendFx"></div></details>
-        <p class="hint">Sources: Ministry of Finance, Debt Management Department. The amounts agreed come from its lists of active external borrowings and active sovereign guarantees, saved each time the Ministry updates them, so earlier dates can be picked above. What is still owed comes from its Quarterly Debt Bulletins.</p>
+        <details class="lend-fx"><summary>ބޭނުންކުރި އެކްސްޗޭންޖް ރޭޓުތައް</summary><div id="lendFx"></div></details>
+        <p class="hint">މަޢުލޫމާތު: މާލިއްޔަތު ވުޒާރާ، ޑެޓް މެނޭޖްމަންޓް ޑިޕާޓްމަންޓް. އެއްބަސްވި އަދަދުތައް ލިބިފައިވަނީ ވުޒާރާގެ ބޭރުގެ ލޯނުތަކާއި ސަރުކާރުގެ ގެރެންޓީތަކުގެ ލިސްޓުތަކުންނެވެ. ވުޒާރާއިން އެ ލިސްޓުތައް އާކުރާ ކޮންމެ ފަހަރަކު ރައްކާކުރާތީ، ކުރީގެ ތާރީޚުތައް މަތީން ޚިޔާރުކުރެވޭނެއެވެ. އަދިވެސް ދައްކަންޖެހޭ އަދަދުތައް ލިބިފައިވަނީ ވުޒާރާގެ Quarterly Debt Bulletin ތަކުންނެވެ.</p>
       </div>
     </div>
   
@@ -665,6 +665,7 @@ window.MVSky = (() => {
 })();
 </script>
 <script src="assets/dv.js?v=dv1"></script>
+<script src="assets/dv-lenders.js?v=dv1"></script>
 <script src="assets/site.js?v=20261014f"></script>
 <script src="assets/motion.js?v=20261014f" defer></script>
 <script src="assets/lenders.js?v=20261014f" defer></script>

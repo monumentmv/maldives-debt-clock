@@ -2,7 +2,7 @@
 from common import Page
 
 p = Page("clock")
-p.head("ދިވެހިރާއްޖޭގެ ޤައުމީ ދަރަނީގެ ގަޑި", "ދިވެހި ސަރުކާރުގެ ދަރަނި، ވަގުތުން ވަގުތަށް. ރަސްމީ އަދަދުތަކުން.")
+p.head("ދިވެހިރާއްޖޭގެ ޤައުމީ ދަރަނީގެ ގަޑި", "ދިވެހި ސަރުކާރުގެ ދަރަނި، ވަގުތުން ވަގުތަށް. ރަސްމީ އަދަދުތަކުން.", extra_js=("dv-lenders.js",))
 p.header()
 
 # ---- hero ----
@@ -26,7 +26,7 @@ p.s = p.s.replace('<span class="show">Show the details</span><span class="hide">
 p.R('<p>Domestic debt is owed to lenders inside Maldives, mostly banks, the central bank and the pension fund. Foreign debt is owed abroad, to other governments, development banks and bondholders. <a href="#" class="term" data-term="guaranteed">Guaranteed debt</a> is borrowed mostly by state-owned companies, from banks and other lenders, with the government promising to pay if they can\'t.</p>',
   '<p>ދާޚިލީ ދަރަނި ދައްކަންޖެހެނީ ރާއްޖޭގެ ތެރޭގެ ފަރާތްތަކަށެވެ. ގިނައިން ބޭންކުތަކާއި، މަރުކަޒީ ބޭންކާއި، ޕެންޝަން ފަންޑަށެވެ. ބޭރުގެ ދަރަނި ދައްކަންޖެހެނީ ބޭރުގެ ސަރުކާރުތަކާއި، ތަރައްޤީގެ ބޭންކުތަކާއި، ބޮންޑު ގަނެފައިވާ ފަރާތްތަކަށެވެ. <a href="#" class="term" data-term="guaranteed">ގެރެންޓީ ދީފައިވާ ދަރަނި</a> ނަގަނީ ގިނައިން ސަރުކާރު ކުންފުނިތަކުންނެވެ. އެ ކުންފުންޏަކަށް ދައްކާނުލެވިއްޖެނަމަ ސަރުކާރުން ދައްކާނެކަމަށް ސަރުކާރުން ވަޢުދުވެފައިވެއެވެ.</p>')
 p.R('aria-label="Debt breakdown"', 'aria-label="ދަރަނީގެ ބައިތައް"')
-p.R('<span class="t">See who it is owed to, at home and abroad</span>', '<span class="t">ރާއްޖޭގައާއި ބޭރުގައި ދަރަނި ދައްކަންޖެހޭ ފަރާތްތައް ބައްލަވާ (މި ބައި އަދި އިނގިރޭސިން)</span>')
+p.R('<span class="t">See who it is owed to, at home and abroad</span>', '<span class="t">ރާއްޖޭގައާއި ބޭރުގައި ދަރަނި ދައްކަންޖެހޭ ފަރާތްތައް ބައްލަވާ</span>')
 p.R('<span class="chap-q">How did the debt get this big?</span><span class="chap-a" id="aHist">It has grown year after year.</span>', '<span class="chap-q">ދަރަނި މިހާ ބޮޑުވީ ކިހިނެއް؟</span><span class="chap-a" id="aHist">އަހަރުން އަހަރަށް ބޮޑުވަމުން އައިސްފައި.</span>')
 p.R('aria-label="Chart view">', 'aria-label="ޗާޓު ބައްލަވާ ގޮތް">')
 p.R('data-view="amount" aria-pressed="true">Amount</button>', 'data-view="amount" aria-pressed="true">އަދަދު</button>')
@@ -53,11 +53,46 @@ p.s = p.s.replace('<h2>The short version</h2>', '<h2>ކުރުކޮށް</h2>')
 p.R('<p>Four things to know, in plain words. Tap any of them to see the details behind it.</p>', '<p>ދެނެގަންނަންޖެހޭ ހަތަރު ކަމެއް، ފަސޭހަ ބަހުން. ތަފްސީލު ބެލުމަށް ކޮންމެ އެއްޗަކަށް ފިތާލައްވާ.</p>')
 p.R('<span id="fetched">Figures from Maldives Monetary Authority Statistics Database.</span>', '<span id="fetched">އަދަދުތައް ނަގާފައިވަނީ މޯލްޑިވްސް މަނިޓަރީ އޮތޯރިޓީގެ ސްޓެޓިސްޓިކްސް ޑޭޓާބޭސްއިން.</span>')
 
-# ---- lenders panel headings (contents stay English in this draft) ----
+# ---- lenders panel (static markup; the words drawn by assets/lenders.js come from assets/dv-lenders.js) ----
+p.R('aria-label="Earlier quarter">‹ <span>Earlier</span></button>', 'aria-label="ކުރީގެ ކުއާޓަރު"><span>ކުރީގެ</span> ›</button>')
+p.R('aria-label="Quarter"></div>', 'aria-label="ކުއާޓަރު"></div>')
+p.R('aria-label="Later quarter"><span>Later</span> ›</button>', 'aria-label="ފަހުގެ ކުއާޓަރު">‹ <span>ފަހުގެ</span></button>')
+p.R('id="mapPlay" aria-label="Play the years">', 'id="mapPlay" aria-label="އަހަރުން އަހަރަށް ދައްކާ">')
 p.R('<span id="homeHead">Domestic debt, owed at home</span>', '<span id="homeHead">ދާޚިލީ ދަރަނި، ރާއްޖޭގައި ދައްކަންޖެހޭ</span>')
 p.R('<span class="part-n">2</span>Foreign debt, owed abroad</h3>', '<span class="part-n">2</span>ބޭރުގެ ދަރަނި، ބޭރަށް ދައްކަންޖެހޭ</h3>')
+p.R('aria-label="Amounts on the map" id="mapBasis"><button type="button" data-mb="owed" aria-pressed="true">Still owed</button><button type="button" data-mb="signed" aria-pressed="false">Originally borrowed</button>',
+  'aria-label="ނަގުޝާގައިވާ އަދަދުތައް" id="mapBasis"><button type="button" data-mb="owed" aria-pressed="true">އަދިވެސް ދައްކަންޖެހޭ</button><button type="button" data-mb="signed" aria-pressed="false">ފުރަތަމަ ނެގި</button>')
+p.R('aria-label="Show on the map"><button type="button" data-ms="both" aria-pressed="true">Loans and guarantees</button><button type="button" data-ms="loans" aria-pressed="false">Loans</button><button type="button" data-ms="guarantees" aria-pressed="false">Guarantees</button>',
+  'aria-label="ނަގުޝާގައި ދައްކާ"><button type="button" data-ms="both" aria-pressed="true">ލޯނާއި ގެރެންޓީ</button><button type="button" data-ms="loans" aria-pressed="false">ލޯން</button><button type="button" data-ms="guarantees" aria-pressed="false">ގެރެންޓީ</button>')
+p.R('aria-label="Map view"><button type="button" data-mz="region" aria-pressed="false">Closer view</button><button type="button" data-mz="world" aria-pressed="true">Whole world</button>',
+  'aria-label="ނަގުޝާ ބައްލަވާ ގޮތް"><button type="button" data-mz="region" aria-pressed="false">ކައިރިން</button><button type="button" data-mz="world" aria-pressed="true">މުޅި ދުނިޔެ</button>')
+p.R('<input type="checkbox" id="mapInst" checked> Development banks and funds</label>', '<input type="checkbox" id="mapInst" checked> ތަރައްޤީގެ ބޭންކުތަކާއި ފަންޑުތައް</label>')
+p.R('<span><i style="background:#3fb8b0"></i>Loans to the government</span><span><i style="background:#b39ddb"></i>Loans the government guaranteed</span><span><i class="dot"></i>Country</span><span><i class="dia"></i>Development bank or fund</span><span>Tap a place for amounts</span>',
+  '<span><i style="background:#3fb8b0"></i>ސަރުކާރަށް ދީފައިވާ ލޯން</span><span><i style="background:#b39ddb"></i>ސަރުކާރުން ގެރެންޓީ ދީފައިވާ ލޯން</span><span><i class="dot"></i>ޤައުމު</span><span><i class="dia"></i>ތަރައްޤީގެ ބޭންކެއް ނުވަތަ ފަންޑެއް</span><span>އަދަދުތައް ބެލުމަށް ތަނަކަށް ފިތާލައްވާ</span>')
 p.R('<span class="part-n">3</span>Paying it back, and what is still to come</h3>', '<span class="part-n">3</span>އަނބުރާ ދެއްކުން، އަދި ކުރިއަށް ދައްކަންޖެހޭ</h3>')
+p.R('<h4>Paying it back</h4>', '<h4>އަނބުރާ ދެއްކުން</h4>')
+p.R('<span><i style="background:#3fb8b0"></i>Government repayments</span><span><i style="background:#9fe0d6"></i>Government interest</span><span><i style="background:#b39ddb"></i>Guaranteed debt repayments</span><span><i style="background:#ddd2f2"></i>Guaranteed debt interest</span>',
+  '<span><i style="background:#3fb8b0"></i>ސަރުކާރުން އަނބުރާ ދެއްކުން</span><span><i style="background:#9fe0d6"></i>ސަރުކާރުގެ އިންޓަރެސްޓް</span><span><i style="background:#b39ddb"></i>ގެރެންޓީ ދީފައިވާ ދަރަނި އަނބުރާ ދެއްކުން</span><span><i style="background:#ddd2f2"></i>ގެރެންޓީ ދީފައިވާ ދަރަނީގެ އިންޓަރެސްޓް</span>')
+p.R('<h4>Still to come, and passed on</h4>', '<h4>އަދި ލިބެންހުރި، އަދި އެހެން ފަރާތްތަކަށް ދޫކުރި</h4>')
+p.R('<h4 id="forHead">Who owes the guaranteed debt</h4>', '<h4 id="forHead">ގެރެންޓީ ދީފައިވާ ދަރަނި ދައްކަންޖެހޭ ފަރާތްތައް</h4>')
 p.R('<h4>Every loan and guarantee</h4>', '<h4>ހުރިހާ ލޯނަކާއި ގެރެންޓީއެއް</h4>')
+p.R('aria-label="List"><button type="button" data-lk="loans" aria-pressed="true">Foreign loans</button><button type="button" data-lk="guarantees" aria-pressed="false">Sovereign guarantees</button>',
+  'aria-label="ލިސްޓު"><button type="button" data-lk="loans" aria-pressed="true">ބޭރުގެ ލޯން</button><button type="button" data-lk="guarantees" aria-pressed="false">ސަރުކާރުގެ ގެރެންޓީ</button>')
+p.R('aria-label="Guaranteed for" id="lendG" hidden><button type="button" data-lg="all" aria-pressed="true">All</button><button type="button" data-lg="soe" aria-pressed="false">State companies</button><button type="button" data-lg="private" aria-pressed="false">Private</button>',
+  'aria-label="ގެރެންޓީ ދީފައިވަނީ" id="lendG" hidden><button type="button" data-lg="all" aria-pressed="true">ހުރިހާ</button><button type="button" data-lg="soe" aria-pressed="false">ސަރުކާރު ކުންފުނިތައް</button><button type="button" data-lg="private" aria-pressed="false">ޕްރައިވެޓް</button>')
+p.R('<label class="lend-asof">As of <select id="lendAsof" aria-label="As of"></select></label>', '<label class="lend-asof">ތާރީޚު <select id="lendAsof" aria-label="ތާރީޚު"></select></label>')
+p.R('<p class="lend-note" id="lendNote">Loading Ministry of Finance lists…</p>', '<p class="lend-note" id="lendNote">މާލިއްޔަތު ވުޒާރާގެ ލިސްޓުތައް ލޯޑުވަނީ…</p>')
+p.R('<h4>By lender</h4>', '<h4>ދަރަނި ދިން ފަރާތުން</h4>')
+p.R('<h4>Signed each year, in US dollars</h4>', '<h4>ކޮންމެ އަހަރަކު ސޮއިކުރި، އެމެރިކާ ޑޮލަރުން</h4>')
+p.R('aria-label="Project" id="lendSt"><button type="button" data-st="all" aria-pressed="true">All</button><button type="button" data-st="Ongoing" aria-pressed="false">Project under way</button><button type="button" data-st="Completed" aria-pressed="false">Project finished</button><button type="button" data-st="paid" aria-pressed="false">Nothing owed now</button>',
+  'aria-label="މަޝްރޫޢު" id="lendSt"><button type="button" data-st="all" aria-pressed="true">ހުރިހާ</button><button type="button" data-st="Ongoing" aria-pressed="false">މަޝްރޫޢު ކުރިއަށްދަނީ</button><button type="button" data-st="Completed" aria-pressed="false">މަޝްރޫޢު ނިމިފައި</button><button type="button" data-st="paid" aria-pressed="false">މިހާރު ދައްކަންޖެހޭ އެއްޗެއް ނެތް</button>')
+p.R('<select id="lendC" aria-label="Country or lender"></select>', '<select id="lendC" aria-label="ޤައުމު ނުވަތަ ދަރަނި ދިން ފަރާތް"></select>')
+p.R('<input type="search" id="lendQ" placeholder="Search a lender, project or company" aria-label="Search">', '<input type="search" id="lendQ" placeholder="ދަރަނި ދިން ފަރާތެއް، މަޝްރޫޢެއް ނުވަތަ ކުންފުންޏެއް ހޯއްދަވާ" aria-label="ހޯއްދަވާ">')
+p.R('<p class="hint" id="lendStNote">"Project finished" is the Ministry\'s status for the project the money paid for. The loan itself is usually still being repaid. See what is still owed above.</p>',
+  '<p class="hint" id="lendStNote">"މަޝްރޫޢު ނިމިފައި" އަކީ ލޯނުގެ ފައިސާއިން ހިންގި މަޝްރޫޢުގެ ހާލަތު ވުޒާރާއިން ލިޔާ ގޮތެވެ. އާންމުކޮށް ލޯނު އަދިވެސް އަނބުރާ ދައްކަމުން ދެއެވެ. އަދިވެސް ދައްކަންޖެހޭ އަދަދު މަތީގައި ބައްލަވާ.</p>')
+p.R('<summary>Exchange rates used</summary>', '<summary>ބޭނުންކުރި އެކްސްޗޭންޖް ރޭޓުތައް</summary>')
+p.R('<p class="hint">Sources: Ministry of Finance, Debt Management Department. The amounts agreed come from its lists of active external borrowings and active sovereign guarantees, saved each time the Ministry updates them, so earlier dates can be picked above. What is still owed comes from its Quarterly Debt Bulletins.</p>',
+  '<p class="hint">މަޢުލޫމާތު: މާލިއްޔަތު ވުޒާރާ، ޑެޓް މެނޭޖްމަންޓް ޑިޕާޓްމަންޓް. އެއްބަސްވި އަދަދުތައް ލިބިފައިވަނީ ވުޒާރާގެ ބޭރުގެ ލޯނުތަކާއި ސަރުކާރުގެ ގެރެންޓީތަކުގެ ލިސްޓުތަކުންނެވެ. ވުޒާރާއިން އެ ލިސްޓުތައް އާކުރާ ކޮންމެ ފަހަރަކު ރައްކާކުރާތީ، ކުރީގެ ތާރީޚުތައް މަތީން ޚިޔާރުކުރެވޭނެއެވެ. އަދިވެސް ދައްކަންޖެހޭ އަދަދުތައް ލިބިފައިވަނީ ވުޒާރާގެ Quarterly Debt Bulletin ތަކުންނެވެ.</p>')
 
 # ---- script: words built by the page ----
 p.R('const LABELS = { domestic_cg: "Domestic, central government", domestic_guaranteed: "Domestic, guaranteed", external_cg: "Foreign, central government", external_guaranteed: "Foreign, guaranteed" };',

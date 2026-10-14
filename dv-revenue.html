@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="dv" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<script>try{var t=localStorage.getItem("theme2");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#072f40">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css?v=20261014f">
+<title>ޓެކްސް · ދިވެހިރާއްޖޭގެ ޤައުމީ ދަރަނީގެ ގަޑި</title>
+<meta property="og:title" content="ޓެކްސް · ދިވެހިރާއްޖޭގެ ޤައުމީ ދަރަނީގެ ގަޑި">
+<meta property="og:description" content="2010 އިން ފެށިގެން MIRA އިން ހޯދި ޓެކްސް، ފީ އަދި ކުލި، އަދި އޭގެ ތެރެއިން އެމެރިކާ ޑޮލަރުން ދެއްކި މިންވަރު.">
+<meta property="og:url" content="https://mvdebtclock.org/revenue">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MV Debt Clock">
+<meta property="og:image" content="https://mvdebtclock.org/assets/share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ކަނޑުގެ މައްޗަށް ފެންނަ ރަށެއް، އަދި ފެނުގެ ފުނޔަށް ދަމާފައިވާ ރޮނގެއް. ދިވެހި ސަރުކާރުގެ ދަރަނި އަދި ޖީޑީޕީއާ އަޅާކިޔާއިރު ދަރަނި.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://mvdebtclock.org/assets/share.png">
+<meta name="description" content="2010 އިން ފެށިގެން MIRA އިން ހޯދި ޓެކްސް، ފީ އަދި ކުލި، އަދި އޭގެ ތެރެއިން އެމެރިކާ ޑޮލަރުން ދެއްކި މިންވަރު.">
+<style>
+  .goodtoknow { margin-top: 1.25rem; padding: .8rem 1rem; border-radius: 10px; background: rgba(244,201,93,.12); border: 1px solid rgba(244,201,93,.35); max-width: 46rem; color: var(--foam); }
+  .goodtoknow .term { color: var(--sun); font-weight: 700; }
+  .lede { font-size: clamp(1.05rem, 2.2vw, 1.25rem); max-width: 44rem; }
+  .controls { display: flex; flex-wrap: wrap; gap: .75rem 1rem; align-items: center; margin-top: 1rem; }
+  .stat .d { font-size: .9rem; margin-top: .4rem; font-weight: 700; color: var(--mist); line-height: 1.45; }
+  .up { color: var(--lagoon) !important; } .down { color: var(--red) !important; }
+  .stat .d .gold { color: var(--sun); }
+  .callout-line { margin-top: 1.25rem; padding: .9rem 1.1rem; background: rgba(255,255,255,.05); border-radius: 6px; font-size: .95rem; color: var(--mist); max-width: 52rem; }
+  .callout-line b { color: var(--foam); }
+  /* compare tool */
+  .cmp { margin-top: 1.5rem; display: grid; gap: .9rem; }
+  .period { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .6rem; }
+  .period .who { display: inline-flex; align-items: center; gap: .5rem; font-weight: 700; min-width: 9rem; }
+  .period .who i { width: .85rem; height: .85rem; border-radius: 2px; display: inline-block; }
+  .period span.to { color: var(--mist); font-size: .9rem; }
+  select { font: 700 .9rem var(--body); background: rgba(255,255,255,.08); color: var(--foam); border: 1px solid rgba(169,205,214,.3); border-radius: 6px; padding: .35rem .45rem; min-height: 2.2rem; }
+  select option { color: var(--ink); background: #fff; }
+  .presets { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.25rem; }
+  .preset { font: 700 .85rem var(--body); border: 1px solid rgba(169,205,214,.35); background: transparent; color: var(--mist); padding: .4rem .8rem; border-radius: 999px; cursor: pointer; min-height: 2.1rem; }
+  .preset:hover { color: var(--foam); border-color: var(--mist); }
+  .preset[aria-pressed="true"] { background: var(--foam); color: var(--abyss); border-color: var(--foam); }
+  .cmp-err { color: var(--coral); font-weight: 700; margin-top: .5rem; }
+  .cmp-sum { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1.5rem 2rem; margin-top: 2rem; }
+  .cmp-sum .k { color: var(--mist); font-size: .9rem; }
+  .cmp-sum .v { font-family: var(--display); font-weight: 800; font-variation-settings: "wdth" 70; font-size: clamp(1.6rem, 3.4vw, 2.2rem); line-height: 1.1; margin-top: .2rem; }
+  .cmp-sum .s { color: var(--mist); font-size: .9rem; margin-top: .2rem; }
+  .note-len { margin-top: 1rem; font-size: .9rem; color: var(--sun); }
+  /* tables */
+  .rev-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: .95rem; color: var(--mist); }
+  .rev-table th { text-align: right; font-weight: 700; color: var(--foam); padding: .55rem .75rem; border-bottom: 1px solid rgba(169,205,214,.35); vertical-align: bottom; }
+  .rev-table th:first-child, .rev-table td:first-child { text-align: left; }
+  .rev-table td { text-align: right; white-space: nowrap; padding: .5rem .75rem; border-bottom: 1px solid rgba(169,205,214,.12); font-variant-numeric: tabular-nums; vertical-align: top; }
+  .rev-table td:first-child { color: var(--foam); white-space: normal; }
+  .rev-table td .sw { display: inline-block; width: .75rem; height: .75rem; border-radius: 2px; margin-right: .5rem; transform: translateY(.08rem); }
+  .rev-table tr.total td { font-weight: 700; color: var(--foam); border-bottom: 0; border-top: 1px solid rgba(169,205,214,.35); }
+  .rev-table tr.sub td { color: var(--mist); font-weight: 400; border-bottom: 0; }
+  .pair { display: grid; gap: 3px; margin-top: .4rem; max-width: 16rem; }
+  .pair i { display: block; height: 6px; border-radius: 3px; min-width: 1px; }
+  .bar-share { display: inline-block; width: 5rem; height: .5rem; background: rgba(255,255,255,.1); border-radius: 999px; margin-left: .6rem; vertical-align: middle; overflow: hidden; }
+  .bar-share i { display: block; height: 100%; background: var(--sun); }
+  .tbl-wrap { overflow-x: auto; }
+  .tbl-head { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; }
+  .tbl-head h3 { margin: 0 !important; }
+  .subtoggle[hidden] { display: none; }
+  .pill { font: 700 .85rem var(--body); border: 1px solid rgba(169,205,214,.35); background: transparent; color: var(--mist); padding: .35rem .75rem; border-radius: 999px; cursor: pointer; min-height: 2.1rem; display: inline-flex; align-items: center; gap: .4rem; }
+  .pill i { width: .7rem; height: .7rem; border-radius: 2px; display: inline-block; border: 2px solid currentColor; }
+  .pill[aria-pressed="true"] i { background: currentColor; }
+  .pills { display: flex; flex-wrap: wrap; gap: .45rem; }
+  .ytd-ctl { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
+  .ytd-ctl select { font: 700 .9rem var(--body); background: rgba(255,255,255,.08); color: var(--foam); border: 1px solid rgba(169,205,214,.3); border-radius: 6px; padding: .35rem .45rem; min-height: 2.2rem; }
+  .ytd-ctl select option { color: #072f40; background: #fff; }
+  .rev-table tr.sub td:first-child { padding-left: 2rem; }
+  .caveat { border-top: 1px solid rgba(169,205,214,.25); padding-top: 2rem; }
+  @media (max-width: 560px) {
+    .bar-share { display: none; } .rev-table { font-size: .875rem; } .rev-table th, .rev-table td { padding: .45rem .4rem; }
+    .period .who { min-width: 100%; }
+  }
+  /* Dhivehi (right to left) */
+  html[lang="dv"] .rev-table th, html[lang="dv"] .rev-table td { text-align: left; }
+  html[lang="dv"] .rev-table th:first-child, html[lang="dv"] .rev-table td:first-child { text-align: right; }
+  html[lang="dv"] .rev-table td .sw { margin-right: 0; margin-left: .5rem; }
+  html[lang="dv"] .rev-table tr.sub td:first-child { padding-left: .75rem; padding-right: 2rem; }
+  html[lang="dv"] .bar-share { margin-left: 0; margin-right: .6rem; }
+  html[lang="dv"] .tip .row span:last-child { direction: ltr; unicode-bidi: isolate; }
+  html[lang="dv"] .cmp-sum .v, html[lang="dv"] .rev-table td:not(:first-child) { unicode-bidi: plaintext; }
+</style>
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="dv.html">MV <span>ދަރަނީގެ ގަޑި</span></a>
+  <nav class="site-nav" aria-label="މައި މެނޫ">
+    <a href="dv.html" data-page="clock">ދަރަނީގެ ގަޑި</a>
+    <a href="dv-priorities.html" data-page="priorities">އިންޓަރެސްޓް</a>
+    <a href="dv-budget.html" data-page="budget">ބަޖެޓް</a>
+    <a href="dv-revenue.html" data-page="revenue" aria-current="page">ޓެކްސް</a>
+    <a href="dv-fuel.html" data-page="fuel">ތެޔޮ އެތެރެކުރުން</a>
+    <a href="dv-updates.html" data-page="updates">އާ މަޢުލޫމާތު</a>
+    <a href="dv-commentary.html" data-page="commentary">ކޮމެންޓަރީ</a>
+    <a href="dv-methodology.html" data-page="method">ހިސާބުކުރާ ގޮތް</a>
+    <a href="dv-about.html" data-page="about">ސައިޓާ ބެހޭ</a>
+    <a href="revenue.html" lang="en" dir="ltr" class="lang-sw">English</a>
+  </nav>
+  <div class="prefs">
+    <div class="toggle" data-pref="cur" role="group" aria-label="ފައިސާ"><button type="button" data-v="MVR" aria-pressed="true">ރުފިޔާ</button><button type="button" data-v="USD" aria-pressed="false">ޑޮލަރު</button></div>
+    <div class="toggle" data-pref="real" role="group" aria-label="އިންފްލޭޝަން" title="ރިއަލް ގޮތަށް ކުރީގެ އަދަދުތައް ދައްކަނީ މިއަދުގެ އަގުތަކުން"><button type="button" data-v="0" aria-pressed="true">ނޮމިނަލް</button><button type="button" data-v="1" aria-pressed="false">ރިއަލް</button></div>
+  </div>
+  <div class="real-note" role="status"></div>
+</header>
+
+<main class="dark">
+<div class="wrap">
+
+  <section>
+    <div id="since"></div>
+    <h1>MIRA އިން ހޯދާ ފައިސާ، އަދި އޭގެ ތެރެއިން ޑޮލަރުން ދައްކާ މިންވަރު</h1>
+    <p class="lede">ސަރުކާރުގެ ގިނަ ޓެކްސްތަކާއި، ރިސޯޓް ބިމުގެ ކުލި ފަދަ ފީތަކާއި ކުލިތައް ހޯދަނީ މޯލްޑިވްސް އިންލެންޑް ރެވެނިއު އޮތޯރިޓީ (MIRA) އިންނެވެ. އޭގެ ބޮޑު ބައެއް ދައްކަނީ އެމެރިކާ ޑޮލަރުންނެވެ. ގިނައިން ދައްކަނީ ރިސޯޓުތަކާއި ފަތުރުވެރިކަމުގެ އެހެން ވިޔަފާރިތަކުންނެވެ. ބޭރުން ނަގާ ލޯންތައް އަނބުރާ ދައްކަންޖެހެނީ ބޭރުގެ ފައިސާއިން ކަމުން، ދަރަނީގެ ހިސާބުގައި އެ ޑޮލަރު މުހިންމެވެ.</p>
+    <p class="goodtoknow"><b>އެނގިލައްވާ.</b> MIRA އިން ހޯދާ ޓެކްސް އަކީ ސަރުކާރުގެ ހުރިހާ އާމްދަނީއެއް ނޫނެވެ. <span class="term" role="button" tabindex="0" data-term="taxrev">ސަބަބަކީ ކޮބާ؟</span></p>
+  </section>
+
+  <section>
+    <h2>އެންމެ ފަހުގެ އަދަދުތައް</h2>
+    <p id="latestNote"></p>
+    <div id="fresh"></div>
+    <div class="period-zone">
+    <div id="asof"></div>
+    <div class="stats" style="margin-top:2rem">
+      <div class="stat hot" data-icon="calendar"><div class="n num" id="sMonth">…</div><div class="l" id="sMonthL">އެންމެ ފަހު މަހު ހޯދި</div><div class="d" id="sMonthD"></div></div>
+      <div class="stat hot" data-icon="coins"><div class="n num" id="s12">…</div><div class="l" id="s12L">ފާއިތުވި 12 މަހު ހޯދި</div><div class="d" id="s12D"></div></div>
+      <div class="stat" data-icon="dollar"><div class="n num" id="sYtd">…</div><div class="l" id="sYtdL">މި އަހަރު މިހާތަނަށް ހޯދި</div><div class="d" id="sYtdD"></div></div>
+    </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>ދެ މުއްދަތެއް އަޅާކިޔުއްވާ</h2>
+    <p>މަހެއް، އަހަރެއް ނުވަތަ ފަހަރަށް އަންނަ މަސްތަކެއް ހޮވާލައްވައި، އެހެން މުއްދަތަކާ އަޅާކިޔުއްވާ. ކުރުމަގުތައް ބޭނުންކުރައްވާ، ނުވަތަ ތާރީޚުތައް އަމިއްލައަށް ހޮވާލައްވާ.</p>
+    <div class="presets" id="presets" role="group" aria-label="ކުރުމަގުތައް"></div>
+    <div class="cmp">
+      <div class="period" id="pB"><span class="who"><i style="background:#f4c95d"></i>މި މުއްދަތު</span></div>
+      <div class="period" id="pA"><span class="who"><i style="background:#6fb3c2"></i>އަޅާކިޔަނީ</span></div>
+    </div>
+    <div class="controls">
+      <div class="subtoggle" role="group" aria-label="ދައްކާ ގޮތް"><button type="button" data-avg="0" aria-pressed="true">ޖުމްލަ</button><button type="button" data-avg="1" aria-pressed="false">މަހަކަށް އެވަރެޖް</button></div>
+    </div>
+    <div class="cmp-err" id="cmpErr" role="alert"></div>
+    <div class="cmp-sum num" id="cmpSum"></div>
+    <div class="note-len" id="cmpLen"></div>
+    <div class="tbl-wrap"><table class="rev-table" id="cmpTbl"></table></div>
+    <p class="hint" id="cmpLink"></p>
+  </section>
+
+  <section>
+    <div class="chart-head">
+      <div><h2>މި އަހަރު، އެހެން އަހަރުތަކާ އަޅާކިޔާއިރު</h2><p id="ytdNote" style="margin:0"></p></div>
+      <div class="ytd-ctl">
+        <div class="subtoggle" role="group" aria-label="ދައްކާ އަދަދުތައް"><button type="button" data-ymode="ytd" aria-pressed="true">އަހަރު ފެށުނީއްސުރެ</button><button type="button" data-ymode="month" aria-pressed="false">ކޮންމެ މަހެއް</button></div>
+        <select id="ytdWhat" aria-label="ދައްކާނެ އަދަދު"></select>
+      </div>
+    </div>
+    <div class="pills" id="ytdYears" role="group" aria-label="ދައްކާނެ އަހަރުތައް" style="margin-top:1rem"></div>
+    <div class="chart-box" id="ytdChart"></div>
+    <div class="hint" id="ytdHint"></div>
+  </section>
+
+  <section>
+    <div class="chart-head">
+      <div><h2>ފުރިހަމަ ތާރީޚު</h2><p id="histNote" style="margin:0"></p></div>
+      <div class="controls">
+        <div class="subtoggle" role="group" aria-label="ތަފްސީލު"><button type="button" data-gran="year" aria-pressed="true">އަހަރުން</button><button type="button" data-gran="month" aria-pressed="false">މަހުން</button></div>
+        <div class="subtoggle" role="group" aria-label="މުއްދަތު" id="rangeCtl" hidden><button type="button" data-range="all" aria-pressed="true">ހުރިހާ</button><button type="button" data-range="2015" aria-pressed="false">2015 އިން ފެށިގެން</button><button type="button" data-range="3" aria-pressed="false">3 އަހަރު</button></div>
+      </div>
+    </div>
+    <div class="chart-box" id="hist"></div>
+    <div class="key" id="histKey"></div>
+    <div class="callout-line num" id="dollarLine"></div>
+    <div class="hint">އަދަދުތައް ބެއްލެވުމަށް ޗާޓުގެ މައްޗަށް މައުސް ގެންދަވާ، ނުވަތަ ފިއްތަވާ.</div>
+  </section>
+
+  <section>
+    <div class="chart-head">
+      <div><h2>ފައިސާ ލިބެނީ ކޮންތާކުން</h2><p id="typeNote" style="margin:0"></p></div>
+      <div class="controls">
+        <div class="subtoggle" role="group" aria-label="ހިމަނާ ފައިސާ"><button type="button" data-which="all" aria-pressed="true">ހުރިހާ ފައިސާ</button><button type="button" data-which="usd" aria-pressed="false">ޑޮލަރުން ދެއްކި</button></div>
+        <div class="subtoggle" role="group" aria-label="ދައްކާ ގޮތް"><button type="button" data-as="amt" aria-pressed="true">އަދަދު</button><button type="button" data-as="pct" aria-pressed="false">ބައި (%)</button></div>
+      </div>
+    </div>
+    <div class="chart-box" id="types"></div>
+    <div class="key" id="typeKey"></div>
+    <div class="hint">ކޮންމެ ޓެކްހެއް ބެއްލެވުމަށް އަހަރެއްގެ މައްޗަށް މައުސް ގެންދަވާ، ނުވަތަ ފިއްތަވާ.</div>
+
+    <div class="tbl-head" style="margin-top:3rem"><h3>ޑޮލަރު ލިބުނު ތަންތަން، އަހަރު</h3><select id="tblYear" aria-label="އަހަރު"></select></div>
+    <p id="tblNote" style="margin-top:.75rem"></p>
+    <div class="tbl-wrap"><table class="rev-table" id="tbl"></table></div>
+  </section>
+
+  <section class="caveat">
+    <h2>މި އަދަދުތައް ކިޔާނެ ގޮތް</h2>
+    <p>މި އަދަދުތައް ނަގާފައިވަނީ MIRA އިން ކޮންމެ މަހަކު ޝާއިޢުކުރާ ފައިސާ ހޯދުމުގެ ފައިލުތަކުންނެވެ. އެއް ފައިލުގައި MIRA އިން ހޯދި ހުރިހާ ފައިސާ ހިމެނެއެވެ. އަނެއް ފައިލުގައި ހިމެނެނީ އެމެރިކާ ޑޮލަރުން ދެއްކި ބައެވެ. ސަރުކާރަށް ފައިސާ ހޯދަނީ MIRA އެކަނި ނޫނެވެ. އިމްޕޯޓް ޑިއުޓީ ހޯދަނީ ދިވެހި ކަސްޓަމްސް އިންނެވެ. އަދި ސަރުކާރު ކުންފުނިތަކުގެ ޑިވިޑެންޑާއި، އެހެނިހެން އާމްދަނީއާއި، އެހީ ވެސް ސަރުކާރަށް ލިބެއެވެ. އެހެންކަމުން، މި ޖުމްލަތައް ސަރުކާރުގެ ހުރިހާ އާމްދަނީއަށްވުރެ ކުޑައެވެ. <span id="shareOfAll"></span></p>
+    <p>MIRA ގެ ރުފިޔާގެ އަދަދުތަކުގައި ޑޮލަރުން ދެއްކި ފައިސާ ވެސް ހިމެނެއެވެ. އެ ފައިސާ ރުފިޔާއަށް ބަދަލުކޮށްފައިވަނީ MIRA ގެ އަމިއްލަ ރޭޓުންނެވެ. އެ ރޭޓަކީ MMA ގެ ރިފަރެންސް ރޭޓަށްވުރެ ކުޑަކޮށް ދަށް ރޭޓެކެވެ. މި ޞަފްޙާގައި ޑޮލަރުގެ އަދަދުތައް ބަދަލުކުރަނީ ކޮންމެ މަހެއްގެ MMA ގެ ރިފަރެންސް ރޭޓުންނެވެ. ޓޫރިޒަމް ޖީއެސްޓީ އާއި ގްރީން ޓެކްސް ފަދަ، ގާތްގަނޑަކަށް މުޅިން ޑޮލަރުން ދައްކާ ޓެކްސްތަކުގައި، އެ ގޮތަށް ހިސާބުކުރުމުން MIRA ގެ ރުފިޔާގެ ޖުމްލައަށްވުރެ ކުޑަކޮށް ބޮޑުވެދާނެއެވެ. އެހެންކަމުން، ކޮންމެ ޓެކްހެއްގެ ޑޮލަރުގެ ބައި، އެ ޖުމްލައަށްވުރެ ބޮޑުނުވާނެ ގޮތަށް ހަދާފައިވެއެވެ. ޑޮލަރުގެ އަދަދުތައް ފެށެނީ ޖަނަވަރީ 2011 އިންނެވެ.</p>
+    <p>ރިސޯޓް ކުލި އަދި ލީސްގައި އެއްފަހަރު ދައްކާ ފައިސާ ވެސް ހިމެނެއެވެ. ރިސޯޓުތަކުން ރަށުގެ ލީސް މުއްދަތު އިތުރުކުރުމަށް ދައްކާ ފީ، ބައެއް އަހަރުތަކުގައި ވަރަށް ބޮޑުވެ، އަނެއްކާ ދަށްވެއެވެ. އެހެންކަމުން، މި ބައިގައި ބޮޑު އަހަރެއް އައުމަކީ ދެމިއޮންނަ ކުރިއެރުމެއްގެ ނިޝާނެއް ނޫނެވެ. އަޅާކިޔާ ތާވަލާއި ޗާޓުގެ ޕޮޕްއަޕްތަކުގައި އެ ފީ ވަކިން ދައްކައެވެ. ޓޫރިޒަމް ޓެކްސް އަކީ ކޮންމެ ފަތުރުވެރިއެއްގެ ކޮންމެ ރެއަކަށް ނަގާ ކަނޑައެޅިފައިވާ ފީއެކެވެ. އެ ޓެކްސް ނިމުނީ 2014 ގައެވެ. ޓޫރިޒަމް ޖީއެސްޓީ ފެށުނީ 2011 ގައެވެ. މިހާރު އެއީ އެންމެ ބޮޑު ޓެކްސްއެވެ.</p>
+    <p>މުއްދަތުތައް އަޅާކިޔާއިރު، "ރިއަލް" ސްވިޗު ބޭނުންކުރެވެއެވެ. ރިއަލް ހުޅުވާފައިވާނަމަ، ދެ މުއްދަތުވެސް ދައްކަނީ މިއަދުގެ އަގުތަކުންނެވެ. އެހެންވުމުން، ފެންނަ ބަދަލަކީ އިންފްލޭޝަން ކަނޑާލުމަށްފަހު ވާ ކުރިއެރުމެވެ. މަތީގައިވާ އެންމެ ފަހުގެ އަދަދުތައް އަބަދުވެސް ދައްކަނީ އެ ވަގުތުގެ ފައިސާއިންނެވެ. MIRA އިން މި ފައިލުތައް އާކުރަނީ ކޮންމެ މަހެއްގެ މެދުތެރޭގައެވެ. MIRA އިން ހިސާބުތައް ބައްލަވައި ނިންމަންދެން، ފަހުގެ މަސްތަކުގެ އަދަދުތައް ބަދަލުވެދާނެއެވެ. <a href="dv-methodology.html#revenue">މެތަޑޮލޮޖީގައި އިތުރަށް ކިޔުއްވާ</a>.</p>
+  </section>
+
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <span id="fetched">އަދަދުތައް ނަގާފައިވަނީ މޯލްޑިވްސް އިންލެންޑް ރެވެނިއު އޮތޯރިޓީންނެވެ. އެކްސްޗޭންޖް ރޭޓާއި އަގުތައް ނަގާފައިވަނީ މޯލްޑިވްސް މަނިޓަރީ އޮތޯރިޓީގެ ސްޓެޓިސްޓިކްސް ޑޭޓާބޭސްއިންނެވެ.</span>
+  <span class="foot-links"><a href="dv-methodology.html">ހިސާބުކުރާ ގޮތް</a> <a href="dv-about.html">ސައިޓާ ބެހޭ، އަދި ގުޅުއްވުމަށް</a> <span>މިއީ މިނިވަން ސައިޓެކެވެ. ދައުލަތުގެ އެއްވެސް މުއައްސަސާއަކާ ގުޅުމެއް ނެތެވެ.</span></span>
+</div></footer>
+
+<script src="assets/dv.js?v=dv1"></script>
+<script src="assets/site.js?v=20261014f"></script>
+<script src="assets/motion.js?v=20261014f" defer></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const { fmt, sym, short, mLabel, row } = MV;
+  const COLORS = { tourism_gst: "#3fb8b0", green: "#9fe0d6", airport: "#f4c95d", resort_land: "#f2a541", tourism_tax: "#ffd9a0",
+                   gst_other: "#6fa8dc", business: "#a98bd6", personal: "#e0a3c8", other: "#7f9aa5" };
+  const ORDER = ["tourism_gst", "green", "airport", "resort_land", "tourism_tax", "gst_other", "business", "personal", "other"];
+  const RUF = "#3d7d8f", DOL = "#f4c95d", CA = "#6fb3c2", CB = "#f4c95d";
+  const MON = MV.MONTHS;
+  const TAX_DV = { tourism_gst: "ޓޫރިޒަމް ޖީއެސްޓީ", gst_other: "ފަތުރުވެރިކަމުން ބޭރުގެ ޖީ.އެސް.ޓީ", green: "ގްރީން ޓެކްސް", airport: "އެއާޕޯޓް ޓެކްސް އަދި ފީ",
+                   resort_land: "ރިސޯޓް ކުލި އަދި ލީސް", business: "ބިޒްނަސް ޕްރޮފިޓް ޓެކްސް", personal: "އިންކަމް ޓެކްސް", tourism_tax: "ޓޫރިޒަމް ޓެކްސް (2014 ގައި ނިމުނު)", other: "އެހެނިހެން ޓެކްސް އަދި ފީ" };
+  const EN_MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const monthEnd = ym => { const [y, m] = ym.split("-").map(Number); return new Date(Date.UTC(y, m, 0)).toISOString().slice(0, 10); };
+
+  /* stacked bars, in the same style as the site's other charts */
+  function stackChart(box, opts) {
+    const tip = box.querySelector(".tip") || box.appendChild(Object.assign(document.createElement("div"), { className: "tip" }));
+    const W = Math.max(300, box.clientWidth), small = W < 560, Hc = Math.round(Math.min(380, Math.max(250, W * .42)));
+    const pad = { l: 46, r: 8, t: opts.yTitle ? 26 : 14, b: opts.below ? 46 : 28 };
+    const n = opts.cats.length;
+    const totals = opts.cats.map((_, i) => opts.stacks.reduce((a, s) => a + (s.vals[i] || 0), 0));
+    const max = opts.max || (Math.max(...totals) * 1.08 || 1);
+    const Y = v => Hc - pad.b - v / max * (Hc - pad.t - pad.b);
+    const slot = (W - pad.l - pad.r) / n, bw = Math.max(4, Math.min(34, slot * .72));
+    const mag = Math.pow(10, Math.floor(Math.log10(max / 4))); const step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(s => max / s <= (small ? 4 : 5));
+    let g = "";
+    for (let v = 0; v <= max + 1e-9; v += step) g += `<line x1="${pad.l}" x2="${W - pad.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="rgba(169,205,214,.15)"/><text x="${pad.l - 8}" y="${Y(v) + 4}" text-anchor="end">${(opts.yFmt || fmt)(v)}</text>`;
+    if (opts.yTitle) g += `<text x="${pad.l - 8}" y="12" text-anchor="end" style="font-weight:700">${opts.yTitle}</text>`;
+    const labEvery = Math.max(1, Math.ceil(n / Math.floor((W - pad.l) / (small ? 40 : 52))));
+    opts.cats.forEach((c, i) => {
+      const cx = pad.l + slot * (i + .5); let base = 0;
+      opts.stacks.forEach(s => { const v = s.vals[i]; if (!v) return;
+        g += `<rect x="${cx - bw / 2}" y="${Y(base + v)}" width="${bw}" height="${Math.max(0, Y(base) - Y(base + v))}" fill="${s.color}"${c.partial ? ' fill-opacity=".5"' : ""}/>`; base += v; });
+      const show = (n - 1 - i) % labEvery === 0;
+      if (show) g += `<text x="${cx}" y="${Hc - pad.b + 16}" text-anchor="middle">${c.label}</text>`;
+      if (opts.below && show) { const b = opts.below(i); if (b) g += `<text x="${cx}" y="${Hc - pad.b + 32}" text-anchor="middle" style="fill:${b.color};font-weight:700;font-size:11px">${b.text}</text>`; }
+    });
+    g += `<rect class="hl" x="0" y="${pad.t}" width="${slot}" height="${Hc - pad.t - pad.b}" fill="#fff" fill-opacity="0"/>`;
+    g += `<rect class="hit" x="${pad.l}" y="0" width="${W - pad.l - pad.r}" height="${Hc}" fill="transparent"/>`;
+    box.querySelector("svg")?.remove();
+    box.insertAdjacentHTML("afterbegin", `<svg viewBox="0 0 ${W} ${Hc}" width="${W}" height="${Hc}" role="img" aria-label="${opts.label}">${g}</svg>`);
+    const svg = box.querySelector("svg"), hl = svg.querySelector(".hl");
+    const show = e => {
+      const rc = svg.getBoundingClientRect(), mx = (e.clientX - rc.left) * W / rc.width;
+      const i = Math.max(0, Math.min(n - 1, Math.floor((mx - pad.l) / slot)));
+      hl.setAttribute("x", pad.l + slot * i); hl.setAttribute("fill-opacity", ".06");
+      tip.innerHTML = opts.tip(i); tip.classList.add("on");
+      const px = (pad.l + slot * (i + .5)) * rc.width / W, tw = tip.offsetWidth;
+      tip.style.left = Math.min(Math.max(0, px + 14 + tw > rc.width ? px - tw - 14 : px + 14), rc.width - tw) + "px";
+    };
+    const hide = () => { hl.setAttribute("fill-opacity", "0"); tip.classList.remove("on"); };
+    const hit = svg.querySelector(".hit");
+    hit.addEventListener("pointermove", show); hit.addEventListener("pointerdown", show); hit.addEventListener("pointerleave", hide);
+  }
+
+  Promise.all([MV.getJSON("data.json"), MV.getJSON("revenue.json")]).then(([data, R]) => {
+    const S = data.series; MV.setData(S); MV.paintPrefs(); MV.checkStale(data);
+    const months = R.months.map(m => ({ ym: m, date: monthEnd(m), y: m.slice(0, 4), mo: Number(m.slice(5)) }));
+    const N = months.length, G = R.groups.map(g => g.key), LABEL = Object.fromEntries(R.groups.map(g => [g.key, TAX_DV[g.key] || g.label]));
+    const IDX = Object.fromEntries(months.map((m, i) => [m.ym, i]));
+    const usdFrom = R.usd_start ? IDX[R.usd_start] : N;
+
+    // rufiyaa value of the dollar part of each tax, per month, capped at that tax's total
+    const dol = {}; G.forEach(k => dol[k] = months.map((m, i) => { const u = R.usd?.[k]?.[i]; if (u == null) return null; return Math.min(R.mvr[k][i] || 0, u * MV.rateAt(m.date)); }));
+    const allM = months.map((_, i) => R.total.mvr[i] || 0);
+    const dolM = months.map((_, i) => i >= usdFrom ? G.reduce((a, k) => a + (dol[k][i] || 0), 0) : null);
+    const detM = R.detail.mvr;
+
+    const years = [...new Set(months.map(m => m.y))];
+    const idxOf = y => months.map((m, i) => m.y === y ? i : -1).filter(i => i >= 0);
+    const range = (a, b) => { const r = []; for (let i = a; i <= b; i++) r.push(i); return r; };
+    const lastI = N - 1, lastM = months[lastI];
+    const partial = y => idxOf(y).length < 12;
+    const yLabel = y => partial(y) ? `${y}*` : y;
+    const sumC = (arr, idx) => idx.reduce((a, i) => a + (arr[i] == null ? 0 : MV.conv(arr[i], months[i].date)), 0);    // comparisons over time, follows Real
+    const sumN = (arr, idx) => idx.reduce((a, i) => a + (arr[i] == null ? 0 : MV.convNow(arr[i], months[i].date)), 0);  // figures of the time
+    const raw = (arr, idx) => idx.reduce((a, i) => a + (arr[i] || 0), 0);
+    const pct = (a, b) => b ? 100 * a / b : null;
+    const hasUSD = idx => idx.length && idx.every(i => i >= usdFrom);
+    const chg = (b, a) => a ? (b / a - 1) * 100 : null;
+    const chgTxt = c => c == null ? "n/a" : (c >= 0 ? "+" : "−") + fmt(Math.abs(c), 1) + "%";
+    const chgCls = c => c == null ? "" : c >= 0 ? "up" : "down";
+    const money = v => sym() + " " + short(v);
+    const spanTxt = (a, b) => {
+      const A = months[a], B = months[b];
+      if (a === b) return `${MV.MONTHS[A.mo - 1]} ${A.y}`;
+      if (A.y === B.y && A.mo === 1 && B.mo === 12) return A.y;
+      if (A.y === B.y) return `${MV.MONTHS[A.mo - 1]} އިން ${MV.MONTHS[B.mo - 1]} ${A.y} އަށް`;
+      return `${MV.MONTHS[A.mo - 1]} ${A.y} އިން ${MV.MONTHS[B.mo - 1]} ${B.y} އަށް`;
+    };
+    const mmaRev = {}; (S.revenue?.points || []).forEach(p => { const y = p.date.slice(0, 4); (mmaRev[y] = mmaRev[y] || []).push(p.value); });
+    const mmaShare = y => (mmaRev[y]?.length === 12 && !partial(y)) ? pct(raw(allM, idxOf(y)), mmaRev[y].reduce((a, v) => a + v, 0)) : null;
+
+    // ---------- latest figures ----------
+    let selI = N - 1;
+    function drawLatest() {
+      const lastI = selI, lastM = months[lastI];
+      const yAgo = IDX[`${Number(lastM.y) - 1}-${String(lastM.mo).padStart(2, "0")}`];
+      const share = idx => hasUSD(idx) ? `<span class="gold">ޑޮލަރުން ދެއްކީ ${fmt(pct(raw(dolM, idx), raw(allM, idx)), 0)}%</span>` : "";
+      const line = (now, before, label) => { const c = chg(raw(allM, now), raw(allM, before)); return `<span class="${chgCls(c)}">${label} އާ އަޅާކިޔާއިރު ${chgTxt(c)}</span>`; };
+      $("latestNote").textContent = (selI === N - 1 ? `MIRA އިން ޝާއިޢުކޮށްފައިވާ އެންމެ ފަހު މަހަކީ ${mLabel(lastM.date)} އެވެ.` : `ދައްކަނީ ކުރީގެ މަހެއް، ${mLabel(lastM.date)} ގެ އަދަދުތަކެވެ.`) + ` ބަދަލު ދައްކަނީ އެއް އަހަރު ކުރީގެ އެ މުއްދަތާ އަޅާކިޔައި، އެ ވަގުތުގެ ފައިސާއިންނެވެ.`;
+      const m = [lastI];
+      $("sMonth").textContent = money(sumN(allM, m));
+      $("sMonthL").textContent = `${mLabel(lastM.date)} ގައި ހޯދި`;
+      $("sMonthD").innerHTML = (yAgo != null ? line(m, [yAgo], MV.MONTHS[lastM.mo - 1] + " " + (Number(lastM.y) - 1)) + "<br>" : "") + share(m);
+      const l12 = range(lastI - 11, lastI), p12 = range(lastI - 23, lastI - 12);
+      $("s12").textContent = money(sumN(allM, l12));
+      $("s12L").textContent = `${mLabel(lastM.date)} އާ ހަމައަށް 12 މަހު ހޯދި`;
+      $("s12D").innerHTML = line(l12, p12, "ކުރީގެ 12 މަހާ") + "<br>" + share(l12);
+      const ytd = idxOf(lastM.y), prev = idxOf(String(Number(lastM.y) - 1)).filter(i => months[i].mo <= lastM.mo);
+      $("sYtd").textContent = money(sumN(allM, ytd));
+      $("sYtdL").textContent = `${lastM.y} ގެ ޖަނަވަރީއިން ${MV.MONTHS[lastM.mo - 1]} އާ ހަމައަށް ހޯދި`;
+      $("sYtdD").innerHTML = line(ytd, prev, `${Number(lastM.y) - 1} ގެ އެ މަސްތަކާ`) + "<br>" + share(ytd);
+    }
+
+    const LM = months[N - 1];
+    { const w = MV.wantedPeriod(); if (w && IDX[w] != null) selI = IDX[w]; }
+    MV.asOf($("asof"), months.slice().reverse().map((m, k) => ({ v: m.ym, group: m.y, label: mLabel(m.date) + (k === 0 ? "، އެންމެ ފަހު" : "") })), months[selI].ym, v => { selI = IDX[v] ?? N - 1; drawLatest(); });
+    MV.fresh($("fresh"), { asOf: LM.date.slice(0, 10), what: "MIRA އިން ކޮންމެ މަހަކު ހޯދާ ފައިސާގެ އަދަދުތައް", cadence: "monthly" });
+    $("fresh").querySelector("b").textContent = mLabel(LM.date);
+    MV.since("revenue", [{ id: "m", value: LM.ym, say: p => `MIRA ގެ <b>${mLabel(LM.date)}</b> ގެ އަދަދުތައް ނެރެފިއެވެ. ފަހުން ބެއްލެވި މަހަކީ ${mLabel(p + "-15")} އެވެ.` }], $("since"));
+
+    // ---------- compare tool ----------
+    const P = { A: [0, 0], B: [0, 0] }; let avg = false, preset = null;
+    const yearOpts = years.map(y => `<option value="${y}">${y}</option>`).join(""), monOpts = MON.map((m, i) => `<option value="${i + 1}">${m}</option>`).join("");
+    ["A", "B"].forEach(k => {
+      $("p" + k).insertAdjacentHTML("beforeend",
+        `<select data-p="${k}" data-e="0" data-f="m" aria-label="ފަށާ މަސް">${monOpts}</select><select data-p="${k}" data-e="0" data-f="y" aria-label="ފަށާ އަހަރު">${yearOpts}</select>` +
+        `<span class="to">އިން</span><select data-p="${k}" data-e="1" data-f="m" aria-label="ނިމޭ މަސް">${monOpts}</select><select data-p="${k}" data-e="1" data-f="y" aria-label="ނިމޭ އަހަރު">${yearOpts}</select>`);
+    });
+    const fullYears = years.filter(y => !partial(y));
+    const fy = fullYears[fullYears.length - 1], fyPrev = String(Number(fy) - 1);
+    const ytdPrev = idxOf(String(Number(lastM.y) - 1)).filter(i => months[i].mo <= lastM.mo);
+    const PRESETS = [
+      { id: "m", label: "އެންމެ ފަހު މަސް، އަހަރެއް ކުރީގެ އެ މަހާ", B: [lastI, lastI], A: [lastI - 12, lastI - 12] },
+      { id: "l12", label: "ފާއިތުވި 12 މަސް، ކުރީގެ 12 މަހާ", B: [lastI - 11, lastI], A: [lastI - 23, lastI - 12] },
+      { id: "ytd", label: `${lastM.y} މިހާތަނަށް، ${Number(lastM.y) - 1} ގެ އެ މަސްތަކާ`, B: [idxOf(lastM.y)[0], lastI], A: [ytdPrev[0], ytdPrev[ytdPrev.length - 1]] },
+      { id: "fy", label: `${fy}، ${fyPrev} އާ`, B: [idxOf(fy)[0], idxOf(fy)[11]], A: [idxOf(fyPrev)[0], idxOf(fyPrev)[11]] },
+      { id: "covid", label: `${fy}، ކޮވިޑުގެ ކުރީގެ 2019 އާ`, B: [idxOf(fy)[0], idxOf(fy)[11]], A: [idxOf("2019")[0], idxOf("2019")[11]] },
+    ].filter(p => [...p.A, ...p.B].every(i => i >= 0 && i < N));
+    $("presets").innerHTML = PRESETS.map(p => `<button type="button" class="preset" data-preset="${p.id}" aria-pressed="false">${p.label}</button>`).join("");
+
+    function setSelects() {
+      ["A", "B"].forEach(k => [0, 1].forEach(e => { const m = months[P[k][e]];
+        document.querySelector(`select[data-p="${k}"][data-e="${e}"][data-f="m"]`).value = m.mo;
+        document.querySelector(`select[data-p="${k}"][data-e="${e}"][data-f="y"]`).value = m.y; }));
+      document.querySelectorAll(".preset").forEach(b => b.setAttribute("aria-pressed", b.dataset.preset === preset));
+    }
+    function readSelect(k, e) {
+      const mo = document.querySelector(`select[data-p="${k}"][data-e="${e}"][data-f="m"]`).value, y = document.querySelector(`select[data-p="${k}"][data-e="${e}"][data-f="y"]`).value;
+      const ym = `${y}-${String(mo).padStart(2, "0")}`;
+      if (ym < months[0].ym) return 0; if (ym > lastM.ym) return lastI; return IDX[ym];
+    }
+    function applyPreset(id) { const p = PRESETS.find(x => x.id === id); if (!p) return; preset = id; P.A = [...p.A]; P.B = [...p.B]; setSelects(); drawCompare(); }
+
+    function drawCompare() {
+      const err = [];
+      ["A", "B"].forEach(k => { if (P[k][0] > P[k][1]) err.push(`${k === "B" ? "މި މުއްދަތު" : "އަޅާކިޔާ މުއްދަތު"} ނިމެނީ ފެށުމުގެ ކުރިންނެވެ. ތާރީޚުތައް ބަދަލުކުރައްވާ.`); });
+      $("cmpErr").textContent = err.join(" ");
+      if (err.length) { $("cmpSum").innerHTML = $("cmpTbl").innerHTML = $("cmpLen").textContent = ""; return; }
+      const iA = range(...P.A), iB = range(...P.B), nA = iA.length, nB = iB.length;
+      const dA = avg ? nA : 1, dB = avg ? nB : 1;
+      const tA = sumC(allM, iA) / dA, tB = sumC(allM, iB) / dB;
+      const uA = hasUSD(iA), uB = hasUSD(iB);
+      const xA = uA ? sumC(dolM, iA) / dA : null, xB = uB ? sumC(dolM, iB) / dB : null;
+      const lA = spanTxt(...P.A), lB = spanTxt(...P.B), per = avg && (nA > 1 || nB > 1) ? " މަހަކަށް" : "";
+      const sufA = avg && nA > 1 ? "، މަހަކަށް އެވަރެޖް" : "", sufB = avg && nB > 1 ? "، މަހަކަށް އެވަރެޖް" : "";
+      const card = (k, v, s) => `<div><div class="k">${k}</div><div class="v">${v}</div>${s ? `<div class="s">${s}</div>` : ""}</div>`;
+      const c = chg(tB, tA), cx = (xA != null && xB != null) ? chg(xB, xA) : null;
+      $("cmpSum").innerHTML =
+        card(`${lB}${sufB}`, `<span style="color:${CB}">${money(tB)}</span>`, uB ? `ޑޮލަރުން ދެއްކީ ${money(xB)}، ${fmt(pct(raw(dolM, iB), raw(allM, iB)), 0)}%` : "ޑޮލަރުގެ ބައި 2011 ގެ ކުރިން ޝާއިޢުނުކުރެއެވެ") +
+        card(`${lA}${sufA}`, `<span style="color:${CA}">${money(tA)}</span>`, uA ? `ޑޮލަރުން ދެއްކީ ${money(xA)}، ${fmt(pct(raw(dolM, iA), raw(allM, iA)), 0)}%` : "ޑޮލަރުގެ ބައި 2011 ގެ ކުރިން ޝާއިޢުނުކުރެއެވެ") +
+        card("ހޯދި ހުރިހާ ފައިސާގެ ބަދަލު", `<span class="${chgCls(c)}">${chgTxt(c)}</span>`, `${c != null && tB - tA >= 0 ? "+" : "−"}${money(Math.abs(tB - tA))}${per}`) +
+        (cx != null ? card("ޑޮލަރުން ދެއްކި ބައިގެ ބަދަލު", `<span class="${chgCls(cx)}">${chgTxt(cx)}</span>`, `${xB - xA >= 0 ? "+" : "−"}${money(Math.abs(xB - xA))}${per}`) : "");
+      $("cmpLen").textContent = nA !== nB && !avg ? `ދެ މުއްދަތުގެ ދިގުމިން ތަފާތެވެ (${nB} މަސް އަދި ${nA} މަސް). ޢަދުލުވެރިކޮށް އަޅާކިޔުމަށް "މަހަކަށް އެވަރެޖް" އަށް ބަދަލުކުރައްވާ.` : "";
+      // table by tax
+      const rows = ORDER.map(k => ({ k, a: sumC(R.mvr[k], iA) / dA, b: sumC(R.mvr[k], iB) / dB })).filter(r => r.a > 0 || r.b > 0);
+      const max = Math.max(...rows.flatMap(r => [r.a, r.b]));
+      const bars = (a, b) => `<div class="pair"><i style="width:${100 * b / max}%;background:${CB}"></i><i style="width:${100 * a / max}%;background:${CA}"></i></div>`;
+      const cell = v => v > 0 ? short(v) : "ނެތް";
+      const line = (name, a, b, cls = "", extra = "") => { const ch = a > 0 ? chg(b, a) : null;
+        return `<tr class="${cls}"><td>${name}${extra}</td><td>${cell(b)}</td><td>${cell(a)}</td><td class="${chgCls(ch)}">${a > 0 && b > 0 ? chgTxt(ch) : a > 0 ? "−100%" : "އާ"}</td></tr>`; };
+      const lease = k => sumC(detM["Lease period extensions"], k === "A" ? iA : iB) / (k === "A" ? dA : dB);
+      const conv = k => sumC(detM["Land acquisition and conversion"], k === "A" ? iA : iB) / (k === "A" ? dA : dB);
+      let h = `<tr><th>ޓެކްސް</th><th>${lB}${sufB} (${sym()})</th><th>${lA}${sufA} (${sym()})</th><th>ބަދަލު</th></tr>`;
+      rows.forEach(r => {
+        h += line(`<span class="sw" style="background:${COLORS[r.k]}"></span>${LABEL[r.k]}`, r.a, r.b, "", bars(r.a, r.b));
+        if (r.k === "resort_land" && (lease("A") || lease("B") || conv("A") || conv("B"))) {
+          h += line("އޭގެ ތެރެއިން ލީސް މުއްދަތު އިތުރުކުރުން", lease("A"), lease("B"), "sub") + line("އޭގެ ތެރެއިން ބިން ބަދަލުކުރުން", conv("A"), conv("B"), "sub");
+        }
+      });
+      h += line("MIRA އިން ހޯދި ހުރިހާ ފައިސާ", tA, tB, "total");
+      if (xA != null && xB != null) h += line("ޑޮލަރުން ދެއްކި", xA, xB, "sub");
+      $("cmpTbl").innerHTML = h;
+      try { const q = new URLSearchParams(location.search); q.set("a", `${months[P.A[0]].ym}:${months[P.A[1]].ym}`); q.set("b", `${months[P.B[0]].ym}:${months[P.B[1]].ym}`); history.replaceState(null, "", "?" + q.toString()); } catch (e) {}
+      $("cmpLink").textContent = "މި ދެ މުއްދަތު މިހާރު ޞަފްޙާގެ އެޑްރެހުގައި ހިމެނޭތީ، މި އަޅާކިޔުން ހިއްސާކުރުމަށް އެޑްރެސް ކޮޕީކުރެވޭނެއެވެ.";
+    }
+
+    // ---------- history ----------
+    let gran = "year", hrange = "all";
+    function drawHist() {
+      $("rangeCtl").hidden = gran !== "month";
+      if (gran === "year") {
+        const cats = years.map(y => ({ label: yLabel(y), partial: partial(y) }));
+        const ruf = years.map(y => { const ix = idxOf(y); return (sumC(allM, ix) - sumC(dolM, ix)) / 1e9; });
+        const dl = years.map(y => sumC(dolM, idxOf(y)) / 1e9);
+        const share = years.map(y => { const ix = idxOf(y); return hasUSD(ix) ? pct(raw(dolM, ix), raw(allM, ix)) : null; });
+        $("histNote").textContent = `${years[0]} އިން ފެށިގެން ކޮންމެ އަހަރަކު MIRA އިން ހޯދި ހުރިހާ ފައިސާ، ދެއްކި ފައިސާގެ ބާވަތުން ވަކިކޮށް. ކޮންމެ ބާރެއްގެ ދަށުގައިވާ އަދަދަކީ ޑޮލަރުން ދެއްކި ބައެވެ.` + (partial(lastM.y) ? ` ${lastM.y}* ގައި ހިމެނެނީ ޖަނަވަރީއިން ${MV.MONTHS[lastM.mo - 1]} އާ ހަމައަށް އެކަނިއެވެ.` : "");
+        stackChart($("hist"), {
+          cats, label: "MIRA އިން ހޯދި ފައިސާ، އަހަރުން، ފައިސާގެ ބާވަތުން ވަކިކޮށް", yTitle: `${sym()} ބިލިއަން`, yFmt: v => fmt(v, v < 10 && v % 1 ? 1 : 0),
+          stacks: [{ color: RUF, vals: ruf }, { color: DOL, vals: dl }],
+          below: i => share[i] == null ? null : { text: fmt(share[i], 0) + "%", color: DOL },
+          tip: i => { const y = years[i], ix = idxOf(y), s = mmaShare(y), pv = years[i - 1] && !partial(y) ? sumC(allM, idxOf(years[i - 1])) : null;
+            return `<b>${spanTxt(ix[0], ix[ix.length - 1])}</b>` + row("MIRA އިން ހޯދި", money(sumC(allM, ix)))
+              + (pv ? row(`${years[i - 1]} އާ އަޅާކިޔާއިރު`, chgTxt(chg(sumC(allM, ix), pv))) : "")
+              + (share[i] != null ? row("ޑޮލަރުން ދެއްކި", money(sumC(dolM, ix))) + row("ރުފިޔާއިން ދެއްކި", money(sumC(allM, ix) - sumC(dolM, ix))) + row("ޑޮލަރުގެ ބައި", fmt(share[i], 0) + "%") + row("ޑޮލަރުން", "$ " + short(raw(R.total.usd, ix))) : row("ޑޮލަރުން ދެއްކި", "ޝާއިޢުނުކުރޭ"))
+              + (s != null ? row("ސަރުކާރުގެ ޖުމްލަ އާމްދަނީގެ ބައި", fmt(s, 0) + "%") : ""); }
+        });
+        $("histKey").innerHTML = `<span><i style="background:${RUF}"></i>ރުފިޔާއިން ދެއްކި</span><span><i style="background:${DOL}"></i>ޑޮލަރުން ދެއްކި</span>`;
+      } else {
+        let ix = range(0, lastI);
+        if (hrange === "2015") ix = ix.filter(i => months[i].y >= "2015");
+        if (hrange === "3") ix = range(Math.max(0, lastI - 35), lastI);
+        const rows = ix.map(i => ({ date: months[i].date, i, all: MV.conv(allM[i], months[i].date) / 1e6, dl: dolM[i] == null ? null : MV.conv(dolM[i], months[i].date) / 1e6 }));
+        const hi = rows.reduce((a, r) => r.all > a.all ? r : a);
+        $("histNote").textContent = "ކޮންމެ މަހަކު MIRA އިން ހޯދި ހުރިހާ ފައިސާ، އަދި އޭގެ ތެރެއިން ޑޮލަރުން ދެއްކި ބައި. ގިނަ ޓެކްސްތައް ދައްކަނީ ތިން މަހުން އެއްފަހަރު ނުވަތަ އަހަރަކު އެއްފަހަރު ކަމުން، މަހުން މަހަށް ހޯދާ ފައިސާ ވަރަށް ބޮޑަށް ތިރިމައްޗަށް ދެއެވެ.";
+        MV.lineChart($("hist"), {
+          rows, label: "MIRA އިން ހޯދި ފައިސާ، މަހުން", maxH: 400, yTitle: `${sym()} މިލިއަން`, yFmt: v => fmt(v),
+          series: [{ val: r => r.all, color: "#3fb8b0", area: true, width: 2 }, { val: r => r.dl, color: DOL, width: 2 }],
+          marks: [{ date: hi.date, value: hi.all, color: "#ff8a6b", label: `އެންމެ ބޮޑު މަސް، ${MV.mShort(hi.date)}` }],
+          tip: r => { const a = IDX[`${Number(months[r.i].y) - 1}-${String(months[r.i].mo).padStart(2, "0")}`];
+            return `<b>${mLabel(r.date)}</b>` + row("MIRA އިން ހޯދި", money(MV.conv(allM[r.i], r.date)))
+              + (a != null ? row(`${MV.MONTHS[months[r.i].mo - 1]} ${months[a].y} އާ އަޅާކިޔާއިރު`, chgTxt(chg(MV.conv(allM[r.i], r.date), MV.conv(allM[a], months[a].date)))) : "")
+              + (dolM[r.i] != null ? row("ޑޮލަރުން ދެއްކި", money(MV.conv(dolM[r.i], r.date))) + row("ޑޮލަރުގެ ބައި", fmt(pct(dolM[r.i], allM[r.i]), 0) + "%") : row("ޑޮލަރުން ދެއްކި", "ޝާއިޢުނުކުރޭ")); }
+        });
+        $("histKey").innerHTML = `<span><i class="line" style="background:#3fb8b0"></i>ހޯދި ހުރިހާ ފައިސާ</span><span><i class="line" style="background:${DOL}"></i>ޑޮލަރުން ދެއްކި</span>`;
+      }
+      const full = years.filter(y => !partial(y) && hasUSD(idxOf(y))), f1 = full[full.length - 1], fx = idxOf(f1), f0 = full[0];
+      $("dollarLine").innerHTML = `${f1} ގައި MIRA އަށް އެމެރިކާ ޑޮލަރުން <b>${short(raw(R.total.usd, fx))} ޑޮލަރު</b> ދައްކާފައިވެއެވެ. އެއީ MIRA އިން ހޯދި ޖުމްލަ ފައިސާގެ <b>${fmt(pct(raw(dolM, fx), raw(allM, fx)), 0)}%</b> އެވެ. ${f0} ގައި އެ އަދަދަކީ ${short(raw(R.total.usd, idxOf(f0)))} ޑޮލަރެވެ.`;
+    }
+
+    // ---------- this year against other years: running total from January, or each month on its own ----------
+    let ymode = "ytd", ywhat = "all";
+    const YCOL = ["#f4c95d", "#3fb8b0", "#9fe0d6", "#6fa8dc", "#a98bd6", "#e0a3c8", "#f2a541", "#7f9aa5", "#c7d6db"];
+    const Ly = lastM.y, yShown = new Set([Ly, String(Number(Ly) - 1)].filter(y => years.includes(y)));
+    const yColor = y => YCOL[Math.min(YCOL.length - 1, Number(Ly) - Number(y))];
+    $("ytdWhat").innerHTML = `<option value="all">MIRA އިން ހޯދި ހުރިހާ ފައިސާ</option><option value="usd">ޑޮލަރުން ދެއްކި</option>` + G.map(k => `<option value="${k}">${LABEL[k]}</option>`).join("");
+    const ytdArr = () => ywhat === "all" ? allM : ywhat === "usd" ? dolM : R.mvr[ywhat];
+    const ytdName = () => ywhat === "all" ? "MIRA އިން ހޯދި ހުރިހާ ފައިސާ" : ywhat === "usd" ? "ޑޮލަރުން ދެއްކި ބައި" : LABEL[ywhat];
+    function drawYtd() {
+      const arr = ytdArr(), yrs = years.filter(y => idxOf(y).some(i => arr[i] != null));
+      [...yShown].forEach(y => { if (!yrs.includes(y)) yShown.delete(y); }); if (!yShown.size && yrs.length) yShown.add(yrs[yrs.length - 1]);
+      $("ytdYears").innerHTML = yrs.slice().reverse().map(y => `<button type="button" class="pill" data-yy="${y}" aria-pressed="${yShown.has(y)}" style="${yShown.has(y) ? `color:${yColor(y)};border-color:${yColor(y)}` : ""}"><i></i>${y}</button>`).join("");
+      const lines = [...yShown].sort().map(y => { let run = 0; return { y, pts: idxOf(y).filter(i => arr[i] != null).map(i => { const v = MV.conv(arr[i], months[i].date) / 1e6; run += v; return { mo: months[i].mo, i, v: ymode === "ytd" ? run : v }; }) }; });
+      const box = $("ytdChart"), tip = box.querySelector(".tip") || box.appendChild(Object.assign(document.createElement("div"), { className: "tip" }));
+      const W = Math.max(300, box.clientWidth), small = W < 560, Hc = Math.round(Math.min(400, Math.max(260, W * .45))), pad = { l: 56, r: 14, t: 26, b: 28 };
+      const all = lines.flatMap(l => l.pts.map(p => p.v)).concat([0]);
+      let lo = Math.min(...all), hi = Math.max(...all) * 1.06 || 1;
+      const X = m => pad.l + (m - 1) / 11 * (W - pad.l - pad.r), Y = v => Hc - pad.b - (v - lo) / (hi - lo) * (Hc - pad.t - pad.b);
+      const mag = Math.pow(10, Math.floor(Math.log10((hi - lo) / 4))), step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(st => (hi - lo) / st <= (small ? 4 : 6));
+      let g = `<text x="${pad.l - 8}" y="12" text-anchor="end" style="font-weight:700">${sym()} މިލިއަން</text>`;
+      for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) g += `<line x1="${pad.l}" x2="${W - pad.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="rgba(169,205,214,${v ? .15 : .5})"/><text x="${pad.l - 8}" y="${Y(v) + 4}" text-anchor="end">${fmt(v)}</text>`;
+      MV.MONTHS.forEach((m, i) => { if (W >= 900 || i % (small ? 3 : 2) === 0) g += `<text x="${X(i + 1)}" y="${Hc - 8}" text-anchor="middle">${m}</text>`; });
+      lines.forEach(l => { if (!l.pts.length) return; const c = yColor(l.y);
+        g += `<path d="${l.pts.map((p, k) => (k ? "L" : "M") + X(p.mo).toFixed(1) + " " + Y(p.v).toFixed(1)).join(" ")}" fill="ނެތް" stroke="${c}" stroke-width="${l.y === Ly ? 3 : 2}" stroke-linejoin="round"/>`
+          + l.pts.map(p => `<circle cx="${X(p.mo).toFixed(1)}" cy="${Y(p.v).toFixed(1)}" r="${l.y === Ly ? 3 : 2}" fill="${c}"/>`).join("");
+        const e = l.pts[l.pts.length - 1]; g += `<text x="${Math.min(X(e.mo) + 6, W - 30)}" y="${Y(e.v) - 8}" style="fill:${c};font-weight:700">${l.y}</text>`; });
+      g += `<g class="hov" style="display:none"><line class="hl" y1="${pad.t}" y2="${Hc - pad.b}" stroke="#fff" stroke-opacity=".5"/></g><rect class="hit" x="${pad.l - 10}" y="0" width="${W - pad.l - pad.r + 20}" height="${Hc}" fill="transparent"/>`;
+      box.querySelector("svg")?.remove();
+      box.insertAdjacentHTML("afterbegin", `<svg viewBox="0 0 ${W} ${Hc}" width="${W}" height="${Hc}" role="img" aria-label="${ytdName()}، ${ymode === "ytd" ? "ޖަނަވަރީއިން ފެށިގެން ޖުމްލަ" : "ކޮންމެ މަހެއް"}، އަހަރުން">${g}</svg>`);
+      const svg = box.querySelector("svg"), hov = svg.querySelector(".hov"), hl = svg.querySelector(".hl");
+      const show = ev => { const rc = svg.getBoundingClientRect(), mx = (ev.clientX - rc.left) * W / rc.width, mo = Math.min(12, Math.max(1, Math.round(1 + (mx - pad.l) / (W - pad.l - pad.r) * 11)));
+        hov.style.display = ""; hl.setAttribute("x1", X(mo)); hl.setAttribute("x2", X(mo));
+        let h = `<b>${ymode === "ytd" ? `ޖަނަވަރީއިން ${MV.MONTHS[mo - 1]} އާ ހަމައަށް` : MV.MONTHS[mo - 1]}</b>`;
+        lines.slice().reverse().forEach(l => { const p = l.pts.find(p => p.mo === mo); if (p) h += row(`<span style="color:${yColor(l.y)}">■</span> ${l.y}`, money(p.v * 1e6)); });
+        tip.innerHTML = h; tip.classList.add("on"); const px = X(mo) * rc.width / W, tw = tip.offsetWidth; tip.style.left = Math.min(Math.max(0, px + 14 + tw > rc.width ? px - tw - 14 : px + 14), rc.width - tw) + "px"; };
+      const hide = () => { hov.style.display = "ނެތް"; tip.classList.remove("on"); };
+      const hit = svg.querySelector(".hit"); hit.addEventListener("pointermove", show); hit.addEventListener("pointerdown", show); hit.addEventListener("pointerleave", hide);
+      const cur = lines.find(l => l.y === Ly)?.pts.slice(-1)[0], prev = lines.find(l => l.y === String(Number(Ly) - 1))?.pts.find(p => cur && p.mo === cur.mo);
+      let note = `${ytdName()}، ${ymode === "ytd" ? "ޖަނަވަރީއިން ފެށިގެން އެއްކޮށް ހިސާބުކޮށް" : "ކޮންމެ މަހެއް ވަކިން"}، މިލިއަނުން.`;
+      if (cur && prev) { const c = chg(cur.v, prev.v); note += ymode === "ytd" ? ` ${Ly} ގެ ޖަނަވަރީއިން ${MV.MONTHS[cur.mo - 1]} އާ ހަމައަށް ${money(cur.v * 1e6)} ހޯދިއެވެ. ${Number(Ly) - 1} ގެ އެ މަސްތަކުގައި ހޯދީ ${money(prev.v * 1e6)} އެވެ (${chgTxt(c)}).` : ` ${MV.MONTHS[cur.mo - 1]} ${Ly} ގައި ${money(cur.v * 1e6)} ހޯދިއެވެ. އަހަރެއް ކުރިން ހޯދީ ${money(prev.v * 1e6)} އެވެ (${chgTxt(c)}).`; }
+      $("ytdNote").textContent = note;
+      $("ytdHint").textContent = (ymode === "ytd" ? "ކޮންމެ ރޮނގަކީ ޖަނަވަރީއިން ފެށިގެން މަސްތައް އެއްކުރާ ޖުމްލައެވެ. އެހެންކަމުން، އަހަރުތައް އެއް ހިސާބަކުން އަޅާކިޔޭނެއެވެ." : "ކޮންމެ ތިކިއަކީ އެއް މަހެވެ. ގިނަ ޓެކްސްތައް ދައްކަނީ ތިން މަހުން އެއްފަހަރު ނުވަތަ އަހަރަކު އެއްފަހަރު ކަމުން، ބައެއް މަސްތަކުގައި އަދަދު ފުންމައެވެ.") + " މަތީގައިވާ އަހަރުތައް ހޮވާލައްވާ. އެ އަހަރުތައް އަޅާކިޔުމަށް ޗާޓުގެ މައްޗަށް މައުސް ގެންދަވާ، ނުވަތަ ފިއްތަވާ.";
+    }
+
+    // ---------- by tax ----------
+    let which = "all", as = "amt";
+    function drawTypes() {
+      const yrs = which === "usd" ? years.filter(y => hasUSD(idxOf(y))) : years;
+      const src = which === "usd" ? dol : R.mvr;
+      const vals = {}; ORDER.forEach(k => vals[k] = yrs.map(y => sumC(src[k], idxOf(y))));
+      const tot = yrs.map((_, i) => ORDER.reduce((a, k) => a + vals[k][i], 0));
+      const used = ORDER.filter(k => vals[k].some(v => v > 0));
+      const stacks = used.map(k => ({ color: COLORS[k], vals: vals[k].map((v, i) => as === "pct" ? pct(v, tot[i]) : v / 1e9) }));
+      $("typeNote").textContent = (which === "usd" ? "ޑޮލަރުން ދެއްކި ބައި، ޓެކްސްގެ ބާވަތުން" : "MIRA އިން ހޯދި ހުރިހާ ފައިސާ، ޓެކްސްގެ ބާވަތުން") + (as === "pct" ? "، ކޮންމެ އަހަރެއްގެ ޖުމްލައިން ކޮންމެ ޓެކްހެއްގެ ބައި." : "، ކޮންމެ އަހަރަކު.") + (partial(lastM.y) ? ` ${lastM.y}* ގައި ހިމެނެނީ ޖަނަވަރީއިން ${MV.MONTHS[lastM.mo - 1]} އާ ހަމައަށެވެ.` : "");
+      stackChart($("types"), {
+        cats: yrs.map(y => ({ label: yLabel(y), partial: partial(y) })), label: "MIRA އިން ހޯދި ފައިސާ، ޓެކްސާއި އަހަރުން",
+        yTitle: as === "pct" ? "%" : `${sym()} ބިލިއަން`, max: as === "pct" ? 100 : null, yFmt: v => as === "pct" ? fmt(v) : fmt(v, v < 10 && v % 1 ? 1 : 0), stacks,
+        tip: i => { const y = yrs[i], ix = idxOf(y);
+          let h = `<b>${spanTxt(ix[0], ix[ix.length - 1])}</b>`;
+          [...used].reverse().forEach(k => { const v = vals[k][i]; if (v > 0) h += row(LABEL[k], money(v) + ` (${fmt(pct(v, tot[i]), 0)}%)`); });
+          if (which === "all") { const le = sumC(detM["Lease period extensions"], ix), lc = sumC(detM["Land acquisition and conversion"], ix);
+            if (le || lc) h += `<span class="tag" style="background:#8a5a12">ރިސޯޓް ކުލީގައި ލީސް މުއްދަތު އިތުރުކުރުން ${money(le)} އާއި ބިން ބަދަލުކުރުން ${money(lc)} ހިމެނެއެވެ</span>`; }
+          return h + row("ޖުމްލަ", money(tot[i])); }
+      });
+      $("typeKey").innerHTML = used.map(k => `<span><i style="background:${COLORS[k]}"></i>${LABEL[k]}</span>`).join("");
+    }
+
+    const usdYears = years.filter(y => hasUSD(idxOf(y)));
+    $("tblYear").innerHTML = usdYears.slice().reverse().map(y => `<option value="${y}">${partial(y) ? `${y}، ޖަނަވަރީއިން ${MV.MONTHS[idxOf(y).length - 1]} އާ ހަމައަށް` : y}</option>`).join("");
+    $("tblYear").value = usdYears.filter(y => !partial(y)).pop();
+    const avgRate = ix => { const a = raw(allM, ix), c = ix.reduce((s, i) => s + allM[i] / MV.rateAt(months[i].date), 0); return a / c; };
+    function drawTable() {
+      const y = $("tblYear").value, ix = idxOf(y);
+      $("tblNote").textContent = `MIRA އިން ހޯދި ކޮންމެ ޓެކްހަކާއި، އޭގެ ތެރެއިން ޑޮލަރުން ދެއްކި މިންވަރު (${spanTxt(ix[0], ix[ix.length - 1])}). އަދަދުތައް ދައްކަނީ އެ ވަގުތުގެ ފައިސާއިންނެވެ.`;
+      const rows = ORDER.map(k => ({ k, a: raw(R.mvr[k], ix), d: raw(dol[k], ix) })).filter(r => r.a > 0).sort((p, q) => q.d - p.d || q.a - p.a);
+      const A = rows.reduce((s, r) => s + r.a, 0), D = rows.reduce((s, r) => s + r.d, 0);
+      const cur = v => { const x = MV.state.cur === "USD" ? v / avgRate(ix) : v; return x < 0.5 ? "ނެތް" : short(x); };
+      const line = (name, a, d, cls = "", sw = "") => `<tr class="${cls}"><td>${sw}${name}</td><td>${cur(a)}</td><td>${cur(d)}</td><td>${fmt(pct(d, a), 0)}%<span class="bar-share"><i style="width:${Math.min(100, pct(d, a))}%"></i></span></td></tr>`;
+      $("tbl").innerHTML = `<tr><th>ޓެކްސް</th><th>ހޯދި (${sym()})</th><th>ޑޮލަރުން ދެއްކި (${sym()})</th><th>ޑޮލަރުގެ ބައި</th></tr>`
+        + rows.map(r => line(LABEL[r.k], r.a, r.d, "", `<span class="sw" style="background:${COLORS[r.k]}"></span>`)).join("")
+        + line("MIRA އިން ހޯދި ހުރިހާ ފައިސާ", A, D, "total");
+    }
+
+    function render() {
+      drawLatest(); drawCompare(); drawYtd(); drawHist(); drawTypes(); drawTable();
+      const sh = years.map(y => [y, mmaShare(y)]).filter(([, s]) => s != null);
+      if (sh.length) { const [y, s] = sh[sh.length - 1]; $("shareOfAll").textContent = `${y} ގައި MIRA އިން ހޯދި ފައިސާއަކީ، MMA ގެ ރެކޯޑުތަކުގައިވާ ސަރުކާރުގެ ޖުމްލަ އާމްދަނީއާއި އެހީގެ ${fmt(s, 0)}% އެވެ (ސީރީޒް 1999).`; }
+    }
+
+    // start-up state: periods from the address if present, otherwise this year so far
+    const q = new URLSearchParams(location.search), parse = v => { const m = (v || "").match(/^(\d{4}-\d{2}):(\d{4}-\d{2})$/); return m && IDX[m[1]] != null && IDX[m[2]] != null ? [IDX[m[1]], IDX[m[2]]] : null; };
+    const qa = parse(q.get("a")), qb = parse(q.get("b"));
+    if (qa && qb) { P.A = qa; P.B = qb; setSelects(); } else { const p = PRESETS.find(x => x.id === "ytd") || PRESETS[0]; preset = p.id; P.A = [...p.A]; P.B = [...p.B]; setSelects(); }
+
+    document.addEventListener("change", e => {
+      if (e.target.id === "tblYear") { drawTable(); return; }
+      if (e.target.id === "ytdWhat") { ywhat = e.target.value; drawYtd(); return; }
+      const s = e.target.closest("select[data-p]"); if (!s) return;
+      const k = s.dataset.p, en = Number(s.dataset.e); P[k][en] = readSelect(k, en); preset = null; setSelects(); drawCompare();
+    });
+    document.addEventListener("click", e => {
+      const pr = e.target.closest("[data-preset]"); if (pr) { applyPreset(pr.dataset.preset); return; }
+      const yy = e.target.closest("[data-yy]"); if (yy) { const y = yy.dataset.yy; yShown.has(y) ? yShown.delete(y) : yShown.add(y); drawYtd(); return; }
+      const ym = e.target.closest("[data-ymode]"); if (ym) { ymode = ym.dataset.ymode; ym.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === ym)); drawYtd(); return; }
+      const b = e.target.closest("[data-which],[data-as],[data-avg],[data-gran],[data-range]"); if (!b) return;
+      if (b.dataset.which) which = b.dataset.which; if (b.dataset.as) as = b.dataset.as;
+      if (b.dataset.avg) avg = b.dataset.avg === "1"; if (b.dataset.gran) gran = b.dataset.gran; if (b.dataset.range) hrange = b.dataset.range;
+      b.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+      if (b.dataset.avg) drawCompare(); else if (b.dataset.gran || b.dataset.range) drawHist(); else drawTypes();
+    });
+    MV.onPrefs(render); MV.onResize(() => { drawYtd(); drawHist(); drawTypes(); });
+    $("fetched").textContent = `MIRA ގެ އަދަދުތައް ${mLabel(lastM.date)} އާ ހަމައަށް${R.source_note ? `، ފައިލް އާކުރީ ${R.source_note.replace(/^Updated on\s*/i, "").replace(/(\d+)(st|nd|rd|th)\b/, "$1").replace(/([A-Za-z]+)/, m => EN_MONTHS.includes(m) ? MV.MONTHS[EN_MONTHS.indexOf(m)] : m)}` : ""}. އެކްސްޗޭންޖް ރޭޓާއި އަގުތައް MMA ގެ ސްޓެޓިސްޓިކްސް ޑޭޓާބޭސްއިން. އެންމެ ފަހުން ޑޭޓާ ހޯދީ ${MV.fetched(data.fetched_at)} (މާލޭ ވަގުތު).`;
+    render();
+  }).catch(err => { console.error(err); $("latestNote").textContent = "އާމްދަނީގެ ޑޭޓާ ލޯޑުނުކުރެވުނެވެ."; });
+})();
+</script>
+</body>
+</html>
