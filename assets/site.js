@@ -292,8 +292,9 @@ const MV = (() => {
     el.innerHTML = `<span class="dot" aria-hidden="true"></span>${isNew ? `<span class="badge">Recent</span>` : ""}<span>${what} to <b>${dayLabel(asOf)}</b>, ${ago(asOf)}. New figures come out ${every}${next ? `, ${next}` : ""}, so check back for the latest.</span>`;
   }
 
-  /** remembers a few headline figures and, on a later visit, says what has changed */
+  /** remembers a few headline figures and, on a later visit, says what has changed. Switched off: the new-figures ribbon does this job now */
   function since(key, items, el) {
+    return;
     let prev = null; const nowT = Date.now();
     try { prev = JSON.parse(localStorage.getItem("seen:" + key) || "null"); } catch (e) {}
     const store = () => { try { localStorage.setItem("seen:" + key, JSON.stringify({ t: nowT, v: Object.fromEntries(items.map(i => [i.id, i.value])), tag: Object.fromEntries(items.map(i => [i.id, i.tag || ""])) })); } catch (e) {} };
