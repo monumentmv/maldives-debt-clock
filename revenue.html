@@ -83,6 +83,8 @@
     .period .who { min-width: 100%; }
   }
   #wkChart .tip .row span:last-child { white-space: nowrap; }
+  #wkCheckTbl th small { display: block; font-weight: 400; color: var(--mist); font-size: .8rem; margin-top: .15rem; white-space: nowrap; }
+  #wkCheckTbl th[colspan] { text-align: center; border-bottom: 0; }
 </style>
 </head>
 <body>
@@ -164,12 +166,22 @@
   <section id="weekly" hidden>
     <div class="chart-head">
       <div><h2>Week by week</h2><p id="wkNote" style="margin:0"></p></div>
-      <div class="controls"><div class="subtoggle" role="group" aria-label="Which collections"><button type="button" data-wwhich="all" aria-pressed="true">All collections</button><button type="button" data-wwhich="usd" aria-pressed="false">Paid in US dollars</button></div></div>
+      <div class="controls">
+        <div class="subtoggle" role="group" aria-label="Show"><button type="button" data-wsplit="0" aria-pressed="true">Totals</button><button type="button" data-wsplit="1" aria-pressed="false">By tax</button></div>
+        <div class="subtoggle" role="group" aria-label="Which collections"><button type="button" data-wwhich="all" aria-pressed="true">All collections</button><button type="button" data-wwhich="usd" aria-pressed="false">Paid in US dollars</button></div>
+      </div>
     </div>
+    <div class="callout-line num" id="wkLead"></div>
     <div class="pills" id="wkYears" role="group" aria-label="Year" style="margin-top:1rem"></div>
     <div class="chart-box" id="wkChart"></div>
     <div class="key" id="wkKey"></div>
     <div class="hint" id="wkHint"></div>
+    <div id="wkCheck" hidden>
+      <h3 style="margin-top:2.5rem">Checked against Ministry of Finance</h3>
+      <p id="wkCheckNote"></p>
+      <div class="tbl-wrap"><table class="rev-table" id="wkCheckTbl"></table></div>
+      <p class="hint" id="wkCheckWhy"></p>
+    </div>
   </section>
 
   <section>
@@ -543,7 +555,7 @@
     }
 
     // ---------- week by week, from MIRA's provisional weekly file ----------
-    const WK = R.weekly; let wwhich = "all", wYear = WK ? WK.end[WK.end.length - 1].slice(0, 4) : null;
+    const WK = R.weekly; let wsplit = false, wwhich = "all", wYear = WK ? WK.end[WK.end.length - 1].slice(0, 4) : null;
     const dLabel = (d, yr = true) => { const [y, m, dd] = d.split("-").map(Number); return `${dd} ${MV.MONTHS[m - 1]}${yr ? " " + y : ""}`; };
     const wkSpan = i => { const a = WK.start[i], b = WK.end[i]; return a.slice(0, 7) === b.slice(0, 7) ? `${Number(a.slice(8))} to ${dLabel(b)}` : a.slice(0, 4) === b.slice(0, 4) ? `${dLabel(a, false)} to ${dLabel(b)}` : `${dLabel(a)} to ${dLabel(b)}`; };
     const wkDays = i => Math.round((Date.parse(WK.end[i]) - Date.parse(WK.start[i])) / 864e5) + 1;
@@ -565,19 +577,43 @@
       stackChart($("wkChart"), {
         cats: ix.map(i => ({ label: dLabel(WK.end[i], false).replace(/(\d+) (\w{3})\w*/, "$1 $2"), partial: wkDays(i) < 7 })), label: `MIRA collections each week of ${wYear}, by tax`,
         yTitle: `${sym()} m`, yFmt: v => fmt(v), marks: ix.map(i => { const p = prevT(i); return p == null ? null : p / 1e6; }),
-        stacks: used.map(k => ({ color: COLORS[k], vals: ix.map(i => Math.max(0, wkVal(src[k][i], i, usdFile) || 0) / 1e6) })),
+        stacks: wsplit ? used.map(k => ({ color: COLORS[k], vals: ix.map(i => Math.max(0, wkVal(src[k][i], i, usdFile) || 0) / 1e6) }))
+          : [{ color: usdFile ? DOL : "#3fb8b0", vals: ix.map(i => Math.max(0, T(i) || 0) / 1e6) }],
         tip: n => { const i = ix[n], t = T(i), p = prevT(i);
           let h = `<b>${wkSpan(i)}</b>` + (wkDays(i) < 7 ? `<span class="tag" style="background:#3d7d8f">${wkDays(i)} days</span>` : "");
-          [...used].reverse().forEach(k => { const v = wkVal(src[k][i], i, usdFile); if (v) h += row(`<span style="color:${COLORS[k]}">■</span> ${LABEL[k]}`, money(v)); });
+          if (wsplit) [...used].reverse().forEach(k => { const v = wkVal(src[k][i], i, usdFile); if (v) h += row(`<span style="color:${COLORS[k]}">■</span> ${LABEL[k]}`, money(v)); });
           h += row("Total", money(t));
           if (p != null) h += row(`Same week of ${Number(WK.end[i].slice(0, 4)) - 1}`, money(p)) + row("Change", `<span class="${chgCls(chg(t, p))}">${chgTxt(chg(t, p))}</span>`);
           return h; }
       });
-      $("wkKey").innerHTML = used.map(k => `<span><i style="background:${COLORS[k]}"></i>${LABEL[k]}</span>`).join("") + `<span><i style="background:#fff;height:3px;margin-top:.45rem"></i>Same week a year earlier</span>`;
+      $("wkKey").innerHTML = (wsplit ? used.map(k => `<span><i style="background:${COLORS[k]}"></i>${LABEL[k]}</span>`).join("") : `<span><i style="background:${usdFile ? DOL : "#3fb8b0"}"></i>Each week of ${wYear}</span>`) + `<span><i style="background:#fff;height:3px;margin-top:.45rem"></i>Same week a year earlier</span>`;
       const L = ix[ix.length - 1], lt = T(L), lp = prevT(L);
-      $("wkNote").textContent = `${usdFile ? "The part paid in US dollars" : "Everything MIRA collected"}, each week from Sunday to Saturday, split by tax. In ${sym()} million, in the money of the time.`
-        + (lt != null ? ` Week of ${wkSpan(L)}, ${money(lt)}${lp != null ? `, against ${money(lp)} in the same week a year earlier (${chgTxt(chg(lt, lp))})` : ""}.` : "");
-      $("wkHint").textContent = `These are MIRA's provisional weekly figures, published before they are reconciled, so they can change. The latest week in MIRA's file ends ${dLabel(WK.end[WK.end.length - 1])}, so the monthly figures above can be more recent. Many taxes are due at the end of the month, so the week that includes it is usually much bigger. Hover or tap a week to see each tax.`;
+      $("wkNote").textContent = `${usdFile ? "The part paid in US dollars" : "Everything MIRA collected"}, each week from Sunday to Saturday${wsplit ? ", split by tax" : ""}. In ${sym()} million, in the money of the time.`
+        + (lt != null ? ` Week of ${wkSpan(L)}, ${money(lt)}${lp != null ? `, against ${money(lp)} in the same week a year earlier` : ""}.` : "");
+      // single weeks swing a lot, so the lead line adds up the latest four weeks against the same four weeks a year earlier
+      const all = WK.end.map((e, i) => i).filter(has), last4 = all.slice(-4), prev4 = last4.map(yearBefore);
+      if (last4.length === 4 && prev4.every(j => j != null && has(j))) {
+        const a = last4.reduce((x, i) => x + T(i), 0), b = prev4.reduce((x, j) => x + T(j), 0), c = chg(a, b);
+        $("wkLead").innerHTML = `In the four weeks from ${dLabel(WK.start[last4[0]], WK.start[last4[0]].slice(0, 4) !== WK.end[last4[3]].slice(0, 4))} to ${dLabel(WK.end[last4[3]])}, MIRA collected <b>${money(a)}</b>${usdFile ? " in payments made in US dollars" : ""}, <b>${fmt(Math.abs(c), 0)}% ${c >= 0 ? "more" : "less"}</b> than in the same four weeks a year earlier (${money(b)}).`;
+      } else $("wkLead").innerHTML = "";
+      $("wkHint").textContent = `Many taxes are due at the end of the month, so the week that includes it is usually much bigger, and a single week can look very different from the same week last year just because a payment fell a few days earlier or later. These are MIRA's provisional weekly figures, published before they are reconciled, so they can change. The latest week in MIRA's file ends ${dLabel(WK.end[WK.end.length - 1])}, so the monthly figures above can be more recent. Hover or tap a week to see the figures${wsplit ? " for each tax" : ""}.`;
+      drawCheck();
+    }
+
+    // MIRA's weekly figures next to Ministry of Finance's weekly report, for the same taxes
+    function drawCheck() {
+      const C = WK?.vs_finance || []; if (!C.length) return;
+      $("wkCheck").hidden = false;
+      const cur = C[0], ly = C.find(c => c.year === cur.year - 1), labels = cur.rows.map(r => r.label);
+      const m = v => v == null ? "–" : short(MV.convNow(v * 1e6, cur.mira_to)), d = (a, b) => a == null || !b ? "–" : chgTxt(chg(a, b));
+      const cell = (c, l) => { const r = c?.rows.find(x => x.label === l); return r ? `<td>${m(r.mira)}</td><td>${m(r.finance)}</td><td>${d(r.mira, r.finance)}</td>` : "<td>–</td><td>–</td><td>–</td>"; };
+      $("wkCheckNote").textContent = `MIRA collects most taxes, and Ministry of Finance reports them each week as government revenue, so the two should tell the same story. Here are the same taxes in both, in ${sym()}. A plus means MIRA's figure is higher.`;
+      $("wkCheckTbl").innerHTML = `<thead><tr><th rowspan="2">Tax</th><th colspan="3">${cur.year} so far<small>MIRA to ${dLabel(cur.mira_to)}, Finance to ${dLabel(cur.finance_at)}</small></th>${ly ? `<th colspan="3">The whole of ${ly.year}<small>1 January to 31 December</small></th>` : ""}</tr>`
+        + `<tr><th>MIRA</th><th>Finance</th><th>Difference</th>${ly ? "<th>MIRA</th><th>Finance</th><th>Difference</th>" : ""}</tr></thead><tbody>`
+        + labels.map(l => `<tr><td>${l}</td>${cell(cur, l)}${ly ? cell(ly, l) : ""}</tr>`).join("") + "</tbody>";
+      $("wkCheckWhy").textContent = `MIRA counts tax on the day it is paid. Ministry of Finance counts it when it reaches the government's main bank account, usually a few days later, so during the year MIRA's figures run a little ahead.`
+        + (ly ? ` Over the whole of ${ly.year} the gap almost closes, and GST and green tax end within about 1%.` : "")
+        + ` Airport taxes and fees are the exception. Finance records about a third more than MIRA, year after year, which suggests part of these charges reaches the government without passing through MIRA.`;
     }
 
     function render() {
@@ -600,6 +636,7 @@
     document.addEventListener("click", e => {
       const pr = e.target.closest("[data-preset]"); if (pr) { applyPreset(pr.dataset.preset); return; }
       const wy = e.target.closest("[data-wy]"); if (wy) { wYear = wy.dataset.wy; drawWeeks(); return; }
+      const wsp = e.target.closest("[data-wsplit]"); if (wsp) { wsplit = wsp.dataset.wsplit === "1"; wsp.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === wsp)); drawWeeks(); return; }
       const ww = e.target.closest("[data-wwhich]"); if (ww) { wwhich = ww.dataset.wwhich; ww.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === ww)); drawWeeks(); return; }
       const yy = e.target.closest("[data-yy]"); if (yy) { const y = yy.dataset.yy; yShown.has(y) ? yShown.delete(y) : yShown.add(y); drawYtd(); return; }
       const ym = e.target.closest("[data-ymode]"); if (ym) { ymode = ym.dataset.ymode; ym.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === ym)); drawYtd(); return; }

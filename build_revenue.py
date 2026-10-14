@@ -10,6 +10,7 @@ Runs in GitHub Actions whenever a file in inputs/mira/ changes. To run it yourse
     pip install openpyxl
     python build_revenue.py
 """
+import csv
 import json
 import re
 import sys
@@ -201,6 +202,54 @@ def weekly_json(W, name):
     return data, problems
 
 
+# MIRA's weekly lines next to the same taxes in Ministry of Finance's weekly fiscal report (data/wfd/wfd_long.csv)
+VS_FINANCE = [
+    ("Tourism GST", ["gst (tourism sector)"], ["tourism goods and services tax"]),
+    ("GST outside tourism", ["gst (non-tourism sector)"], ["general goods and services tax"]),
+    ("Green tax", ["green tax"], ["green tax"]),
+    ("Business profit tax", ["corporate income tax/business profit tax"], ["corporate income tax", "business profit tax"]),
+    ("Non-resident withholding tax", ["non-resident withholding tax"], ["non-resident withholding tax"]),
+    ("Resort land rent", ["tourism land rent"], ["rent from resorts"]),
+    ("Airport taxes and fees", ["departure tax / airport service charge", "airport development fee"], ["airport service charges / departure tax", "airport development fee"]),
+]
+WFD_LONG = HERE / "data" / "wfd" / "wfd_long.csv"
+
+
+def vs_finance(W, year, upto):
+    """MIRA's weekly collections for `year` up to the week ending `upto`, next to Finance's report closest before that day.
+    A week that straddles new year counts only for its days in the year."""
+    if not WFD_LONG.exists():
+        return None
+    fin = {}
+    with open(WFD_LONG, newline="", encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            if r["table"] == "revenue" and r["as_at"].startswith(str(year)) and r["as_at"] <= upto:
+                fin.setdefault(r["as_at"], {})[re.sub(r"\s+", " ", r["label"]).strip().lower()] = r["this_year"]
+    if not fin:
+        return None
+    at = max(fin)
+    if (date.fromisoformat(upto) - date.fromisoformat(at)).days > 7:
+        return None
+    S, jan1, cap = W["mvr"], date(year, 1, 1), min(date(year, 12, 31), date.fromisoformat(upto))
+    lines = {re.sub(r"\s+", " ", k).strip().lower(): v for k, v in S["lines"].items()}
+    def mira(names):
+        t = 0.0
+        for e, st in S["weeks"].items():
+            e_, s_ = date.fromisoformat(e), date.fromisoformat(st)
+            inside = (min(e_, cap) - max(s_, jan1)).days + 1      # days of this week that fall in the period
+            if inside <= 0:
+                continue
+            share = inside / ((e_ - s_).days + 1)
+            t += share * sum(lines.get(n, {}).get(e, 0.0) for n in names)
+        return round(t / 1e6, 1)
+    def finance(names):
+        vals = [fin[at].get(n) for n in names]
+        return round(sum(float(v) for v in vals if v not in (None, "")), 1) if any(v not in (None, "") for v in vals) else None
+    rows = [{"label": l, "mira": mira(m), "finance": finance(f)} for l, m, f in VS_FINANCE]
+    rows = [r for r in rows if r["finance"]]
+    return {"year": year, "mira_to": upto, "finance_at": at, "rows": rows}
+
+
 def main():
     files = sorted(INPUTS.glob("*.xlsx"))
     if not files:
@@ -289,6 +338,14 @@ def main():
     }
     if weekly:
         data["weekly"], wprob = weekly_json(*weekly)
+        # how MIRA's weekly figures compare with Finance's: this year so far, and the whole of last year
+        ends = data["weekly"]["end"]
+        last_year = str(int(ends[-1][:4]) - 1)
+        checks = [vs_finance(weekly[0], int(ends[-1][:4]), ends[-1])]
+        ly = [e for e in ends if e.startswith(last_year)]
+        if ly:
+            checks.append(vs_finance(weekly[0], int(last_year), f"{last_year}-12-31"))
+        data["weekly"]["vs_finance"] = [c for c in checks if c]
         problems += wprob
         if wprob:
             print("Warning, weekly figures:\n  " + "\n  ".join(wprob[:20]))
