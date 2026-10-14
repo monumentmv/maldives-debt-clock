@@ -28,6 +28,7 @@ window.MVUpdates = (() => {
 
   function build({ data, budget, revenue, priorities, lenders }) {
     const out = [];
+    MV.setRevisions(budget?.revisions);
     const S = data?.series || {};
 
     // weekly budget reports
@@ -44,6 +45,8 @@ window.MVUpdates = (() => {
         if (DV) lines.push(`މި އަހަރު މިހާތަނަށް ދެއްކި އިންޓަރެސްޓް ${bn(it)} އަށް އަރައިފިއެވެ.` + (di == null ? "" : Math.abs(di) < 1 ? " އެއީ ހަފްތާއެއް ކުރިން ހުރި މިންވަރާ ގާތްގަނޑަކަށް އެއްވަރެވެ." : di > 0 ? ` އެއީ ހަފްތާއެއް ކުރިން ހުރި ${bn(pv("interest_costs"))} އަށްވުރެ ${M(di)} އިތުރެވެ.` : ` ކުރީގެ އަދަދުތައް ރަނގަޅުކުރެވުމުން، އެއީ ހަފްތާއެއް ކުރިން ހުރި އަދަދަށްވުރެ ${M(-di)} ދަށެވެ.`));
         else lines.push(`Interest paid so far this year reached ${bn(it)}` + (di == null ? "." : Math.abs(di) < 1 ? ", about the same as a week earlier." : di > 0 ? `, up ${M(di)} from ${bn(pv("interest_costs"))} a week earlier.` : `, ${M(-di)} lower than a week earlier, as earlier figures were corrected.`));
       }
+      const badge = MV.revBadge(r.d);   // Ministry of Finance replaced this report after publishing it
+      if (badge) lines.push(`${badge} ${DV ? "މާލިއްޔަތު ވުޒާރާއިން މި ރިޕޯޓު ޝާއިޢުކުރުމަށްފަހު އާ ނުސްޚާއެއް ނެރުނެވެ." : "Ministry of Finance replaced this report after first publishing it."}`);
       const yearRows = R.slice(0, i + 1).filter(x => x.d.slice(0, 4) === r.d.slice(0, 4));
       out.push({ type: "budget", d: r.d, big: (gap > 0 ? "−" : "+") + M(Math.abs(gap)).replace(/^\S+ /, `${sym()} `), bigLabel: DV ? (gap > 0 ? "މިހާތަނަށް ތަފާތު" : "މިހާތަނަށް އިތުރު") : gap > 0 ? "gap so far" : "ahead so far",
         spark: yearRows.map(x => Math.abs((x.v.total_expenditure?.[0] || 0) - (x.v.revenue_and_grants?.[0] || 0))), sparkCap: DV ? "މި އަހަރު، ހަފްތާއިން ހަފްތާއަށް" : "week by week this year",

@@ -387,3 +387,21 @@ html[lang="dv"] .gdp-line span b { margin-right: 0; margin-left: .45rem; }
 html[lang="dv"] .ratio-tag b { margin-right: 0; margin-left: .25rem; }
 html[lang="dv"] .clock .cur { margin-right: 0; margin-left: .18em; }
 html[lang="dv"] bdi { unicode-bidi: isolate; direction: ltr; }
+
+/* ---------- a weekly report Ministry of Finance replaced: badge and what changed ---------- */
+.rev-badge { display: inline-flex; align-items: center; gap: .4rem; font: 700 .85rem var(--body); color: var(--abyss); background: var(--sun); border: 0; border-radius: 999px; padding: .32rem .75rem .32rem .55rem; cursor: pointer; line-height: 1.2; box-shadow: 0 0 0 3px rgba(244,201,93,.25); }
+.rev-badge:not(.changed) { background: transparent; color: var(--sun); box-shadow: inset 0 0 0 1.5px var(--sun); }
+.rev-badge .rev-ico { font-size: 1rem; line-height: 1; }
+.rev-badge .rev-q { font-weight: 700; text-decoration: underline; text-underline-offset: 2px; margin-left: .15rem; }
+.rev-badge:hover, .rev-badge:focus-visible { outline: 2px solid var(--foam); outline-offset: 2px; }
+.explain-box .rev-tbl { overflow-x: auto; margin: 0 0 .8rem; }
+.explain-box .rev-tbl table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+.explain-box .rev-tbl th { text-align: right; font-size: .75rem; color: #5a7882; text-transform: uppercase; letter-spacing: .04em; padding: .35rem .4rem; border-bottom: 1px solid #dbe6e8; }
+.explain-box .rev-tbl th:first-child, .explain-box .rev-tbl td:first-child { text-align: left; }
+.explain-box .rev-tbl td { padding: .45rem .4rem; border-bottom: 1px solid #eef3f4; text-align: right; color: #072f40; font-variant-numeric: tabular-nums; vertical-align: top; }
+.explain-box .rev-tbl td small { display: block; color: #5a7882; font-size: .75rem; }
+.explain-box .rev-more { font-size: .85rem; margin: 0 0 .6rem; }
+.explain-box .rev-links { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; font-size: .9rem; margin: 0; }
+.explain-box .rev-links a { color: #0b6f8a; font-weight: 700; }
+html[lang="dv"] .explain-box .rev-tbl th, html[lang="dv"] .explain-box .rev-tbl td { text-align: left; }
+html[lang="dv"] .explain-box .rev-tbl th:first-child, html[lang="dv"] .explain-box .rev-tbl td:first-child { text-align: right; }
