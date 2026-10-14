@@ -2,7 +2,7 @@ name: Update debt data
 
 on:
   schedule:
-    - cron: "0 3 * * *"   # daily, 08:00 Malé time
+    - cron: "0 3,7,11,15 * * *"   # 08:00, 12:00, 16:00 and 20:00 Malé time, so a new weekly report is picked up the same day
   workflow_dispatch:
   push:
     branches: [main]
@@ -75,3 +75,15 @@ jobs:
             gh release view data-latest >/dev/null 2>&1 || gh release create data-latest --title "Latest data" --notes "Every series behind the Maldives National Debt Clock, rebuilt every morning. See https://mvdebtclock.org/data.html"
             gh release upload data-latest dist/maldives_public_finance.xlsx dist/maldives_public_finance_csv.zip --clobber
           fi
+      - name: Warn if the weekly budget figures are out of date
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, sys
+          from datetime import date
+          latest = json.load(open("budget.json")).get("latest", "")[:10]
+          days = (date.today() - date.fromisoformat(latest)).days if latest else 999
+          print(f"Newest weekly report on the site is as at {latest}, {days} days ago.")
+          if days > 12:
+              sys.exit(f"The newest weekly report on the site is {days} days old. Ministry of Finance has probably published a newer one that wasn't picked up. Check the 'Weekly budget figures' step above.")
+          PY
