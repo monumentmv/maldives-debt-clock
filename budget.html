@@ -564,23 +564,27 @@
       const d = (a, b) => a == null || b == null ? null : Math.round((a - b) * 10) / 10;
       const v = x => x == null ? "–" : !x ? "0" : sgn(x) + short(Math.abs(MV.convNow(M(x), L.d)));
       const ch = (n, l) => { if (n == null || l == null || l <= 0 || n < 0) return ""; const c = (n / l - 1) * 100; return (c >= 0 ? "+" : "−") + fmt(Math.abs(c), 0) + "%"; };
-      const when = span(L), wkBefore = !p ? null : pp ? (daysOf(p) === 7 ? `Week to ${dayLabel(p.d)}` : `${daysOf(p)} days to ${dayLabel(p.d)}`) : null;
+      // column headings name each period plainly, e.g. "This week, to 8 October" and "The week before, to 1 October"
+      const dm = d => dayLabel(d).replace(/ \d{4}$/, ""), yrAgo = Number(L.d.slice(0, 4)) - 1;
+      const when = span(L), wkBefore = !p ? null : pp ? (daysOf(p) === 7 ? `The week before, to ${dm(p.d)}` : `The ${daysOf(p)} days before, to ${dm(p.d)}`) : null;
+      const thisWk = !p ? `1 January to ${dm(L.d)}` : daysOf(L) === 7 ? `This week, to ${dm(L.d)}` : `These ${daysOf(L)} days, to ${dm(L.d)}`;
       const cnt = {};
       const lines = (D[tab] || []).map(r => { const key = r.label.trim().toLowerCase(); cnt[key] = (cnt[key] || 0) + 1; const k = key + "#" + cnt[key];
         const q = p ? before[k] : { now: 0, last: 0 }, q2 = pp ? before2[k] : null;
         return { r, wn: d(r.now, q?.now ?? (p ? null : 0)), wl: d(r.last, q?.last ?? (p ? null : 0)), wb: pp ? d(q?.now, q2?.now) : null }; });
-      const headB = wkBefore ? `<th class="wk">${wkBefore}</th><th>Change on the week before</th>` : "";
+      const headB = wkBefore ? `<th>${wkBefore}</th><th>Change from the week before</th>` : "";
+      const headY = `<th>Same days in ${yrAgo}</th><th>Change from ${yrAgo}</th>`;
       const cellsB = x => wkBefore ? `<td>${v(x.wb)}</td><td>${ch(x.wn, x.wb)}</td>` : "";
       if (tab === "agencies") {
         const list = lines.filter(x => !/^total$/i.test(x.r.label.trim()) && (x.r.approved || x.r.now)).sort((a, b) => (b.wn || 0) - (a.wn || 0));
         $("detailNote").textContent = `What each government office spent ${when}, against the week before and the same days a year earlier, largest first. Amounts in ${sym()}.`;
-        $("detail").innerHTML = `<tr><th>Office</th><th class="wk">That week</th>${headB}<th>Same week a year earlier</th><th>Change on a year earlier</th></tr>`
+        $("detail").innerHTML = `<tr><th>Office</th><th class="wk">${thisWk}</th>${headB}${headY}</tr>`
           + list.map(x => `<tr class="l2"><td>${x.r.label.replace(/^\d+\s+/, "")}</td><td>${v(x.wn)}</td>${cellsB(x)}<td>${v(x.wl)}</td><td>${ch(x.wn, x.wl)}</td></tr>`).join("");
         return;
       }
-      $("detailNote").textContent = (tab === "revenue" ? "Every revenue line" : "Every spending line") + ` ${when}, against the week before and the same days a year earlier. Amounts in ${sym()}. A minus means the Ministry corrected an earlier week.`;
+      $("detailNote").textContent = (tab === "revenue" ? "Every revenue line" : "Every spending line") + ` ${when}, next to the week before and the same days in ${yrAgo}. Amounts in ${sym()}. Salaries are paid at the end of each month, so they show up in the week that includes the last days of the month. A minus means the Ministry corrected an earlier week.`;
       const cols = 4 + (wkBefore ? 2 : 0);
-      let h = `<tr><th>${tab === "revenue" ? "Revenue" : "Spending"}</th><th class="wk">That week</th>${headB}<th>Same week a year earlier</th><th>Change on a year earlier</th></tr>`, memo = false;
+      let h = `<tr><th>${tab === "revenue" ? "Revenue" : "Spending"}</th><th class="wk">${thisWk}</th>${headB}${headY}</tr>`, memo = false;
       lines.forEach(x => { if (x.r.memo && !memo) { memo = true; h += `<tr class="sec"><td colspan="${cols + 1}">Listed separately, not counted as spending</td></tr>`; }
         const lv = x.r.memo ? 2 : level(x.r.label, tab);
         h += `<tr class="l${lv}"><td>${clean(x.r.label)}</td><td>${v(x.wn)}</td>${cellsB(x)}<td>${v(x.wl)}</td><td>${ch(x.wn, x.wl)}</td></tr>`; });
