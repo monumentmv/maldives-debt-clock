@@ -1,19 +1,44 @@
 [
-  {
-    "id": "moodys-upgrade-2026-10",
-    "date": "2026-10-13T11:23:00Z",
-    "title": "Moody's upgraded Maldives' credit rating",
-    "summary": "Moody's raised Maldives' credit rating from Caa2 to Caa1 on 8 October 2026.",
-    "body": "<div class=\"cm-b cm-n\" style=\"padding:.85rem 1rem .1rem;border-radius:10px;margin:0 0 .8rem;border-left:4px solid;background:#fffdf7;border-color:#d8ccaa;color:#0b2f3d\"><p>Moody's raised Maldives' credit rating on 8 October 2026, from Caa2 to <span class=\"term\" role=\"button\" tabindex=\"0\" data-term=\"rating\">Caa1</span>, with a stable outlook. Caa1 is still well below investment grade. Moody's describes it as very high credit risk.</p><p>In 2026 the government repaid</p><ul><li>the US$500 million sukuk, in April</li><li>the US$400 million currency swap with India, in April</li><li>two US$50 million treasury bills owed to State Bank of India, in May and September</li></ul><p>The repayment of a US$100 million loan from Abu Dhabi Fund for Development was pushed back to 2031.</p><p>Foreign debt payments due</p><ul><li>in 2026 as a whole, almost US$1.9 billion</li><li>from October to December 2026, US$411 million, including the INR 30 billion swap due in October</li><li>in 2027, US$428 million</li></ul></div><div class=\"cm-b cm-g\" style=\"padding:.85rem 1rem .1rem;border-radius:10px;margin:0 0 .8rem;border-left:4px solid;background:#dcf0df;border-color:#3f9a5c;color:#0b2f3d\"><p>The upgrade confirms that the near-term risk of default has fallen, because the large 2026 payments were made. A better rating can make borrowing slightly cheaper and easier, and it also raised the ceiling for Maldivian banks and companies.</p></div><div class=\"cm-b cm-r\" style=\"padding:.85rem 1rem .1rem;border-radius:10px;margin:0 0 .8rem;border-left:4px solid;background:#f8dcd5;border-color:#cf634d;color:#0b2f3d\"><p>But the payments were made largely by drawing on reserves and the Sovereign Development Fund, not by fixing the underlying problem. Moody's says the deficit will widen, debt will stay above 100% of GDP, and usable reserves remain thin.</p><p>Moody's still rates governance as weak, with a score of <span class=\"term\" role=\"button\" tabindex=\"0\" data-term=\"governance\">G-4</span> on a scale where 5 is the worst, mainly because of how public finances are managed. It notes some progress on corruption, fiscal transparency and budget accountability. Financial crime and money laundering remain a concern.</p></div><p>Maldives has bought time. What happens next depends on whether the deficit is brought down and reserves are rebuilt.</p>",
-    "sources": [
-      {
-        "name": "Moody's Ratings, rating action on Maldives, 8 October 2026",
-        "url": "https://ratings.moodys.com/ratings-news/474658"
-      },
-      {
-        "name": "Ministry of Finance, circular on Moody's rating action",
-        "url": "https://www.finance.gov.mv/media/public-finance-circulars/credit-rating-action-of-maldives-by-moodys-ratings"
-      }
-    ]
-  }
+ {
+  "id": "india-swap-rollover-2026-10",
+  "date": "2026-10-17T09:00:00Z",
+  "title": "India rolled over the INR 30 billion currency swap",
+  "summary": "India agreed on 16 October 2026 to roll over the INR 30 billion currency swap that was due this month.",
+  "body": "<div class=\"cm-b cm-n\" style=\"padding:.85rem 1rem .1rem;border-radius:10px;margin:0 0 .8rem;border-left:4px solid;background:#fffdf7;border-color:#d8ccaa;color:#0b2f3d\"><p>India agreed on 16 October 2026 to roll over the INR 30 billion currency swap, worth about US$320 million, at the request of Maldives. The swap was due to be repaid this month. The rollover starts on 23 October.</p><p>About the swap</p><ul><li>Reserve Bank of India and Maldives Monetary Authority (MMA) signed the agreement in October 2024. It runs until June 2027.</li><li>MMA drew the INR 30 billion on 23 April 2026, when it repaid the earlier US$400 million swap.</li><li>MMA owes it, and Ministry of Finance lists it among the debts the government guarantees.</li><li>How long the rollover lasts has not been announced. Earlier swaps of this kind ran for three to six months at a time.</li></ul><p>Reserves at the end of September</p><ul><li>official reserves, US$547 million, down from US$644 million in August</li><li>usable reserves, the part MMA can actually spend, US$170 million, down from US$201 million</li></ul></div><div class=\"cm-b cm-g\" style=\"padding:.85rem 1rem .1rem;border-radius:10px;margin:0 0 .8rem;border-left:4px solid;background:#dcf0df;border-color:#3f9a5c;color:#0b2f3d\"><p>The rollover removes the largest foreign payment left this year. Repaying about US$320 million now would have taken nearly twice the usable reserves. Foreign debt payments due from October to December fall from US$411 million to under US$100 million.</p></div><div class=\"cm-b cm-r\" style=\"padding:.85rem 1rem .1rem;border-radius:10px;margin:0 0 .8rem;border-left:4px solid;background:#f8dcd5;border-color:#cf634d;color:#0b2f3d\"><p>A rollover is not new money, and it does not reduce the debt. The same amount still has to be repaid, most likely by June 2027 when the agreement ends, unless India agrees to roll it over again. That adds to the US$428 million already due in 2027.</p><p>Usable reserves fell by 15% in September alone, because MMA sold more dollars than it took in. Relying on rollovers from one lender eases the pressure but is not a lasting fix.</p></div><p>The rollover takes the pressure off this month. Rebuilding reserves remains the main task.</p>",
+  "sources": [
+   {
+    "name": "Reserve Bank of India, currency swap agreement with Maldives Monetary Authority, October 2024",
+    "url": "https://website.rbi.org.in/web/rbi/-/rbi-enters-into-currency-swap-agreement-with-maldives-monetary-authority"
+   },
+   {
+    "name": "ANI, India approves rollover of Rs 3,000 crore currency swap facility with Maldives, 16 October 2026",
+    "url": "https://aninews.in/news/world/asia/india-approves-rollover-of-rs-3000-crore-currency-swap-facility-with-maldives20261016221631/"
+   },
+   {
+    "name": "The Edition, India approves roll-over of INR 30bn currency swap",
+    "url": "https://edition.mv/business/54956"
+   },
+   {
+    "name": "Atoll Times, Maldives reserves fall 14.9% to $547 million in September",
+    "url": "https://atolltimes.mv/post/business/17416"
+   }
+  ]
+ },
+ {
+  "id": "moodys-upgrade-2026-10",
+  "date": "2026-10-13T11:23:00Z",
+  "title": "Moody's upgraded Maldives' credit rating",
+  "summary": "Moody's raised Maldives' credit rating from Caa2 to Caa1 on 8 October 2026.",
+  "body": "<div class=\"cm-b cm-n\" style=\"padding:.85rem 1rem .1rem;border-radius:10px;margin:0 0 .8rem;border-left:4px solid;background:#fffdf7;border-color:#d8ccaa;color:#0b2f3d\"><p>Moody's raised Maldives' credit rating on 8 October 2026, from Caa2 to <span class=\"term\" role=\"button\" tabindex=\"0\" data-term=\"rating\">Caa1</span>, with a stable outlook. Caa1 is still well below investment grade. Moody's describes it as very high credit risk.</p><p>In 2026 the government repaid</p><ul><li>the US$500 million sukuk, in April</li><li>the US$400 million currency swap with India, in April</li><li>two US$50 million treasury bills owed to State Bank of India, in May and September</li></ul><p>The repayment of a US$100 million loan from Abu Dhabi Fund for Development was pushed back to 2031.</p><p>Foreign debt payments due</p><ul><li>in 2026 as a whole, almost US$1.9 billion</li><li>from October to December 2026, US$411 million, including the INR 30 billion swap due in October</li><li>in 2027, US$428 million</li></ul></div><div class=\"cm-b cm-g\" style=\"padding:.85rem 1rem .1rem;border-radius:10px;margin:0 0 .8rem;border-left:4px solid;background:#dcf0df;border-color:#3f9a5c;color:#0b2f3d\"><p>The upgrade confirms that the near-term risk of default has fallen, because the large 2026 payments were made. A better rating can make borrowing slightly cheaper and easier, and it also raised the ceiling for Maldivian banks and companies.</p></div><div class=\"cm-b cm-r\" style=\"padding:.85rem 1rem .1rem;border-radius:10px;margin:0 0 .8rem;border-left:4px solid;background:#f8dcd5;border-color:#cf634d;color:#0b2f3d\"><p>But the payments were made largely by drawing on reserves and the Sovereign Development Fund, not by fixing the underlying problem. Moody's says the deficit will widen, debt will stay above 100% of GDP, and usable reserves remain thin.</p><p>Moody's still rates governance as weak, with a score of <span class=\"term\" role=\"button\" tabindex=\"0\" data-term=\"governance\">G-4</span> on a scale where 5 is the worst, mainly because of how public finances are managed. It notes some progress on corruption, fiscal transparency and budget accountability. Financial crime and money laundering remain a concern.</p></div><p>Maldives has bought time. What happens next depends on whether the deficit is brought down and reserves are rebuilt.</p>",
+  "sources": [
+   {
+    "name": "Moody's Ratings, rating action on Maldives, 8 October 2026",
+    "url": "https://ratings.moodys.com/ratings-news/474658"
+   },
+   {
+    "name": "Ministry of Finance, circular on Moody's rating action",
+    "url": "https://www.finance.gov.mv/media/public-finance-circulars/credit-rating-action-of-maldives-by-moodys-ratings"
+   }
+  ]
+ }
 ]
