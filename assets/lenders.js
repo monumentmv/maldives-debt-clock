@@ -164,6 +164,13 @@
     const done = () => { btn.classList.add("done"); const t = btn.textContent; btn.textContent = D ? D.copied : "Copied"; setTimeout(() => { btn.classList.remove("done"); btn.textContent = t; }, 1800); };
     (navigator.clipboard?.writeText(text) || Promise.reject()).then(done).catch(() => { const a = document.createElement("textarea"); a.value = text; document.body.appendChild(a); a.select(); try { document.execCommand("copy"); done(); } catch (e) {} a.remove(); });
   }
+  // short notes on particular loans, for news the Ministry's lists don't show yet (matched by lender and purpose)
+  const NOTES = [
+    { l: "Reserve Bank of India", p: "INR Currency Swap Agreement", tag: "Rolled over",
+      html: `India agreed on 16 October 2026 to roll over this swap, which was due to be repaid in October 2026. The rollover starts on 23 October. How long it lasts has not been announced. <a href="commentary.html#india-swap-rollover-2026-10">Read the commentary</a>` },
+  ];
+  const noteOf = r => NOTES.find(n => n.l === r.l && n.p === (r.p || "").trim());
+  const noteHTML = r => { const n = noteOf(r); return n ? `<div class="sh-note"><b>↻ ${n.tag}</b> ${n.html}</div>` : ""; };
   const itemHTML = (r, k) => D ? `<div class="sh-item"><div><div class="w">${esc(ln(r.l))}${paid(r.l) ? `<span class="lend-flag">${D.nothingNow}</span>` : ""}</div>
       <div class="m">${D.signed(r.d ? MV.dayLabel(r.d) : "")}${r.s && r.s !== "NA" ? `<span class="tag${r.s === "Ongoing" ? " on" : ""}">${esc(D.proj(r.s))}</span>` : ""}</div></div>
       <div class="a">${usd(r.usd)}<small>${esc(r.cur)} ${r.a == null ? "–" : MV.short(r.a)}</small></div>
@@ -171,7 +178,7 @@
     : `<div class="sh-item"><div><div class="w">${esc(r.l)}${paid(r.l) ? `<span class="lend-flag">nothing owed now</span>` : ""}</div>
       <div class="m">Signed ${r.d ? MV.dayLabel(r.d) : "date not given"}${r.s && r.s !== "NA" ? `<span class="tag${r.s === "Ongoing" ? " on" : ""}">Project ${r.s === "Ongoing" ? "under way" : r.s === "Completed" ? "finished" : esc(r.s)}</span>` : ""}</div></div>
       <div class="a">${usd(r.usd)}<small>${esc(r.cur)} ${r.a == null ? "–" : MV.short(r.a)}</small></div>
-      <div class="p">${k === "guarantees" && r.b ? `<b>For ${esc(r.b)}:</b> ` : ""}${esc(r.p || "")}</div></div>`;
+      <div class="p">${k === "guarantees" && r.b ? `<b>For ${esc(r.b)}:</b> ` : ""}${esc(r.p || "")}</div>${noteHTML(r)}</div>`;
   function placePage(key) {
     const m = matches(key), o = O(), d = o ? qNow() : null, P = L.places[key];
     const title = `${flag(isInst(key) ? null : key, isInst(key) ? key : null)}${esc(nameOf(key))}`;
