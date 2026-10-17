@@ -51416,7 +51416,7 @@ mps.cases.assault,"Cases reported to the police, assault",2025-12-31,51,cases
 mps.cases.assault,"Cases reported to the police, assault",2026-01-31,60,cases
 mps.cases.assault,"Cases reported to the police, assault",2026-02-28,64,cases
 mps.cases.assault,"Cases reported to the police, assault",2026-03-31,61,cases
-mps.cases.assault,"Cases reported to the police, assault",2026-04-30,46,cases
+mps.cases.assault,"Cases reported to the police, assault",2026-04-30,47,cases
 mps.cases.assault,"Cases reported to the police, assault",2026-05-31,49,cases
 mps.cases.assault,"Cases reported to the police, assault",2026-06-30,57,cases
 mps.cases.assault,"Cases reported to the police, assault",2026-07-31,64,cases
@@ -51502,7 +51502,7 @@ mps.cases.drugs,"Cases reported to the police, drugs",2026-06-30,273,cases
 mps.cases.drugs,"Cases reported to the police, drugs",2026-07-31,369,cases
 mps.cases.drugs,"Cases reported to the police, drugs",2026-08-31,341,cases
 mps.cases.drugs,"Cases reported to the police, drugs",2026-09-30,166,cases
-mps.cases.drugs,"Cases reported to the police, drugs",2026-10-31,73,cases
+mps.cases.drugs,"Cases reported to the police, drugs",2026-10-31,74,cases
 mps.cases.embezzlement,"Cases reported to the police, embezzlement",2020-09-30,89,cases
 mps.cases.embezzlement,"Cases reported to the police, embezzlement",2021-03-31,84,cases
 mps.cases.embezzlement,"Cases reported to the police, embezzlement",2025-01-31,49,cases
@@ -51622,7 +51622,7 @@ mps.cases.theft,"Cases reported to the police, theft",2026-06-30,335,cases
 mps.cases.theft,"Cases reported to the police, theft",2026-07-31,293,cases
 mps.cases.theft,"Cases reported to the police, theft",2026-08-31,261,cases
 mps.cases.theft,"Cases reported to the police, theft",2026-09-30,284,cases
-mps.cases.theft,"Cases reported to the police, theft",2026-10-31,133,cases
+mps.cases.theft,"Cases reported to the police, theft",2026-10-31,134,cases
 mps.cases.total,"Cases reported to the police, all categories",2020-09-30,951,cases
 mps.cases.total,"Cases reported to the police, all categories",2021-03-31,1042,cases
 mps.cases.total,"Cases reported to the police, all categories",2025-01-31,1003,cases
@@ -51640,13 +51640,13 @@ mps.cases.total,"Cases reported to the police, all categories",2025-12-31,1157,c
 mps.cases.total,"Cases reported to the police, all categories",2026-01-31,1108,cases
 mps.cases.total,"Cases reported to the police, all categories",2026-02-28,953,cases
 mps.cases.total,"Cases reported to the police, all categories",2026-03-31,975,cases
-mps.cases.total,"Cases reported to the police, all categories",2026-04-30,1024,cases
+mps.cases.total,"Cases reported to the police, all categories",2026-04-30,1025,cases
 mps.cases.total,"Cases reported to the police, all categories",2026-05-31,1058,cases
 mps.cases.total,"Cases reported to the police, all categories",2026-06-30,1115,cases
 mps.cases.total,"Cases reported to the police, all categories",2026-07-31,1190,cases
 mps.cases.total,"Cases reported to the police, all categories",2026-08-31,1103,cases
 mps.cases.total,"Cases reported to the police, all categories",2026-09-30,968,cases
-mps.cases.total,"Cases reported to the police, all categories",2026-10-31,418,cases
+mps.cases.total,"Cases reported to the police, all categories",2026-10-31,421,cases
 mps.cases.traffic_accidents,"Cases reported to the police, traffic accidents",2020-09-30,111,cases
 mps.cases.traffic_accidents,"Cases reported to the police, traffic accidents",2021-03-31,133,cases
 mps.cases.traffic_accidents,"Cases reported to the police, traffic accidents",2025-01-31,234,cases
@@ -51670,7 +51670,7 @@ mps.cases.traffic_accidents,"Cases reported to the police, traffic accidents",20
 mps.cases.traffic_accidents,"Cases reported to the police, traffic accidents",2026-07-31,246,cases
 mps.cases.traffic_accidents,"Cases reported to the police, traffic accidents",2026-08-31,218,cases
 mps.cases.traffic_accidents,"Cases reported to the police, traffic accidents",2026-09-30,234,cases
-mps.cases.traffic_accidents,"Cases reported to the police, traffic accidents",2026-10-31,96,cases
+mps.cases.traffic_accidents,"Cases reported to the police, traffic accidents",2026-10-31,97,cases
 mps.cases.vandalism,"Cases reported to the police, vandalism",2020-09-30,43,cases
 mps.cases.vandalism,"Cases reported to the police, vandalism",2021-03-31,42,cases
 mps.cases.vandalism,"Cases reported to the police, vandalism",2025-01-31,66,cases
