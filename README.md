@@ -48,6 +48,20 @@ python -m http.server
 ```
 Then open http://localhost:8000
 
+## Hulhulé weather in the home-page sky
+
+`fetch_weather.py` writes `weather.json` from the latest VRMM airport METAR,
+with Open-Meteo model conditions as a labelled fallback. The independent
+`update-weather.yml` workflow runs twice an hour and can be run manually.
+Cloud cover, rain and wind affect the scene without changing the debt figures.
+Reports older than two hours, missing reports and future-dated reports fall back
+to the ordinary time-based sky. No weather API key is required.
+
+Run `python fetch_weather.py` to refresh weather and `python -m unittest test_weather`
+to test the parser and fallback behavior. A failed refresh preserves the existing
+file and fails the job so it is visible in Actions. The browser rechecks every
+five minutes and expires observations while the page remains open.
+
 ## Contact form (Google Form)
 
 The form on `about.html` sends messages into a Google Form.

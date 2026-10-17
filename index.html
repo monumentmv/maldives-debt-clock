@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css?v=20261017a">
+<link rel="stylesheet" href="assets/weather.css?v=20261017a">
 <title>Maldives National Debt Clock</title>
 <meta property="og:url" content="https://mvdebtclock.org/">
 <meta property="og:type" content="website">
@@ -639,15 +640,19 @@ window.MVSky = (() => {
     const m = nowMin(), { rise, set } = sunTimes(new Date());
     const near = Math.abs(m - rise) < Math.abs(m - set) ? along(RISE, m - rise) : along(SET, m - set);
     const day = m >= rise && m <= set, sky = m < rise - 70 || m > set + 70 ? NIGHT : near;
-    hero.style.setProperty("--sky-a", sky[0]); hero.style.setProperty("--sky-b", sky[1]);
+    const weather = window.MVWeather?.current();
+    const cover = weather ? weather.cloud / 4 : 0;
+    const shade = weather?.thunder ? .75 : weather?.rain ? .6 : .4;
+    const weatherSky = sky.map(c => mix(c, day ? "#738995" : "#182537", cover * shade));
+    hero.style.setProperty("--sky-a", weatherSky[0]); hero.style.setProperty("--sky-b", weatherSky[1]);
     hero.classList.toggle("is-night", lum(sky[0]) < .45);
     const s = sun.offsetWidth / 2 || 20;
     const ks = (m - rise) / (set - rise);
-    move(sun, place(sun, ks, s), first && day); sun.style.opacity = ks > -.05 && ks < 1.05 ? 1 : 0;
+    move(sun, place(sun, ks, s), first && day); sun.style.opacity = ks > -.05 && ks < 1.05 ? 1 - cover * .9 : 0;
     sun.classList.toggle("low", day && (m - rise < 50 || set - m < 50));
     const night = 1440 - (set - rise), km = ((m - set + 1440) % 1440) / night;
-    move(moon, place(moon, km, 15), first && !day); moon.style.opacity = !day && km < 1 ? 1 : 0;
-    stars.style.opacity = Math.max(0, Math.min(1, (.5 - lum(sky[0])) * 4));
+    move(moon, place(moon, km, 15), first && !day); moon.style.opacity = !day && km < 1 ? 1 - cover * .9 : 0;
+    stars.style.opacity = Math.max(0, Math.min(1, (.5 - lum(sky[0])) * 4)) * (1 - cover);
     first = false;
   }
 
@@ -666,6 +671,7 @@ window.MVSky = (() => {
 </script>
 <script src="assets/site.js?v=20261017a"></script>
 <script src="assets/motion.js?v=20261017a" defer></script>
+<script src="assets/weather.js?v=20261017a" defer></script>
 <script src="assets/lenders.js?v=20261017a" defer></script>
 <script>
 (() => {

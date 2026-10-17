@@ -9,7 +9,7 @@
 const PUBLIC = [
   /^\/$/,
   /^\/[a-z0-9_-]+(\.html)?$/i,                                   // pages, with or without .html
-  /^\/(data|budget|revenue|priorities|population|protection|lenders|wfd-latest)\.json$/,       // data the pages read
+  /^\/(data|budget|revenue|priorities|population|protection|lenders|wfd-latest|weather)\.json$/,       // data the pages read
   /^\/assets\/[\w.-]+$/,
   /^\/downloads\/[\w.-]+$/,
   /^\/budget-detail\/\d{4}\.json$/,                               // line-by-line figures for earlier weeks
