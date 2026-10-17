@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261015a">
+<link rel="stylesheet" href="assets/site.css?v=20261017a">
 <title>Maldives National Debt Clock</title>
 <meta property="og:url" content="https://mvdebtclock.org/">
 <meta property="og:type" content="website">
@@ -295,6 +295,8 @@
   .sh-item .w { font-weight: 700; color: #fff; } .sh-item .p { grid-column: 1 / -1; font-size: .86rem; color: var(--mist); }
   .sh-item .a { text-align: right; font-weight: 800; color: #fff; white-space: nowrap; } .sh-item .a small { display: block; font-weight: 400; font-size: .78rem; color: var(--mist); }
   .sh-item .m { font-size: .8rem; color: var(--mist); }
+  .sh-note { grid-column: 1 / -1; margin-top: .45rem; padding: .55rem .7rem; border-radius: 6px; border-left: 3px solid #5ea8e8; background: rgba(94,168,232,.12); font-size: .86rem; line-height: 1.45; color: var(--foam); }
+  .sh-note b { color: #8cc4f2; margin-right: .25rem; } .sh-note a { color: #8cc4f2; font-weight: 700; }
   .tag { display: inline-block; padding: .05rem .5rem; border-radius: 999px; font-size: .72rem; font-weight: 700; background: rgba(255,255,255,.08); color: var(--mist); margin-left: .3rem; }
   .tag.on { background: rgba(63,184,176,.2); color: #9fe0d6; }
   .lend-fx { margin-top: 1.5rem; color: var(--mist); font-size: .9rem; }
@@ -662,9 +664,9 @@ window.MVSky = (() => {
   return { horizon(y) { hz = y; hero.style.setProperty("--hz", y + "px"); stars.style.bottom = "auto"; stars.style.height = y + "px"; draw(); }, draw };
 })();
 </script>
-<script src="assets/site.js?v=20261015a"></script>
-<script src="assets/motion.js?v=20261015a" defer></script>
-<script src="assets/lenders.js?v=20261015a" defer></script>
+<script src="assets/site.js?v=20261017a"></script>
+<script src="assets/motion.js?v=20261017a" defer></script>
+<script src="assets/lenders.js?v=20261017a" defer></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
