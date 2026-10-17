@@ -2,6 +2,11 @@
 window.MVWeather = (() => {
   const hero = document.getElementById('hero');
   const sky = document.getElementById('sky');
+  for (let i = 3; i <= 5; i++) {
+    const cloud = document.createElement('div');
+    cloud.className = `cloud weather-extra c${i}`;
+    sky.appendChild(cloud);
+  }
   const rain = document.createElement('div');
   rain.className = 'weather-rain';
   sky.appendChild(rain);
